@@ -8,6 +8,25 @@ intents:
   - stop
   - bot_challenge
 
+actions:
+  - action_get_user
+  - utter_ask_province
+  - utter_ask_age
+  - utter_ask_cough
+  - utter_ask_exposure
+  - utter_ask_tracing
+  - utter_submit
+  - utter_slots_values
+  - utter_noworries
+  - utter_chitchat
+  - utter_ask_continue
+  - utter_default
+  - utter_iamabot
+  - utter_ask_like_most
+  - utter_ask_improve_service
+  - utter_goodbye
+  - utter_greet
+
 slots:
   province:
     type: unfeaturized
@@ -26,9 +45,15 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
+  user_status:
+    type: categorical
+    values:
+      - returning
+      - new
 
 forms:
   - healthcheck_form
+  - userdata_form
 
 responses:
   utter_ask_province:
