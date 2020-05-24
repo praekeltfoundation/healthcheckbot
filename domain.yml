@@ -7,13 +7,27 @@ intents:
   - chitchat
   - stop
   - bot_challenge
+  - menu
 
 actions:
   - action_get_user
   - action_reset_all_but_few_slots
+  - utter_accept_tc_new
+  - utter_accept_tc_returning
   - utter_ask_province
   - utter_ask_age
+  - utter_ask_gender
+  - utter_ask_location
+  - utter_ask_obesity
+  - utter_ask_diabetes
+  - utter_ask_hypertension
+  - utter_ask_cardiovascular
+  - utter_ask_pre_existing
+  - utter_ask_sore_throat
+  - utter_ask_fever
+  - utter_ask_breathlessness
   - utter_ask_cough
+  - utter_ask_smell
   - utter_ask_exposure
   - utter_ask_tracing
   - utter_submit
@@ -27,8 +41,43 @@ actions:
   - utter_ask_improve_service
   - utter_goodbye
   - utter_greet
+  - utter_submit_user
+  - utter_more_info
 
 slots:
+  smell:
+    type: unfeaturized
+    auto_fill: false
+  breathlessness:
+    type: unfeaturized
+    auto_fill: false
+  sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  fever:
+    type: unfeaturized
+    auto_fill: false
+  pre_existing:
+    type: unfeaturized
+    auto_fill: false
+  cardiovascular:
+    type: unfeaturized
+    auto_fill: false
+  hypertension:
+    type: unfeaturized
+    auto_fill: false
+  diabetes:
+    type: unfeaturized
+    auto_fill: false
+  obesity:
+    type: unfeaturized
+    auto_fill: false
+  location:
+    type: unfeaturized
+    auto_fill: false
+  gender:
+    type: unfeaturized
+    auto_fill: false
   province:
     type: unfeaturized
     auto_fill: false
@@ -46,6 +95,17 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
+  terms_cond_new:
+    type: categorical
+    values:
+      - ACCEPT
+      - MORE
+  terms_cond_returning:
+    type: categorical
+    values:
+      - ACCEPT
+      - MORE
+      - OTHER
   user_status:
     type: categorical
     values:
@@ -57,6 +117,123 @@ forms:
   - userdata_form
 
 responses:
+
+  utter_more_info:
+      - text: "You confirm that you are responsible for your medical care & treatment. This service only provides info.
+               This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care
+               You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk."
+
+  utter_submit_user:
+    - text: "Thank you for providing your personal information.
+             We will not ask you those details again.
+             Let's see how you are feeling today:"
+
+  utter_ask_fever:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?"
+
+  utter_ask_obesity:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Has a doctor or other health professional diagnosed you with Obesity?"
+
+  utter_ask_diabetes:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Has a doctor or other health professional diagnosed you with Diabetes?"
+
+  utter_ask_smell:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Have you noticed any recent changes in your ability to taste or smell things?"
+
+  utter_ask_hypertension:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Has a doctor or other health professional diagnosed you with Hypertension?"
+
+  utter_ask_cardiovascular:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Has a doctor or other health professional diagnosed you with Cardiovascular Disease?"
+
+  utter_ask_breathlessness:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+      text: "Do you have breathlessness or a difficulty breathing, that you've noticed recently?"
+
+  utter_ask_pre_existing:
+    - buttons:
+        - payload: "YES"
+          title: "yes"
+        - payload: "NO"
+          title: "no"
+        - payload: "NOT SURE"
+          title: "not_sure"
+      text: "Do you have a pre-existing medical condition we should be aware of?"
+
+  utter_ask_location:
+    - text: "We need to collect your location.
+
+             Please share your location 📍 using WhatsApp by following these steps:
+             - Tap the attach icon (+ or  📎) on the bottom of WhatsApp.
+             - Select location
+             - This will bring up a map with a pin showing your current location. Tap Send Your Current Location if this is your address.
+             - You can also choose from various other nearby locations if you think that the GPS is a bit off.
+
+             Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?"
+
+  utter_ask_gender:
+    - buttons:
+        - payload: "MALE"
+          title: "male"
+        - payload: "FEMALE"
+          title: "female"
+        - payload: "OTHER"
+          title: "other"
+        - payload: "RATHER NOT SAY"
+          title: "rather_not_say"
+
+      text: "Please provide us with the gender you identify as:"
+
+  utter_accept_tc_new:
+    - buttons:
+        - payload: "ACCEPT"
+          title: "accept"
+        - payload: "MORE"
+          title: "more"
+
+      text: "*HealthCheck* is your weekly risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+             Reply with one of the words in BOLD to continue
+
+             ACCEPT ✅ - _to accept the terms and conditions_
+             MORE 📄 - _to read the terms and conditions_
+
+             (or Reply MENU 📌 _to return to the main menu_)"
+
   utter_ask_province:
     - buttons:
         - payload: "EASTERN CAPE"
@@ -95,34 +272,41 @@ responses:
 
   utter_ask_cough:
       - buttons:
-          - payload: "Yes"
+          - payload: "YES"
             title: "yes"
-          - payload: "No"
+          - payload: "NO"
             title: "no"
 
         text: "Do you have a cough that recently started?"
 
+  utter_ask_sore_throat:
+      - buttons:
+          - payload: "YES"
+            title: "yes"
+          - payload: "NO"
+            title: "no"
+
+        text: "Do you have a sore throat or pain when swallowing?"
+
   utter_ask_exposure:
       - buttons:
-          - payload: "Yes"
+          - payload: "YES"
             title: "yes"
-          - payload: "No"
+          - payload: "NO"
             title: "no"
-          - payload: "Not sure"
+          - payload: "NOT SURE"
             title: "not_sure"
 
         text: "Have you been in close contact to someone confirmed to be infected with COVID19?"
 
   utter_ask_tracing:
       - buttons:
-          - payload: "Yes"
+          - payload: "YES"
             title: "yes"
-          - payload: "No"
+          - payload: "NO"
             title: "no"
-          - payload: "Restart"
-            title: "restart"
 
-        text: "Please confirm that the information you shared is correct & that the National Department of Health can contact you if necessary?"
+        text: "Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?"
 
   utter_submit:
     - text: "All done!"
@@ -160,7 +344,7 @@ responses:
     - text: "Bye"
 
   utter_greet:
-    - text: "The National Department of Health thanks you for contributing to the health of all citizens. Stop the spread of COVID-19."
+    - text: "Hi! I'm a COVID-19 bot!"
 
 session_config:
   session_expiration_time: 1

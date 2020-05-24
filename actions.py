@@ -30,17 +30,24 @@ class HealthCheckForm(FormAction):
         if tracker.get_slot('user_status') == 'returning':
             return ["cough", "exposure", "tracing"]
         else:
-            return ["province", "age", "cough", "exposure", "tracing"]
+            return ["age", "gender", "province", "cough", "exposure", "tracing"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
-            "province": [
-                self.from_text(),
-            ],
-            "age": [
+
+            "fever": [
                 self.from_text(),
             ],
             "cough": [
+                self.from_text(),
+            ],
+            "sore_throat": [
+                self.from_text(),
+            ],
+            "breathlessness": [
+                self.from_text(),
+            ],
+            "smell": [
                 self.from_text(),
             ],
             "exposure": [
@@ -65,42 +72,64 @@ class HealthCheckForm(FormAction):
         return []
 
 
-# class UserDataForm(FormAction):
-#     """User data form action"""
-#
-#     def name(self) -> Text:
-#         """Unique identifier of the form"""
-#
-#         return "userdata_form"
-#
-#     @staticmethod
-#     def required_slots(tracker: Tracker) -> List[Text]:
-#         """A list of required slots that the form has to fill"""
-#
-#         return ["province", "age"]
-#
-#     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-#         return {
-#             "province": [
-#                 self.from_text(),
-#             ],
-#             "age": [
-#                 self.from_text(),
-#             ]
-#         }
+class UserDataForm(FormAction):
+    """User data form action"""
 
-    # def submit(
-    #         self,
-    #         dispatcher: CollectingDispatcher,
-    #         tracker: Tracker,
-    #         domain: Dict[Text, Any],
-    # ) -> List[Dict]:
-    #     """Define what the form has to do
-    #         after all required slots are filled"""
-    #
-    #     # utter submit template
-    #     dispatcher.utter_message(template="utter_submit")
-    #     return []
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "userdata_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ['age', 'gender', 'province', 'location', 'obesity', 'diabetes',
+                'hypertension', 'cardiovascular', 'pre_existing']
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+            "age": [
+                self.from_text(),
+            ],
+            "gender": [
+                self.from_text(),
+            ],
+            "province": [
+                self.from_text(),
+            ],
+            "location": [
+                self.from_text(),
+            ],
+            "obesity": [
+                self.from_text(),
+            ],
+            "diabetes": [
+                self.from_text(),
+            ],
+            "hypertension": [
+                self.from_text(),
+            ],
+            "cardiovascular": [
+                self.from_text(),
+            ],
+            "pre_existing": [
+                self.from_text(),
+            ]
+        }
+
+    def submit(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+
+        # utter submit template
+        dispatcher.utter_message(template="utter_submit_user")
+        return []
 
 
 class ActionGetUser(Action):

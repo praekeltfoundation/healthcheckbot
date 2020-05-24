@@ -1,9 +1,13 @@
-## happy path 1st time
+## Voluntary HealthCheck WhatsApp
+
+## happy path 1st time, accept T&C
 * greet
     - utter_greet
 * request_healthcheck
     - action_get_user
     - slot{"user_status" : "new"}
+    - utter_accept_tc_new
+    - slot{"terms_cond_new" : "ACCEPT"}
     - healthcheck_form
     - form{"name": "healthcheck_form"}
     - form{"name": null}
