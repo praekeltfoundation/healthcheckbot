@@ -10,6 +10,7 @@ intents:
 
 actions:
   - action_get_user
+  - action_reset_all_but_few_slots
   - utter_ask_province
   - utter_ask_age
   - utter_ask_cough
@@ -162,5 +163,5 @@ responses:
     - text: "The National Department of Health thanks you for contributing to the health of all citizens. Stop the spread of COVID-19."
 
 session_config:
-  session_expiration_time: 60
+  session_expiration_time: 1
   carry_over_slots_to_new_session: true
