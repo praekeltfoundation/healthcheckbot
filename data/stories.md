@@ -8,7 +8,6 @@
     - form{"name": "userdata_form"}
     - healthcheck_form
     - form{"name": "healthcheck_form"}
-    - form{"name": null}
     - utter_slots_values
 * thankyou
     - utter_noworries
@@ -21,7 +20,6 @@
     - slot{"user_status" : "returning"}
     - healthcheck_form
     - form{"name": "healthcheck_form"}
-    - form{"name": null}
     - utter_slots_values
 * thankyou
     - utter_noworries

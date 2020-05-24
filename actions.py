@@ -11,7 +11,7 @@ from typing import Dict, Text, Any, List, Union
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction, Action
-from rasa.core.events import SlotSet
+from rasa_sdk.events import SlotSet
 import pymongo
 
 
@@ -110,7 +110,9 @@ class ActionGetUser(Action):
         if len(validate_slots) == 2:
             result = [SlotSet("user_status", "returning")]
         else:
-            result = [SlotSet("user_status", "new")]
+            result = [SlotSet("user_status", "new"),
+                      SlotSet("province", province),
+                      SlotSet("age", age)]
         # utter submit template
         # dispatcher.utter_message(template="utter_submit")
         return result
