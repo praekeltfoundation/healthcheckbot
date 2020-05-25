@@ -8,6 +8,8 @@ intents:
   - stop
   - bot_challenge
   - menu
+  - more
+  - other
 
 actions:
   - utter_menu
@@ -44,6 +46,7 @@ actions:
   - utter_greet
   - utter_submit_user
   - utter_more_info
+  - action_reset_terms
 
 slots:
   smell:
@@ -116,23 +119,19 @@ forms:
 responses:
 
   utter_accept_tc_returning:
-    - buttons:
-      - payload: "ACCEPT"
-        title: "accept"
-      - payload: "MORE"
-        title: "more"
-      - payload: "OTHER"
-        title: "other"
-
-      text: "Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
-
-             Reply with one of the words in BOLD to continue
-
-             ACCEPT ✅ - _to accept the terms and conditions and begin your HealthCheck_
-             OTHER 👥 - _If you are doing this HealthCheck for someone other than yourself (Example: A Child)_
-             MORE 📄 - _to read the terms and conditions_
-
+    - text: "Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus\n
+             Reply with one of the words in BOLD to continue\n
+             ACCEPT ✅ - _to accept the terms and conditions and begin your HealthCheck_\n
+             OTHER 👥 - _If you are doing this HealthCheck for someone other than yourself (Example: A Child)_\n
+             MORE 📄 - _to read the terms and conditions_\n
              (or Reply MENU 📌 _to return to the main menu_)"
+      buttons:
+        - title: "ACCEPT"
+          payload: 'ACCEPT'
+        - title: "MORE"
+          payload: 'MORE'
+        - title: "OTHER"
+          payload: 'OTHER'
 
   utter_menu:
     - text: "MENU"
@@ -148,113 +147,107 @@ responses:
              Let's see how you are feeling today:"
 
   utter_ask_fever:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?"
+          title: "NO"
 
   utter_ask_obesity:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Has a doctor or other health professional diagnosed you with Obesity?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Has a doctor or other health professional diagnosed you with Obesity?"
+          title: "NO"
 
   utter_ask_diabetes:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Has a doctor or other health professional diagnosed you with Diabetes?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Has a doctor or other health professional diagnosed you with Diabetes?"
+          title: "NO"
 
   utter_ask_smell:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Have you noticed any recent changes in your ability to taste or smell things?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Have you noticed any recent changes in your ability to taste or smell things?"
+          title: "NO"
 
   utter_ask_hypertension:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Has a doctor or other health professional diagnosed you with Hypertension?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Has a doctor or other health professional diagnosed you with Hypertension?"
+          title: "NO"
 
   utter_ask_cardiovascular:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Has a doctor or other health professional diagnosed you with Cardiovascular Disease?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Has a doctor or other health professional diagnosed you with Cardiovascular Disease?"
+          title: "NO"
 
   utter_ask_breathlessness:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Do you have breathlessness or a difficulty breathing, that you've noticed recently?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-      text: "Do you have breathlessness or a difficulty breathing, that you've noticed recently?"
+          title: "NO"
 
   utter_ask_pre_existing:
-    - buttons:
-        - payload: "YES"
-          title: "yes"
+    - text: "Do you have a pre-existing medical condition we should be aware of?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
         - payload: "NO"
-          title: "no"
-        - payload: "NOT SURE"
-          title: "not_sure"
-      text: "Do you have a pre-existing medical condition we should be aware of?"
+          title: "NO"
+        - payload: "NO"
+          title: "NOT SURE"
 
   utter_ask_location:
-    - text: "We need to collect your location.
-
-             Please share your location 📍 using WhatsApp by following these steps:
-             - Tap the attach icon (+ or  📎) on the bottom of WhatsApp.
-             - Select location
-             - This will bring up a map with a pin showing your current location. Tap Send Your Current Location if this is your address.
-             - You can also choose from various other nearby locations if you think that the GPS is a bit off.
-
+    - text: "We need to collect your location.\n
+             Please share your location 📍 using WhatsApp by following these steps:\n
+             - Tap the attach icon (+ or  📎) on the bottom of WhatsApp.\n
+             - Select location\n
+             - This will bring up a map with a pin showing your current location. Tap Send Your Current Location if this is your address.\n
+             - You can also choose from various other nearby locations if you think that the GPS is a bit off.\n
              Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?"
 
   utter_ask_gender:
-    - buttons:
+    - text: "Please provide us with the gender you identify as:"
+      buttons:
         - payload: "MALE"
-          title: "male"
+          title: "MALE"
         - payload: "FEMALE"
-          title: "female"
+          title: "FEMALE"
         - payload: "OTHER"
-          title: "other"
+          title: "OTHER"
         - payload: "RATHER NOT SAY"
           title: "rather_not_say"
 
-      text: "Please provide us with the gender you identify as:"
-
   utter_accept_tc_new:
-    - buttons:
-        - payload: "ACCEPT"
-          title: "accept"
-        - payload: "MORE"
-          title: "more"
-
-      text: "HealthCheck is your weekly risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
-
-             Reply with one of the words in BOLD to continue
-
-             ACCEPT ✅ - _to accept the terms and conditions_
-             MORE 📄 - _to read the terms and conditions_
-
+    - text: "HealthCheck is your weekly risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus.\n
+             Reply with one of the words in BOLD to continue\n
+             ACCEPT ✅ - _to accept the terms and conditions_\n
+             MORE 📄 - _to read the terms and conditions_\n
              (or Reply MENU 📌 _to return to the main menu_)"
+      buttons:
+        - payload: "ACCEPT"
+          title: "ACCEPT"
+        - payload: "MORE"
+          title: "MORE"
 
   utter_ask_province:
-    - buttons:
+    - text: "Select your province."
+      buttons:
         - payload: "EASTERN CAPE"
           title: "eastern_cape"
         - payload: "FREE STATE"
@@ -274,10 +267,9 @@ responses:
         - payload: "WESTERN CAPE"
           title: "western_cape"
 
-      text: "Select your province."
-
   utter_ask_age:
-    - buttons:
+    - text: "How old are you?"
+      buttons:
         - payload: "<18"
           title: "age_18"
         - payload: "18-39"
@@ -287,56 +279,45 @@ responses:
         - payload: ">65"
           title: "age_65"
 
-      text: "How old are you?"
-
   utter_ask_cough:
-      - buttons:
-          - payload: "YES"
-            title: "yes"
-          - payload: "NO"
-            title: "no"
-
-        text: "Do you have a cough that recently started?"
+    - text: "Do you have a cough that recently started?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
+        - payload: "NO"
+          title: "NO"
 
   utter_ask_sore_throat:
-      - buttons:
-          - payload: "YES"
-            title: "yes"
-          - payload: "NO"
-            title: "no"
-
-        text: "Do you have a sore throat or pain when swallowing?"
+    - text: "Do you have a sore throat or pain when swallowing?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
+        - payload: "NO"
+          title: "NO"
 
   utter_ask_exposure:
-      - buttons:
-          - payload: "YES"
-            title: "yes"
-          - payload: "NO"
-            title: "no"
-          - payload: "NOT SURE"
-            title: "not_sure"
-
-        text: "Have you been in close contact to someone confirmed to be infected with COVID19?"
+    - text: "Have you been in close contact to someone confirmed to be infected with COVID19?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
+        - payload: "NO"
+          title: "NO"
+        - payload: "NOT_SURE"
+          title: "NOT SURE"
 
   utter_ask_tracing:
-      - buttons:
-          - payload: "YES"
-            title: "yes"
-          - payload: "NO"
-            title: "no"
-
-        text: "Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?"
+    - text: "Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?"
+      buttons:
+        - payload: "ACCEPT"
+          title: "YES"
+        - payload: "NO"
+          title: "NO"
 
   utter_submit:
     - text: "All done!"
 
   utter_slots_values:
-    - text: "I am going to save your responses using the following parameters:\n
-             - province: {province}\n
-             - age: {age}\n
-             - cough: {cough}\n
-             - exposure: {exposure}\n
-             - tracing: {tracing}"
+    - text: "See you again tomorrow!"
 
   utter_noworries:
     - text: "you are welcome :)"

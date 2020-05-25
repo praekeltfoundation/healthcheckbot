@@ -31,6 +31,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -74,6 +75,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -120,6 +122,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -159,6 +162,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -206,6 +210,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -258,6 +263,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -314,6 +320,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -378,6 +385,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -435,6 +443,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -489,6 +498,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -538,6 +548,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -586,6 +597,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -634,6 +646,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -690,6 +703,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -748,6 +762,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -808,6 +823,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -869,6 +885,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -935,6 +952,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -993,6 +1011,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_new
     - terms_form
@@ -1047,6 +1066,7 @@
     - terms_form
     - form{"name": "terms_form"}
     - slot{"terms_cond" : "MORE"}
+    - action_reset_terms
     - utter_more_info
     - utter_accept_tc_returning
     - terms_form
@@ -1063,7 +1083,3 @@
 * deny
     - action_deactivate_form
     - form{"name": null}
-
-## bot challenge
-* bot_challenge
-  - utter_iamabot

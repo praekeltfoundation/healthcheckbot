@@ -37,6 +37,22 @@ class AcceptTermsForm(FormAction):
             ]
         }
 
+    def validate_terms_cond(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[SlotSet]:
+        """Validate terms_cond value."""
+
+        if value in ['ACCEPT', 'OTHER', 'MORE']:
+            return [SlotSet("terms_cond", value)]
+        else:
+            dispatcher.utter_message("Please accept T&C.")
+            # validation failed, set slot to None
+            return [SlotSet("terms_cond", None)]
+
     def submit(
             self,
             dispatcher: CollectingDispatcher,
@@ -186,6 +202,15 @@ class ActionGetUser(Action):
         # utter submit template
         # dispatcher.utter_message(template="utter_submit")
         return result
+
+
+class ActionResetTerms(Action):
+
+    def name(self):
+        return "action_reset_terms"
+
+    def run(self, dispatcher, tracker, domain):
+        return [SlotSet("terms_cond", None)]
 
 
 class ActionResetAllButFewSlots(Action):
