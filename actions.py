@@ -15,6 +15,76 @@ from rasa_sdk.events import SlotSet, AllSlotsReset
 import pymongo
 
 
+class ActionCalculateRisk(Action):
+    """HealthCheck form action"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "action_calculate_risk"
+
+    def run(self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[SlotSet]:
+
+        risk = None
+        sympt_num = 0
+        age = tracker.get_slot("age")
+        if age is "YES":
+            sympt_num += 1
+        fever = tracker.get_slot("fever")
+        if fever is "YES":
+            sympt_num += 1
+        cough = tracker.get_slot("cough")
+        if cough is "YES":
+            sympt_num += 1
+        sore_throat = tracker.get_slot("sore_throat")
+        if sore_throat is "YES":
+            sympt_num += 1
+
+        exposure = tracker.get_slot("exposure")
+        if exposure is "YES":
+            exposure = True
+        else:
+            exposure = False
+
+        if sympt_num >= 3:
+            risk = 'high'
+
+        if sympt_num is 0:
+            if exposure:
+                risk = 'low'
+            else:
+                risk = 'moderate'
+
+        if sympt_num is 1:
+            if exposure:
+                risk = 'high'
+            else:
+                risk = 'moderate'
+
+        if sympt_num is 2:
+            if exposure:
+                risk = 'high'
+            else:
+                if age is not ">65":
+                    risk = 'moderate'
+                else:
+                    risk = 'high'
+
+        # utter submit template
+        dispatcher.utter_message("Your risk is %s" % risk)
+        # if risk is 'low':
+        #     dispatcher.utter_message(template="utter_risk_low")
+        # elif risk is 'moderate':
+        #     dispatcher.utter_message(template="utter_risk_moderate")
+        # else:
+        #     dispatcher.utter_message(template="utter_risk_high")
+
+        return [SlotSet("user_risk", risk)]
+
+
 class AcceptTermsForm(FormAction):
     """HealthCheck form action"""
 
@@ -43,15 +113,15 @@ class AcceptTermsForm(FormAction):
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
-    ) -> List[SlotSet]:
+    ) -> Dict[Text, Any]:
         """Validate terms_cond value."""
 
         if value in ['ACCEPT', 'OTHER', 'MORE']:
-            return [SlotSet("terms_cond", value)]
+            return {'terms_cond': value}
         else:
             dispatcher.utter_message("Please accept T&C.")
             # validation failed, set slot to None
-            return [SlotSet("terms_cond", None)]
+            return {'terms_cond': None}
 
     def submit(
             self,

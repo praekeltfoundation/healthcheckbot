@@ -13,6 +13,7 @@ intents:
 
 actions:
   - utter_menu
+  - action_calculate_risk
   - action_get_user
   - action_reset_all_but_few_slots
   - utter_accept_tc_new
@@ -47,6 +48,9 @@ actions:
   - utter_submit_user
   - utter_more_info
   - action_reset_terms
+  - utter_risk_high
+  - utter_risk_low
+  - utter_risk_moderate
 
 slots:
   smell:
@@ -110,6 +114,9 @@ slots:
     values:
       - returning
       - new
+  user_risk:
+    type: unfeaturized
+    auto_fill: false
 
 forms:
   - healthcheck_form
@@ -117,6 +124,27 @@ forms:
   - terms_form
 
 responses:
+
+  utter_risk_high:
+    - text: "*Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
+             Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so.
+             Follow these important steps when seeking care:
+             - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
+             - Ensure you put on a face mask before you enter a healthcare facility.
+             If you have or start getting severe symptoms, seek medical care urgently."
+
+  utter_risk_moderate:
+    - text: "*Based on your responses, we recommend that you self-quarantine for the next 14 days and complete this HealthCheck daily to self monitor your symptoms.*
+             If possible, stay and sleep alone in a room that has a window with good air flowing through.
+             - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
+             - You should not have visitors at your house during this time.
+             - One family member should be assigned as your caregiver. This exposes less of your family and also ensures that you and this caregiver can develop good habits so that they do not catch the virus from you.
+             - If these procedures are not possible, you should contact your health care worker or clinic for alternative options."
+
+  utter_risk_low:
+    - text: "Thank you for answering all questions.
+             Based on your responses, you are at low risk of having COVID-19 and you won't need to complete this risk assessment again for the next 7 days.
+             *If* you start to feel ill or if you come into contact with someone infected with COVID-19 within the next 7 days, please take this risk assessment again"
 
   utter_accept_tc_returning:
     - text: "Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus\n
