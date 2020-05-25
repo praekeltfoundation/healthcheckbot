@@ -10,6 +10,7 @@ intents:
   - menu
 
 actions:
+  - utter_menu
   - action_get_user
   - action_reset_all_but_few_slots
   - utter_accept_tc_new
@@ -95,12 +96,7 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
-  terms_cond_new:
-    type: categorical
-    values:
-      - ACCEPT
-      - MORE
-  terms_cond_returning:
+  terms_cond:
     type: categorical
     values:
       - ACCEPT
@@ -115,13 +111,36 @@ slots:
 forms:
   - healthcheck_form
   - userdata_form
+  - terms_form
 
 responses:
 
+  utter_accept_tc_returning:
+    - buttons:
+      - payload: "ACCEPT"
+        title: "accept"
+      - payload: "MORE"
+        title: "more"
+      - payload: "OTHER"
+        title: "other"
+
+      text: "Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+             Reply with one of the words in BOLD to continue
+
+             ACCEPT ✅ - _to accept the terms and conditions and begin your HealthCheck_
+             OTHER 👥 - _If you are doing this HealthCheck for someone other than yourself (Example: A Child)_
+             MORE 📄 - _to read the terms and conditions_
+
+             (or Reply MENU 📌 _to return to the main menu_)"
+
+  utter_menu:
+    - text: "MENU"
+
   utter_more_info:
-      - text: "You confirm that you are responsible for your medical care & treatment. This service only provides info.
-               This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care
-               You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk."
+    - text: "You confirm that you are responsible for your medical care & treatment. This service only provides info.
+             This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care
+             You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk."
 
   utter_submit_user:
     - text: "Thank you for providing your personal information.
@@ -225,7 +244,7 @@ responses:
         - payload: "MORE"
           title: "more"
 
-      text: "*HealthCheck* is your weekly risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+      text: "HealthCheck is your weekly risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
 
              Reply with one of the words in BOLD to continue
 

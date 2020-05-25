@@ -15,6 +15,42 @@ from rasa_sdk.events import SlotSet, AllSlotsReset
 import pymongo
 
 
+class AcceptTermsForm(FormAction):
+    """HealthCheck form action"""
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "terms_form"
+
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        """A list of required slots that the form has to fill"""
+
+        return ['terms_cond']
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+
+            "terms_cond": [
+                self.from_text(),
+            ]
+        }
+
+    def submit(
+            self,
+            dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+
+        # utter submit template
+        # dispatcher.utter_message(template="utter_submit")
+        return []
+
+
 class HealthCheckForm(FormAction):
     """HealthCheck form action"""
 
@@ -27,10 +63,8 @@ class HealthCheckForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
 
-        if tracker.get_slot('user_status') == 'returning':
-            return ["cough", "exposure", "tracing"]
-        else:
-            return ["age", "gender", "province", "cough", "exposure", "tracing"]
+        return ["fever", "cough", 'sore_throat',
+                'breathlessness', 'smell', 'exposure', 'tracing']
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
@@ -89,6 +123,7 @@ class UserDataForm(FormAction):
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
+
             "age": [
                 self.from_text(),
             ],
@@ -142,9 +177,8 @@ class ActionGetUser(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[SlotSet]:
 
+        # TODO needs different logic
         age = tracker.get_slot("age")
-        province = tracker.get_slot("province")
-        validate_slots = [age, province]
         if age is None:
             result = [SlotSet("user_status", "new")]
         else:
@@ -160,11 +194,48 @@ class ActionResetAllButFewSlots(Action):
         return "action_reset_all_but_few_slots"
 
     def run(self, dispatcher, tracker, domain):
+
         age = tracker.get_slot("age")
+        gender = tracker.get_slot("gender")
         province = tracker.get_slot("province")
+        location = tracker.get_slot("location")
+        obesity = tracker.get_slot("obesity")
+        diabetes = tracker.get_slot("diabetes")
+        hypertension = tracker.get_slot("hypertension")
+        cardiovascular = tracker.get_slot("cardiovascular")
+        pre_existing = tracker.get_slot("pre_existing")
+
         return [AllSlotsReset(),
                 SlotSet("age", age),
-                SlotSet("province", province)]
+                SlotSet("gender", gender),
+                SlotSet("province", province),
+                SlotSet("location", location),
+                SlotSet("obesity", obesity),
+                SlotSet("diabetes", diabetes),
+                SlotSet("hypertension", hypertension),
+                SlotSet("cardiovascular", cardiovascular),
+                SlotSet("pre_existing", pre_existing)]
+
+
+# class ActionTCCheck(Action):
+#
+#     def name(self) -> Text:
+#         return "action_check_tc"
+#
+#     def run(self,
+#             dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[SlotSet]:
+#
+#         # user_status = tracker.get_slot("user_status")
+#         if user_status is 'new':
+#             tc = tracker.get_slot("terms_cond_new")
+#             result = [SlotSet("terms_cond_new", "new")]
+#         else:
+#             result = [SlotSet("user_status", "returning")]
+#         # utter submit template
+#         # dispatcher.utter_message(template="utter_submit")
+#         return result
 
 # class CarAction(Action):
 #
