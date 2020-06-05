@@ -32,9 +32,24 @@ class HealthCheckForm(FormAction):
         else:
             return ["province", "age", "cough", "exposure", "tracing"]
 
+    @property
+    def province_data(self):
+        with open("data/lookup_tables/provinces.txt") as f:
+            return dict(enumerate(f.readlines(), start=1))
+
+    @staticmethod
+    def is_int(value):
+        try:
+            int(value)
+            return True
+        except ValueError:
+            return False
+
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
             "province": [
+                self.from_entity(intent="inform", entity="province"),
+                self.from_entity(entity="number"),
                 self.from_text(),
             ],
             "age": [
@@ -50,6 +65,15 @@ class HealthCheckForm(FormAction):
                 self.from_text(),
             ]
         }
+
+    def validate_province(self, value, dispatcher, tracker, domain):
+        if value and value.lower() in self.province_data.values():
+            return {"province": value}
+        elif self.is_int(value) and int(value) in self.province_data:
+            return self.province_data[int(value)]
+        else:
+            dispatcher.utter_message(template="utter_wrong_province")
+            return {"province": None}
 
     def submit(
             self,
