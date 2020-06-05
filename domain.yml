@@ -81,48 +81,44 @@ responses:
         📌Reply *MENU* to return to the main menu
 
   utter_ask_age:
-    - buttons:
-        - payload: "<18"
-          title: "age_18"
-        - payload: "18-39"
-          title: "age_18_39"
-        - payload: "40-65"
-          title: "age_40_65"
-        - payload: ">65"
-          title: "age_65"
+    - text: |
+        "How old are you?
 
-      text: "How old are you?"
+        *1.* <18
+        *2.* 18-39
+        *3.* 40-65
+        *4.* >65"
 
   utter_ask_cough:
-      - buttons:
-          - payload: "Yes"
-            title: "yes"
-          - payload: "No"
-            title: "no"
+    - text: |
+        ⬛⬛⬜⬜⬜⬜⬜
 
-        text: "Do you have a cough that recently started?"
+        Do you have a cough that recently started?
+
+        Reply
+        *1.* YES
+        *2.* NO
 
   utter_ask_exposure:
-      - buttons:
-          - payload: "Yes"
-            title: "yes"
-          - payload: "No"
-            title: "no"
-          - payload: "Not sure"
-            title: "not_sure"
+    - text: |
+        "⬛⬛⬛⬛⬛⬛⬜
 
-        text: "Have you been in close contact to someone confirmed to be infected with COVID19?"
+        Have you been in close contact to someone confirmed to be infected with COVID19?
+
+        Reply
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
 
   utter_ask_tracing:
-      - buttons:
-          - payload: "Yes"
-            title: "yes"
-          - payload: "No"
-            title: "no"
-          - payload: "Restart"
-            title: "restart"
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬛
 
-        text: "Please confirm that the information you shared is correct & that the National Department of Health can contact you if necessary?"
+        Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?
+
+        Reply
+        *1.* YES
+        *2.* NO
 
   utter_submit:
     - text: "All done!"

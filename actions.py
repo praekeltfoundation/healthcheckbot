@@ -37,6 +37,19 @@ class HealthCheckForm(FormAction):
         with open("data/lookup_tables/provinces.txt") as f:
             return dict(enumerate(f.readlines(), start=1))
 
+    @property
+    def age_data(self):
+        with open("data/lookup_tables/ages.txt") as f:
+            return dict(enumerate(f.readlines(), start=1))
+
+    @property
+    def yes_no_data(self):
+        return {1: "yes", 2: "no"}
+
+    @property
+    def yes_no_maybe_data(self):
+        return {1: "yes", 2: "no", 3: "not sure"}
+
     @staticmethod
     def is_int(value):
         try:
@@ -48,32 +61,79 @@ class HealthCheckForm(FormAction):
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
             "province": [
-                self.from_entity(intent="inform", entity="province"),
                 self.from_entity(entity="number"),
+                self.from_entity(intent="inform", entity="province"),
                 self.from_text(),
             ],
             "age": [
+                self.from_entity(entity="number"),
                 self.from_text(),
             ],
             "cough": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
             "exposure": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
             "tracing": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ]
         }
 
     def validate_province(self, value, dispatcher, tracker, domain):
+        print(self.province_data)
         if value and value.lower() in self.province_data.values():
             return {"province": value}
         elif self.is_int(value) and int(value) in self.province_data:
-            return self.province_data[int(value)]
+            return {"province": self.province_data[int(value)]}
         else:
-            dispatcher.utter_message(template="utter_wrong_province")
+            dispatcher.utter_message(template="utter_incorrect_selection")
             return {"province": None}
+
+    def validate_age(self, value, dispatcher, tracker, domain):
+        if value and value.lower() in self.province_data.values():
+            return {"age": value}
+        elif self.is_int(value) and int(value) in self.age_data:
+            return {"age": self.age_data[int(value)]}
+        else:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {"age": None}
+
+    def validate_cough(self, value, dispatcher, tracker, domain):
+        if value and value.lower() in self.yes_no_data.values():
+            return {"cough": value}
+        elif self.is_int(value) and int(value) in self.yes_no_data:
+            return {"cough": self.yes_no_data[int(value)]}
+        else:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {"cough": None}
+
+    def validate_exposure(self, value, dispatcher, tracker, domain):
+        if value and value.lower() in self.yes_no_maybe_data.values():
+            return {"exposure": value}
+        elif self.is_int(value) and int(value) in self.yes_no_maybe_data:
+            return {"exposure": self.yes_no_maybe_data[int(value)]}
+        else:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {"exposure": None}
+
+    def validate_tracing(self, value, dispatcher, tracker, domain):
+        if value and value.lower() in self.yes_no_data.values():
+            return {"tracing": value}
+        elif self.is_int(value) and int(value) in self.yes_no_data:
+            return {"tracing": self.yes_no_data[int(value)]}
+        else:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {"tracing": None}
 
     def submit(
             self,
