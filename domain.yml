@@ -7,6 +7,11 @@ intents:
   - chitchat
   - stop
   - bot_challenge
+  - inform
+
+entities:
+  - province
+  - number
 
 actions:
   - action_get_user
@@ -58,27 +63,22 @@ forms:
 
 responses:
   utter_ask_province:
-    - buttons:
-        - payload: "EASTERN CAPE"
-          title: "eastern_cape"
-        - payload: "FREE STATE"
-          title: "free_state"
-        - payload: "GAUTENG"
-          title: "gauteng"
-        - payload: "KWAZULU NATAL"
-          title: "kwazulu_natal"
-        - payload: "LIMPOPO"
-          title: "limpopo"
-        - payload: "MPUMALANGA"
-          title: "mpumalanga"
-        - payload: "NORTH WEST"
-          title: "north_west"
-        - payload: "NORTHERN CAPE"
-          title: "northern_cape"
-        - payload: "WESTERN CAPE"
-          title: "western_cape"
+      - text: |
+          In which Province are you currently residing?
+          *1.* EASTERN CAPE
+          *2.* FREE STATE
+          *3.* GAUTENG
+          *4.* KWAZULU NATAL
+          *5.* LIMPOPO
+          *6.* MPUMALANGA
+          *7.* NORTH WEST
+          *8.* NORTHERN CAPE
+          *9.* WESTERN CAPE
 
-      text: "Select your province."
+  utter_incorrect_selection:
+    - text: |
+        This service works best when you use the options provided in *BOLD*.
+        📌Reply *MENU* to return to the main menu
 
   utter_ask_age:
     - buttons:
