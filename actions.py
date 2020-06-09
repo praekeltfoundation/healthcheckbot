@@ -26,11 +26,16 @@ class HealthCheckForm(FormAction):
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-
-        if tracker.get_slot('user_status') == 'returning':
-            return ["cough", "exposure", "tracing"]
-        else:
-            return ["province", "age", "cough", "exposure", "tracing"]
+        slots =  ["province", "age", "cough", "exposure", "tracing"]
+        # This is a strange workaround
+        # Rasa wants to fill all the slots with every question
+        # To prevent that, we just tell Rasa with each message that the slots
+        # that it's required to fill is just a single slot, the first
+        # slot that hasn't been filled yet.
+        for slot in slots:
+            if not tracker.get_slot(slot):
+                return [slot]
+        return []
 
     @property
     def province_data(self):
@@ -90,7 +95,6 @@ class HealthCheckForm(FormAction):
         }
 
     def validate_province(self, value, dispatcher, tracker, domain):
-        print(self.province_data)
         if value and value.lower() in self.province_data.values():
             return {"province": value}
         elif self.is_int(value) and int(value) in self.province_data:
