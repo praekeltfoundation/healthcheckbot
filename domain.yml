@@ -1,12 +1,8 @@
 intents:
-  - greet
   - request_healthcheck
   - affirm
   - deny
-  - thankyou
-  - chitchat
-  - stop
-  - bot_challenge
+  - maybe
   - inform
 
 entities:
@@ -14,7 +10,6 @@ entities:
   - number
 
 actions:
-  - action_get_user
   - action_reset_all_but_few_slots
   - utter_ask_province
   - utter_ask_age
@@ -23,15 +18,6 @@ actions:
   - utter_ask_tracing
   - utter_submit
   - utter_slots_values
-  - utter_noworries
-  - utter_chitchat
-  - utter_ask_continue
-  - utter_default
-  - utter_iamabot
-  - utter_ask_like_most
-  - utter_ask_improve_service
-  - utter_goodbye
-  - utter_greet
 
 slots:
   province:
@@ -51,15 +37,9 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
-  user_status:
-    type: categorical
-    values:
-      - returning
-      - new
 
 forms:
   - healthcheck_form
-  - userdata_form
 
 responses:
   utter_ask_province:
@@ -130,33 +110,6 @@ responses:
              - cough: {cough}\n
              - exposure: {exposure}\n
              - tracing: {tracing}"
-
-  utter_noworries:
-    - text: "you are welcome :)"
-
-  utter_chitchat:
-    - text: "chitchat"
-
-  utter_ask_continue:
-    - text: "do you want to continue?"
-
-  utter_default:
-    - text: "sorry, I didn't understand you, please try input something else"
-
-  utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
-
-  utter_ask_like_most:
-    - text: "Write brefly about the things that you like most about the new service"
-
-  utter_ask_improve_service:
-    - text: "Write brefly about the things that you would like to improve in new service"
-
-  utter_goodbye:
-    - text: "Bye"
-
-  utter_greet:
-    - text: "The National Department of Health thanks you for contributing to the health of all citizens. Stop the spread of COVID-19."
 
 session_config:
   session_expiration_time: 1
