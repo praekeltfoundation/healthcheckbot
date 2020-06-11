@@ -17,6 +17,7 @@ actions:
   - utter_ask_fever
   - utter_ask_cough
   - utter_ask_sore_throat
+  - utter_ask_difficulty_breathing
   - utter_ask_exposure
   - utter_ask_tracing
   - utter_submit
@@ -39,6 +40,9 @@ slots:
     type: unfeaturized
     auto_fill: false
   sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  difficulty_breathing:
     type: unfeaturized
     auto_fill: false
   exposure:
@@ -124,6 +128,16 @@ responses:
         *1.* YES
         *2.* NO
 
+  utter_ask_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬛⬜⬜⬜
+
+        Do you have breathlessness or a difficulty breathing, that you’ve noticed recently?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
   utter_ask_exposure:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬜
@@ -156,6 +170,7 @@ responses:
              - fever: {fever}\n
              - cough: {cough}\n
              - sore_throat: {sore_throat}\n
+             - difficulty_breathing: {difficulty_breathing}\n
              - exposure: {exposure}\n
              - tracing: {tracing}"
 
