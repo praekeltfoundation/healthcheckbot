@@ -384,10 +384,18 @@ class ActionResetAllButFewSlots(Action):
         gender = tracker.get_slot("gender")
         province = tracker.get_slot("province")
         medical_condition = tracker.get_slot("medical_condition")
+        medical_condition_obesity = tracker.get_slot("medical_condition_obesity")
+        medical_condition_diabetes = tracker.get_slot("medical_condition_diabetes")
+        medical_condition_hypertension = tracker.get_slot("medical_condition_hypertension")
+        medical_condition_cardio = tracker.get_slot("medical_condition_cardio")
         return [
             AllSlotsReset(),
             SlotSet("age", age),
             SlotSet("gender", gender),
             SlotSet("province", province),
             SlotSet("medical_condition", medical_condition),
+            SlotSet("medical_condition_obesity", medical_condition_obesity),
+            SlotSet("medical_condition_diabetes", medical_condition_diabetes),
+            SlotSet("medical_condition_hypertension", medical_condition_hypertension),
+            SlotSet("medical_condition_cardio", medical_condition_cardio),
         ]
