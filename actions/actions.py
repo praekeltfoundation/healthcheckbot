@@ -30,6 +30,7 @@ class HealthCheckForm(FormAction):
             "age",
             "gender",
             "province",
+            "medical_condition",
             "fever",
             "cough",
             "sore_throat",
@@ -81,13 +82,20 @@ class HealthCheckForm(FormAction):
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
+            "age": [self.from_entity(entity="number"), self.from_text()],
+            "gender": [self.from_entity(entity="number"), self.from_text()],
             "province": [
                 self.from_entity(entity="number"),
                 self.from_entity(intent="inform", entity="province"),
                 self.from_text(),
             ],
-            "age": [self.from_entity(entity="number"), self.from_text()],
-            "gender": [self.from_entity(entity="number"), self.from_text()],
+            "medical_condition": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_intent(intent="maybe", value="not sure"),
+                self.from_text(),
+            ],
             "fever": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
@@ -153,15 +161,6 @@ class HealthCheckForm(FormAction):
             dispatcher.utter_message(template="utter_incorrect_selection")
             return {field: None}
 
-    def validate_province(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("province", dispatcher, value, self.province_data)
-
     def validate_age(
         self,
         value: Text,
@@ -179,6 +178,26 @@ class HealthCheckForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("gender", dispatcher, value, self.gender_data)
+
+    def validate_province(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("province", dispatcher, value, self.province_data)
+
+    def validate_medical_condition(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "medical_condition", dispatcher, value, self.yes_no_maybe_data
+        )
 
     def validate_fever(
         self,
@@ -272,11 +291,13 @@ class ActionResetAllButFewSlots(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         age = tracker.get_slot("age")
-        province = tracker.get_slot("province")
         gender = tracker.get_slot("gender")
+        province = tracker.get_slot("province")
+        medical_condition = tracker.get_slot("medical_condition")
         return [
             AllSlotsReset(),
             SlotSet("age", age),
             SlotSet("gender", gender),
             SlotSet("province", province),
+            SlotSet("medical_condition", medical_condition),
         ]

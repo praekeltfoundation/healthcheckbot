@@ -11,9 +11,10 @@ entities:
 
 actions:
   - action_reset_all_but_few_slots
-  - utter_ask_province
   - utter_ask_age
   - utter_ask_gender
+  - utter_ask_province
+  - utter_ask_medical_condition
   - utter_ask_fever
   - utter_ask_cough
   - utter_ask_sore_throat
@@ -32,6 +33,9 @@ slots:
     type: unfeaturized
     auto_fill: false
   province:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition:
     type: unfeaturized
     auto_fill: false
   fever:
@@ -101,6 +105,15 @@ responses:
         2. FEMALE
         3. OTHER
         4. RATHER NOT SAY
+
+  utter_ask_medical_condition:
+    - text: |
+        Do you have any other pre-existing medical conditions that we should be aware of?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
 
   utter_ask_fever:
     - text: |
@@ -181,6 +194,7 @@ responses:
              - province: {province}\n
              - age: {age}\n
              - gender: {gender}\n
+             - medical_condition: {medical_condition}\n
              - fever: {fever}\n
              - cough: {cough}\n
              - sore_throat: {sore_throat}\n
