@@ -19,6 +19,7 @@ actions:
   - utter_ask_medical_condition_diabetes
   - utter_ask_medical_condition_hypertension
   - utter_ask_medical_condition_cardio
+  - utter_start_health_check
   - utter_ask_fever
   - utter_ask_cough
   - utter_ask_sore_throat
@@ -80,6 +81,7 @@ slots:
 
 forms:
   - healthcheck_form
+  - healthcheck_profile_form
 
 responses:
   utter_ask_province:
@@ -162,6 +164,9 @@ responses:
         Reply:
         *1.* YES
         *2.* NO
+
+  utter_start_health_check:
+    - text: "Let's see how you are feeling today 💟"
 
   utter_ask_fever:
     - text: |
