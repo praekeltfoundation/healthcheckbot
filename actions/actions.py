@@ -93,7 +93,11 @@ class HealthCheckForm(FormAction):
         }
 
     def validate_generic(
-        self, field: Text, dispatcher: CollectingDispatcher, value: Text, data: Dict[int, Text],
+        self,
+        field: Text,
+        dispatcher: CollectingDispatcher,
+        value: Text,
+        data: Dict[int, Text],
     ) -> Dict[Text, Optional[Text]]:
         """
         Validates that the value is either:
@@ -142,7 +146,9 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("exposure", dispatcher, value, self.yes_no_maybe_data)
+        return self.validate_generic(
+            "exposure", dispatcher, value, self.yes_no_maybe_data
+        )
 
     def validate_tracing(
         self,
