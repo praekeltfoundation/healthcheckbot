@@ -16,25 +16,29 @@ actions:
   - utter_ask_gender
   - utter_ask_fever
   - utter_ask_cough
+  - utter_ask_sore_throat
   - utter_ask_exposure
   - utter_ask_tracing
   - utter_submit
   - utter_slots_values
 
 slots:
-  province:
-    type: unfeaturized
-    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
   gender:
     type: unfeaturized
     auto_fill: false
+  province:
+    type: unfeaturized
+    auto_fill: false
   fever:
     type: unfeaturized
     auto_fill: false
   cough:
+    type: unfeaturized
+    auto_fill: false
+  sore_throat:
     type: unfeaturized
     auto_fill: false
   exposure:
@@ -110,6 +114,16 @@ responses:
         *1.* YES
         *2.* NO
 
+  utter_ask_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Do you have a sore throat or pain when swallowing?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
   utter_ask_exposure:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬜
@@ -141,6 +155,7 @@ responses:
              - gender: {gender}\n
              - fever: {fever}\n
              - cough: {cough}\n
+             - sore_throat: {sore_throat}\n
              - exposure: {exposure}\n
              - tracing: {tracing}"
 
