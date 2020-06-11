@@ -26,7 +26,18 @@ class HealthCheckForm(FormAction):
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = ["age", "gender", "province", "fever", "cough", "sore_throat", "difficulty_breathing", "taste_smell", "exposure", "tracing"]
+        slots = [
+            "age",
+            "gender",
+            "province",
+            "fever",
+            "cough",
+            "sore_throat",
+            "difficulty_breathing",
+            "taste_smell",
+            "exposure",
+            "tracing",
+        ]
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
@@ -203,7 +214,9 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("difficulty_breathing", dispatcher, value, self.yes_no_data)
+        return self.validate_generic(
+            "difficulty_breathing", dispatcher, value, self.yes_no_data
+        )
 
     def validate_taste_smell(
         self,
@@ -261,4 +274,9 @@ class ActionResetAllButFewSlots(Action):
         age = tracker.get_slot("age")
         province = tracker.get_slot("province")
         gender = tracker.get_slot("gender")
-        return [AllSlotsReset(), SlotSet("age", age), SlotSet("gender", gender), SlotSet("province", province)]
+        return [
+            AllSlotsReset(),
+            SlotSet("age", age),
+            SlotSet("gender", gender),
+            SlotSet("province", province),
+        ]
