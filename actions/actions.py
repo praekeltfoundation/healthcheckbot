@@ -26,7 +26,7 @@ class HealthCheckForm(FormAction):
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = ["province", "age", "cough", "exposure", "tracing"]
+        slots = ["age", "gender", "province", "cough", "exposure", "tracing"]
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
@@ -45,6 +45,11 @@ class HealthCheckForm(FormAction):
     @property
     def age_data(self) -> Dict[int, Text]:
         with open("data/lookup_tables/ages.txt") as f:
+            return dict(enumerate(f.read().splitlines(), start=1))
+
+    @property
+    def gender_data(self) -> Dict[int, Text]:
+        with open("data/lookup_tables/gender.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
 
     @property
@@ -71,6 +76,7 @@ class HealthCheckForm(FormAction):
                 self.from_text(),
             ],
             "age": [self.from_entity(entity="number"), self.from_text()],
+            "gender": [self.from_entity(entity="number"), self.from_text()],
             "cough": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
@@ -129,6 +135,15 @@ class HealthCheckForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("age", dispatcher, value, self.age_data)
+
+    def validate_gender(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("gender", dispatcher, value, self.gender_data)
 
     def validate_cough(
         self,
