@@ -15,6 +15,10 @@ actions:
   - utter_ask_gender
   - utter_ask_province
   - utter_ask_medical_condition
+  - utter_ask_medical_condition_obesity
+  - utter_ask_medical_condition_diabetes
+  - utter_ask_medical_condition_hypertension
+  - utter_ask_medical_condition_cardio
   - utter_ask_fever
   - utter_ask_cough
   - utter_ask_sore_throat
@@ -36,6 +40,18 @@ slots:
     type: unfeaturized
     auto_fill: false
   medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardio:
     type: unfeaturized
     auto_fill: false
   fever:
@@ -114,6 +130,38 @@ responses:
         *1.* YES
         *2.* NO
         *3.* NOT SURE
+
+  utter_ask_medical_condition_obesity:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Obesity?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_diabetes:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Diabetes?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_hypertension:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Hypertension?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_cardio:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Cardiovascular Disease?
+
+        Reply:
+        *1.* YES
+        *2.* NO
 
   utter_ask_fever:
     - text: |
@@ -195,6 +243,10 @@ responses:
              - age: {age}\n
              - gender: {gender}\n
              - medical_condition: {medical_condition}\n
+             - medical_condition_obesity: {medical_condition_obesity}\n
+             - medical_condition_diabetes: {medical_condition_diabetes}\n
+             - medical_condition_hypertension: {medical_condition_hypertension}\n
+             - medical_condition_cardio: {medical_condition_cardio}\n
              - fever: {fever}\n
              - cough: {cough}\n
              - sore_throat: {sore_throat}\n

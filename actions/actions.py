@@ -39,11 +39,33 @@ class HealthCheckForm(FormAction):
             "exposure",
             "tracing",
         ]
+        slots_with_conditions = [
+            "age",
+            "gender",
+            "province",
+            "medical_condition",
+            "medical_condition_obesity",
+            "medical_condition_diabetes",
+            "medical_condition_hypertension",
+            "medical_condition_cardio",
+            "fever",
+            "cough",
+            "sore_throat",
+            "difficulty_breathing",
+            "taste_smell",
+            "exposure",
+            "tracing",
+        ]
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
         # that it's required to fill is just a single slot, the first
         # slot that hasn't been filled yet.
+
+        # expanded questions when user has underlying medical conditions
+        if tracker.get_slot("medical_condition") != "no":
+            slots = slots_with_conditions
+
         for slot in slots:
             if not tracker.get_slot(slot):
                 return [slot]
@@ -94,6 +116,30 @@ class HealthCheckForm(FormAction):
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
                 self.from_intent(intent="maybe", value="not sure"),
+                self.from_text(),
+            ],
+            "medical_condition_obesity": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ],
+            "medical_condition_diabetes": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ],
+            "medical_condition_hypertension": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ],
+            "medical_condition_cardio": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
             "fever": [
@@ -197,6 +243,50 @@ class HealthCheckForm(FormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
             "medical_condition", dispatcher, value, self.yes_no_maybe_data
+        )
+
+    def validate_medical_condition_obesity(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "medical_condition_obesity", dispatcher, value, self.yes_no_data
+        )
+
+    def validate_medical_condition_diabetes(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "medical_condition_diabetes", dispatcher, value, self.yes_no_data
+        )
+
+    def validate_medical_condition_hypertension(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "medical_condition_hypertension", dispatcher, value, self.yes_no_data
+        )
+
+    def validate_medical_condition_cardio(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "medical_condition_cardio", dispatcher, value, self.yes_no_data
         )
 
     def validate_fever(
