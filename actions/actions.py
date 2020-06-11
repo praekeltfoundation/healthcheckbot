@@ -40,12 +40,12 @@ class HealthCheckForm(FormAction):
     @property
     def province_data(self) -> Dict[int, Text]:
         with open("data/lookup_tables/provinces.txt") as f:
-            return dict(enumerate(f.readlines(), start=1))
+            return dict(enumerate(f.read().splitlines(), start=1))
 
     @property
     def age_data(self) -> Dict[int, Text]:
         with open("data/lookup_tables/ages.txt") as f:
-            return dict(enumerate(f.readlines(), start=1))
+            return dict(enumerate(f.read().splitlines(), start=1))
 
     @property
     def yes_no_data(self) -> Dict[int, Text]:
@@ -93,7 +93,7 @@ class HealthCheckForm(FormAction):
         }
 
     def validate_generic(
-        self, dispatcher: CollectingDispatcher, value: Text, data: Dict[int, Text],
+        self, field: Text, dispatcher: CollectingDispatcher, value: Text, data: Dict[int, Text],
     ) -> Dict[Text, Optional[Text]]:
         """
         Validates that the value is either:
@@ -101,12 +101,12 @@ class HealthCheckForm(FormAction):
         - An integer that is one of the keys
         """
         if value and value.lower() in data.values():
-            return {"province": value}
+            return {field: value}
         elif self.is_int(value) and int(value) in data:
-            return {"province": data[int(value)]}
+            return {field: data[int(value)]}
         else:
             dispatcher.utter_message(template="utter_incorrect_selection")
-            return {"province": None}
+            return {field: None}
 
     def validate_province(
         self,
@@ -115,7 +115,7 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(dispatcher, value, self.province_data)
+        return self.validate_generic("province", dispatcher, value, self.province_data)
 
     def validate_age(
         self,
@@ -124,7 +124,7 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(dispatcher, value, self.age_data)
+        return self.validate_generic("age", dispatcher, value, self.age_data)
 
     def validate_cough(
         self,
@@ -133,7 +133,7 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(dispatcher, value, self.yes_no_data)
+        return self.validate_generic("cough", dispatcher, value, self.yes_no_data)
 
     def validate_exposure(
         self,
@@ -142,7 +142,7 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(dispatcher, value, self.yes_no_maybe_data)
+        return self.validate_generic("exposure", dispatcher, value, self.yes_no_maybe_data)
 
     def validate_tracing(
         self,
@@ -151,7 +151,7 @@ class HealthCheckForm(FormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(dispatcher, value, self.yes_no_data)
+        return self.validate_generic("tracing", dispatcher, value, self.yes_no_data)
 
     def submit(
         self,
