@@ -14,6 +14,7 @@ actions:
   - utter_ask_province
   - utter_ask_age
   - utter_ask_gender
+  - utter_ask_fever
   - utter_ask_cough
   - utter_ask_exposure
   - utter_ask_tracing
@@ -28,6 +29,9 @@ slots:
     type: unfeaturized
     auto_fill: false
   gender:
+    type: unfeaturized
+    auto_fill: false
+  fever:
     type: unfeaturized
     auto_fill: false
   cough:
@@ -86,6 +90,16 @@ responses:
         3. OTHER
         4. RATHER NOT SAY
 
+  utter_ask_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
   utter_ask_cough:
     - text: |
         ⬛⬛⬜⬜⬜⬜⬜
@@ -125,6 +139,7 @@ responses:
              - province: {province}\n
              - age: {age}\n
              - gender: {gender}\n
+             - fever: {fever}\n
              - cough: {cough}\n
              - exposure: {exposure}\n
              - tracing: {tracing}"

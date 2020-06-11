@@ -26,7 +26,7 @@ class HealthCheckForm(FormAction):
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = ["age", "gender", "province", "cough", "exposure", "tracing"]
+        slots = ["age", "gender", "province", "fever", "cough", "exposure", "tracing"]
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
@@ -77,6 +77,12 @@ class HealthCheckForm(FormAction):
             ],
             "age": [self.from_entity(entity="number"), self.from_text()],
             "gender": [self.from_entity(entity="number"), self.from_text()],
+            "fever": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ],
             "cough": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
@@ -145,6 +151,15 @@ class HealthCheckForm(FormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("gender", dispatcher, value, self.gender_data)
 
+    def validate_fever(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("fever", dispatcher, value, self.yes_no_data)
+
     def validate_cough(
         self,
         value: Text,
@@ -200,4 +215,5 @@ class ActionResetAllButFewSlots(Action):
     ) -> List[Dict[Text, Any]]:
         age = tracker.get_slot("age")
         province = tracker.get_slot("province")
-        return [AllSlotsReset(), SlotSet("age", age), SlotSet("province", province)]
+        gender = tracker.get_slot("gender")
+        return [AllSlotsReset(), SlotSet("age", age), SlotSet("gender", gender), SlotSet("province", province)]
