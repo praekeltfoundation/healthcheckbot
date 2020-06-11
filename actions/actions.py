@@ -26,7 +26,7 @@ class HealthCheckForm(FormAction):
     @staticmethod
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = ["age", "gender", "province", "fever", "cough", "sore_throat", "difficulty_breathing", "exposure", "tracing"]
+        slots = ["age", "gender", "province", "fever", "cough", "sore_throat", "difficulty_breathing", "taste_smell", "exposure", "tracing"]
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
@@ -96,6 +96,12 @@ class HealthCheckForm(FormAction):
                 self.from_text(),
             ],
             "difficulty_breathing": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ],
+            "taste_smell": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
@@ -198,6 +204,15 @@ class HealthCheckForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("difficulty_breathing", dispatcher, value, self.yes_no_data)
+
+    def validate_taste_smell(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("taste_smell", dispatcher, value, self.yes_no_data)
 
     def validate_exposure(
         self,

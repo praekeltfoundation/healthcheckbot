@@ -18,6 +18,7 @@ actions:
   - utter_ask_cough
   - utter_ask_sore_throat
   - utter_ask_difficulty_breathing
+  - utter_ask_taste_smell
   - utter_ask_exposure
   - utter_ask_tracing
   - utter_submit
@@ -43,6 +44,9 @@ slots:
     type: unfeaturized
     auto_fill: false
   difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  taste_smell:
     type: unfeaturized
     auto_fill: false
   exposure:
@@ -138,6 +142,16 @@ responses:
         *1.* YES
         *2.* NO
 
+  utter_ask_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Have you noticed any recent changes in your ability to taste or smell things?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
   utter_ask_exposure:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬜
@@ -171,6 +185,7 @@ responses:
              - cough: {cough}\n
              - sore_throat: {sore_throat}\n
              - difficulty_breathing: {difficulty_breathing}\n
+             - taste_smell: {taste_smell}\n
              - exposure: {exposure}\n
              - tracing: {tracing}"
 
