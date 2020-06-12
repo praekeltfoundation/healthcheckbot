@@ -68,7 +68,7 @@ class HealthCheckProfileForm(BaseFormAction):
         "medical_condition",
     ]
 
-    CONDITIOINS = [
+    CONDITIONS = [
         "medical_condition_obesity",
         "medical_condition_diabetes",
         "medical_condition_hypertension",
@@ -92,7 +92,7 @@ class HealthCheckProfileForm(BaseFormAction):
 
         # expanded questions when user has underlying medical conditions
         if tracker.get_slot("medical_condition") != "no":
-            slots = cls.SLOTS + cls.CONDITIOINS
+            slots = cls.SLOTS + cls.CONDITIONS
 
         for slot in slots:
             if not tracker.get_slot(slot):
