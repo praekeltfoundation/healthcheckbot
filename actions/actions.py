@@ -1,15 +1,14 @@
 import logging
-import requests
-
-from actions import config
+from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
-from typing import Any, Dict, List, Optional, Text, Union
-
+import requests
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
+
+from actions import config
 
 logger = logging.getLogger(__name__)
 
