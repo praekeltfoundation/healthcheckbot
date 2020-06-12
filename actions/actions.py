@@ -10,7 +10,7 @@
 from typing import Any, Dict, List, Optional, Text, Union
 
 from rasa_sdk import Tracker
-from rasa_sdk.events import AllSlotsReset, SlotSet
+from rasa_sdk.events import AllSlotsReset, SlotSet, FollowupAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 
@@ -30,12 +30,16 @@ class HealthCheckProfileForm(FormAction):
             "age",
             "gender",
             "province",
+            "location",
+            "location_confirm",
             "medical_condition",
         ]
         slots_with_conditions = [
             "age",
             "gender",
             "province",
+            "location",
+            "location_confirm",
             "medical_condition",
             "medical_condition_obesity",
             "medical_condition_diabetes",
@@ -95,6 +99,13 @@ class HealthCheckProfileForm(FormAction):
             "province": [
                 self.from_entity(entity="number"),
                 self.from_entity(intent="inform", entity="province"),
+                self.from_text(),
+            ],
+            "location": [self.from_entity(entity="text"), self.from_text()],
+            "location_confirm": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
             "medical_condition": [
@@ -176,6 +187,33 @@ class HealthCheckProfileForm(FormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
+
+    def validate_location(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        # TODO: Call Google Places API
+        return {"location": value}
+
+    def validate_location_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        loc_confirm = self.validate_generic(
+            "location_confirm", dispatcher, value, self.yes_no_data
+        )
+        if loc_confirm["location_confirm"] and loc_confirm["location_confirm"] in [
+            "no",
+            1,
+        ]:
+            return {"location_confirm": None, "location": None}
+        return loc_confirm
 
     def validate_medical_condition(
         self,
@@ -453,6 +491,8 @@ class ActionResetAllButFewSlots(Action):
         age = tracker.get_slot("age")
         gender = tracker.get_slot("gender")
         province = tracker.get_slot("province")
+        location = tracker.get_slot("location")
+        location_confirm = tracker.get_slot("location_confirm")
         medical_condition = tracker.get_slot("medical_condition")
         medical_condition_obesity = tracker.get_slot("medical_condition_obesity")
         medical_condition_diabetes = tracker.get_slot("medical_condition_diabetes")
@@ -465,6 +505,8 @@ class ActionResetAllButFewSlots(Action):
             SlotSet("age", age),
             SlotSet("gender", gender),
             SlotSet("province", province),
+            SlotSet("location", location),
+            SlotSet("location_confirm", location_confirm),
             SlotSet("medical_condition", medical_condition),
             SlotSet("medical_condition_obesity", medical_condition_obesity),
             SlotSet("medical_condition_diabetes", medical_condition_diabetes),
