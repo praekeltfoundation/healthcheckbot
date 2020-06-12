@@ -1,6 +1,5 @@
 import logging
 from functools import partial
-
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
@@ -409,7 +408,9 @@ class HealthCheckForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("symptoms_fever", dispatcher, value, self.yes_no_data)
+        return self.validate_generic(
+            "symptoms_fever", dispatcher, value, self.yes_no_data
+        )
 
     def validate_symptoms_cough(
         self,
@@ -418,7 +419,9 @@ class HealthCheckForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("symptoms_cough", dispatcher, value, self.yes_no_data)
+        return self.validate_generic(
+            "symptoms_cough", dispatcher, value, self.yes_no_data
+        )
 
     def validate_symptoms_sore_throat(
         self,
@@ -427,7 +430,9 @@ class HealthCheckForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("symptoms_sore_throat", dispatcher, value, self.yes_no_data)
+        return self.validate_generic(
+            "symptoms_sore_throat", dispatcher, value, self.yes_no_data
+        )
 
     def validate_symptoms_difficulty_breathing(
         self,
@@ -447,7 +452,9 @@ class HealthCheckForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("symptoms_taste_smell", dispatcher, value, self.yes_no_data)
+        return self.validate_generic(
+            "symptoms_taste_smell", dispatcher, value, self.yes_no_data
+        )
 
     def validate_exposure(
         self,
@@ -487,7 +494,9 @@ class HealthCheckForm(BaseFormAction):
                 if slot.startswith("symptoms_")
             ],
         )()
-        data.update({"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")})
+        data.update(
+            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
+        )
         risk = utils.get_risk_level(data)
         dispatcher.utter_message(template=f"utter_risk_{risk}")
         return []
