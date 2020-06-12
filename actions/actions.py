@@ -248,10 +248,7 @@ class HealthCheckProfileForm(BaseFormAction):
         loc_confirm = self.validate_generic(
             "location_confirm", dispatcher, value, self.yes_no_data
         )
-        if loc_confirm["location_confirm"] and loc_confirm["location_confirm"] in [
-            "no",
-            1,
-        ]:
+        if loc_confirm["location_confirm"] and loc_confirm["location_confirm"] == "no":
             return {"location_confirm": None, "location": None}
         return loc_confirm
 
