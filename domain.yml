@@ -156,13 +156,14 @@ responses:
         Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?
 
   utter_ask_location_confirm:
-    - text: "We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:\n
-            ----------------------------\n
-            {location}\n
-            ----------------------------\n
-            Reply:\n
-            *1.* YES\n
-            *2.* NO"
+    - text: |
+        We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:\n
+        ----------------------------
+        {location}
+        ----------------------------
+        Reply:
+        *1.* YES
+        *2.* NO
 
   utter_ask_medical_condition:
     - text: |
