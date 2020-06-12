@@ -11,22 +11,63 @@ entities:
 
 actions:
   - action_reset_all_but_few_slots
-  - utter_ask_province
   - utter_ask_age
+  - utter_ask_gender
+  - utter_ask_province
+  - utter_ask_medical_condition
+  - utter_ask_medical_condition_obesity
+  - utter_ask_medical_condition_diabetes
+  - utter_ask_medical_condition_hypertension
+  - utter_ask_medical_condition_cardio
+  - utter_start_health_check
+  - utter_ask_fever
   - utter_ask_cough
+  - utter_ask_sore_throat
+  - utter_ask_difficulty_breathing
+  - utter_ask_taste_smell
   - utter_ask_exposure
   - utter_ask_tracing
   - utter_submit
   - utter_slots_values
 
 slots:
-  province:
-    type: unfeaturized
-    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
+  gender:
+    type: unfeaturized
+    auto_fill: false
+  province:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  fever:
+    type: unfeaturized
+    auto_fill: false
   cough:
+    type: unfeaturized
+    auto_fill: false
+  sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  taste_smell:
     type: unfeaturized
     auto_fill: false
   exposure:
@@ -40,11 +81,14 @@ slots:
 
 forms:
   - healthcheck_form
+  - healthcheck_profile_form
 
 responses:
   utter_ask_province:
       - text: |
           In which Province are you currently residing?
+
+          Reply:
           *1.* EASTERN CAPE
           *2.* FREE STATE
           *3.* GAUTENG
@@ -62,12 +106,77 @@ responses:
 
   utter_ask_age:
     - text: |
-        "How old are you?
+        How old are you?
 
+        Reply:
         *1.* <18
         *2.* 18-39
         *3.* 40-65
-        *4.* >65"
+        *4.* >65
+
+  utter_ask_gender:
+    - text: |
+        Please provide us with the gender you identify as:
+
+        Reply:
+        *1.* MALE
+        *2.* FEMALE
+        *3.* OTHER
+        *4.* RATHER NOT SAY
+
+  utter_ask_medical_condition:
+    - text: |
+        Do you have any other pre-existing medical conditions that we should be aware of?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
+
+  utter_ask_medical_condition_obesity:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Obesity?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_diabetes:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Diabetes?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_hypertension:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Hypertension?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_cardio:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Cardiovascular Disease?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_start_health_check:
+    - text: "Let's see how you are feeling today 💟"
+
+  utter_ask_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?
+
+        Reply:
+        *1.* YES
+        *2.* NO
 
   utter_ask_cough:
     - text: |
@@ -75,17 +184,47 @@ responses:
 
         Do you have a cough that recently started?
 
-        Reply
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Do you have a sore throat or pain when swallowing?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬛⬜⬜⬜
+
+        Do you have breathlessness or a difficulty breathing, that you’ve noticed recently?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Have you noticed any recent changes in your ability to taste or smell things?
+
+        Reply:
         *1.* YES
         *2.* NO
 
   utter_ask_exposure:
     - text: |
-        "⬛⬛⬛⬛⬛⬛⬜
+        ⬛⬛⬛⬛⬛⬛⬜
 
         Have you been in close contact to someone confirmed to be infected with COVID19?
 
-        Reply
+        Reply:
         *1.* YES
         *2.* NO
         *3.* NOT SURE
@@ -96,7 +235,7 @@ responses:
 
         Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?
 
-        Reply
+        Reply:
         *1.* YES
         *2.* NO
 
@@ -107,7 +246,17 @@ responses:
     - text: "I am going to save your responses using the following parameters:\n
              - province: {province}\n
              - age: {age}\n
+             - gender: {gender}\n
+             - medical_condition: {medical_condition}\n
+             - medical_condition_obesity: {medical_condition_obesity}\n
+             - medical_condition_diabetes: {medical_condition_diabetes}\n
+             - medical_condition_hypertension: {medical_condition_hypertension}\n
+             - medical_condition_cardio: {medical_condition_cardio}\n
+             - fever: {fever}\n
              - cough: {cough}\n
+             - sore_throat: {sore_throat}\n
+             - difficulty_breathing: {difficulty_breathing}\n
+             - taste_smell: {taste_smell}\n
              - exposure: {exposure}\n
              - tracing: {tracing}"
 
