@@ -48,6 +48,12 @@ slots:
   location_confirm:
     type: unfeaturized
     auto_fill: false
+  latitude:
+    type: unfeaturized
+    auto_fill: false
+  longitude:
+    type: unfeaturized
+    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -111,6 +117,10 @@ responses:
     - text: |
         This service works best when you use the options provided in *BOLD*.
         📌Reply *MENU* to return to the main menu
+
+  utter_incorrect_location:
+    - text: |
+        If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
 
   utter_ask_age:
     - text: |
@@ -278,6 +288,8 @@ responses:
              - age: {age}\n
              - gender: {gender}\n
              - location: {location}\n
+             - latitude: {latitude}\n
+             - longitude: {longitude}\n
              - medical_condition: {medical_condition}\n
              - medical_condition_obesity: {medical_condition_obesity}\n
              - medical_condition_diabetes: {medical_condition_diabetes}\n

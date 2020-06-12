@@ -1,11 +1,8 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/core/actions/#custom-actions/
+import logging
+import requests
 
-
-# This is a simple example for a custom action which utters "Hello World!"
+from actions import config
+from urllib.parse import urlencode
 
 from typing import Any, Dict, List, Optional, Text, Union
 
@@ -13,6 +10,8 @@ from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet, FollowupAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
+
+logger = logging.getLogger(__name__)
 
 
 class BaseFormAction(FormAction):
@@ -67,6 +66,8 @@ class HealthCheckProfileForm(BaseFormAction):
         "province",
         "location",
         "location_confirm",
+        "latitude",
+        "longitude",
         "medical_condition",
     ]
 
@@ -199,7 +200,43 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        # TODO: Call Google Places API
+        if not value:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {field: None}
+
+        if not config.GOOGLE_PLACES_API_KEY:
+            return {
+                "location": value,
+                "latitude": "null",
+                "longitude": "null",
+            }
+
+        querystring = urlencode(
+            {
+                "key": config.GOOGLE_PLACES_API_KEY,
+                "input": value,
+                "language": "en",
+                "inputtype": "textquery",
+                "fields": "formatted_address,geometry",
+            }
+        )
+        response = requests.get(
+            f"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?{querystring}"
+        )
+        location = response.json()
+        if location["candidates"]:
+            formatted_address = location["candidates"][0]["formatted_address"]
+            geometry = location["candidates"][0]["geometry"]["location"]
+            latitude = geometry["lat"]
+            longitude = geometry["lng"]
+            return {
+                "location": formatted_address,
+                "latitude": latitude,
+                "longitude": longitude,
+            }
+        else:
+            dispatcher.utter_message(template="utter_incorrect_location")
+            return {"location": None}
         return {"location": value}
 
     def validate_location_confirm(
