@@ -237,7 +237,6 @@ class HealthCheckProfileForm(BaseFormAction):
         else:
             dispatcher.utter_message(template="utter_incorrect_location")
             return {"location": None}
-        return {"location": value}
 
     def validate_location_confirm(
         self,
