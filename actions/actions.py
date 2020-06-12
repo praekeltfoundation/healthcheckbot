@@ -1,18 +1,16 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/core/actions/#custom-actions/
-
-
-# This is a simple example for a custom action which utters "Hello World!"
-
+import logging
 from typing import Any, Dict, List, Optional, Text, Union
+from urllib.parse import urlencode
 
+import requests
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
+
+from actions import config
+
+logger = logging.getLogger(__name__)
 
 
 class BaseFormAction(FormAction):
@@ -65,6 +63,8 @@ class HealthCheckProfileForm(BaseFormAction):
         "age",
         "gender",
         "province",
+        "location",
+        "location_confirm",
         "medical_condition",
     ]
 
@@ -121,6 +121,13 @@ class HealthCheckProfileForm(BaseFormAction):
             "province": [
                 self.from_entity(entity="number"),
                 self.from_entity(intent="inform", entity="province"),
+                self.from_text(),
+            ],
+            "location": [self.from_text()],
+            "location_confirm": [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
             "medical_condition": [
@@ -182,6 +189,68 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
+
+    def validate_location(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        if not value:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {"location": None}
+
+        if not config.GOOGLE_PLACES_API_KEY:
+            return {
+                "location": value,
+                "latitude": "null",
+                "longitude": "null",
+            }
+
+        querystring = urlencode(
+            {
+                "key": config.GOOGLE_PLACES_API_KEY,
+                "input": value,
+                "language": "en",
+                "inputtype": "textquery",
+                "fields": "formatted_address,geometry",
+            }
+        )
+        response = requests.get(
+            (
+                f"https://maps.googleapis.com"
+                f"/maps/api/place/findplacefromtext/json?{querystring}"
+            )
+        )
+        location = response.json()
+        if location["candidates"]:
+            formatted_address = location["candidates"][0]["formatted_address"]
+            geometry = location["candidates"][0]["geometry"]["location"]
+            latitude = geometry["lat"]
+            longitude = geometry["lng"]
+            return {
+                "location": formatted_address,
+                "latitude": latitude,
+                "longitude": longitude,
+            }
+        else:
+            dispatcher.utter_message(template="utter_incorrect_location")
+            return {"location": None}
+
+    def validate_location_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        loc_confirm = self.validate_generic(
+            "location_confirm", dispatcher, value, self.yes_no_data
+        )
+        if loc_confirm["location_confirm"] and loc_confirm["location_confirm"] == "no":
+            return {"location_confirm": None, "location": None}
+        return loc_confirm
 
     def validate_medical_condition(
         self,

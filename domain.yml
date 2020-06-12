@@ -14,6 +14,8 @@ actions:
   - utter_ask_age
   - utter_ask_gender
   - utter_ask_province
+  - utter_ask_location
+  - utter_ask_location_confirm
   - utter_ask_medical_condition
   - utter_ask_medical_condition_obesity
   - utter_ask_medical_condition_diabetes
@@ -38,6 +40,18 @@ slots:
     type: unfeaturized
     auto_fill: false
   province:
+    type: unfeaturized
+    auto_fill: false
+  location:
+    type: unfeaturized
+    auto_fill: false
+  location_confirm:
+    type: unfeaturized
+    auto_fill: false
+  latitude:
+    type: unfeaturized
+    auto_fill: false
+  longitude:
     type: unfeaturized
     auto_fill: false
   medical_condition:
@@ -104,6 +118,10 @@ responses:
         This service works best when you use the options provided in *BOLD*.
         📌Reply *MENU* to return to the main menu
 
+  utter_incorrect_location:
+    - text: |
+        If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
+
   utter_ask_age:
     - text: |
         How old are you?
@@ -123,6 +141,29 @@ responses:
         *2.* FEMALE
         *3.* OTHER
         *4.* RATHER NOT SAY
+
+  utter_ask_location:
+    - text: |
+        We need to collect your location.
+
+        Please share your location 📍 using WhatsApp by following these steps:
+        - Tap the attach icon (+ or  📎) on the bottom of WhatsApp.
+        - Select location
+        - This will bring up a map with a pin showing your current location. Tap *Send Your Current Location* if this is your address.
+        - You can also choose from various other nearby locations if you think that the GPS is a bit off.
+
+
+        Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?
+
+  utter_ask_location_confirm:
+    - text: |
+        We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:\n
+        ----------------------------
+        {location}
+        ----------------------------
+        Reply:
+        *1.* YES
+        *2.* NO
 
   utter_ask_medical_condition:
     - text: |
@@ -247,6 +288,9 @@ responses:
              - province: {province}\n
              - age: {age}\n
              - gender: {gender}\n
+             - location: {location}\n
+             - latitude: {latitude}\n
+             - longitude: {longitude}\n
              - medical_condition: {medical_condition}\n
              - medical_condition_obesity: {medical_condition_obesity}\n
              - medical_condition_diabetes: {medical_condition_diabetes}\n
