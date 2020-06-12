@@ -127,10 +127,10 @@ responses:
         Please provide us with the gender you identify as:
 
         Reply:
-        1. MALE
-        2. FEMALE
-        3. OTHER
-        4. RATHER NOT SAY
+        *1.* MALE
+        *2.* FEMALE
+        *3.* OTHER
+        *4.* RATHER NOT SAY
 
   utter_ask_location:
     - text: |

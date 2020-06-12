@@ -15,37 +15,77 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 
 
-class HealthCheckProfileForm(FormAction):
+class BaseFormAction(FormAction):
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "base_form"
+
+    @property
+    def yes_no_data(self) -> Dict[int, Text]:
+        return {1: "yes", 2: "no"}
+
+    @property
+    def yes_no_maybe_data(self) -> Dict[int, Text]:
+        return {1: "yes", 2: "no", 3: "not sure"}
+
+    @staticmethod
+    def is_int(value: Text) -> bool:
+        try:
+            int(value)
+            return True
+        except ValueError:
+            return False
+
+    def validate_generic(
+        self,
+        field: Text,
+        dispatcher: CollectingDispatcher,
+        value: Text,
+        data: Dict[int, Text],
+    ) -> Dict[Text, Optional[Text]]:
+        """
+        Validates that the value is either:
+        - One of the values
+        - An integer that is one of the keys
+        """
+        if value and value.lower() in data.values():
+            return {field: value}
+        elif self.is_int(value) and int(value) in data:
+            return {field: data[int(value)]}
+        else:
+            dispatcher.utter_message(template="utter_incorrect_selection")
+            return {field: None}
+
+
+class HealthCheckProfileForm(BaseFormAction):
     """HealthCheck form action"""
+
+    SLOTS = [
+        "age",
+        "gender",
+        "province",
+        "location",
+        "location_confirm",
+        "medical_condition",
+    ]
+
+    CONDITIONS = [
+        "medical_condition_obesity",
+        "medical_condition_diabetes",
+        "medical_condition_hypertension",
+        "medical_condition_cardio",
+    ]
 
     def name(self) -> Text:
         """Unique identifier of the form"""
 
         return "healthcheck_profile_form"
 
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
+    @classmethod
+    def required_slots(cls, tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = [
-            "age",
-            "gender",
-            "province",
-            "location",
-            "location_confirm",
-            "medical_condition",
-        ]
-        slots_with_conditions = [
-            "age",
-            "gender",
-            "province",
-            "location",
-            "location_confirm",
-            "medical_condition",
-            "medical_condition_obesity",
-            "medical_condition_diabetes",
-            "medical_condition_hypertension",
-            "medical_condition_cardio",
-        ]
+        slots = cls.SLOTS
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
@@ -54,7 +94,7 @@ class HealthCheckProfileForm(FormAction):
 
         # expanded questions when user has underlying medical conditions
         if tracker.get_slot("medical_condition") != "no":
-            slots = slots_with_conditions
+            slots = cls.SLOTS + cls.CONDITIONS
 
         for slot in slots:
             if not tracker.get_slot(slot):
@@ -75,22 +115,6 @@ class HealthCheckProfileForm(FormAction):
     def gender_data(self) -> Dict[int, Text]:
         with open("data/lookup_tables/gender.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
-
-    @property
-    def yes_no_data(self) -> Dict[int, Text]:
-        return {1: "yes", 2: "no"}
-
-    @property
-    def yes_no_maybe_data(self) -> Dict[int, Text]:
-        return {1: "yes", 2: "no", 3: "not sure"}
-
-    @staticmethod
-    def is_int(value: Text) -> bool:
-        try:
-            int(value)
-            return True
-        except ValueError:
-            return False
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
@@ -140,26 +164,6 @@ class HealthCheckProfileForm(FormAction):
                 self.from_text(),
             ],
         }
-
-    def validate_generic(
-        self,
-        field: Text,
-        dispatcher: CollectingDispatcher,
-        value: Text,
-        data: Dict[int, Text],
-    ) -> Dict[Text, Optional[Text]]:
-        """
-        Validates that the value is either:
-        - One of the values
-        - An integer that is one of the keys
-        """
-        if value and value.lower() in data.values():
-            return {field: value}
-        elif self.is_int(value) and int(value) in data:
-            return {field: data[int(value)]}
-        else:
-            dispatcher.utter_message(template="utter_incorrect_selection")
-            return {field: None}
 
     def validate_age(
         self,
@@ -283,7 +287,7 @@ class HealthCheckProfileForm(FormAction):
         return []
 
 
-class HealthCheckForm(FormAction):
+class HealthCheckForm(BaseFormAction):
     """HealthCheck form action"""
 
     def name(self) -> Text:
@@ -313,22 +317,6 @@ class HealthCheckForm(FormAction):
             if not tracker.get_slot(slot):
                 return [slot]
         return []
-
-    @property
-    def yes_no_data(self) -> Dict[int, Text]:
-        return {1: "yes", 2: "no"}
-
-    @property
-    def yes_no_maybe_data(self) -> Dict[int, Text]:
-        return {1: "yes", 2: "no", 3: "not sure"}
-
-    @staticmethod
-    def is_int(value: Text) -> bool:
-        try:
-            int(value)
-            return True
-        except ValueError:
-            return False
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
@@ -376,26 +364,6 @@ class HealthCheckForm(FormAction):
                 self.from_text(),
             ],
         }
-
-    def validate_generic(
-        self,
-        field: Text,
-        dispatcher: CollectingDispatcher,
-        value: Text,
-        data: Dict[int, Text],
-    ) -> Dict[Text, Optional[Text]]:
-        """
-        Validates that the value is either:
-        - One of the values
-        - An integer that is one of the keys
-        """
-        if value and value.lower() in data.values():
-            return {field: value}
-        elif self.is_int(value) and int(value) in data:
-            return {field: data[int(value)]}
-        else:
-            dispatcher.utter_message(template="utter_incorrect_selection")
-            return {field: None}
 
     def validate_fever(
         self,
@@ -488,28 +456,7 @@ class ActionResetAllButFewSlots(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        age = tracker.get_slot("age")
-        gender = tracker.get_slot("gender")
-        province = tracker.get_slot("province")
-        location = tracker.get_slot("location")
-        location_confirm = tracker.get_slot("location_confirm")
-        medical_condition = tracker.get_slot("medical_condition")
-        medical_condition_obesity = tracker.get_slot("medical_condition_obesity")
-        medical_condition_diabetes = tracker.get_slot("medical_condition_diabetes")
-        medical_condition_hypertension = tracker.get_slot(
-            "medical_condition_hypertension"
-        )
-        medical_condition_cardio = tracker.get_slot("medical_condition_cardio")
-        return [
-            AllSlotsReset(),
-            SlotSet("age", age),
-            SlotSet("gender", gender),
-            SlotSet("province", province),
-            SlotSet("location", location),
-            SlotSet("location_confirm", location_confirm),
-            SlotSet("medical_condition", medical_condition),
-            SlotSet("medical_condition_obesity", medical_condition_obesity),
-            SlotSet("medical_condition_diabetes", medical_condition_diabetes),
-            SlotSet("medical_condition_hypertension", medical_condition_hypertension),
-            SlotSet("medical_condition_cardio", medical_condition_cardio),
-        ]
+        actions = [AllSlotsReset()]
+        for slot in HealthCheckProfileForm.SLOTS + HealthCheckProfileForm.CONDITIONS:
+            actions.append(SlotSet(slot, tracker.get_slot(slot)))
+        return actions
