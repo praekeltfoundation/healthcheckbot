@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 from typing import Any, Dict, List, Optional, Text, Union
 
 from rasa_sdk import Tracker
-from rasa_sdk.events import AllSlotsReset, SlotSet, FollowupAction
+from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 
@@ -202,7 +202,7 @@ class HealthCheckProfileForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         if not value:
             dispatcher.utter_message(template="utter_incorrect_selection")
-            return {field: None}
+            return {"location": None}
 
         if not config.GOOGLE_PLACES_API_KEY:
             return {
@@ -221,7 +221,10 @@ class HealthCheckProfileForm(BaseFormAction):
             }
         )
         response = requests.get(
-            f"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?{querystring}"
+            (
+                f"https://maps.googleapis.com"
+                f"/maps/api/place/findplacefromtext/json?{querystring}"
+            )
         )
         location = response.json()
         if location["candidates"]:
