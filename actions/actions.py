@@ -127,7 +127,7 @@ class HealthCheckProfileForm(FormAction):
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
                 self.from_text(),
-            ]
+            ],
         }
 
     def validate_generic(
@@ -456,7 +456,9 @@ class ActionResetAllButFewSlots(Action):
         medical_condition = tracker.get_slot("medical_condition")
         medical_condition_obesity = tracker.get_slot("medical_condition_obesity")
         medical_condition_diabetes = tracker.get_slot("medical_condition_diabetes")
-        medical_condition_hypertension = tracker.get_slot("medical_condition_hypertension")
+        medical_condition_hypertension = tracker.get_slot(
+            "medical_condition_hypertension"
+        )
         medical_condition_cardio = tracker.get_slot("medical_condition_cardio")
         return [
             AllSlotsReset(),
