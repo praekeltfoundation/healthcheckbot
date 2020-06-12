@@ -492,11 +492,13 @@ class HealthCheckForm(BaseFormAction):
                 (slot, tracker.get_slot(slot))
                 for slot in self.SLOTS
                 if slot.startswith("symptoms_")
+            ]
+            + [
+                ("exposure", tracker.get_slot("exposure")),
+                ("age", tracker.get_slot("age")),
             ],
         )()
-        data.update(
-            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
-        )
+
         risk = utils.get_risk_level(data)
         dispatcher.utter_message(template=f"utter_risk_{risk}")
         return []
