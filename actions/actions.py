@@ -197,6 +197,16 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
+        metadata = tracker.latest_message.get("metadata")
+
+        # Use location pin data if submitted
+        if metadata and metadata.get("type") == "location":
+            return {
+                "location": tracker.metadata["location"]["address"],
+                "latitude": tracker.metadata["location"]["latitude"],
+                "longitude": tracker.metadata["location"]["longitude"],
+            }
+
         if not value:
             dispatcher.utter_message(template="utter_incorrect_selection")
             return {"location": None}
