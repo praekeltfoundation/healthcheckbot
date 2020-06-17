@@ -1,5 +1,4 @@
 import logging
-
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
