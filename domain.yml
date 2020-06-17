@@ -33,7 +33,6 @@ actions:
   - utter_risk_low
   - utter_risk_moderate
   - utter_risk_high
-  - utter_slots_values
 
 slots:
   age:
@@ -326,27 +325,6 @@ responses:
 
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
-
-  utter_slots_values:
-    - text: "I am going to save your responses using the following parameters:\n
-             - province: {province}\n
-             - age: {age}\n
-             - gender: {gender}\n
-             - location: {location}\n
-             - latitude: {latitude}\n
-             - longitude: {longitude}\n
-             - medical_condition: {medical_condition}\n
-             - medical_condition_obesity: {medical_condition_obesity}\n
-             - medical_condition_diabetes: {medical_condition_diabetes}\n
-             - medical_condition_hypertension: {medical_condition_hypertension}\n
-             - medical_condition_cardio: {medical_condition_cardio}\n
-             - fever: {symptoms_fever}\n
-             - cough: {symptoms_cough}\n
-             - sore_throat: {symptoms_sore_throat}\n
-             - difficulty_breathing: {symptoms_difficulty_breathing}\n
-             - taste_smell: {symptoms_taste_smell}\n
-             - exposure: {exposure}\n
-             - tracing: {tracing}"
 
 session_config:
   session_expiration_time: 1
