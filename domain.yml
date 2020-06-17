@@ -159,7 +159,7 @@ responses:
 
   utter_ask_location_confirm:
     - text: |
-        We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:\n
+        We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
         ----------------------------
         {location}
         ----------------------------
