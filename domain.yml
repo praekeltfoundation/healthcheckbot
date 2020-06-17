@@ -33,7 +33,6 @@ actions:
   - utter_risk_low
   - utter_risk_moderate
   - utter_risk_high
-  - utter_risk_not_sure
   - utter_slots_values
 
 slots:
@@ -327,9 +326,6 @@ responses:
 
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
-
-  utter_risk_not_sure:
-    - text: "Your risk assessment: ????"
 
   utter_slots_values:
     - text: "I am going to save your responses using the following parameters:\n
