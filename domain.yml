@@ -22,15 +22,17 @@ actions:
   - utter_ask_medical_condition_hypertension
   - utter_ask_medical_condition_cardio
   - utter_start_health_check
-  - utter_ask_fever
-  - utter_ask_cough
-  - utter_ask_sore_throat
-  - utter_ask_difficulty_breathing
-  - utter_ask_taste_smell
+  - utter_ask_symptoms_fever
+  - utter_ask_symptoms_cough
+  - utter_ask_symptoms_sore_throat
+  - utter_ask_symptoms_difficulty_breathing
+  - utter_ask_symptoms_taste_smell
   - utter_ask_exposure
   - utter_ask_tracing
   - utter_submit
-  - utter_slots_values
+  - utter_risk_low
+  - utter_risk_moderate
+  - utter_risk_high
 
 slots:
   age:
@@ -69,19 +71,19 @@ slots:
   medical_condition_cardio:
     type: unfeaturized
     auto_fill: false
-  fever:
+  symptoms_fever:
     type: unfeaturized
     auto_fill: false
-  cough:
+  symptoms_cough:
     type: unfeaturized
     auto_fill: false
-  sore_throat:
+  symptoms_sore_throat:
     type: unfeaturized
     auto_fill: false
-  difficulty_breathing:
+  symptoms_difficulty_breathing:
     type: unfeaturized
     auto_fill: false
-  taste_smell:
+  symptoms_taste_smell:
     type: unfeaturized
     auto_fill: false
   exposure:
@@ -209,7 +211,7 @@ responses:
   utter_start_health_check:
     - text: "Let's see how you are feeling today 💟"
 
-  utter_ask_fever:
+  utter_ask_symptoms_fever:
     - text: |
         ⬛⬜⬜⬜⬜⬜⬜
 
@@ -219,7 +221,7 @@ responses:
         *1.* YES
         *2.* NO
 
-  utter_ask_cough:
+  utter_ask_symptoms_cough:
     - text: |
         ⬛⬛⬜⬜⬜⬜⬜
 
@@ -229,7 +231,7 @@ responses:
         *1.* YES
         *2.* NO
 
-  utter_ask_sore_throat:
+  utter_ask_symptoms_sore_throat:
     - text: |
         ⬛⬛⬛⬜⬜⬜⬜
 
@@ -239,7 +241,7 @@ responses:
         *1.* YES
         *2.* NO
 
-  utter_ask_difficulty_breathing:
+  utter_ask_symptoms_difficulty_breathing:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
@@ -249,7 +251,7 @@ responses:
         *1.* YES
         *2.* NO
 
-  utter_ask_taste_smell:
+  utter_ask_symptoms_taste_smell:
     - text: |
         ⬛⬛⬛⬛⬛⬜⬜
 
@@ -283,26 +285,46 @@ responses:
   utter_submit:
     - text: "All done!"
 
-  utter_slots_values:
-    - text: "I am going to save your responses using the following parameters:\n
-             - province: {province}\n
-             - age: {age}\n
-             - gender: {gender}\n
-             - location: {location}\n
-             - latitude: {latitude}\n
-             - longitude: {longitude}\n
-             - medical_condition: {medical_condition}\n
-             - medical_condition_obesity: {medical_condition_obesity}\n
-             - medical_condition_diabetes: {medical_condition_diabetes}\n
-             - medical_condition_hypertension: {medical_condition_hypertension}\n
-             - medical_condition_cardio: {medical_condition_cardio}\n
-             - fever: {fever}\n
-             - cough: {cough}\n
-             - sore_throat: {sore_throat}\n
-             - difficulty_breathing: {difficulty_breathing}\n
-             - taste_smell: {taste_smell}\n
-             - exposure: {exposure}\n
-             - tracing: {tracing}"
+  utter_risk_low:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
+      text: |
+        Thank you for answering all questions.
+
+        Based on your responses, you are at low risk of having COVID-19 and you won't need to complete this risk assessment again for the next 7 days.
+        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 within the next 7 days, please take this risk assessment again
+
+        🤒 Reply with *SYMPTOMS* for more information
+        📌 Reply with *MENU* to return to the main menu
+
+  utter_risk_moderate:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+      text: |
+        *Based on your responses, we recommend that you self-quarantine for the next 14 days and complete this HealthCheck daily to self monitor your symptoms.*
+
+        If possible, stay and sleep alone in a room that has a window with good air flowing through.
+        - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
+        - You should not have visitors at your house during this time.
+        - One family member should be assigned as your caregiver. This exposes less of your family and also ensures that you and this caregiver can develop good habits so that they do not catch the virus from you.
+        - If these procedures are not possible, you should contact your health care worker or clinic for alternative options.
+
+        Reply with *QUARANTINE* for more information on how to self-quarantine
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
+
+  utter_risk_high:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
+      text: |
+        *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
+
+        Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so.
+
+        Follow these important steps when seeking care:
+        - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
+        - Ensure you put on a face mask before you enter a healthcare facility.
+
+        If you have or start getting severe symptoms, seek medical care urgently.
+
+        Reply with *QUARANTINE* for more information on how to self-quarantine
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
 session_config:
   session_expiration_time: 1

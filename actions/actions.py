@@ -8,7 +8,7 @@ from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 
-from actions import config
+from actions import config, utils
 
 logger = logging.getLogger(__name__)
 
@@ -334,61 +334,63 @@ class HealthCheckProfileForm(BaseFormAction):
 class HealthCheckForm(BaseFormAction):
     """HealthCheck form action"""
 
+    SLOTS = [
+        "symptoms_fever",
+        "symptoms_cough",
+        "symptoms_sore_throat",
+        "symptoms_difficulty_breathing",
+        "symptoms_taste_smell",
+        "exposure",
+        "tracing",
+    ]
+
     def name(self) -> Text:
         """Unique identifier of the form"""
 
         return "healthcheck_form"
 
-    @staticmethod
-    def required_slots(tracker: Tracker) -> List[Text]:
+    @classmethod
+    def required_slots(cls, tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = [
-            "fever",
-            "cough",
-            "sore_throat",
-            "difficulty_breathing",
-            "taste_smell",
-            "exposure",
-            "tracing",
-        ]
+
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
         # that it's required to fill is just a single slot, the first
         # slot that hasn't been filled yet.
 
-        for slot in slots:
+        for slot in cls.SLOTS:
             if not tracker.get_slot(slot):
                 return [slot]
         return []
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
-            "fever": [
+            "symptoms_fever": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
-            "cough": [
+            "symptoms_cough": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
-            "sore_throat": [
+            "symptoms_sore_throat": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
-            "difficulty_breathing": [
+            "symptoms_difficulty_breathing": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ],
-            "taste_smell": [
+            "symptoms_taste_smell": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
                 self.from_intent(intent="deny", value="no"),
@@ -409,34 +411,7 @@ class HealthCheckForm(BaseFormAction):
             ],
         }
 
-    def validate_fever(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("fever", dispatcher, value, self.yes_no_data)
-
-    def validate_cough(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("cough", dispatcher, value, self.yes_no_data)
-
-    def validate_sore_throat(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("sore_throat", dispatcher, value, self.yes_no_data)
-
-    def validate_difficulty_breathing(
+    def validate_symptoms_fever(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
@@ -444,17 +419,52 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "difficulty_breathing", dispatcher, value, self.yes_no_data
+            "symptoms_fever", dispatcher, value, self.yes_no_data
         )
 
-    def validate_taste_smell(
+    def validate_symptoms_cough(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("taste_smell", dispatcher, value, self.yes_no_data)
+        return self.validate_generic(
+            "symptoms_cough", dispatcher, value, self.yes_no_data
+        )
+
+    def validate_symptoms_sore_throat(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "symptoms_sore_throat", dispatcher, value, self.yes_no_data
+        )
+
+    def validate_symptoms_difficulty_breathing(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "symptoms_difficulty_breathing", dispatcher, value, self.yes_no_data
+        )
+
+    def validate_symptoms_taste_smell(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "symptoms_taste_smell", dispatcher, value, self.yes_no_data
+        )
 
     def validate_exposure(
         self,
@@ -484,9 +494,17 @@ class HealthCheckForm(BaseFormAction):
     ) -> List[Dict]:
         """Define what the form has to do
             after all required slots are filled"""
+        data = {
+            slot: tracker.get_slot(slot)
+            for slot in self.SLOTS
+            if slot.startswith("symptoms_")
+        }
+        data.update(
+            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
+        )
 
-        # utter submit template
-        dispatcher.utter_message(template="utter_submit")
+        risk = utils.get_risk_level(data)
+        dispatcher.utter_message(template=f"utter_risk_{risk}")
         return []
 
 
