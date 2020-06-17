@@ -201,11 +201,12 @@ class HealthCheckProfileForm(BaseFormAction):
 
         # Use location pin data if submitted
         if metadata and metadata.get("type") == "location":
-            return {
-                "location": tracker.metadata["location"]["address"],
-                "latitude": tracker.metadata["location"]["latitude"],
-                "longitude": tracker.metadata["location"]["longitude"],
-            }
+            latitude = (tracker.metadata["location"]["latitude"],)
+            longitude = (tracker.metadata["location"]["longitude"],)
+            address = tracker.metadata["location"].get("address")
+            if not address:
+                address = f"GPS: {latitude}, {longitude}"
+            return {"location": address, "latitude": latitude, "longitude": longitude}
 
         if not value:
             dispatcher.utter_message(template="utter_incorrect_selection")
