@@ -286,8 +286,8 @@ responses:
     - text: "All done!"
 
   utter_risk_low:
-    - text: |
-        <insert-low-risk-image-uuid> 💚
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
+      text: |
         Thank you for answering all questions.
 
         Based on your responses, you are at low risk of having COVID-19 and you won't need to complete this risk assessment again for the next 7 days.
@@ -297,8 +297,8 @@ responses:
         📌 Reply with *MENU* to return to the main menu
 
   utter_risk_moderate:
-    - text: |
-        <insert-moderate-risk-image-uuid> 💛
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+      text: |
         *Based on your responses, we recommend that you self-quarantine for the next 14 days and complete this HealthCheck daily to self monitor your symptoms.*
 
         If possible, stay and sleep alone in a room that has a window with good air flowing through.
@@ -311,8 +311,8 @@ responses:
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
   utter_risk_high:
-    - text: |
-        <insert-high-risk-image-uuid> ❤️
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
+      text: |
         *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
 
         Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so.
