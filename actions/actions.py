@@ -1,5 +1,5 @@
 import logging
-from functools import partial
+
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
@@ -484,20 +484,14 @@ class HealthCheckForm(BaseFormAction):
     ) -> List[Dict]:
         """Define what the form has to do
             after all required slots are filled"""
-
-        # utter submit template
-        data = partial(
-            dict,
-            [
-                (slot, tracker.get_slot(slot))
-                for slot in self.SLOTS
-                if slot.startswith("symptoms_")
-            ]
-            + [
-                ("exposure", tracker.get_slot("exposure")),
-                ("age", tracker.get_slot("age")),
-            ],
-        )()
+        data = {
+            slot: tracker.get_slot(slot)
+            for slot in self.SLOTS
+            if slot.startswith("symptoms_")
+        }
+        data.update(
+            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
+        )
 
         risk = utils.get_risk_level(data)
         dispatcher.utter_message(template=f"utter_risk_{risk}")
