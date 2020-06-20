@@ -523,10 +523,7 @@ class HealthCheckForm(BaseFormAction):
                 "province": tracker.get_slot("province"),
                 "city": tracker.get_slot("location"),
                 "location": ",".join(
-                    [
-                        tracker.get_slot("latitude"),
-                        tracker.get_slot("longitude"),
-                    ]
+                    [tracker.get_slot("latitude"), tracker.get_slot("longitude")]
                 ),
                 "gender": tracker.get_slot("gender"),
                 "age": tracker.get_slot("age"),
