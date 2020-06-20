@@ -64,6 +64,8 @@ class HealthCheckProfileForm(BaseFormAction):
         "gender",
         "province",
         "location",
+        "latitude",
+        "longitude",
         "location_confirm",
         "medical_condition",
     ]
@@ -124,6 +126,8 @@ class HealthCheckProfileForm(BaseFormAction):
                 self.from_text(),
             ],
             "location": [self.from_text()],
+            "latitude": [self.from_text()],
+            "longitude": [self.from_text()],
             "location_confirm": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
@@ -248,8 +252,8 @@ class HealthCheckProfileForm(BaseFormAction):
             longitude = geometry["lng"]
             return {
                 "location": formatted_address,
-                "latitude": latitude,
-                "longitude": longitude,
+                "latitude": str(latitude),
+                "longitude": str(longitude),
             }
         else:
             dispatcher.utter_message(template="utter_incorrect_location")
@@ -510,6 +514,39 @@ class HealthCheckForm(BaseFormAction):
         )
 
         risk = utils.get_risk_level(data)
+
+        if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
+            url = config.EVENTSTORE_URL + "/api/v3/covid19triage/"
+            post_data = {
+                "msisdn": tracker.sender_id,
+                "source": "Rasa",
+                "province": tracker.get_slot("province"),
+                "city": tracker.get_slot("location"),
+                "location": ",".join(
+                    [
+                        tracker.get_slot("latitude"),
+                        tracker.get_slot("longitude"),
+                    ]
+                ),
+                "gender": tracker.get_slot("gender"),
+                "age": tracker.get_slot("age"),
+                "fever": data["symptoms_fever"] == "yes",
+                "cough": data["symptoms_cough"] == "yes",
+                "sore_throat": data["symptoms_sore_throat"] == "yes",
+                "difficulty_breathing": data["symptoms_difficulty_breathing"] == "yes",
+                "smell": data["symptoms_taste_smell"] == "yes",
+                "exposure": data["exposure"] == "yes",
+                "tracing": tracker.get_slot("tracing") == "yes",
+                "risk": risk,
+                "preexisting_condition": tracker.get_slot("medical_condition"),
+            }
+            headers = {
+                "Authorization": ["Token " + config.EVENTSTORE_TOKEN],
+                "User-Agent": ["Rasa/Covid19-healthcheckbot"],
+            }
+
+            # TODO: Post data using httpx
+            logger.debug(f"Post data: {post_data}")
         dispatcher.utter_message(template=f"utter_risk_{risk}")
         return []
 
