@@ -5,6 +5,7 @@
 * request_healthcheck: check
   - action_reset_all_but_few_slots
   - healthcheck_terms_form
+  - form{"name": null}
   - form{"name": "healthcheck_terms_form"}
   - healthcheck_profile_form
   - form{"name": null}
