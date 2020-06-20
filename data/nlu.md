@@ -9,7 +9,7 @@
 - Please check if I have to get tested
 - I want to get tested
 - Please test
-- Test me 
+- Test me
 - Do I have the virus?
 - Do I need to get tested?
 - Check my symptoms
@@ -17,6 +17,7 @@
 - check
 
 ## intent:affirm
+- accept
 - correct
 - ye
 - uh yes
