@@ -3,7 +3,6 @@ from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
 import httpx
-from asyncio import wait
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
