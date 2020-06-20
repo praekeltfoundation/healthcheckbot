@@ -237,9 +237,9 @@ class HealthCheckProfileForm(BaseFormAction):
 
         if hasattr(httpx, "AsyncClient"):
             # from httpx>=0.11.0, the async client is a different class
-            HTTPXClient = httpx.AsyncClient
+            HTTPXClient = getattr(httpx, "AsyncClient")
         else:
-            HTTPXClient = httpx.Client
+            HTTPXClient = getattr(httpx, "Client")
 
         async with HTTPXClient() as client:
             response = await client.get(
