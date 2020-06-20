@@ -77,7 +77,7 @@ class HealthCheckTermsForm(BaseFormAction):
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
-            "terms": [self.from_intent(intent="affirm", value="yes"), self.from_text(),]
+            "terms": [self.from_intent(intent="affirm", value="yes"), self.from_text()]
         }
 
     def validate_terms(
