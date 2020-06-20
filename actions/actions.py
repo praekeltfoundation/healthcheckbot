@@ -77,10 +77,8 @@ class HealthCheckTermsForm(BaseFormAction):
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
-            "terms": [
-                self.from_intent(intent="affirm", value="yes"),
-                self.from_text(),
-            ]}
+            "terms": [self.from_intent(intent="affirm", value="yes"), self.from_text(),]
+        }
 
     def validate_terms(
         self,
@@ -583,6 +581,8 @@ class ActionResetAllButFewSlots(Action):
             dispatcher.utter_message(template="utter_welcome_back")
 
         actions = [AllSlotsReset()]
-        for slot in HealthCheckProfileForm.PERSISTED_SLOTS + HealthCheckProfileForm.CONDITIONS:
+        for slot in (
+            HealthCheckProfileForm.PERSISTED_SLOTS + HealthCheckProfileForm.CONDITIONS
+        ):
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         return actions
