@@ -235,7 +235,7 @@ class HealthCheckProfileForm(BaseFormAction):
             }
         )
 
-        if hasattr(httpx, 'AsyncClient'):
+        if hasattr(httpx, "AsyncClient"):
             # from httpx>=0.11.0, the async client is a different class
             HTTPXClient = httpx.AsyncClient
         else:
