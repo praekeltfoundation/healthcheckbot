@@ -12,6 +12,12 @@ from actions import config, utils
 
 logger = logging.getLogger(__name__)
 
+try:
+    # from httpx>=0.11.0, the async client is a different class
+    HTTPXClient = httpx.AsyncClient
+except AttributeError:
+    HTTPXClient = httpx.Client
+
 
 class BaseFormAction(FormAction):
     def name(self) -> Text:
@@ -234,7 +240,8 @@ class HealthCheckProfileForm(BaseFormAction):
                 "fields": "formatted_address,geometry",
             }
         )
-        async with httpx.Client() as client:
+
+        async with HTTPXClient() as client:
             response = await client.get(
                 (
                     f"https://maps.googleapis.com"
