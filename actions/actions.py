@@ -2,7 +2,8 @@ import logging
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
-import requests
+import httpx
+from asyncio import wait
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
@@ -190,7 +191,7 @@ class HealthCheckProfileForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
 
-    def validate_location(
+    async def validate_location(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
@@ -234,26 +235,27 @@ class HealthCheckProfileForm(BaseFormAction):
                 "fields": "formatted_address,geometry",
             }
         )
-        response = requests.get(
-            (
-                f"https://maps.googleapis.com"
-                f"/maps/api/place/findplacefromtext/json?{querystring}"
+        async with httpx.Client() as client:
+            response = await client.get(
+                (
+                    f"https://maps.googleapis.com"
+                    f"/maps/api/place/findplacefromtext/json?{querystring}"
+                )
             )
-        )
-        location = response.json()
-        if location["candidates"]:
-            formatted_address = location["candidates"][0]["formatted_address"]
-            geometry = location["candidates"][0]["geometry"]["location"]
-            latitude = geometry["lat"]
-            longitude = geometry["lng"]
-            return {
-                "location": formatted_address,
-                "latitude": latitude,
-                "longitude": longitude,
-            }
-        else:
-            dispatcher.utter_message(template="utter_incorrect_location")
-            return {"location": None}
+            location = response.json()
+            if location["candidates"]:
+                formatted_address = location["candidates"][0]["formatted_address"]
+                geometry = location["candidates"][0]["geometry"]["location"]
+                latitude = geometry["lat"]
+                longitude = geometry["lng"]
+                return {
+                    "location": formatted_address,
+                    "latitude": latitude,
+                    "longitude": longitude,
+                }
+            else:
+                dispatcher.utter_message(template="utter_incorrect_location")
+                return {"location": None}
 
     def validate_location_confirm(
         self,
