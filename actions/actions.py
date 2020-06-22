@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode
 
 import requests
+import httpx
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
@@ -496,7 +497,7 @@ class HealthCheckForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("tracing", dispatcher, value, self.yes_no_data)
 
-    def submit(
+    async def submit(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
@@ -538,12 +539,26 @@ class HealthCheckForm(BaseFormAction):
                 "preexisting_condition": tracker.get_slot("medical_condition"),
             }
             headers = {
-                "Authorization": ["Token " + config.EVENTSTORE_TOKEN],
-                "User-Agent": ["Rasa/Covid19-healthcheckbot"],
+                "Authorization": "Token " + config.EVENTSTORE_TOKEN,
+                "User-Agent": "Rasa/Covid19-healthcheckbot",
             }
 
-            # TODO: Post data using httpx
-            logger.debug(f"Post data: {post_data}")
+            if hasattr(httpx, "AsyncClient"):
+                # from httpx>=0.11.0, the async client is a different class
+                HTTPXClient = getattr(httpx, "AsyncClient")
+            else:
+                HTTPXClient = getattr(httpx, "Client")
+
+            for i in range(config.HTTP_RETRIES):
+                try:
+                    async with HTTPXClient() as client:
+                        resp = await client.post(url, data=post_data, headers=headers)
+                        # TODO: Remove debug logging
+                        logger.debug(f"HTTP Response: {resp.content}")
+                        resp.raise_for_status()
+                except httpx.HTTPError as e:
+                    if i == config.HTTP_RETRIES - 1:
+                        raise e
         dispatcher.utter_message(template=f"utter_risk_{risk}")
         return []
 
