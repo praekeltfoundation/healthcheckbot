@@ -1,4 +1,5 @@
 import logging
+import uuid
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
 
@@ -358,6 +359,31 @@ class HealthCheckForm(BaseFormAction):
         "tracing",
     ]
 
+    GENDER_MAPPING = {
+        "MALE": "male",
+        "FEMALE": "female",
+        "OTHER": "other",
+        "RATHER NOT SAY": "not_say",
+    }
+
+    AGE_MAPPING = {
+        "<18": "<18",
+        "18-39": "18-40",
+        "40-65": "40-65",
+        ">65": ">64",
+    }
+
+    YES_NO_MAYBE_MAPPING = {
+        "yes": "yes",
+        "no": "no",
+        "not sure": "not_sure",
+    }
+
+    YES_NO_MAPPING = {
+        "yes": True,
+        "no": False,
+    }
+
     def name(self) -> Text:
         """Unique identifier of the form"""
 
@@ -521,29 +547,57 @@ class HealthCheckForm(BaseFormAction):
 
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
             url = urljoin(config.EVENTSTORE_URL, "/api/v3/covid19triage/")
+            if tracker.get_slot("latitude") and tracker.get_slot("longitude"):
+                location = (
+                    f'{tracker.get_slot("latitude"):+f}'
+                    f'{tracker.get_slot("longitude"):+f}/'
+                )
+            else:
+                location = ""
+
             post_data = {
-                "msisdn": tracker.sender_id,
-                "source": "Rasa",
-                "province": tracker.get_slot("province"),
+                "deduplication_id": uuid.uuid4().hex,
+                "msisdn": f'+{tracker.sender_id.lstrip("+")}',
+                "source": "WhatsApp",
+                "province": f'ZA-{tracker.get_slot("province").upper()}',
                 "city": tracker.get_slot("location"),
-                "location": ",".join(
-                    [tracker.get_slot("latitude"), tracker.get_slot("longitude")]
-                ),
-                "gender": tracker.get_slot("gender"),
-                "age": tracker.get_slot("age"),
-                "fever": data["symptoms_fever"] == "yes",
-                "cough": data["symptoms_cough"] == "yes",
-                "sore_throat": data["symptoms_sore_throat"] == "yes",
-                "difficulty_breathing": data["symptoms_difficulty_breathing"] == "yes",
-                "smell": data["symptoms_taste_smell"] == "yes",
-                "exposure": data["exposure"] == "yes",
-                "tracing": tracker.get_slot("tracing") == "yes",
+                "age": self.AGE_MAPPING[tracker.get_slot("age")],
+                "fever": self.YES_NO_MAPPING[tracker.get_slot("symptoms_fever")],
+                "cough": self.YES_NO_MAPPING[tracker.get_slot("symptoms_cough")],
+                "sore_throat": self.YES_NO_MAPPING[
+                    tracker.get_slot("symptoms_sore_throat")
+                ],
+                "difficulty_breathing": self.YES_NO_MAPPING[
+                    tracker.get_slot("symptoms_difficulty_breathing")
+                ],
+                "exposure": self.YES_NO_MAYBE_MAPPING[tracker.get_slot("exposure")],
+                "tracing": self.YES_NO_MAPPING[tracker.get_slot("tracing")],
                 "risk": risk,
-                "preexisting_condition": tracker.get_slot("medical_condition"),
+                "gender": self.GENDER_MAPPING[tracker.get_slot("gender")],
+                "location": location,
+                "smell": self.YES_NO_MAPPING[tracker.get_slot("symptoms_taste_smell")],
+                "preexisting_condition": self.YES_NO_MAYBE_MAPPING[
+                    tracker.get_slot("medical_condition")
+                ],
+                # TODO: Put these 4 fields as columns on the table for a v4 API
+                "data": {
+                    "obesity": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_obesity")
+                    ),
+                    "diabetes": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_diabetes")
+                    ),
+                    "hypertension": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_hypertension")
+                    ),
+                    "cardio": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_cardio")
+                    ),
+                },
             }
             headers = {
-                "Authorization": "Token " + config.EVENTSTORE_TOKEN,
-                "User-Agent": "Rasa/Covid19-healthcheckbot",
+                "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
+                "User-Agent": "rasa/covid19-healthcheckbot",
             }
 
             if hasattr(httpx, "AsyncClient"):
@@ -556,8 +610,6 @@ class HealthCheckForm(BaseFormAction):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, data=post_data, headers=headers)
-                        # TODO: Remove debug logging
-                        logger.debug(f"HTTP Response: {resp.content}")
                         resp.raise_for_status()
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
