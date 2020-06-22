@@ -4,6 +4,7 @@ intents:
   - deny
   - maybe
   - inform
+  - more
 
 entities:
   - province
