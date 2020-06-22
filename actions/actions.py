@@ -1,6 +1,6 @@
 import logging
 from typing import Any, Dict, List, Optional, Text, Union
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urljoin
 
 import httpx
 from rasa_sdk import Tracker
@@ -520,7 +520,7 @@ class HealthCheckForm(BaseFormAction):
         risk = utils.get_risk_level(data)
 
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
-            url = config.EVENTSTORE_URL + "/api/v3/covid19triage/"
+            url = urljoin(config.EVENTSTORE_URL, "/api/v3/covid19triage/")
             post_data = {
                 "msisdn": tracker.sender_id,
                 "source": "Rasa",
