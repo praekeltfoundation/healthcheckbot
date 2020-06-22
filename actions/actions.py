@@ -64,8 +64,6 @@ class HealthCheckProfileForm(BaseFormAction):
         "gender",
         "province",
         "location",
-        "latitude",
-        "longitude",
         "location_confirm",
         "medical_condition",
     ]
@@ -126,8 +124,6 @@ class HealthCheckProfileForm(BaseFormAction):
                 self.from_text(),
             ],
             "location": [self.from_text()],
-            "latitude": [self.from_text()],
-            "longitude": [self.from_text()],
             "location_confirm": [
                 self.from_entity(entity="number"),
                 self.from_intent(intent="affirm", value="yes"),
