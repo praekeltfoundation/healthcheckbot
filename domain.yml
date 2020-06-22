@@ -4,6 +4,7 @@ intents:
   - deny
   - maybe
   - inform
+  - more
 
 entities:
   - province
@@ -11,6 +12,7 @@ entities:
 
 actions:
   - action_reset_all_but_few_slots
+  - utter_ask_terms
   - utter_ask_age
   - utter_ask_gender
   - utter_ask_province
@@ -35,6 +37,9 @@ actions:
   - utter_risk_high
 
 slots:
+  terms:
+    type: unfeaturized
+    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
@@ -97,9 +102,35 @@ slots:
 
 forms:
   - healthcheck_form
+  - healthcheck_terms_form
   - healthcheck_profile_form
 
 responses:
+  utter_welcome:
+      - text: |
+          *HealthCheck* is your weekly risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_welcome_back:
+      - text: |
+          Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_ask_terms:
+      - text: |
+          Reply with one of the words in BOLD to continue
+
+          *ACCEPT* ✅ - _to accept the terms and conditions_
+          *MORE* 📄 - _to read the terms and conditions_
+
+          (or Reply *MENU* 📌 _to return to the main menu_)
+
+  utter_more_terms:
+      - text: |
+          You confirm that you are responsible for your medical care & treatment. This service only provides info.
+
+          This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care, especially if you develop severe symptoms.
+
+          You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk.
+
   utter_ask_province:
       - text: |
           In which Province are you currently residing?
