@@ -55,10 +55,10 @@ slots:
   location_confirm:
     type: unfeaturized
     auto_fill: false
-  latitude:
+  location_coords:
     type: unfeaturized
     auto_fill: false
-  longitude:
+  city_location_coords:
     type: unfeaturized
     auto_fill: false
   medical_condition:
