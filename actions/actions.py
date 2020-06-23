@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
 
 import httpx
+import json
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
@@ -580,7 +581,7 @@ class HealthCheckForm(BaseFormAction):
                     tracker.get_slot("medical_condition")
                 ],
                 # TODO: Put these 4 fields as columns on the table for a v4 API
-                "data": {
+                "data": json.dumps({
                     "obesity": self.YES_NO_MAPPING.get(
                         tracker.get_slot("medical_condition_obesity")
                     ),
@@ -593,7 +594,7 @@ class HealthCheckForm(BaseFormAction):
                     "cardio": self.YES_NO_MAPPING.get(
                         tracker.get_slot("medical_condition_cardio")
                     ),
-                },
+                }),
             }
             headers = {
                 "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
