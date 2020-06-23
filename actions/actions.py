@@ -666,6 +666,7 @@ class HealthCheckForm(BaseFormAction):
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=post_data, headers=headers)
                         resp.raise_for_status()
+                        break
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
                         raise e
