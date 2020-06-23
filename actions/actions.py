@@ -581,20 +581,22 @@ class HealthCheckForm(BaseFormAction):
                     tracker.get_slot("medical_condition")
                 ],
                 # TODO: Put these 4 fields as columns on the table for a v4 API
-                "data": json.dumps({
-                    "obesity": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_obesity")
-                    ),
-                    "diabetes": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_diabetes")
-                    ),
-                    "hypertension": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_hypertension")
-                    ),
-                    "cardio": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_cardio")
-                    ),
-                }),
+                "data": json.dumps(
+                    {
+                        "obesity": self.YES_NO_MAPPING.get(
+                            tracker.get_slot("medical_condition_obesity")
+                        ),
+                        "diabetes": self.YES_NO_MAPPING.get(
+                            tracker.get_slot("medical_condition_diabetes")
+                        ),
+                        "hypertension": self.YES_NO_MAPPING.get(
+                            tracker.get_slot("medical_condition_hypertension")
+                        ),
+                        "cardio": self.YES_NO_MAPPING.get(
+                            tracker.get_slot("medical_condition_cardio")
+                        ),
+                    }
+                ),
             }
             headers = {
                 "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
