@@ -38,8 +38,9 @@ actions:
 
 slots:
   terms:
-    type: unfeaturized
-    auto_fill: false
+    type: categorical
+    values:
+      - yes
   age:
     type: unfeaturized
     auto_fill: false
