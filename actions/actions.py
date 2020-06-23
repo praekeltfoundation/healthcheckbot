@@ -629,6 +629,11 @@ class ActionResetAllButFewSlots(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         actions = [AllSlotsReset()]
-        for slot in HealthCheckProfileForm.SLOTS + HealthCheckProfileForm.CONDITIONS:
+        carry_over_slots = (
+            HealthCheckProfileForm.SLOTS
+            + HealthCheckProfileForm.CONDITIONS
+            + ["latitude", "longitude"]
+        )
+        for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         return actions
