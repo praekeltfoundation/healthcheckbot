@@ -603,11 +603,6 @@ class HealthCheckForm(BaseFormAction):
                 "User-Agent": "rasa/covid19-healthcheckbot",
             }
 
-            # For dev purposes only, set the env for MSISDN since rasa shell uses uuid
-            # which fails validation against the eventstore
-            if config.DEV_MSISDN:
-                post_data.update({"msisdn": config.DEV_MSISDN})
-
             if hasattr(httpx, "AsyncClient"):
                 # from httpx>=0.11.0, the async client is a different class
                 HTTPXClient = getattr(httpx, "AsyncClient")
