@@ -5,6 +5,7 @@
     - form{"name": "healthcheck_terms_form"}
     - healthcheck_profile_form
     - form{"name": "healthcheck_profile_form"}
+    - form{"name": null}
     - utter_start_health_check
     - healthcheck_form
     - form{"name": "healthcheck_form"}
