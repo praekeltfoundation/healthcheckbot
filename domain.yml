@@ -318,6 +318,7 @@ responses:
 
   utter_risk_low:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
+      claim: release
       text: |
         Thank you for answering all questions.
 
@@ -329,6 +330,7 @@ responses:
 
   utter_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+      claim: release
       text: |
         *Based on your responses, we recommend that you self-quarantine for the next 14 days and complete this HealthCheck daily to self monitor your symptoms.*
 
@@ -343,6 +345,7 @@ responses:
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
+      claim: release
       text: |
         *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
 
