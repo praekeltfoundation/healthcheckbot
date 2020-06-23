@@ -359,5 +359,5 @@ responses:
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
 session_config:
-  session_expiration_time: 1
+  session_expiration_time: 5
   carry_over_slots_to_new_session: true
