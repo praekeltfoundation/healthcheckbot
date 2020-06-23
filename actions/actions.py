@@ -4,7 +4,6 @@ from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
 
 import httpx
-import json
 from rasa_sdk import Tracker
 from rasa_sdk.events import AllSlotsReset, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
@@ -581,22 +580,20 @@ class HealthCheckForm(BaseFormAction):
                     tracker.get_slot("medical_condition")
                 ],
                 # TODO: Put these 4 fields as columns on the table for a v4 API
-                "data": json.dumps(
-                    {
-                        "obesity": self.YES_NO_MAPPING.get(
-                            tracker.get_slot("medical_condition_obesity")
-                        ),
-                        "diabetes": self.YES_NO_MAPPING.get(
-                            tracker.get_slot("medical_condition_diabetes")
-                        ),
-                        "hypertension": self.YES_NO_MAPPING.get(
-                            tracker.get_slot("medical_condition_hypertension")
-                        ),
-                        "cardio": self.YES_NO_MAPPING.get(
-                            tracker.get_slot("medical_condition_cardio")
-                        ),
-                    }
-                ),
+                "data": {
+                    "obesity": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_obesity")
+                    ),
+                    "diabetes": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_diabetes")
+                    ),
+                    "hypertension": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_hypertension")
+                    ),
+                    "cardio": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("medical_condition_cardio")
+                    ),
+                },
             }
             headers = {
                 "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
@@ -612,7 +609,7 @@ class HealthCheckForm(BaseFormAction):
             for i in range(config.HTTP_RETRIES):
                 try:
                     async with HTTPXClient() as client:
-                        resp = await client.post(url, data=post_data, headers=headers)
+                        resp = await client.post(url, json=post_data, headers=headers)
                         resp.raise_for_status()
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
