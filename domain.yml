@@ -11,7 +11,7 @@ entities:
   - number
 
 actions:
-  - action_reset_all_but_few_slots
+  - action_session_start
   - utter_ask_terms
   - utter_ask_age
   - utter_ask_gender

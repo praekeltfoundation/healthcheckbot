@@ -5,7 +5,7 @@ from urllib.parse import urlencode, urljoin
 
 import httpx
 from rasa_sdk import Tracker
-from rasa_sdk.events import AllSlotsReset, SlotSet
+from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 
@@ -664,9 +664,9 @@ class HealthCheckForm(BaseFormAction):
         return []
 
 
-class ActionResetAllButFewSlots(Action):
-    def name(self):
-        return "action_reset_all_but_few_slots"
+class ActionSessionStart(Action):
+    def name(self) -> Text:
+        return "action_session_start"
 
     def run(
         self,
@@ -674,17 +674,14 @@ class ActionResetAllButFewSlots(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        if not tracker.get_slot("terms"):
-            dispatcher.utter_message(template="utter_welcome")
-        else:
-            dispatcher.utter_message(template="utter_welcome_back")
-
-        actions = [AllSlotsReset()]
+        actions = [SessionStarted()]
         carry_over_slots = (
-            HealthCheckProfileForm.SLOTS
+            HealthCheckTermsForm.SLOTS
+            + HealthCheckProfileForm.PERSISTED_SLOTS
             + HealthCheckProfileForm.CONDITIONS
             + ["location_coords", "city_location_coords"]
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
+        actions.append(ActionExecuted("action_listen"))
         return actions
