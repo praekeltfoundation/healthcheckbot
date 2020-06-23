@@ -264,9 +264,8 @@ class HealthCheckProfileForm(BaseFormAction):
             if not address:
                 address = f"GPS: {latitude}, {longitude}"
             return {
+                "location_coords": f"{latitude:+f}{longitude:+f}/",
                 "location": address,
-                "latitude": latitude,
-                "longitude": longitude,
                 "location_confirm": "yes",
             }
 
@@ -277,8 +276,6 @@ class HealthCheckProfileForm(BaseFormAction):
         if not config.GOOGLE_PLACES_API_KEY:
             return {
                 "location": value,
-                "latitude": "null",
-                "longitude": "null",
             }
 
         querystring = urlencode(
@@ -312,8 +309,7 @@ class HealthCheckProfileForm(BaseFormAction):
                 longitude = geometry["lng"]
                 return {
                     "location": formatted_address,
-                    "latitude": latitude,
-                    "longitude": longitude,
+                    "city_location_coords": f"{latitude:+f}{longitude:+f}/",
                 }
             else:
                 dispatcher.utter_message(template="utter_incorrect_location")
@@ -602,13 +598,6 @@ class HealthCheckForm(BaseFormAction):
 
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
             url = urljoin(config.EVENTSTORE_URL, "/api/v3/covid19triage/")
-            if tracker.get_slot("latitude") and tracker.get_slot("longitude"):
-                location = (
-                    f'{tracker.get_slot("latitude"):+f}'
-                    f'{tracker.get_slot("longitude"):+f}/'
-                )
-            else:
-                location = ""
 
             post_data = {
                 "deduplication_id": uuid.uuid4().hex,
@@ -629,7 +618,8 @@ class HealthCheckForm(BaseFormAction):
                 "tracing": self.YES_NO_MAPPING[tracker.get_slot("tracing")],
                 "risk": risk,
                 "gender": self.GENDER_MAPPING[tracker.get_slot("gender")],
-                "location": location,
+                "location": tracker.get_slot("location_coords") or "",
+                "city_location": tracker.get_slot("city_location_coords") or "",
                 "smell": self.YES_NO_MAPPING[tracker.get_slot("symptoms_taste_smell")],
                 "preexisting_condition": self.YES_NO_MAYBE_MAPPING[
                     tracker.get_slot("medical_condition")
@@ -665,6 +655,7 @@ class HealthCheckForm(BaseFormAction):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=post_data, headers=headers)
+                        logging.debug(resp.text)
                         resp.raise_for_status()
                         break
                 except httpx.HTTPError as e:
@@ -693,7 +684,7 @@ class ActionResetAllButFewSlots(Action):
         carry_over_slots = (
             HealthCheckProfileForm.SLOTS
             + HealthCheckProfileForm.CONDITIONS
-            + ["latitude", "longitude"]
+            + ["location_coords", "city_location_coords"]
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
