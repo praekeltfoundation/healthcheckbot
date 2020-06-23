@@ -655,7 +655,6 @@ class HealthCheckForm(BaseFormAction):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=post_data, headers=headers)
-                        logging.debug(resp.text)
                         resp.raise_for_status()
                         break
                 except httpx.HTTPError as e:
