@@ -57,11 +57,66 @@ class BaseFormAction(FormAction):
             return {field: None}
 
 
-class HealthCheckProfileForm(BaseFormAction):
+class HealthCheckTermsForm(BaseFormAction):
     """HealthCheck form action"""
 
     SLOTS = [
-        "age",
+        "terms",
+    ]
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "healthcheck_terms_form"
+
+    @classmethod
+    def required_slots(cls, tracker: Tracker) -> List[Text]:
+        for slot in cls.SLOTS:
+            if not tracker.get_slot(slot):
+                return [slot]
+        return []
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+            "terms": [
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="more", value="more"),
+                self.from_text(),
+            ]
+        }
+
+    def validate_terms(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        if value == "more":
+            dispatcher.utter_message(template="utter_more_terms")
+            return {"terms": None}
+
+        return self.validate_generic("terms", dispatcher, value, {1: "yes"})
+
+    def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+
+        # utter submit template
+        return []
+
+
+class HealthCheckProfileForm(BaseFormAction):
+    """HealthCheck form action"""
+
+    SLOTS = ["age"]
+
+    PERSISTED_SLOTS = [
         "gender",
         "province",
         "location",
@@ -84,7 +139,7 @@ class HealthCheckProfileForm(BaseFormAction):
     @classmethod
     def required_slots(cls, tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
-        slots = cls.SLOTS
+        slots = cls.SLOTS + cls.PERSISTED_SLOTS
         # This is a strange workaround
         # Rasa wants to fill all the slots with every question
         # To prevent that, we just tell Rasa with each message that the slots
@@ -93,7 +148,7 @@ class HealthCheckProfileForm(BaseFormAction):
 
         # expanded questions when user has underlying medical conditions
         if tracker.get_slot("medical_condition") != "no":
-            slots = cls.SLOTS + cls.CONDITIONS
+            slots = cls.SLOTS + cls.PERSISTED_SLOTS + cls.CONDITIONS
 
         for slot in slots:
             if not tracker.get_slot(slot):
@@ -628,6 +683,11 @@ class ActionResetAllButFewSlots(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        if not tracker.get_slot("terms"):
+            dispatcher.utter_message(template="utter_welcome")
+        else:
+            dispatcher.utter_message(template="utter_welcome_back")
+
         actions = [AllSlotsReset()]
         carry_over_slots = (
             HealthCheckProfileForm.SLOTS
