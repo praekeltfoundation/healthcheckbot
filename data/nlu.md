@@ -25,7 +25,6 @@
 - uh yes
 - let's do it
 - yeah
-- uh yes
 - um yes
 - that's correct
 - yes yes
@@ -81,6 +80,145 @@ data/lookup_tables/provinces.txt
 - [western cape]{"entity": "province", "value": "wc"}
 - [1](number)
 - [2](number).
+- [2](number)
+- [3](number)
+- [9](number)
+- [cape](province) town
+
+## intent:exit
+- menu please
+- 3menu
+- 7 menu
+- 8menu
+- amenu
+- Are you stupid? I just typed MENU
+- baby menu
+- Bond  n menu
+- Buster menu
+- Can I menu
+- Capital menu
+- Gauteng menu
+- Good day...MENU
+- Hi menu
+- Hi MENU
+- Hole menu
+- How should I get  main menu
+- i didnt get a menu.
+- I have asked everything on the menu
+- I menu
+- I Menu
+- I said menu hle
+- In menu
+- Is it menu
+- Lol menu
+- MMenu
+- Madhir I said menu
+- Main menu please
+- Main menu yes
+- main menue
+- Main menue
+- Maine Menu
+- Maine menue
+- Menu : ohk
+- Menu ?????
+- Menu bold
+- Menu de bar
+- MENU I want info from the menu
+- MENU im feeling weak
+- Menu in video play
+- MENU keh
+- Menu menu
+- Menu mgg
+- MENU p
+- Menu please
+- Menu please for cov19
+- Menu pls
+- Menu thx
+- Menu to retain  to main menu
+- Menu to return
+- Menu to return the main menu
+- menu to return to the main menu
+- Menu to return to the main menu
+- Menu was menu
+- Menu!
+- Menu,
+- Menu, need answers
+- MENU.
+- Menu..
+- Menu...
+- MENU...
+- Menu:wm
+- Menu?
+- MENU+
+- Menu7
+- Menua
+- MENUA
+- Menudo
+- menue
+- Menue
+- MENue
+- MENUE
+- Menue uri mini
+- Menuh
+- MenuMa
+- menus
+- Menus
+- Menuu
+- Menuuyb
+- Menuw
+- Menux
+- mmenu
+- Mmenu
+- MMENU
+- Mobva ma type kuti menu.
+- My menu
+- My questions are not on your menu
+- Ok menu
+- Ok MENU
+- Owk menu
+- Please send menu
+- Pmenu
+- Print menu
+- Rely menu to the main menu
+- Reply  menu
+- Reply main menu
+- Reply menu
+- Reply Menu
+- Reply MENU
+- Reply Menu to return to main menu
+- Reply menu to return to the main menu
+- Reply Menu to return to the main menu
+- Reply MENU to return to the main menu
+- Reply menu to the main menu
+- reply Menue
+- Reply to menu
+- Reply with Menu to return
+- Replymenu
+- Return the main menu.
+- Return to main menu
+- Return to menu
+- return to the main menu
+- Return to the main menu
+- Sa menu
+- Save die nr dit werk  stuur dan net n boodskap met die woorde MENU
+- Send menu
+- Test and menu
+- Testing and menue
+- Testing menu
+- Thank you very muchMenu
+- THANK YOU MENU
+- The menu
+- The main menu
+- To return to the main menu
+- typeMenu
+- Typemenu
+- what menu.
+- Whatsapp based interactive menu for COVID-19 in SA
+- Where is menu
+- Which Menu
+- Yes main menu
+- you can’t spel  MENU without Me n u
+- menu
 
 ## regex:number
 - \d+
