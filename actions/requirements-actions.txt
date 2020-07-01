@@ -1,0 +1,2 @@
+sentry-sdk==0.15.1
+aiocontextvars==0.2.2
