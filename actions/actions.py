@@ -677,12 +677,7 @@ class ActionSessionStart(Action):
     def name(self) -> Text:
         return "action_session_start"
 
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict[Text, Any]]:
+    def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = [SessionStarted()]
         carry_over_slots = (
             HealthCheckTermsForm.SLOTS
@@ -692,6 +687,15 @@ class ActionSessionStart(Action):
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
+        return actions
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        actions = self.get_carry_over_slots(tracker)
         actions.append(ActionExecuted("action_listen"))
         return actions
 
@@ -707,4 +711,4 @@ class ActionExit(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(template="utter_exit")
-        return ActionSessionStart().run(dispatcher, tracker, domain)
+        return ActionSessionStart().get_carry_over_slots(tracker)
