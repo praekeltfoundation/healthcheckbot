@@ -36,8 +36,3 @@
 ## session start returning
     - action_session_start
     - slot{"terms": "yes"}
-
-## request exit
-* exit
-    - utter_exit
-    - action_session_start
