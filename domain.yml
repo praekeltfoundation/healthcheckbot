@@ -5,7 +5,8 @@ intents:
   - maybe
   - inform
   - more
-  - exit
+  - exit:
+      triggers: action_exit
 
 entities:
   - province
@@ -13,6 +14,7 @@ entities:
 
 actions:
   - action_session_start
+  - action_exit
   - utter_ask_terms
   - utter_ask_age
   - utter_ask_gender

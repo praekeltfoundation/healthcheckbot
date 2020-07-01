@@ -6,7 +6,7 @@ from urllib.parse import urlencode, urljoin
 import httpx
 import sentry_sdk
 from rasa_sdk import ActionExecutionRejection, Tracker
-from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
+from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet, EventType
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -58,18 +58,31 @@ class BaseFormAction(FormAction):
         - One of the values
         - An integer that is one of the keys
         """
-        intent = tracker.latest_message.get("intent", {}).get("name", "")
         if value and value.lower() in data.values():
             return {field: value}
         elif self.is_int(value) and int(value) in data:
             return {field: data[int(value)]}
-        elif intent == "exit":
-            dispatcher.utter_message(template="utter_exit")
-            self.deactivate()
-            raise ActionExecutionRejection(self.name())
         else:
             dispatcher.utter_message(template="utter_incorrect_selection")
             return {field: None}
+
+    def request_next_slot(
+        self,
+        dispatcher: "CollectingDispatcher",
+        tracker: "Tracker",
+        domain: Dict[Text, Any],
+    ) -> Optional[List[EventType]]:
+        """
+        Check and exit if requested
+        """
+        logger.debug("request_next_slot")
+        intent = tracker.latest_message.get("intent", {}).get("name", "")
+        if intent == "exit":
+            logger.debug("request_next_slot, intent = exit")
+            # dispatcher.utter_message(template="utter_exit")
+            # return ActionSessionStart().run(dispatcher, tracker, domain)
+            return self.deactivate()
+        return super().request_next_slot(dispatcher, tracker, domain)
 
 
 class HealthCheckTermsForm(BaseFormAction):
@@ -714,3 +727,17 @@ class ActionSessionStart(Action):
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         actions.append(ActionExecuted("action_listen"))
         return actions
+
+
+class ActionExit(Action):
+    def name(self) -> Text:
+        return "action_exit"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(template="utter_exit")
+        return ActionSessionStart().run(dispatcher, tracker, domain)
