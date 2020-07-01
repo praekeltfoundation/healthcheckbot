@@ -49,7 +49,6 @@ class BaseFormAction(FormAction):
         self,
         field: Text,
         dispatcher: CollectingDispatcher,
-        tracker: Tracker,
         value: Text,
         data: Dict[int, Text],
     ) -> Dict[Text, Optional[Text]]:
@@ -65,24 +64,6 @@ class BaseFormAction(FormAction):
         else:
             dispatcher.utter_message(template="utter_incorrect_selection")
             return {field: None}
-
-    def request_next_slot(
-        self,
-        dispatcher: "CollectingDispatcher",
-        tracker: "Tracker",
-        domain: Dict[Text, Any],
-    ) -> Optional[List[EventType]]:
-        """
-        Check and exit if requested
-        """
-        logger.debug("request_next_slot")
-        intent = tracker.latest_message.get("intent", {}).get("name", "")
-        if intent == "exit":
-            logger.debug("request_next_slot, intent = exit")
-            # dispatcher.utter_message(template="utter_exit")
-            # return ActionSessionStart().run(dispatcher, tracker, domain)
-            return self.deactivate()
-        return super().request_next_slot(dispatcher, tracker, domain)
 
 
 class HealthCheckTermsForm(BaseFormAction):
@@ -124,7 +105,7 @@ class HealthCheckTermsForm(BaseFormAction):
             dispatcher.utter_message(template="utter_more_terms")
             return {"terms": None}
 
-        return self.validate_generic("terms", dispatcher, tracker, value, {1: "yes"})
+        return self.validate_generic("terms", dispatcher, value, {1: "yes"})
 
     def submit(
         self,
@@ -254,7 +235,7 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("age", dispatcher, tracker, value, self.age_data)
+        return self.validate_generic("age", dispatcher, value, self.age_data)
 
     def validate_gender(
         self,
@@ -263,9 +244,7 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(
-            "gender", dispatcher, tracker, value, self.gender_data
-        )
+        return self.validate_generic("gender", dispatcher, value, self.gender_data)
 
     def validate_province(
         self,
@@ -274,9 +253,7 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(
-            "province", dispatcher, tracker, value, self.province_data
-        )
+        return self.validate_generic("province", dispatcher, value, self.province_data)
 
     async def validate_location(
         self,
@@ -355,7 +332,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         loc_confirm = self.validate_generic(
-            "location_confirm", dispatcher, tracker, value, self.yes_no_data
+            "location_confirm", dispatcher, value, self.yes_no_data
         )
         if loc_confirm["location_confirm"] and loc_confirm["location_confirm"] == "no":
             return {"location_confirm": None, "location": None}
@@ -369,7 +346,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "medical_condition", dispatcher, tracker, value, self.yes_no_maybe_data
+            "medical_condition", dispatcher, value, self.yes_no_maybe_data
         )
 
     def validate_medical_condition_obesity(
@@ -380,7 +357,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "medical_condition_obesity", dispatcher, tracker, value, self.yes_no_data
+            "medical_condition_obesity", dispatcher, value, self.yes_no_data
         )
 
     def validate_medical_condition_diabetes(
@@ -391,7 +368,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "medical_condition_diabetes", dispatcher, tracker, value, self.yes_no_data
+            "medical_condition_diabetes", dispatcher, value, self.yes_no_data
         )
 
     def validate_medical_condition_hypertension(
@@ -402,11 +379,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "medical_condition_hypertension",
-            dispatcher,
-            tracker,
-            value,
-            self.yes_no_data,
+            "medical_condition_hypertension", dispatcher, value, self.yes_no_data,
         )
 
     def validate_medical_condition_cardio(
@@ -417,7 +390,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "medical_condition_cardio", dispatcher, tracker, value, self.yes_no_data
+            "medical_condition_cardio", dispatcher, value, self.yes_no_data
         )
 
     def submit(
@@ -546,7 +519,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "symptoms_fever", dispatcher, tracker, value, self.yes_no_data
+            "symptoms_fever", dispatcher, value, self.yes_no_data
         )
 
     def validate_symptoms_cough(
@@ -557,7 +530,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "symptoms_cough", dispatcher, tracker, value, self.yes_no_data
+            "symptoms_cough", dispatcher, value, self.yes_no_data
         )
 
     def validate_symptoms_sore_throat(
@@ -568,7 +541,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "symptoms_sore_throat", dispatcher, tracker, value, self.yes_no_data
+            "symptoms_sore_throat", dispatcher, value, self.yes_no_data
         )
 
     def validate_symptoms_difficulty_breathing(
@@ -579,11 +552,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "symptoms_difficulty_breathing",
-            dispatcher,
-            tracker,
-            value,
-            self.yes_no_data,
+            "symptoms_difficulty_breathing", dispatcher, value, self.yes_no_data,
         )
 
     def validate_symptoms_taste_smell(
@@ -594,7 +563,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "symptoms_taste_smell", dispatcher, tracker, value, self.yes_no_data
+            "symptoms_taste_smell", dispatcher, value, self.yes_no_data
         )
 
     def validate_exposure(
@@ -605,7 +574,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "exposure", dispatcher, tracker, value, self.yes_no_maybe_data
+            "exposure", dispatcher, value, self.yes_no_maybe_data
         )
 
     def validate_tracing(
@@ -615,9 +584,7 @@ class HealthCheckForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(
-            "tracing", dispatcher, tracker, value, self.yes_no_data
-        )
+        return self.validate_generic("tracing", dispatcher, value, self.yes_no_data)
 
     async def submit(
         self,
