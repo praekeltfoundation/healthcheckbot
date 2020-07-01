@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
 
 import httpx
-from rasa_sdk import Tracker, ActionExecutionRejection
+from rasa_sdk import ActionExecutionRejection, Tracker
 from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
