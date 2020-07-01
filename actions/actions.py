@@ -694,3 +694,17 @@ class ActionSessionStart(Action):
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         actions.append(ActionExecuted("action_listen"))
         return actions
+
+
+class ActionExit(Action):
+    def name(self) -> Text:
+        return "action_exit"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(template="utter_exit")
+        return ActionSessionStart().run(dispatcher, tracker, domain)
