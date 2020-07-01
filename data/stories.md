@@ -36,3 +36,9 @@
 ## session start returning
     - action_session_start
     - slot{"terms": "yes"}
+
+## exit
+* exit
+    - action_exit
+    - slot{"terms": null}
+    - action_listen
