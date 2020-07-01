@@ -6,7 +6,7 @@ from urllib.parse import urlencode, urljoin
 import httpx
 import sentry_sdk
 from rasa_sdk import Tracker
-from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
+from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -379,7 +379,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "medical_condition_hypertension", dispatcher, value, self.yes_no_data,
+            "medical_condition_hypertension", dispatcher, value, self.yes_no_data
         )
 
     def validate_medical_condition_cardio(
@@ -552,7 +552,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic(
-            "symptoms_difficulty_breathing", dispatcher, value, self.yes_no_data,
+            "symptoms_difficulty_breathing", dispatcher, value, self.yes_no_data
         )
 
     def validate_symptoms_taste_smell(
