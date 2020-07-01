@@ -5,8 +5,8 @@ from urllib.parse import urlencode, urljoin
 
 import httpx
 import sentry_sdk
-from rasa_sdk import ActionExecutionRejection, Tracker
-from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet, EventType
+from rasa_sdk import Tracker
+from rasa_sdk.events import ActionExecuted, EventType, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 from sentry_sdk.integrations.logging import LoggingIntegration
