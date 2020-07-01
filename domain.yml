@@ -361,7 +361,7 @@ responses:
 
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
-  
+
 # TODO: I'm assuming that the way this will be solved is that we'll send a message to
 # the connector, with some sort of value, which the connector will then use to make the
 # correct API calls
@@ -370,8 +370,8 @@ responses:
 # We need the conversation claim ID, and the message ID, to be able to make the correct
 # API calls. I don't know yet where the easiest place to implement this would be
   utter_exit:
-    - text: exit
-      claim: revert
+    - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
+      claim: release
 
 session_config:
   session_expiration_time: 5
