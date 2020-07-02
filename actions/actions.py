@@ -430,7 +430,7 @@ class HealthCheckForm(BaseFormAction):
         "<18": "<18",
         "18-39": "18-40",
         "40-65": "40-65",
-        ">65": ">64",
+        ">65": ">65",
     }
 
     YES_NO_MAYBE_MAPPING = {
