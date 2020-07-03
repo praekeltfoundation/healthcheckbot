@@ -24,5 +24,3 @@ def get_risk_level(data: Dict[Any, Any]) -> Text:
             return "moderate"
         else:
             return "low"
-
-    return "low"
