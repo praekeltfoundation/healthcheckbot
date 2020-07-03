@@ -1,4 +1,5 @@
 import logging
+import re
 import uuid
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
@@ -67,6 +68,53 @@ class BaseFormAction(FormAction):
         else:
             dispatcher.utter_message(template="utter_incorrect_selection")
             return {field: None}
+
+    @staticmethod
+    def format_location(latitude: float, longitude: float) -> Text:
+        """
+        Returns the location in ISO6709 format
+        """
+
+        def fractional_part(f):
+            if not f % 1:
+                return ""
+            parts = str(f).split(".")
+            return f".{parts[1]}"
+
+        # latitude integer part must be fixed width 2, longitude 3
+        return (
+            f"{int(latitude):+03d}"
+            f"{fractional_part(latitude)}"
+            f"{int(longitude):+04d}"
+            f"{fractional_part(longitude)}"
+            "/"
+        )
+
+    @staticmethod
+    def fix_location_format(text: Text) -> Text:
+        """
+        Previously there was a bug that caused the location to not be stored in
+        proper ISO6709 format. This function extracts the latitude and longitude from
+        either the incorrect or correct format, and then returns a properly formatted
+        ISO6709 string
+        """
+        if not text:
+            return ""
+        regex = re.compile(
+            r"""
+            ^
+            (?P<latitude>[\+|-]\d+\.?\d*)
+            (?P<longitude>[\+|-]\d+\.?\d*)
+            """,
+            flags=re.VERBOSE,
+        )
+        match = regex.match(text)
+        if not match:
+            raise ValueError(f"Invalid location {text}")
+        data = match.groupdict()
+        return BaseFormAction.format_location(
+            float(data["latitude"]), float(data["longitude"])
+        )
 
 
 class HealthCheckTermsForm(BaseFormAction):
@@ -257,27 +305,6 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
-
-    @staticmethod
-    def format_location(latitude: float, longitude: float) -> Text:
-        """
-        Returns the location in ISO6709 format
-        """
-
-        def fractional_part(f):
-            parts = str(f).split(".")
-            if len(parts) == 2:
-                return f".{parts[1]}"
-            return ""
-
-        # latitude integer part must be fixed width 2, longitude 3
-        return (
-            f"{int(latitude):+03d}"
-            f"{fractional_part(latitude)}"
-            f"{int(longitude):+04d}"
-            f"{fractional_part(longitude)}"
-            "/"
-        )
 
     async def validate_location(
         self,
@@ -651,8 +678,12 @@ class HealthCheckForm(BaseFormAction):
                 "tracing": self.YES_NO_MAPPING[tracker.get_slot("tracing")],
                 "risk": risk,
                 "gender": self.GENDER_MAPPING[tracker.get_slot("gender")],
-                "location": tracker.get_slot("location_coords") or "",
-                "city_location": tracker.get_slot("city_location_coords") or "",
+                "location": self.fix_location_format(
+                    tracker.get_slot("location_coords")
+                ),
+                "city_location": self.fix_location_format(
+                    tracker.get_slot("city_location_coords")
+                ),
                 "smell": self.YES_NO_MAPPING[tracker.get_slot("symptoms_taste_smell")],
                 "preexisting_condition": self.YES_NO_MAYBE_MAPPING[
                     tracker.get_slot("medical_condition")
