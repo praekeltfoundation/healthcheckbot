@@ -80,6 +80,7 @@ data/lookup_tables/provinces.txt
 - [western cape]{"entity": "province", "value": "wc"}
 - [1](number)
 - [2](number).
+- Sandton
 
 ## intent:exit
 - menu please
