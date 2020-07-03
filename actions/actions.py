@@ -39,6 +39,9 @@ class BaseFormAction(FormAction):
 
     @staticmethod
     def is_int(value: Text) -> bool:
+        if not isinstance(value, str):
+            return False
+
         try:
             int(value)
             return True
@@ -57,7 +60,7 @@ class BaseFormAction(FormAction):
         - One of the values
         - An integer that is one of the keys
         """
-        if value and value.lower() in data.values():
+        if value and isinstance(value, str) and value.lower() in data.values():
             return {field: value}
         elif self.is_int(value) and int(value) in data:
             return {field: data[int(value)]}
