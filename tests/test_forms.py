@@ -82,6 +82,23 @@ class TestHealthCheckProfileForm:
             SlotSet("requested_slot", "province"),
         ]
 
+    @pytest.mark.asyncio
+    async def test_validate_province(self):
+        form = HealthCheckProfileForm()
+        dispatcher = CollectingDispatcher()
+
+        i = 1
+        for p in ["ec", "fs", "gt", "nl", "lp", "mp", "nw", "nc", "wc"]:
+            tracker = utils.get_tracker_for_number_slot_with_value(
+                form, "province", str(i), {"age": "18-39", "gender": "MALE"}
+            )
+            events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+            assert events == [
+                SlotSet("province", p),
+                SlotSet("requested_slot", "location"),
+            ]
+            i += 1
+
 
 class TestHealthCheckTermsForm:
     @pytest.mark.asyncio
