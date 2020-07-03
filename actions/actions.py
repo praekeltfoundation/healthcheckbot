@@ -9,15 +9,14 @@ from rasa_sdk import Tracker
 from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
+from sentry_sdk.integrations.logging import LoggingIntegration
+from sentry_sdk.integrations.sanic import SanicIntegration
 
 from actions import config, utils
 
 logger = logging.getLogger(__name__)
 
 if config.SENTRY_DSN:
-    from sentry_sdk.integrations.logging import LoggingIntegration
-    from sentry_sdk.integrations.sanic import SanicIntegration
-
     sentry_logging = LoggingIntegration(level=logging.INFO, event_level=logging.ERROR)
     sentry_sdk.init(
         dsn=config.SENTRY_DSN, integrations=[sentry_logging, SanicIntegration()]
