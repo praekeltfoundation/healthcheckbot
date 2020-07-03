@@ -9,7 +9,11 @@ from rasa_sdk.events import Form, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 import actions.actions
-from actions.actions import HealthCheckProfileForm, HealthCheckTermsForm
+from actions.actions import (
+    HealthCheckForm,
+    HealthCheckProfileForm,
+    HealthCheckTermsForm,
+)
 from tests import utils
 
 
@@ -148,6 +152,22 @@ class TestHealthCheckProfileForm:
             == "+51.481845+007.216236/"
         )
 
+    def test_fix_location_format(self):
+        """
+        Ensures that both correct and incorrect location pins are returned in ISO6709
+        format
+        """
+        test_pairs = (
+            ("+0+0/", "+00+000/"),
+            ("-1-1/", "-01-001/"),
+            ("+1.234-5.678/", "+01.234-005.678/"),
+            ("-12.34+123.456/", "-12.34+123.456/"),
+            ("+51.481845+7.216236/", "+51.481845+007.216236/"),
+        )
+        for (invalid, valid) in test_pairs:
+            assert HealthCheckProfileForm.fix_location_format(invalid) == valid
+            assert HealthCheckProfileForm.fix_location_format(valid) == valid
+
     @pytest.mark.asyncio
     async def test_validate_location_pin(self):
         """
@@ -243,3 +263,74 @@ class TestHealthCheckTermsForm:
         tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "more")
         events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
         assert events == [SlotSet("terms", None), SlotSet("requested_slot", "terms")]
+
+
+class TestHealthCheckForm:
+    @respx.mock
+    @pytest.mark.asyncio
+    async def test_submit_to_eventstore(self):
+        """
+        Submits the data to the eventstore in the correct format
+        """
+        actions.actions.config.EVENTSTORE_URL = "https://eventstore"
+        actions.actions.config.EVENTSTORE_TOKEN = "token"
+
+        request = respx.post("https://eventstore/api/v3/covid19triage/")
+
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = utils.get_tracker_for_slot_from_intent(
+            form,
+            "tracing",
+            "affirm",
+            {
+                "province": "wc",
+                "age": "18-39",
+                "symptoms_fever": "no",
+                "symptoms_cough": "no",
+                "symptoms_sore_throat": "yes",
+                "symptoms_difficulty_breathing": "no",
+                "symptoms_taste_smell": "no",
+                "exposure": "not sure",
+                "tracing": "yes",
+                "gender": "RATHER NOT SAY",
+                "medical_condition": "not sure",
+                "city_location_coords": "+1.2-3.4",
+                "location_coords": "+3.4-1.2",
+                "location": "Cape Town, South Africa",
+            },
+        )
+        await form.submit(dispatcher, tracker, {})
+
+        assert request.called
+        [(request, response)] = request.calls
+        data = json.loads(request.stream.body)
+        assert data.pop("deduplication_id")
+        assert data == {
+            "province": "ZA-WC",
+            "age": "18-40",
+            "fever": False,
+            "cough": False,
+            "sore_throat": True,
+            "difficulty_breathing": False,
+            "smell": False,
+            "exposure": "not_sure",
+            "tracing": True,
+            "gender": "not_say",
+            "preexisting_condition": "not_sure",
+            "city_location": "+01.2-003.4/",
+            "location": "+03.4-001.2/",
+            "city": "Cape Town, South Africa",
+            "msisdn": "+default",
+            "risk": "moderate",
+            "source": "WhatsApp",
+            "data": {
+                "cardio": None,
+                "diabetes": None,
+                "hypertension": None,
+                "obesity": None,
+            },
+        }
+
+        actions.actions.config.EVENTSTORE_URL = None
+        actions.actions.config.EVENTSTORE_TOKEN = None
