@@ -22,6 +22,9 @@ jobs:
           isort -rc -c actions
           flake8 actions
           mypy actions
+      - name: Test actions
+        run: |
+          py.test
       - name: Test model
         run: |
           rasa data validate
