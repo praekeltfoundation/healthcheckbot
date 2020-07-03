@@ -5,43 +5,19 @@ from urllib.parse import urlencode
 import pytest
 import respx
 from rasa_sdk import Tracker
-from rasa_sdk.events import SlotSet, Form
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
-import actions.actions
+<<<<<<< HEAD
 from actions.actions import HealthCheckProfileForm, HealthCheckTermsForm
 from tests import utils
+=======
+import actions.actions
+from actions.actions import HealthCheckProfileForm
+>>>>>>> 4fbd6e31277afa7cc2f6430e96e13a1588dc3af8
 
 
 class TestHealthCheckProfileForm:
-    def get_tracker_for_number_slot_with_value(self, slot_name, value):
-        return Tracker(
-            "default",
-            {"requested_slot": slot_name},
-            {"entities": [{"entity": "number", "value": value}]},
-            [],
-            False,
-            None,
-            {},
-            "action_listen",
-        )
-
-    def get_tracker_for_text_slot_with_message(
-        self, slot_name: Text, text: Text, msg: Optional[Dict[Text, Any]] = None
-    ):
-        msgs = [{"event": "user", "metadata": msg or dict()}]
-
-        return Tracker(
-            "default",
-            {"requested_slot": slot_name},
-            {"text": text},
-            msgs,
-            False,
-            None,
-            {},
-            "action_listen",
-        )
-
     @pytest.mark.asyncio
     async def test_validate_age(self):
         form = HealthCheckProfileForm()
@@ -72,6 +48,22 @@ class TestHealthCheckProfileForm:
         )
         events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
         assert events == [SlotSet("age", None), SlotSet("requested_slot", "age")]
+
+    def get_tracker_for_text_slot_with_message(
+        self, slot_name: Text, text: Text, msg: Optional[Dict[Text, Any]] = None
+    ):
+        msgs = [{"event": "user", "metadata": msg or dict()}]
+
+        return Tracker(
+            "default",
+            {"requested_slot": slot_name},
+            {"text": text},
+            msgs,
+            False,
+            None,
+            {},
+            "action_listen",
+        )
 
     @pytest.mark.asyncio
     async def test_validate_gender(self):
@@ -130,6 +122,31 @@ class TestHealthCheckProfileForm:
                 SlotSet("requested_slot", "location"),
             ]
             i += 1
+
+
+class TestHealthCheckTermsForm:
+    @pytest.mark.asyncio
+    async def test_validate_terms(self):
+        form = HealthCheckTermsForm()
+        dispatcher = CollectingDispatcher()
+
+        tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "affirm")
+        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+        assert form.required_slots(tracker) == ["terms"]
+        assert events == [
+            SlotSet("terms", "yes"),
+            Form(None),
+            SlotSet("requested_slot", None),
+        ]
+
+<<<<<<< HEAD
+        tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "more")
+        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+        assert events == [SlotSet("terms", None), SlotSet("requested_slot", "terms")]
+=======
+        tracker = self.get_tracker_for_number_slot_with_value("age", ["2", "39"])
+        events = await form.validate(CollectingDispatcher(), tracker, {})
+        assert events == [SlotSet("age", None)]
 
     def test_format_location(self):
         """
@@ -223,23 +240,4 @@ class TestHealthCheckProfileForm:
         assert request.called
 
         actions.actions.config.GOOGLE_PLACES_API_KEY = None
-
-
-class TestHealthCheckTermsForm:
-    @pytest.mark.asyncio
-    async def test_validate_terms(self):
-        form = HealthCheckTermsForm()
-        dispatcher = CollectingDispatcher()
-
-        tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "affirm")
-        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
-        assert form.required_slots(tracker) == ["terms"]
-        assert events == [
-            SlotSet("terms", "yes"),
-            Form(None),
-            SlotSet("requested_slot", None),
-        ]
-
-        tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "more")
-        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
-        assert events == [SlotSet("terms", None), SlotSet("requested_slot", "terms")]
+>>>>>>> 4fbd6e31277afa7cc2f6430e96e13a1588dc3af8

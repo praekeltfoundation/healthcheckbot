@@ -18,10 +18,10 @@ jobs:
           pip install -r actions/requirements-actions.txt
       - name: Lint
         run: |
-          black --check actions
-          isort -rc -c actions
-          flake8 actions
-          mypy actions
+          black --check .
+          isort -rc -c .
+          flake8 .
+          mypy .
       - name: Test actions
         run: |
           py.test
