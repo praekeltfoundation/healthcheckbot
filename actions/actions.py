@@ -9,14 +9,15 @@ from rasa_sdk import Tracker
 from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
-from sentry_sdk.integrations.logging import LoggingIntegration
-from sentry_sdk.integrations.sanic import SanicIntegration
 
 from actions import config, utils
 
 logger = logging.getLogger(__name__)
 
 if config.SENTRY_DSN:
+    from sentry_sdk.integrations.logging import LoggingIntegration
+    from sentry_sdk.integrations.sanic import SanicIntegration
+
     sentry_logging = LoggingIntegration(level=logging.INFO, event_level=logging.ERROR)
     sentry_sdk.init(
         dsn=config.SENTRY_DSN, integrations=[sentry_logging, SanicIntegration()]
@@ -258,6 +259,27 @@ class HealthCheckProfileForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
 
+    @staticmethod
+    def format_location(latitude: float, longitude: float) -> Text:
+        """
+        Returns the location in ISO6709 format
+        """
+
+        def fractional_part(f):
+            parts = str(f).split(".")
+            if len(parts) == 2:
+                return f".{parts[1]}"
+            return ""
+
+        # latitude integer part must be fixed width 2, longitude 3
+        return (
+            f"{int(latitude):+03d}"
+            f"{fractional_part(latitude)}"
+            f"{int(longitude):+04d}"
+            f"{fractional_part(longitude)}"
+            "/"
+        )
+
     async def validate_location(
         self,
         value: Text,
@@ -276,7 +298,7 @@ class HealthCheckProfileForm(BaseFormAction):
             if not address:
                 address = f"GPS: {latitude}, {longitude}"
             return {
-                "location_coords": f"{latitude:+f}{longitude:+f}/",
+                "location_coords": self.format_location(latitude, longitude),
                 "location": address,
                 "location_confirm": "yes",
             }
@@ -321,7 +343,7 @@ class HealthCheckProfileForm(BaseFormAction):
                 longitude = geometry["lng"]
                 return {
                     "location": formatted_address,
-                    "city_location_coords": f"{latitude:+f}{longitude:+f}/",
+                    "city_location_coords": self.format_location(latitude, longitude),
                 }
             else:
                 dispatcher.utter_message(template="utter_incorrect_location")
