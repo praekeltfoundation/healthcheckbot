@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 import pytest
 import respx
 from rasa_sdk import Tracker
-from rasa_sdk.events import SlotSet, Form
+from rasa_sdk.events import Form, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 import actions.actions
