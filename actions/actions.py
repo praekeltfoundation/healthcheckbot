@@ -103,8 +103,8 @@ class BaseFormAction(FormAction):
         regex = re.compile(
             r"""
             ^
-            (?P<latitude>[\+|-]\d+\.*\d*)
-            (?P<longitude>[\+|-]\d+\.*\d*)
+            (?P<latitude>[\+|-]\d+\.?\d*)
+            (?P<longitude>[\+|-]\d+\.?\d*)
             """,
             flags=re.VERBOSE,
         )
