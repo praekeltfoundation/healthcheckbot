@@ -258,6 +258,27 @@ class HealthCheckProfileForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
 
+    @staticmethod
+    def format_location(latitude: float, longitude: float) -> Text:
+        """
+        Returns the location in ISO6709 format
+        """
+
+        def fractional_part(f):
+            parts = str(f).split(".")
+            if len(parts) == 2:
+                return f".{parts[1]}"
+            return ""
+
+        # latitude integer part must be fixed width 2, longitude 3
+        return (
+            f"{int(latitude):+03d}"
+            f"{fractional_part(latitude)}"
+            f"{int(longitude):+04d}"
+            f"{fractional_part(longitude)}"
+            "/"
+        )
+
     async def validate_location(
         self,
         value: Text,
@@ -276,7 +297,7 @@ class HealthCheckProfileForm(BaseFormAction):
             if not address:
                 address = f"GPS: {latitude}, {longitude}"
             return {
-                "location_coords": f"{latitude:+f}{longitude:+f}/",
+                "location_coords": self.format_location(latitude, longitude),
                 "location": address,
                 "location_confirm": "yes",
             }
@@ -321,7 +342,7 @@ class HealthCheckProfileForm(BaseFormAction):
                 longitude = geometry["lng"]
                 return {
                     "location": formatted_address,
-                    "city_location_coords": f"{latitude:+f}{longitude:+f}/",
+                    "city_location_coords": self.format_location(latitude, longitude),
                 }
             else:
                 dispatcher.utter_message(template="utter_incorrect_location")
