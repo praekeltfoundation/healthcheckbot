@@ -1,9 +1,8 @@
-import pytest
 
+import pytest
 from rasa_sdk import Tracker
-from rasa_sdk.events import SlotSet, Form
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.forms import FormAction
 
 from actions.actions import HealthCheckProfileForm
 
