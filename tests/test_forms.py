@@ -41,6 +41,47 @@ class TestHealthCheckProfileForm:
         events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
         assert events == [SlotSet("age", None), SlotSet("requested_slot", "age")]
 
+    @pytest.mark.asyncio
+    async def test_validate_gender(self):
+        form = HealthCheckProfileForm()
+        dispatcher = CollectingDispatcher()
+
+        tracker = utils.get_tracker_for_number_slot_with_value(
+            form, "gender", "1", {"age": "18-39"}
+        )
+        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+        assert events == [
+            SlotSet("gender", "MALE"),
+            SlotSet("requested_slot", "province"),
+        ]
+
+        tracker = utils.get_tracker_for_number_slot_with_value(
+            form, "gender", "2", {"age": "18-39"}
+        )
+        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+        assert events == [
+            SlotSet("gender", "FEMALE"),
+            SlotSet("requested_slot", "province"),
+        ]
+
+        tracker = utils.get_tracker_for_number_slot_with_value(
+            form, "gender", "3", {"age": "18-39"}
+        )
+        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+        assert events == [
+            SlotSet("gender", "OTHER"),
+            SlotSet("requested_slot", "province"),
+        ]
+
+        tracker = utils.get_tracker_for_number_slot_with_value(
+            form, "gender", "4", {"age": "18-39"}
+        )
+        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
+        assert events == [
+            SlotSet("gender", "RATHER NOT SAY"),
+            SlotSet("requested_slot", "province"),
+        ]
+
 
 class TestHealthCheckTermsForm:
     @pytest.mark.asyncio
