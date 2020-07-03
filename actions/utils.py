@@ -19,7 +19,7 @@ def get_risk_level(data: Dict[Any, Any]) -> Text:
             return "high"
         else:
             return "moderate"
-    elif symptoms == 0:
+    else:
         if data["exposure"] == "yes":
             return "moderate"
         else:
