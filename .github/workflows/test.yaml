@@ -5,6 +5,10 @@ on: [pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        bot: ['base']
+        lang: ['eng']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -15,18 +19,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
-          pip install -r actions/requirements-actions.txt
-      - name: Lint
+          pip install -r ${{ matrix.bot }}/actions/requirements-actions.txt
+      - name: Test
         run: |
-          black --check .
-          isort -rc -c .
-          flake8 .
-          mypy .
-      - name: Test actions
-        run: |
-          py.test
-      - name: Test model
-        run: |
-          rasa data validate
-          rasa train
-          rasa test --fail-on-prediction-errors
+          ./test.sh ${{ matrix.bot }} ${{ matrix.lang }}
