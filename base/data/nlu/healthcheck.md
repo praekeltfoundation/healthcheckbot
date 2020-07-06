@@ -1,0 +1,17 @@
+## intent:request_healthcheck
+- Hi! I want to do health check for myself
+- I want to do a test for myself
+- Test
+- Healthcheck
+- Health check
+- Please check if I have covid
+- Please check if I'm sick
+- Please check if I have to get tested
+- I want to get tested
+- Please test
+- Test me
+- Do I have the virus?
+- Do I need to get tested?
+- Check my symptoms
+- I have a fever! Do I have covid?
+- check
