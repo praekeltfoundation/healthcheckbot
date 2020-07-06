@@ -59,7 +59,7 @@
 - terms & conditions
 
 ## lookup:province
-data/lookup_tables/provinces.txt
+base/data/lookup_tables/provinces.txt
 
 ## intent:inform
 - I live in [gauteng]{"entity": "province", "value": "gt"}
