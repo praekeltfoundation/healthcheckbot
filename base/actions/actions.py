@@ -13,7 +13,7 @@ from rasa_sdk.forms import Action, FormAction
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.sanic import SanicIntegration
 
-from actions import config, utils
+from . import config, utils
 
 logger = logging.getLogger(__name__)
 
@@ -217,17 +217,17 @@ class HealthCheckProfileForm(BaseFormAction):
 
     @property
     def province_data(self) -> Dict[int, Text]:
-        with open("data/lookup_tables/provinces.txt") as f:
+        with open("base/data/lookup_tables/provinces.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
 
     @property
     def age_data(self) -> Dict[int, Text]:
-        with open("data/lookup_tables/ages.txt") as f:
+        with open("base/data/lookup_tables/ages.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
 
     @property
     def gender_data(self) -> Dict[int, Text]:
-        with open("data/lookup_tables/gender.txt") as f:
+        with open("base/data/lookup_tables/gender.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:

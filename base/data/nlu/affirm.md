@@ -1,0 +1,17 @@
+## intent:affirm
+- accept
+- ✅
+- i accept
+- correct
+- ye
+- uh yes
+- let's do it
+- yeah
+- um yes
+- that's correct
+- yes yes
+- right
+- yea
+- yes
+- yes right
+- i do
