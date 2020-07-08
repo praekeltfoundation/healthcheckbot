@@ -5,6 +5,8 @@ intents:
   - maybe
   - inform
   - more
+  - chitchat
+  - address
   - exit:
       triggers: action_exit
 

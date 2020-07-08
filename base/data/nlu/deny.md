@@ -4,3 +4,17 @@
 - no thank you
 - uh no
 - breath no
+- No, but sometimes sweating at night
+- Cold. Forehead, normal temp
+- Nothing
+- Rather not
+- I am not in south Africa
+- ⛔
+- ⛔️
+- ❌
+- ❎
+- Um not at the ages
+- From not exercising
+- Nope
+- N0,Y
+- Neva

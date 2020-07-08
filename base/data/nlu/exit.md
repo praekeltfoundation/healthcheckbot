@@ -132,3 +132,45 @@
 - Yes main menu
 - you can’t spel  MENU without Me n u
 - menu
+- Number of cases
+- New car cases
+- *NEWS*
+- NEWS
+- Bat flat chat agen lata..
+- Province's number of new cases
+- Full recoveries
+- Severe allergies
+- Schools update
+- Wena ubone ibisi ewadropini yam ugqiba wathi ndilibile ndiyasolwa ngk ukuba ndibe ibisi
+- Social relief of Distress Sassa
+- I'm not I'll I want information about corona
+- Lockdown
+- How you cannot get Corona
+- Hello yes or no how many cases of the dead
+- New cases
+- ɦɨ
+- HELPLINE
+- Nm
+- COVID19
+- *HI*
+- How to prevent covid 19
+- WEEKLY RI3
+- *You are useless*
+- You are  repeating the same ting
+- You are a Fool
+- You are repeated the same thin
+- Later
+- How to treat
+- CHECK to use the weekly risk assessments screening tools
+- Check tomorrow to read the full story shared from
+- Nɛաs
+- Sorry wrong text I'm not sick
+- Oh gosh bye. You not helping
+- Nyt
+- I am done
+- Guys I would like to know the symptoms of Covid-19
+- *Wellness*
+- *Wellness*💛
+- Wellness
+- Wellness 💛
+- Signs and symptoms of COVID -19

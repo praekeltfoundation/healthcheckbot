@@ -15,3 +15,27 @@
 - yes
 - yes right
 - i do
+- Yes but it has been like this since I was a child
+- I will be
+- She’d be
+- I a little hot, it comes and goes.
+- A c c e p t
+- Bit hot
+- Opohk
+- I'm on high blood medication. Called ridaq 12,5 mg
+- Real
+- Ouky
+- I went to the doctor
+- I'm good
+- Yes cold and shivering
+- Have scoliosis and arthritis
+- AĆĆɛקŧ
+- AςςҽԹԵ
+- ☑️
+- ☑️☑️
+- ✓
+- ✔
+- ✔️
+- Uhhhhj
+- ya
+- Ohh ohk
