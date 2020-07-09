@@ -4,3 +4,13 @@
 - no thank you
 - uh no
 - breath no
+- No, but sometimes sweating at night
+- Nothing
+- ⛔
+- ⛔️
+- ❌
+- ❎
+- Um not at the ages
+- Nope
+- N0,Y
+- Neva

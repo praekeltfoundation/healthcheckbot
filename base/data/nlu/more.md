@@ -8,3 +8,7 @@
 - can i read the terms and conditions?
 - terms and conditions
 - terms & conditions
+- ℹ
+- ℹ️
+- Moee
+- m0re
