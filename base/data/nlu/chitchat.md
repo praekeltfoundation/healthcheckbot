@@ -173,3 +173,14 @@ In addition to Friday, the department recorded 2,643 new cases on Thursday and 1
 - WhatsApp John is July July July July July July July July July July July July July July July July July July July July July July July July July July July July July July July July July July July
 - Hi i would like to know that when are the grade 8s going back to school
 - Why a pandemic such as COVID-19 Could be regarded as a Heath hazard
+- Cold. Forehead, normal temp
+- Rather not
+- I am not in south Africa
+- From not exercising
+- I a little hot, it comes and goes.
+- Opohk
+- I'm on high blood medication. Called ridaq 12,5 mg
+- I went to the doctor
+- I'm good
+- Have scoliosis and arthritis
+- Uhhhhj
