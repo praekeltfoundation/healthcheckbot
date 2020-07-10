@@ -22,3 +22,12 @@ This is the main, public HealthCheck. Other healthcheck bots are based upon this
 It has the following languages:
 
 `eng`: English
+
+
+### dbe
+This is the HealthCheck for the Department of Basic Education / E3. 
+It has an import of the actions, a copy of the domain, and a symlink for all the data
+files.
+It has the following languages:
+
+`eng`: English
