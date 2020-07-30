@@ -8,5 +8,7 @@ RUN pip install -r requirements-actions.txt
 USER 1001
 
 COPY ./base/actions /app/base/actions
+COPY ./dbe/actions /app/dbe/actions
 COPY ./base/data /app/base/data
+COPY ./dbe/data /app/dbe/data
 CMD ["start", "--actions", "base.actions.actions"]
