@@ -254,6 +254,7 @@ responses:
   utter_ask_symptoms_fever:
     - text: |
         ⬛⬜⬜⬜⬜⬜⬜
+
         Ngabe uzizwa ushisa kakhulu noma ubanda? Ngabe uyajuluka noma uyathuthumela? Lapho uthinta isiphongo sakho, ingabe usizwa sishisa?
 
         Phendula
@@ -283,6 +284,7 @@ responses:
   utter_ask_symptoms_difficulty_breathing:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
+
         Ingabe uqaphele ukuthi unokuphelelwa umoya noma unenkinga yokuphefumula, ezinsukwini?
 
         Phendula
@@ -292,6 +294,7 @@ responses:
   utter_ask_symptoms_taste_smell:
     - text: |
         ⬛⬛⬛⬛⬛⬜⬜
+
         Uke waluzwa ushintsho emandleni akho okunambitha noma okuhogela izinto ezinsukwini?
 
         Phendula
@@ -312,6 +315,7 @@ responses:
   utter_ask_tracing:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬛
+
         Ekuphetheni, ngicela uqinisekise ukuthi ulwazi osinike lona *luyiqiniso* ngokwazi kwakho nokuthi unikeza uMnyango Wezempilo Kazwelonke imvume yokuxhumana nawe uma kunesidingo?
 
         Phendula
