@@ -122,7 +122,7 @@ responses:
 
   utter_ask_terms:
       - text: |
-          Phendula ngegama elinye kula ANGONOBUMBA ukuze uqhubekeke
+          Phendula ngegama elinye kula *ANGONOBUMBA* ukuze uqhubekeke
 
           YAMKELA ✅ - _ukwamkela imigaqo nemiqathango_
           OKUNINZI 📄 - -ukufunda imigaqo nemiqathango_
@@ -136,10 +136,6 @@ responses:
           Le nkonzo ayithathi indawo yengcebiso kwezonyango / ukufumanisa isifo / unyango. Fumana ingcebiso kumboneleli wezempilo ofanelekileyo malunga nemeko yonyango / ukhathalelo lwakho, ingakumbi ukuba uneempawu ezixhalabisayo kakhulu.
 
           Uyaqinisekisa ukuba awuzukungahoyi / ulibazise ukufuna ingcebiso zempilo malunga nonyango/ nokhathalelo ngenxa yale nkonzo.Thembela kolu lwazi ngokusemngciphekweni wakho.
-
-          Phendula ngegama elinye kula *ANGONOBUMBA* ukuze uqhubekeke
-          *YAMKELA* ✅ ukukwamkela imigaqo nemiqathango
-          (okanye phendula u 📌 *IMENYU* ukubuyela kwimenyu yakuqala)
 
   utter_ask_province:
       - text: |
