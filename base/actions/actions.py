@@ -637,6 +637,54 @@ class HealthCheckForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("tracing", dispatcher, value, self.yes_no_data)
 
+    def get_eventstore_data(self, tracker: Tracker, risk: Text) -> Dict[Text, Any]:
+        """
+        Formats the data from the tracker into the format expected by the event store
+        """
+        return {
+            "deduplication_id": uuid.uuid4().hex,
+            "msisdn": f'+{tracker.sender_id.lstrip("+")}',
+            "source": "WhatsApp",
+            "province": f'ZA-{tracker.get_slot("province").upper()}',
+            "city": tracker.get_slot("location"),
+            "age": self.AGE_MAPPING[tracker.get_slot("age")],
+            "fever": self.YES_NO_MAPPING[tracker.get_slot("symptoms_fever")],
+            "cough": self.YES_NO_MAPPING[tracker.get_slot("symptoms_cough")],
+            "sore_throat": self.YES_NO_MAPPING[
+                tracker.get_slot("symptoms_sore_throat")
+            ],
+            "difficulty_breathing": self.YES_NO_MAPPING[
+                tracker.get_slot("symptoms_difficulty_breathing")
+            ],
+            "exposure": self.YES_NO_MAYBE_MAPPING[tracker.get_slot("exposure")],
+            "tracing": self.YES_NO_MAPPING[tracker.get_slot("tracing")],
+            "risk": risk,
+            "gender": self.GENDER_MAPPING[tracker.get_slot("gender")],
+            "location": self.fix_location_format(tracker.get_slot("location_coords")),
+            "city_location": self.fix_location_format(
+                tracker.get_slot("city_location_coords")
+            ),
+            "smell": self.YES_NO_MAPPING[tracker.get_slot("symptoms_taste_smell")],
+            "preexisting_condition": self.YES_NO_MAYBE_MAPPING[
+                tracker.get_slot("medical_condition")
+            ],
+            # TODO: Put these 4 fields as columns on the table for a v4 API
+            "data": {
+                "obesity": self.YES_NO_MAPPING.get(
+                    tracker.get_slot("medical_condition_obesity")
+                ),
+                "diabetes": self.YES_NO_MAPPING.get(
+                    tracker.get_slot("medical_condition_diabetes")
+                ),
+                "hypertension": self.YES_NO_MAPPING.get(
+                    tracker.get_slot("medical_condition_hypertension")
+                ),
+                "cardio": self.YES_NO_MAPPING.get(
+                    tracker.get_slot("medical_condition_cardio")
+                ),
+            },
+        }
+
     async def submit(
         self,
         dispatcher: CollectingDispatcher,
@@ -659,51 +707,7 @@ class HealthCheckForm(BaseFormAction):
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
             url = urljoin(config.EVENTSTORE_URL, "/api/v3/covid19triage/")
 
-            post_data = {
-                "deduplication_id": uuid.uuid4().hex,
-                "msisdn": f'+{tracker.sender_id.lstrip("+")}',
-                "source": "WhatsApp",
-                "province": f'ZA-{tracker.get_slot("province").upper()}',
-                "city": tracker.get_slot("location"),
-                "age": self.AGE_MAPPING[tracker.get_slot("age")],
-                "fever": self.YES_NO_MAPPING[tracker.get_slot("symptoms_fever")],
-                "cough": self.YES_NO_MAPPING[tracker.get_slot("symptoms_cough")],
-                "sore_throat": self.YES_NO_MAPPING[
-                    tracker.get_slot("symptoms_sore_throat")
-                ],
-                "difficulty_breathing": self.YES_NO_MAPPING[
-                    tracker.get_slot("symptoms_difficulty_breathing")
-                ],
-                "exposure": self.YES_NO_MAYBE_MAPPING[tracker.get_slot("exposure")],
-                "tracing": self.YES_NO_MAPPING[tracker.get_slot("tracing")],
-                "risk": risk,
-                "gender": self.GENDER_MAPPING[tracker.get_slot("gender")],
-                "location": self.fix_location_format(
-                    tracker.get_slot("location_coords")
-                ),
-                "city_location": self.fix_location_format(
-                    tracker.get_slot("city_location_coords")
-                ),
-                "smell": self.YES_NO_MAPPING[tracker.get_slot("symptoms_taste_smell")],
-                "preexisting_condition": self.YES_NO_MAYBE_MAPPING[
-                    tracker.get_slot("medical_condition")
-                ],
-                # TODO: Put these 4 fields as columns on the table for a v4 API
-                "data": {
-                    "obesity": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_obesity")
-                    ),
-                    "diabetes": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_diabetes")
-                    ),
-                    "hypertension": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_hypertension")
-                    ),
-                    "cardio": self.YES_NO_MAPPING.get(
-                        tracker.get_slot("medical_condition_cardio")
-                    ),
-                },
-            }
+            post_data = self.get_eventstore_data(tracker, risk)
             headers = {
                 "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
                 "User-Agent": "rasa/covid19-healthcheckbot",

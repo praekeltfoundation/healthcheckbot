@@ -1,4 +1,4 @@
-from actions import utils
+from base.actions import utils
 
 
 def test_risk_level():
