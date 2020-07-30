@@ -142,7 +142,7 @@ responses:
 
   utter_ask_province:
       - text: |
-          n watter Provinsie woon jy tans?
+          In watter Provinsie woon jy tans?
 
           Antwoord:
           *1.* OOS-KAAP
