@@ -8,3 +8,7 @@
 - Maoe
 - I forgot
 - Well I'm neither worried or nor I'm I  sick
+- anginaso isiqinisekiso
+- ha ke na bonnete
+- andiqinisekanga
+- nie seker nie
