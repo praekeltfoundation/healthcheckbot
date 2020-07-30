@@ -127,7 +127,7 @@ responses:
           AMOHELA ✅ - _ho amohela melawana le dipehelo_
           TSE DING TSE NGATA 📄 - ho bala melawana le dipehelo_
 
-          (kapa Araba MENU 📌 _ ho kgutlela ho menu wa pele_)
+          (kapa Araba MENU 📌 _ho kgutlela ho menu wa pele_)
 
   utter_more_terms:
       - text: |
@@ -139,7 +139,7 @@ responses:
 
           Araba ka le leng la mantswe a ngotsweng ka *BOTENYA* ho tswela pele
           AMOHELA ✅ - _ho amohela melawana le dipehelo_
-          (kapa Araba MENU 📌 _ ho kgutlela ho menu wa pele_)
+          (kapa Araba MENU 📌 _ho kgutlela ho menu wa pele_)
 
   utter_ask_province:
       - text: |
