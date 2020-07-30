@@ -214,7 +214,7 @@ responses:
         Araba
         *1.* E
         *2.* TJHE
-        *3* HA KE NA BONNETE
+        *3.* HA KE NA BONNETE
 
   utter_ask_medical_condition_obesity:
     - text: |
