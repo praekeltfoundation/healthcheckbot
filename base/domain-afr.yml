@@ -1,0 +1,390 @@
+intents:
+  - request_healthcheck
+  - affirm
+  - deny
+  - maybe
+  - inform
+  - more
+  - chitchat
+  - address
+  - exit:
+      triggers: action_exit
+
+entities:
+  - province
+  - number
+
+actions:
+  - action_session_start
+  - action_exit
+  - utter_ask_terms
+  - utter_ask_age
+  - utter_ask_gender
+  - utter_ask_province
+  - utter_ask_location
+  - utter_ask_location_confirm
+  - utter_ask_medical_condition
+  - utter_ask_medical_condition_obesity
+  - utter_ask_medical_condition_diabetes
+  - utter_ask_medical_condition_hypertension
+  - utter_ask_medical_condition_cardio
+  - utter_start_health_check
+  - utter_ask_symptoms_fever
+  - utter_ask_symptoms_cough
+  - utter_ask_symptoms_sore_throat
+  - utter_ask_symptoms_difficulty_breathing
+  - utter_ask_symptoms_taste_smell
+  - utter_ask_exposure
+  - utter_ask_tracing
+  - utter_submit
+  - utter_risk_low
+  - utter_risk_moderate
+  - utter_risk_high
+
+slots:
+  terms:
+    type: categorical
+    values:
+      - yes
+  age:
+    type: unfeaturized
+    auto_fill: false
+  gender:
+    type: unfeaturized
+    auto_fill: false
+  province:
+    type: unfeaturized
+    auto_fill: false
+  location:
+    type: unfeaturized
+    auto_fill: false
+  location_confirm:
+    type: unfeaturized
+    auto_fill: false
+  location_coords:
+    type: unfeaturized
+    auto_fill: false
+  city_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_fever:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_cough:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_taste_smell:
+    type: unfeaturized
+    auto_fill: false
+  exposure:
+    type: unfeaturized
+    auto_fill: false
+  tracing:
+    type: unfeaturized
+    auto_fill: false
+  requested_slot:
+    type: unfeaturized
+
+forms:
+  - healthcheck_form
+  - healthcheck_terms_form
+  - healthcheck_profile_form
+
+responses:
+  utter_welcome:
+      - text: |
+          *HealthCheck* is jou weeklikse risiko-asseserings instrument. Help ons asb deur 'n paar vrae oor jouself en jou gesondheid te beantwoord. Jy sal raad ontvang, wat op nasionale riglyne gebaseer is, oor watter stappe om te neem. Die data wat jy verskaf sal ons help met die voorspellende modulering asook met die beplanning van ons nasionale reaksie teen COVID-19. Dankie dat jy na vore gekom het en bydra tot die gesondheid van jou medemens ASOOK om die verspreiding van die virus te stop. 🦠
+
+          Antwoord met een van die woorde in VETDRUK om voort te gaan.
+
+          AANVAAR ✅ - _om die bepalings en voorwaardes te aanvaar_
+          MEER 📄 - _om die bepalings en voorwaardes te lees_
+
+          (of Antwoord KIESLYS 📌 _om na die hoofkieslys terug te keer_)
+
+  utter_welcome_back:
+      - text: |
+          Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_ask_terms:
+      - text: |
+          *HealthCheck* is jou weeklikse risiko-asseserings instrument. Help ons asb deur 'n paar vrae oor jouself en jou gesondheid te beantwoord. Jy sal raad ontvang, wat op nasionale riglyne gebaseer is, oor watter stappe om te neem. Die data wat jy verskaf sal ons help met die voorspellende modulering asook met die beplanning van ons nasionale reaksie teen COVID-19. Dankie dat jy na vore gekom het en bydra tot die gesondheid van jou medemens ASOOK om die verspreiding van die virus te stop. 🦠
+
+          Antwoord met een van die woorde in VETDRUK om voort te gaan.
+
+          AANVAAR ✅ - _om die bepalings en voorwaardes te aanvaar_
+          MEER 📄 - _om die bepalings en voorwaardes te lees_
+
+          (of Antwoord KIESLYS 📌 _om na die hoofkieslys terug te keer_)
+
+  utter_more_terms:
+      - text: |
+          Jy bevestig dat jy verantwoordelik is vir jou eie mediese sorg en behandeling. Hierdie diens verskaf slegs die inligting.
+
+          Hierdie diens is nie 'n plaasvervanger vir professionele mediese advies/ diagnose/ behandeling nie. Jy moet 'n gekwalifiseerde mediese persoon se raad kry rakende jou mediese kondisie/ sorg, veral as jy ernstige simptome begin ontwikkel.
+
+          Jy bevestig dat jy nie a.g.v. hierdie diens enige mediese advies oor behandeling of sorg sal uitstel of verontagsaam nie. Maak staat op hierdie inligting op jou eie risiko.
+
+          Antwoord met een van die woorde in *VETDRUK* om voort te gaan:
+          *AANVAAR*  ✅ om die bepalings en voorwaardes te aanvaar (of antwoord 📌*KIESLYS* om na die hoofkieslys terug te keer).
+
+  utter_ask_province:
+      - text: |
+          n watter Provinsie woon jy tans?
+
+          Antwoord:
+          *1.* OOS-KAAP
+          *2.* VRYSTAAT
+          *3.* GAUTENG
+          *4.* KWAZULU-NATAL
+          *5.* LIMPOPO
+          *6.* MPUMALANGA
+          *7.* NOORDWES
+          *8.* NOORD-KAAP
+          *9.* WES-KAAP
+
+  utter_incorrect_selection:
+    - text: |
+        Hierdie diens werk die beste wanneer jy die opsies wat in *VETDRUK* voorsien word, gebruik.
+
+        📌Antwoord met *KIESLYS* om na die hoofkieslys terug te keer.
+
+  utter_incorrect_location:
+    - text: |
+        If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
+
+  utter_ask_age:
+    - text: |
+        Hoe oud is jy?
+
+        *1.* <18
+        *2.* 18-39
+        *3.* 40-65
+        *4.* >65
+
+  utter_ask_gender:
+    - text: |
+        Dui asb die geslag aan waarmee jy jouself identifiseer:
+
+        Antwoord met
+        *1.* MANLIK
+        *2.* VROULIK
+        *3.* ANDER
+        *4.* VERKIES OM NIE TE SÊ NIE
+
+  utter_ask_location:
+    - text: |
+        Ons moet jou ligging vasstel.
+
+        Deel asb jou ligging 📍 op WhatsApp deur die volgende stappe te volg:
+        - Druk op die aanheggins-ikoon (+ of  📎) aan die onderkant van Whatsapp.
+        - Kies ligging.
+        - Dit sal 'n kaart laat verskyn met 'n speld wat jou huidige ligging aandui. Druk *Send Your Current Location* as dit jou adres is.
+        - Jy kan ook van verskeie nabygeleë liggings kies indien jy dink dat die GPS nie heeltemal reg is nie.
+
+        Of TIK die naam van jou Buurt, Township, Dorp of Village (of naaste?).
+
+  utter_ask_location_confirm:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜
+
+        Ons gebruik Google Location Services om liggings te bevestig. Bevestig asb dat die adres hieronder is reg volgens die inligting wat jy gedeel het:
+        {location}
+
+        Antwoord met
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_medical_condition:
+    - text: |
+        Het jy enige ander reeds bestaande mediese kondisies waarvan ons moet weet?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+        *3.* NIE SEKER NIE
+
+  utter_ask_medical_condition_obesity:
+    - text: |
+        Het 'n dokter of enige ander gesondheidswerker jou al gediagnoseer as oorgewig?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_medical_condition_diabetes:
+    - text: |
+        Het 'n dokter of enige ander gesondheidswerker jou al met Diabetes gediagnoseer?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_medical_condition_hypertension:
+    - text: |
+        Het 'n dokter of enige ander gesondheidswerker jou al met hoë bloeddruk gediagnoseer?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_medical_condition_cardio:
+    - text: |
+        Het 'n dokter of enige ander gesondheidswerker jou al met 'n hartsiekte gediagnoseer?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_start_health_check:
+    - text: "Let's see how you are feeling today 💟"
+
+  utter_ask_symptoms_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        Voel jy baie warm of koud? Sweet of bewe jy? Wanneer jy aan jou voorkop vat, voel dit warm?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_symptoms_cough:
+    - text: |
+        ⬛⬛⬜⬜⬜⬜⬜
+
+        Het jy 'n hoes wat onlangs begin het?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_symptoms_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Do you have a sore throat or pain when swallowing?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_symptoms_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Het jy 'n seer keel of pyn wanneer jy sluk?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_symptoms_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Het jy onlangs enige veranderinge opgemerk in jou vermoë om dinge te ruik en te proe?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_exposure:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬜
+
+        Was jy in onmiddelike kontak met enige iemand wat positief getoets is vir COVID 19?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_ask_tracing:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬛
+
+        Ten slotte, bevestig asb dat die inligting wat jy gedeel het, is, tot die beste van jou kennis, *akkuraat* en dat jy die Nasionale Departement van Gesondheid toestemming gee om jou te kontak indien nodig?
+
+        Antwoord
+        *1.* JA
+        *2.* NEE
+
+  utter_submit:
+    - text: "All done!"
+
+  utter_risk_low:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
+      claim: release
+      text: |
+        Dankie dat jy al die vrae beantwoord het.
+
+        Volgens jou antwoorde loop jy 'n lae risiko om COVID-19 te hê en dus hoef jy nie weer hierdie risiko-assessering vir die volgende 7 dae te voltooi nie.
+        *As* jy in die volgende 7 dae begin siek voel of as jy met iemand in kontak kom wat met COVID-19 geïnfekteer is, beantwoord asb weer hierdie risiko-assessering.
+
+
+        🤒 Antwoord met *SIMPTOME* vir meer inligting.
+        📌 Antwoord met *KIESLYS* om na die hoofkieslys terug te kee
+
+  utter_risk_moderate:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+      claim: release
+      text: |
+        *Volgens jou antwoorde, beveel ons aan dat jy self-kwarantyn vir die volgende 14 dae asook dat jy hierdie HealthCheck daagliks voltooi om jou simptome te monitor.*
+
+        As moontlik, bly en slaap alleen in 'n kamer wat 'n venster en goeie lug vloei het.
+        - Jy mag met ander familielede gesels en buite wees, maar jy moet tenminste 2 meter vanaf almal bly ten alle tye.
+        - Jy moet nie besoekers by jou huis hê gedurende hierdie tyd nie.
+        - Net een familielid moet as jou versorger aangedui word. Sodoende sal minder van jou familie blootgestel word en dit sal ook verseker dat jy en hierdie versorger goeie gewoontes aanleer sodat hul nie die virus kry nie.
+        - As hierdie prosedures nie moontlik is nie, moet jy jou huisdokter of kliniek kontak vir alternatiewe opsies.
+
+        Antwoord met *KWARANTYN* vir meer inligting oor hoe om te self-kwarantyn.
+
+        📌Antwoord met *TOETSING* vir meer inligting of met *KIESLYS* om na die hoofkieslys terug te keer.
+
+  utter_risk_high:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
+      claim: release
+      text: |
+        *Volgens jou antwoorde, kan jy moontlik getoets word om uit te vind of jy met COVID-19 geïnfekteer is.*
+
+        Skakel die COVID-19 hulplyn: 0800 029 999, of jou huisdokter, vir meer inligting oor wat om volgende te doen asook hoe en waar om getoets te word indien dit sou nodig wees.
+
+        Volg hierdie belangrike stappe wanneer jy sorg benodig:
+        - Vermy kontak met ander mense in jou huishouding en in jou gemeenskap, indien moontlik, bly in 'n aparte kamer.
+        - Maak seker dat jy 'n gesigmasker aan sit voor jy 'n gesondheids-fasiliteit binne gaan.
+
+        Soek dringend mediese sorg indien jy ernstige simptome het of begin kry.
+
+        Antwoord met *KWARANTYN* vir meer inligting oor hoe om te self-kwarantyn.
+        📌 Antwoord met *TOETSING* vir meer inligting of met *KIESLYS* om na die hoofkieslys terug te keer.
+
+# claim: revert will ignore the message text, and reevaluate this message using
+# turn automation
+  utter_exit:
+    - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
+      claim: revert
+
+session_config:
+  session_expiration_time: 5
+  carry_over_slots_to_new_session: true
