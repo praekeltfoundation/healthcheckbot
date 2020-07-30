@@ -310,6 +310,7 @@ responses:
         Antwoord
         *1.* JA
         *2.* NEE
+        *3.* NIE SEKER NIE
 
   utter_ask_tracing:
     - text: |
