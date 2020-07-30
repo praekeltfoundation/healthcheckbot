@@ -198,8 +198,6 @@ responses:
 
   utter_ask_location_confirm:
     - text: |
-        ⬛⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜
-
         Re sebedisa Google Location Services ho netefatsa dibaka. Ka kopo netefatsa hore aterese e ka tlase e nepahetse ho latela dintlha tseo o faneng ka tsona:
         ----------------------------
         {location}

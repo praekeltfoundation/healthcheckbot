@@ -198,8 +198,6 @@ responses:
 
   utter_ask_location_confirm:
     - text: |
-        ⬛⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜
-
         Sisebenzisa izinsiza Zendawo zeGoogle ukuqinisekisa amakheli. Sicela uqinisekise ukuthi ikheli elingezansi lilungile ngokwemininingwane osinike yona:
         ----------------------------
         {location}
