@@ -32,3 +32,7 @@
 - ✔️
 - ya
 - Ohh ohk
+- ja
+- e
+- ewe
+- yebo
