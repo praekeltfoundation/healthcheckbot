@@ -124,8 +124,8 @@ responses:
       - text: |
           Antwoord met een van die woorde in VETDRUK om voort te gaan.
 
-          AANVAAR ✅ - _om die bepalings en voorwaardes te aanvaar_
-          MEER 📄 - _om die bepalings en voorwaardes te lees_
+          *AANVAAR* ✅ - _om die bepalings en voorwaardes te aanvaar_
+          *MEER* 📄 - _om die bepalings en voorwaardes te lees_
 
           (of Antwoord KIESLYS 📌 _om na die hoofkieslys terug te keer_)
 
