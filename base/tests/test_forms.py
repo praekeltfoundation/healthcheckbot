@@ -8,13 +8,13 @@ from rasa_sdk import Tracker
 from rasa_sdk.events import Form, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
-import actions.actions
-from actions.actions import (
+import base.actions.actions
+from base.actions.actions import (
     HealthCheckForm,
     HealthCheckProfileForm,
     HealthCheckTermsForm,
 )
-from tests import utils
+from base.tests import utils
 
 
 class TestHealthCheckProfileForm:
@@ -207,7 +207,7 @@ class TestHealthCheckProfileForm:
         """
         If there's are google places API credentials, then do a lookup
         """
-        actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
         querystring = urlencode(
             {
                 "key": "test_key",
@@ -242,7 +242,7 @@ class TestHealthCheckProfileForm:
         ]
         assert request.called
 
-        actions.actions.config.GOOGLE_PLACES_API_KEY = None
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
 
 
 class TestHealthCheckTermsForm:
@@ -272,8 +272,8 @@ class TestHealthCheckForm:
         """
         Submits the data to the eventstore in the correct format
         """
-        actions.actions.config.EVENTSTORE_URL = "https://eventstore"
-        actions.actions.config.EVENTSTORE_TOKEN = "token"
+        base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
+        base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
         request = respx.post("https://eventstore/api/v3/covid19triage/")
 
@@ -332,5 +332,5 @@ class TestHealthCheckForm:
             },
         }
 
-        actions.actions.config.EVENTSTORE_URL = None
-        actions.actions.config.EVENTSTORE_TOKEN = None
+        base.actions.actions.config.EVENTSTORE_URL = None
+        base.actions.actions.config.EVENTSTORE_TOKEN = None
