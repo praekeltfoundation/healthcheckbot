@@ -201,7 +201,9 @@ responses:
         ⬛⬛⬛⬜⬜⬜⬜⬜⬜⬜⬜
 
         Ons gebruik Google Location Services om liggings te bevestig. Bevestig asb dat die adres hieronder is reg volgens die inligting wat jy gedeel het:
+        ----------------------------
         {location}
+        ----------------------------
 
         Antwoord met
         *1.* JA
