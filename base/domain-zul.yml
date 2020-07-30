@@ -350,7 +350,7 @@ responses:
         - Uma lezi zinqubo zingenzeki, kufanele uthinte isisebenzi sakho sezempilo noma umtholampilo ukuthola ezinye izindlela.
 
         Phendula ngokuthi *UKUZIVALELA* ukuthola eminye imininingwane yokuthi ungazihlukanisa kanjani
-        📌Phenduka ngokuthi * UKUHLOLA* ukuthola eminye imininingwane noma *UHLU* ukubuyela kuhlu lokuqala
+        📌Phenduka ngokuthi *UKUHLOLA* ukuthola eminye imininingwane noma *UHLU* ukubuyela kuhlu lokuqala
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
