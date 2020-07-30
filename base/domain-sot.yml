@@ -349,7 +349,7 @@ responses:
         - Setho se le seng sa lelapa se lokela ho abelwa ho ba mohlokomedi wa hao. Sena se beha karolo e tlase ya lelapa kotsing mme hape se thusa hore mohlokomedi wa hao a be le mekgwa e metle ya tlhokomelo ho qoba hore a se fumane tshwaetso ya vaerase ho tswa ho wena.
         - Haeba tsena di sa kgonehe, o lokela ho letsetsa mosebeletsi wa tlhokomelo ya bophelo bo botle kapa tleliniki bakeng sa mekgwa e meng.
 
-        Araba ka * QUARANTINE * bakeng sa dintlha malebana le ho ikarohanya le batho
+        Araba ka *QUARANTINE* bakeng sa dintlha malebana le ho ikarohanya le batho
         📌Araba ka *HO HLAHLOBA* bakeng sa dintlha tse ding kapa *MENU* ho kgutlela ho menu wa pele
 
   utter_risk_high:
@@ -366,7 +366,7 @@ responses:
 
         Haeba o na le, kapa o qala ho ba le matshwao a matla, batla tlhokomelo ya bongaka ka potlako.
 
-        Araba ka * QUARANTINE * bakeng sa dintlha malebana le ho ikarohanya le batho
+        Araba ka *QUARANTINE* bakeng sa dintlha malebana le ho ikarohanya le batho
         📌Araba ka *HO HLAHLOBA* bakeng sa dintlha tse ding kapa *MENU* ho kgutlela ho menu wa pele
 
 # claim: revert will ignore the message text, and reevaluate this message using
