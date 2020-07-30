@@ -214,7 +214,7 @@ responses:
         Phendula
         *1.* EWE
         *2.* HAYI
-        *3* ANDIQINISEKANGA
+        *3.* ANDIQINISEKANGA
 
   utter_ask_medical_condition_obesity:
     - text: |
