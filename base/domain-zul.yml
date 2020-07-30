@@ -116,21 +116,12 @@ responses:
       - text: |
           *HealthCheck*  iyithuluzi lakho lokuhlola ubungozi njalo ngeviki. Sicela usisize ngokuphendula imibuzo embalwa ngawe nangempilo yakho. Uzothola izeluleko zokuthi yiziphi izinyathelo okufanele uzithathe ngokususelwa kuzinkombandlela zikazwelonke nemininingwane oyifakayo izosisiza ekwakheni imodeli nasekuhleleni impendulo yethu kazwelonke ku-COVID-19. Siyabonga ngokuza phambili nokuba neqhaza empilweni yazo zonke izakhamizi nokuvimbela ukusabalala kwegciwane 🦠
 
-          Phendula ngelinye lamagama eligqamile ukuze uqhubeke
-
-          MUKELA✅ -_ukwamukela imigomo nemibandela_
-          OKWENGEZIWE 📄 -_ukufunda imigomo nemibandela_
-
-          (noma Phendula ngo-UHLU 📌 _ukubuyela kuhlu lokuqala_)
-
   utter_welcome_back:
       - text: |
           Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
 
   utter_ask_terms:
       - text: |
-          *HealthCheck*  iyithuluzi lakho lokuhlola ubungozi njalo ngeviki. Sicela usisize ngokuphendula imibuzo embalwa ngawe nangempilo yakho. Uzothola izeluleko zokuthi yiziphi izinyathelo okufanele uzithathe ngokususelwa kuzinkombandlela zikazwelonke nemininingwane oyifakayo izosisiza ekwakheni imodeli nasekuhleleni impendulo yethu kazwelonke ku-COVID-19. Siyabonga ngokuza phambili nokuba neqhaza empilweni yazo zonke izakhamizi nokuvimbela ukusabalala kwegciwane 🦠
-
           Phendula ngelinye lamagama eligqamile ukuze uqhubeke
 
           MUKELA✅ -_ukwamukela imigomo nemibandela_

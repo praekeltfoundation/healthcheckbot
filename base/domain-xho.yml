@@ -116,21 +116,12 @@ responses:
       - text: |
           *HealthCheck* sisixhobo sakho sokuhlola umngcipheko ngeveki. Nceda usincede ngokuphendula imibuzo embalwa malunga nawe nempilo yakho. Uza kufumana ingcebiso malunga nokuba manyathelo mani onokuwathatha ngokusekwe kwizikhokelo zezwelonke kwaye  le datha oyifakileyo iya kusinceda kwimodeli yokuqikelela kunye nokucwangcisa impendulo yethu yezwelonke nge-COVID-19. Enkosi ngokuza ngaphambili nangegalelo kwimpilo yabo bonke abahlali KUNYE nasekunqandeni ukusasazeka kwale ntsholongwane  🦠
 
-          Phendula ngegama elinye kula ANGONOBUMBA ukuze uqhubekeke
-
-          YAMKELA ✅ - _ukwamkela imigaqo nemiqathango_
-          OKUNINZI 📄 - -ukufunda imigaqo nemiqathango_
-
-          (okanye phendula iMENYU 📌 _ukubuyela kwimenyu yakuqala_)
-
   utter_welcome_back:
       - text: |
           Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
 
   utter_ask_terms:
       - text: |
-          *HealthCheck* sisixhobo sakho sokuhlola umngcipheko ngeveki. Nceda usincede ngokuphendula imibuzo embalwa malunga nawe nempilo yakho. Uza kufumana ingcebiso malunga nokuba manyathelo mani onokuwathatha ngokusekwe kwizikhokelo zezwelonke kwaye  le datha oyifakileyo iya kusinceda kwimodeli yokuqikelela kunye nokucwangcisa impendulo yethu yezwelonke nge-COVID-19. Enkosi ngokuza ngaphambili nangegalelo kwimpilo yabo bonke abahlali KUNYE nasekunqandeni ukusasazeka kwale ntsholongwane  🦠
-
           Phendula ngegama elinye kula ANGONOBUMBA ukuze uqhubekeke
 
           YAMKELA ✅ - _ukwamkela imigaqo nemiqathango_

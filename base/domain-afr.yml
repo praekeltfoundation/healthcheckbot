@@ -116,21 +116,12 @@ responses:
       - text: |
           *HealthCheck* is jou weeklikse risiko-asseserings instrument. Help ons asb deur 'n paar vrae oor jouself en jou gesondheid te beantwoord. Jy sal raad ontvang, wat op nasionale riglyne gebaseer is, oor watter stappe om te neem. Die data wat jy verskaf sal ons help met die voorspellende modulering asook met die beplanning van ons nasionale reaksie teen COVID-19. Dankie dat jy na vore gekom het en bydra tot die gesondheid van jou medemens ASOOK om die verspreiding van die virus te stop. 🦠
 
-          Antwoord met een van die woorde in VETDRUK om voort te gaan.
-
-          AANVAAR ✅ - _om die bepalings en voorwaardes te aanvaar_
-          MEER 📄 - _om die bepalings en voorwaardes te lees_
-
-          (of Antwoord KIESLYS 📌 _om na die hoofkieslys terug te keer_)
-
   utter_welcome_back:
       - text: |
           Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
 
   utter_ask_terms:
       - text: |
-          *HealthCheck* is jou weeklikse risiko-asseserings instrument. Help ons asb deur 'n paar vrae oor jouself en jou gesondheid te beantwoord. Jy sal raad ontvang, wat op nasionale riglyne gebaseer is, oor watter stappe om te neem. Die data wat jy verskaf sal ons help met die voorspellende modulering asook met die beplanning van ons nasionale reaksie teen COVID-19. Dankie dat jy na vore gekom het en bydra tot die gesondheid van jou medemens ASOOK om die verspreiding van die virus te stop. 🦠
-
           Antwoord met een van die woorde in VETDRUK om voort te gaan.
 
           AANVAAR ✅ - _om die bepalings en voorwaardes te aanvaar_

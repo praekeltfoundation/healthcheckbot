@@ -116,21 +116,12 @@ responses:
       - text: |
           *HealthCheck* ke sesebediswa sa hao sa beke le beke sa tlhahlobo ya kotsi. Ka kopo re thuse ka ho araba dipotso tse mmalwa ka wena le bophelo ba hao bo botle. O tla fumana dikeletso mabapi le hore na ke mehato efe eo o ka e nkang ho latela tataiso ya naha mme dintlha tseo o di kenyang di tla re thusa ho etsa meralo ya naha ya ho lwantsha COVID-19. Re ya leboha ka ho nka bohato le ho kenya letsoho maphelong a baahi bohle LE ho emisa ho ata ha vaerase 🦠
 
-          Araba ka le leng la mantswe a ngotsweng ka BOTENYA ho tswela pele
-
-          AMOHELA ✅ - _ho amohela melawana le dipehelo_
-          TSE DING TSE NGATA 📄 - ho bala melawana le dipehelo_
-
-          (kapa Araba MENU 📌 _ ho kgutlela ho menu wa pele_)
-
   utter_welcome_back:
       - text: |
           Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
 
   utter_ask_terms:
       - text: |
-          *HealthCheck* ke sesebediswa sa hao sa beke le beke sa tlhahlobo ya kotsi. Ka kopo re thuse ka ho araba dipotso tse mmalwa ka wena le bophelo ba hao bo botle. O tla fumana dikeletso mabapi le hore na ke mehato efe eo o ka e nkang ho latela tataiso ya naha mme dintlha tseo o di kenyang di tla re thusa ho etsa meralo ya naha ya ho lwantsha COVID-19. Re ya leboha ka ho nka bohato le ho kenya letsoho maphelong a baahi bohle LE ho emisa ho ata ha vaerase 🦠
-
           Araba ka le leng la mantswe a ngotsweng ka BOTENYA ho tswela pele
 
           AMOHELA ✅ - _ho amohela melawana le dipehelo_
