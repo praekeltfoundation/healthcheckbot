@@ -12,3 +12,7 @@
 - ℹ️
 - Moee
 - m0re
+- okwengeziwe
+- okuninzi
+- tse ding tse ngata
+- meer
