@@ -137,10 +137,6 @@ responses:
 
           O netefatsa hore ha wa lokela ho se tsotelle/ ho dieha ho batla boeletsi ba ngaka mabapi le kalafo/tlhokomelo ka lebaka la tshebeletso ena. Kotsi ya ho itshetleha leseding lena e boikarabellong ba hao.
 
-          Araba ka le leng la mantswe a ngotsweng ka *BOTENYA* ho tswela pele
-          AMOHELA ✅ - _ho amohela melawana le dipehelo_
-          (kapa Araba MENU 📌 _ho kgutlela ho menu wa pele_)
-
   utter_ask_province:
       - text: |
           O dula profenseng efe hona tje?
