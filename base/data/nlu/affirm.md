@@ -8,7 +8,7 @@
 - let's do it
 - yeah
 - um yes
-- that's correct
+- that's correct y
 - yes yes
 - right
 - yea
@@ -36,3 +36,8 @@
 - e
 - ewe
 - yebo
+- amohela
+- aanvaar
+- yamkela
+- mukela
+
