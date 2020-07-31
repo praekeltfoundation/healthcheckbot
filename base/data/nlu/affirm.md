@@ -8,7 +8,7 @@
 - let's do it
 - yeah
 - um yes
-- that's correct y
+- that's correct
 - yes yes
 - right
 - yea
