@@ -275,11 +275,11 @@ responses:
     - text: |
         ⬛⬛⬛⬜⬜⬜⬜
 
-        Do you have a sore throat or pain when swallowing?
+        Het jy 'n seer keel of pyn wanneer jy sluk?
 
-        Reply:
-        *1.* YES
-        *2.* NO
+        Antwoord
+        *1.* JA
+        *2.* NEE
 
   utter_ask_symptoms_difficulty_breathing:
     - text: |
