@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 from rasa_sdk import Tracker
+from rasa_sdk.executor import CollectingDispatcher
 
 from dbe.actions.actions import HealthCheckForm, HealthCheckProfileForm
 
@@ -15,6 +16,68 @@ class HealthCheckProfileFormTests(TestCase):
             form.age_data,
             {1: "<18", 2: "18-39", 3: "40-49", 4: "50-59", 5: "60-65", 6: ">65"},
         )
+
+    def test_validate_school(self):
+        """
+        Stores first search result
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {"province": "wc"}, {}, [], False, None, {}, "action_listen"
+        )
+        response = form.validate_school(
+            "bergvleet", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(
+            response, {"school": "BERGVLIET HIGH SCHOOL", "school_emis": "105310201"}
+        )
+
+    def test_validate_school_no_results(self):
+        """
+        Returns error message
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {"province": "gt"}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_school("bergvleet", dispatcher, tracker, {})
+        self.assertEqual(response, {"school": None})
+        [message] = dispatcher.messages
+        self.assertEqual(message["template"], "utter_incorrect_school")
+
+    def test_validate_school_confirm_no(self):
+        """
+        Try again getting the name of the school
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_school_confirm("no", dispatcher, tracker, {})
+        self.assertEqual(response, {"school": None, "school_confirm": None})
+
+    def test_validate_school_confirm_yes(self):
+        """
+        Confirms the name of the school
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_school_confirm("yes", dispatcher, tracker, {})
+        self.assertEqual(response, {"school_confirm": "yes"})
+
+    def test_slot_mappings(self):
+        """
+        Ensures that the additional school fields are in the slot mappings
+        """
+        form = HealthCheckProfileForm()
+        mappings = form.slot_mappings()
+        self.assertIn("school", mappings)
+        self.assertIn("school_confirm", mappings)
 
 
 class HealthCheckFormTests(TestCase):
@@ -42,6 +105,8 @@ class HealthCheckFormTests(TestCase):
                 "medical_condition_diabetes": "no",
                 "medical_condition_hypertension": "yes",
                 "medical_condition_cardio": "no",
+                "school": "BERGVLIET HIGH SCHOOL",
+                "school_emis": "105310201",
             },
             {},
             [],
@@ -78,6 +143,8 @@ class HealthCheckFormTests(TestCase):
                     "diabetes": False,
                     "hypertension": True,
                     "obesity": False,
+                    "school_name": "BERGVLIET HIGH SCHOOL",
+                    "school_emis": "105310201",
                 },
             },
         )
