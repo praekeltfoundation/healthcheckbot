@@ -67,6 +67,15 @@ slots:
   city_location_coords:
     type: unfeaturized
     auto_fill: false
+  school:
+    type: unfeaturized
+    auto_fill: false
+  school_confirm:
+    type: unfeaturized
+    auto_fill: false
+  school_emis:
+    type: unfeaturized
+    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -161,6 +170,10 @@ responses:
     - text: |
         If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
 
+  utter_incorrect_school:
+    - text: |
+        You may have typed the school name incorrectly.
+
   utter_ask_age:
     - text: |
         How old are you?
@@ -203,6 +216,19 @@ responses:
         {location}
         ----------------------------
         Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_school:
+    - text: |
+        Please TYPE the name of your school or your school's EMIS number
+
+  utter_ask_school_confirm:
+    - text: |
+        Please confirm that the identified school below is correct, based on the information you shared:
+        {school}
+
+        Reply 
         *1.* YES
         *2.* NO
 
