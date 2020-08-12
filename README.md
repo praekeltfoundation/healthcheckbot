@@ -31,3 +31,5 @@ files.
 It has the following languages:
 
 `eng`: English
+
+See [this readme](dbe/actions/README.md) for details on how to update the EMIS search index
