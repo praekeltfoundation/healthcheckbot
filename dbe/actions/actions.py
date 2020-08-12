@@ -1,12 +1,14 @@
 from typing import Any, Dict, List, Optional, Text, Union
 
 from rasa_sdk import Tracker
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from whoosh.index import open_dir
 from whoosh.qparser import MultifieldParser
 from whoosh.query import FuzzyTerm, Term
 
-from base.actions.actions import ActionExit, ActionSessionStart
+from base.actions.actions import ActionExit
+from base.actions.actions import ActionSessionStart as BaseActionSessionStart
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
 from base.actions.actions import HealthCheckTermsForm
@@ -101,10 +103,20 @@ class HealthCheckForm(BaseHealthCheckForm):
         return data
 
 
+class ActionSessionStart(BaseActionSessionStart):
+    def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
+        actions = super().get_carry_over_slots(tracker)
+        carry_over_slots = ("school", "school_confirm", "school_emis")
+        for slot in carry_over_slots:
+            actions.append(SlotSet(slot, tracker.get_slot(slot)))
+        return actions
+
+
 __all__ = [
     "HealthCheckTermsForm",
     "HealthCheckProfileForm",
     "HealthCheckForm",
     "ActionSessionStart",
     "ActionExit",
+    "ActionSessionStart",
 ]

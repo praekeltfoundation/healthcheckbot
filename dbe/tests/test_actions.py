@@ -1,9 +1,14 @@
 from unittest import TestCase
 
 from rasa_sdk import Tracker
+from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
-from dbe.actions.actions import HealthCheckForm, HealthCheckProfileForm
+from dbe.actions.actions import (
+    ActionSessionStart,
+    HealthCheckForm,
+    HealthCheckProfileForm,
+)
 
 
 class HealthCheckProfileFormTests(TestCase):
@@ -51,9 +56,7 @@ class HealthCheckProfileFormTests(TestCase):
         Try again getting the name of the school
         """
         form = HealthCheckProfileForm()
-        tracker = Tracker(
-            "27820001001", {}, {}, [], False, None, {}, "action_listen"
-        )
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
         response = form.validate_school_confirm("no", dispatcher, tracker, {})
         self.assertEqual(response, {"school": None, "school_confirm": None})
@@ -63,9 +66,7 @@ class HealthCheckProfileFormTests(TestCase):
         Confirms the name of the school
         """
         form = HealthCheckProfileForm()
-        tracker = Tracker(
-            "27820001001", {}, {}, [], False, None, {}, "action_listen"
-        )
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
         response = form.validate_school_confirm("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"school_confirm": "yes"})
@@ -148,3 +149,30 @@ class HealthCheckFormTests(TestCase):
                 },
             },
         )
+
+
+class ActionSessionStartTests(TestCase):
+    def test_school_details_copied(self):
+        """
+        Should copy over the school details to the new session
+        """
+        action = ActionSessionStart()
+        events = action.get_carry_over_slots(
+            Tracker(
+                "27820001001",
+                {
+                    "school": "BERGVLIET HIGH SCHOOL",
+                    "school_emis": "105310201",
+                    "school_confirm": "yes",
+                },
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            )
+        )
+        self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
+        self.assertIn(SlotSet("school_emis", "105310201"), events)
+        self.assertIn(SlotSet("school_confirm", "yes"), events)
