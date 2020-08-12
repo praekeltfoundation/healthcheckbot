@@ -12,8 +12,8 @@ if (( $# != 2 )); then
     exit 1
 fi
 
-black .
-isort -rc .
+black --check .
+isort -rc -c .
 mypy "$1"
 flake8 .
 py.test
