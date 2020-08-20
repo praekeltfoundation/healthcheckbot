@@ -39,7 +39,7 @@ class HealthCheckProfileFormTests(TestCase):
 
     def test_validate_school_no_results(self):
         """
-        Returns error message
+        Returns error message and clears value for province
         """
         form = HealthCheckProfileForm()
         tracker = Tracker(
@@ -47,7 +47,7 @@ class HealthCheckProfileFormTests(TestCase):
         )
         dispatcher = CollectingDispatcher()
         response = form.validate_school("bergvleet", dispatcher, tracker, {})
-        self.assertEqual(response, {"school": None})
+        self.assertEqual(response, {"school": None, "province": None})
         [message] = dispatcher.messages
         self.assertEqual(message["template"], "utter_incorrect_school")
 

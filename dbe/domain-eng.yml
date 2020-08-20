@@ -172,7 +172,7 @@ responses:
 
   utter_incorrect_school:
     - text: |
-        You may have typed the school name incorrectly.
+        You may have typed the school name incorrectly, or selected the incorrect province for the school.
 
   utter_ask_age:
     - text: |

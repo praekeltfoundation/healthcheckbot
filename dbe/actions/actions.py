@@ -64,7 +64,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 }
             else:
                 dispatcher.utter_message(template="utter_incorrect_school")
-                return {"school": None}
+                return {"school": None, "province": None}
 
     def validate_school_confirm(
         self,
