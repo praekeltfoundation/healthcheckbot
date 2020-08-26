@@ -366,7 +366,7 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
       claim: release
       text: |
-        *Based on your responses, we recommend that you self-quarantine for the next 14 days and complete this HealthCheck daily to self monitor your symptoms.*
+        *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor your symptoms.*
 
         If possible, stay and sleep alone in a room that has a window with good air flowing through.
         - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
