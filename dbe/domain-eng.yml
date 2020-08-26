@@ -123,11 +123,11 @@ forms:
 responses:
   utter_welcome:
       - text: |
-          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus
 
   utter_welcome_back:
       - text: |
-          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus
 
   utter_ask_terms:
       - text: |
