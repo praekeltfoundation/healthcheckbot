@@ -18,6 +18,8 @@ actions:
   - action_session_start
   - action_exit
   - utter_ask_terms
+  - utter_ask_first_name
+  - utter_ask_last_name
   - utter_ask_age
   - utter_ask_gender
   - utter_ask_province
@@ -46,6 +48,12 @@ slots:
     type: categorical
     values:
       - yes
+  first_name:
+    type: unfeaturized
+    auto_fill: false
+  last_name:
+    type: unfeaturized
+    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
@@ -134,6 +142,14 @@ responses:
           You confirm that you are responsible for your medical care & treatment. This service only provides info.
           This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care
           You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk.
+
+  utter_ask_first_name:
+      - text: |
+          Please reply with your first name
+
+  utter_ask_last_name:
+      - text: |
+          Please reply with your surname
 
   utter_ask_province:
       - text: |
