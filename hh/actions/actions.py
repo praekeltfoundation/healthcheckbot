@@ -1,17 +1,16 @@
-from typing import Any, Dict, List, Optional, Text, Union
+from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Text, Union
 
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.forms import Action
 
-from base.actions.actions import (
-    ActionExit as BaseActionExit,
-    ActionSessionStart as BaseActionSessionStart,
-    HealthCheckForm as BaseHealthCheckForm,
-    HealthCheckProfileForm as BaseHealthCheckProfileForm,
-    HealthCheckTermsForm,
-)
+from base.actions.actions import ActionExit as BaseActionExit
+from base.actions.actions import ActionSessionStart as BaseActionSessionStart
+from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
+from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
+from base.actions.actions import HealthCheckTermsForm
+
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     PERSISTED_SLOTS = [
@@ -38,6 +37,18 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["last_name"] = tracker.get_slot("last_name")
         return data
 
+    def send_risk_to_user(self, dispatcher: CollectingDispatcher, risk: Text) -> None:
+        # ZA timezone
+        issued = datetime.now(tz=timezone(timedelta(hours=2)))
+        expired = issued + timedelta(days=1)
+        date_format = "%B %-d, %Y, %-I:%M %p"
+        dispatcher.utter_message(
+            template=f"utter_risk_{risk}",
+            issued=issued.strftime(date_format),
+            expired=expired.strftime(date_format),
+        )
+
+
 class ActionSessionStart(BaseActionSessionStart):
     def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = super().get_carry_over_slots(tracker)
@@ -45,6 +56,7 @@ class ActionSessionStart(BaseActionSessionStart):
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         return actions
+
 
 class ActionExit(BaseActionExit):
     def run(
@@ -55,6 +67,7 @@ class ActionExit(BaseActionExit):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(template="utter_exit")
         return ActionSessionStart().get_carry_over_slots(tracker)
+
 
 __all__ = [
     "HealthCheckTermsForm",
