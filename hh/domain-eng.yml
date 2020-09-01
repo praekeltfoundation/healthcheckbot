@@ -1,0 +1,391 @@
+intents:
+  - request_healthcheck
+  - affirm
+  - deny
+  - maybe
+  - inform
+  - more
+  - chitchat
+  - address
+  - exit:
+      triggers: action_exit
+
+entities:
+  - province
+  - number
+
+actions:
+  - action_session_start
+  - action_exit
+  - utter_ask_terms
+  - utter_ask_age
+  - utter_ask_gender
+  - utter_ask_province
+  - utter_ask_location
+  - utter_ask_location_confirm
+  - utter_ask_medical_condition
+  - utter_ask_medical_condition_obesity
+  - utter_ask_medical_condition_diabetes
+  - utter_ask_medical_condition_hypertension
+  - utter_ask_medical_condition_cardio
+  - utter_start_health_check
+  - utter_ask_symptoms_fever
+  - utter_ask_symptoms_cough
+  - utter_ask_symptoms_sore_throat
+  - utter_ask_symptoms_difficulty_breathing
+  - utter_ask_symptoms_taste_smell
+  - utter_ask_exposure
+  - utter_ask_tracing
+  - utter_submit
+  - utter_risk_low
+  - utter_risk_moderate
+  - utter_risk_high
+
+slots:
+  terms:
+    type: categorical
+    values:
+      - yes
+  age:
+    type: unfeaturized
+    auto_fill: false
+  gender:
+    type: unfeaturized
+    auto_fill: false
+  province:
+    type: unfeaturized
+    auto_fill: false
+  location:
+    type: unfeaturized
+    auto_fill: false
+  location_confirm:
+    type: unfeaturized
+    auto_fill: false
+  location_coords:
+    type: unfeaturized
+    auto_fill: false
+  city_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_fever:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_cough:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_taste_smell:
+    type: unfeaturized
+    auto_fill: false
+  exposure:
+    type: unfeaturized
+    auto_fill: false
+  tracing:
+    type: unfeaturized
+    auto_fill: false
+  requested_slot:
+    type: unfeaturized
+
+forms:
+  - healthcheck_form
+  - healthcheck_terms_form
+  - healthcheck_profile_form
+
+responses:
+  utter_welcome:
+      - text: |
+          The HIGHER HEALTH *HealthCheck* is your risk assessment tool. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_welcome_back:
+      - text: |
+          Welcome back to the HIGHER HEALTH *HealthCheck*, your risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_ask_terms:
+      - text: |
+          Reply with one of the words in BOLD to continue 
+
+          ACCEPT ✅ - _to accept the terms and conditions_
+          MORE 📄 - _to read the terms and conditions_
+
+          (or Reply MENU 📌 _to return to the main menu_)
+
+  utter_more_terms:
+      - text: |
+          You confirm that you are responsible for your medical care & treatment. This service only provides info.
+          This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care
+          You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk.
+
+  utter_ask_province:
+      - text: |
+          In which Province are you currently staying?
+
+          Reply:
+          *1.* EASTERN CAPE
+          *2.* FREE STATE
+          *3.* GAUTENG
+          *4.* KWAZULU NATAL
+          *5.* LIMPOPO
+          *6.* MPUMALANGA
+          *7.* NORTH WEST
+          *8.* NORTHERN CAPE
+          *9.* WESTERN CAPE
+
+  utter_incorrect_selection:
+    - text: |
+        This service works best when you use the options provided in *BOLD*.
+        📌Reply *MENU* to return to the main menu
+
+  utter_incorrect_location:
+    - text: |
+        If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
+
+  utter_ask_age:
+    - text: |
+        How old are you?
+
+        Reply:
+        *1.* <18
+        *2.* 18-39
+        *3.* 40-65
+        *4.* >65
+
+  utter_ask_gender:
+    - text: |
+        Please provide us with the gender you identify as:
+
+        Reply:
+        *1.* MALE
+        *2.* FEMALE
+        *3.* OTHER
+        *4.* RATHER NOT SAY
+
+  utter_ask_location:
+    - text: |
+        We need to collect your location.
+
+        Please share your location 📍 using WhatsApp by following these steps:
+        - Tap the attach icon (+ or  📎) on the bottom of WhatsApp.
+        - Select location
+        - This will bring up a map with a pin showing your current location. Tap *Send Your Current Location* if this is your address.
+        - You can also choose from various other nearby locations if you think that the GPS is a bit off.
+
+
+        Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?
+
+  utter_ask_location_confirm:
+    - text: |
+        We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
+        ----------------------------
+        {location}
+        ----------------------------
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition:
+    - text: |
+        Do you have 1 or more pre-existing medical conditions that we should be aware of?
+
+        Reply
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
+
+  utter_ask_medical_condition_obesity:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Obesity?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_diabetes:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Diabetes?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_hypertension:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Hypertension?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_cardio:
+    - text: |
+        Has a doctor or other health professional diagnosed you with Cardiovascular Disease?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_start_health_check:
+    - text: "Let's see how you are feeling today 💟"
+
+  utter_ask_symptoms_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_symptoms_cough:
+    - text: |
+        ⬛⬛⬜⬜⬜⬜⬜
+
+        Do you have a cough that recently started?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_symptoms_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Do you have a sore throat or pain when swallowing?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_symptoms_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬛⬜⬜⬜
+
+        Do you have breathlessness or a difficulty breathing, that you’ve noticed recently?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_symptoms_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Have you noticed any recent changes in your ability to taste or smell things?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_ask_exposure:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬜
+
+        Have you been in close contact to someone confirmed to be infected with COVID19?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
+
+  utter_ask_tracing:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬛
+
+        Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?
+
+        Reply:
+        *1.* YES
+        *2.* NO
+
+  utter_submit:
+    - text: "All done!"
+
+  utter_risk_low:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low.png"
+      claim: release
+      text: |
+        Thank you for answering all questions.
+
+        Based on your responses, you are at low risk of having COVID-19.
+        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in daily, with HealthCheck.
+
+        🤒 Reply with *SYMPTOMS* for more information 
+        📌 Reply with *MENU* to return to the main menu
+
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Low
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+  utter_risk_moderate:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod.png"
+      claim: release
+      text: |
+        Based on your responses, we recommend that you remain in SELF-QUARANTINE for a period of 10 days and complete this HealthCheck daily to monitor your symptoms.
+
+        If possible, stay and sleep alone in a room that has a window with good air flowing through.
+        - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
+        - You should not have visitors at your house during this time.
+        - One family member should be assigned as your caregiver. This exposes less of your family and also ensures that you and this caregiver can develop good habits so that they do not catch the virus from you.
+        - If these procedures are not possible, you should contact your health care worker or clinic for alternative options.
+
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
+
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Moderate
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+  utter_risk_high:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high.png"
+      claim: release
+      text: |
+        Based on your responses, we urge you to *GET TESTED* to find out if you are infected with COVID-19.
+
+        Go to your nearest testing center or call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested.  
+
+        Follow these important steps when seeking care:
+        - Avoid contact with other people in your community in your household and your community, if possible, stay in a separate room.
+        - Remember to put on a face mask before you enter the healthcare facility.
+
+        If you have or start getting severe symptoms, seek medical care urgently.
+
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu"
+
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: High
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+# claim: revert will ignore the message text, and reevaluate this message using
+# turn automation
+  utter_exit:
+    - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
+      claim: revert
+
+session_config:
+  session_expiration_time: 5
+  carry_over_slots_to_new_session: true
