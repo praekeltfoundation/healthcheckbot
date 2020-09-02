@@ -123,7 +123,7 @@ forms:
 responses:
   utter_welcome:
       - text: |
-          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus
+          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. Please help us by correctly answering a few questions about you and your health. The information you provide will assist us to guide and advise on your health and actions to take based on national guidelines. The data you enter will also help us plan and execute our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus in our schools and work environment. 🦠
 
   utter_welcome_back:
       - text: |
@@ -133,10 +133,10 @@ responses:
       - text: |
           Reply with one of the words in BOLD to continue
 
-          *ACCEPT* ✅ - _to accept the terms and conditions_
-          *MORE* 📄 - _to read the terms and conditions_
+          ACCEPT ✅ - _to accept the terms and conditions_
+          MORE 📄 - _to read the terms and conditions_
 
-          (or Reply *MENU* 📌 _to return to the main menu_)
+          (or Reply MENU 📌 _to return to the main menu_)"
 
   utter_more_terms:
       - text: |
@@ -172,13 +172,12 @@ responses:
 
   utter_incorrect_school:
     - text: |
-        You may have typed the school name incorrectly, or selected the incorrect province for the school.
+        You may have typed the school name incorrectly, please TYPE the name of your school again.
 
   utter_ask_age:
     - text: |
         How old are you?
 
-        Reply:
         *1.* <18
         *2.* 18-39
         *3.* 40-49
@@ -190,7 +189,7 @@ responses:
     - text: |
         Please provide us with the gender you identify as:
 
-        Reply:
+        Reply
         *1.* MALE
         *2.* FEMALE
         *3.* OTHER
@@ -206,22 +205,20 @@ responses:
         - This will bring up a map with a pin showing your current location. Tap *Send Your Current Location* if this is your address.
         - You can also choose from various other nearby locations if you think that the GPS is a bit off.
 
-
         Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?
 
   utter_ask_location_confirm:
     - text: |
         We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
-        ----------------------------
         {location}
-        ----------------------------
-        Reply:
+
+        Reply 
         *1.* YES
         *2.* NO
 
   utter_ask_school:
     - text: |
-        Please TYPE the name of your school or your school's EMIS number
+        Please TYPE the name of your school OR your school's EMIS number
 
   utter_ask_school_confirm:
     - text: |
@@ -236,7 +233,7 @@ responses:
     - text: |
         Do you have any other pre-existing medical conditions that we should be aware of?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
         *3.* NOT SURE
@@ -245,36 +242,36 @@ responses:
     - text: |
         Has a doctor or other health professional diagnosed you with Obesity?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_ask_medical_condition_diabetes:
     - text: |
-        Has a doctor or other health professional diagnosed you with Diabetes?
+        Has a doctor or other health professional diagnosed you with Diabetes (blood sugar)? 
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_ask_medical_condition_hypertension:
     - text: |
-        Has a doctor or other health professional diagnosed you with Hypertension?
+        Has a doctor or other health professional diagnosed you with Hypertension (high blood pressure)?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_ask_medical_condition_cardio:
     - text: |
-        Has a doctor or other health professional diagnosed you with Cardiovascular Disease?
+        Has a doctor or other health professional diagnosed you with Cardiovascular (heart) Disease?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_start_health_check:
-    - text: "Let's see how you are feeling today 💟"
+    - text: "Tell us how you are feeling today:"
 
   utter_ask_symptoms_fever:
     - text: |
@@ -282,7 +279,7 @@ responses:
 
         Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?
 
-        Reply:
+        Reply 
         *1.* YES
         *2.* NO
 
@@ -292,7 +289,7 @@ responses:
 
         Do you have a cough that recently started?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -302,7 +299,7 @@ responses:
 
         Do you have a sore throat or pain when swallowing?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -310,9 +307,9 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
-        Do you have breathlessness or a difficulty breathing, that you’ve noticed recently?
+        Do you have breathlessness or difficulty breathing, that you've noticed recently?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -320,19 +317,19 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬛⬜⬜
 
-        Have you noticed any recent changes in your ability to taste or smell things?
+          Have you noticed any recent changes in your ability to taste or smell things?
 
-        Reply:
-        *1.* YES
-        *2.* NO
+          Reply
+          *1.* YES
+          *2.* NO
 
   utter_ask_exposure:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬜
 
-        Have you been in close contact to someone confirmed to be infected with COVID19?
+        Have you been in close contact to someone confirmed to be infected with COVID-19?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
         *3.* NOT SURE
@@ -343,7 +340,7 @@ responses:
 
         Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -357,7 +354,8 @@ responses:
         Thank you for answering all questions.
 
         Based on your responses, you are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
-        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in daily, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
+
+        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in again tomorrow, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
 
         🤒 Reply with *SYMPTOMS* for more information
         📌 Reply with *MENU* to return to the main menu
@@ -366,7 +364,7 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
       claim: release
       text: |
-        *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor your symptoms.*
+        *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck every day to monitor your symptoms.*
 
         If possible, stay and sleep alone in a room that has a window with good air flowing through.
         - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
@@ -388,6 +386,7 @@ responses:
         Follow these important steps when seeking care:
         - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
         - Ensure you put on a face mask before you enter a healthcare facility.
+        - Wash your hands frequently with soap and water and or sanitise with a 70% alcohol hand sanitiser
 
         If you have or start getting severe symptoms, seek medical care urgently.
 
