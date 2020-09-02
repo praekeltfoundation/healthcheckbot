@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, List, Text, Union
+from typing import Any, Dict, List, Optional, Text, Union
 
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
@@ -20,6 +20,8 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "province",
         "location",
         "location_confirm",
+        "destination",
+        "reason",
         "medical_condition",
     ]
 
@@ -27,7 +29,39 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         mappings = super().slot_mappings()
         mappings["first_name"] = [self.from_text()]
         mappings["last_name"] = [self.from_text()]
+        mappings["destination"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["reason"] = [self.from_entity(entity="number"), self.from_text()]
         return mappings
+
+    @property
+    def destination_data(self) -> Dict[int, Text]:
+        with open("hh/data/lookup_tables/destinations.txt") as f:
+            return dict(enumerate(f.read().splitlines(), start=1))
+
+    def validate_destination(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "destination", dispatcher, value, self.destination_data
+        )
+
+    @property
+    def reason_data(self) -> Dict[int, Text]:
+        with open("hh/data/lookup_tables/reasons.txt") as f:
+            return dict(enumerate(f.read().splitlines(), start=1))
+
+    def validate_reason(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("reason", dispatcher, value, self.reason_data)
 
 
 class HealthCheckForm(BaseHealthCheckForm):
@@ -35,6 +69,8 @@ class HealthCheckForm(BaseHealthCheckForm):
         data = super().get_eventstore_data(tracker, risk)
         data["first_name"] = tracker.get_slot("first_name")
         data["last_name"] = tracker.get_slot("last_name")
+        data["data"]["destination"] = tracker.get_slot("destination")
+        data["data"]["reason"] = tracker.get_slot("reason")
         return data
 
     def send_risk_to_user(self, dispatcher: CollectingDispatcher, risk: Text) -> None:
@@ -52,7 +88,7 @@ class HealthCheckForm(BaseHealthCheckForm):
 class ActionSessionStart(BaseActionSessionStart):
     def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = super().get_carry_over_slots(tracker)
-        carry_over_slots = ("first_name", "last_name")
+        carry_over_slots = ("first_name", "last_name", "destination", "reason")
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         return actions

@@ -23,6 +23,22 @@ class HealthCheckProfileFormTests(TestCase):
         mappings = form.slot_mappings()
         self.assertIn("first_name", mappings)
         self.assertIn("last_name", mappings)
+        self.assertIn("destination", mappings)
+        self.assertIn("reason", mappings)
+
+    def test_validate_destination(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_destination("campus", dispatcher, tracker, {})
+        self.assertEqual(response, {"destination": "campus"})
+
+    def test_validate_reason(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_reason("student", dispatcher, tracker, {})
+        self.assertEqual(response, {"reason": "student"})
 
 
 class HealthCheckFormTests(TestCase):
@@ -52,6 +68,8 @@ class HealthCheckFormTests(TestCase):
                 "medical_condition_diabetes": "no",
                 "medical_condition_hypertension": "yes",
                 "medical_condition_cardio": "no",
+                "destination": "campus",
+                "reason": "student",
             },
             {},
             [],
@@ -89,6 +107,8 @@ class HealthCheckFormTests(TestCase):
                     "diabetes": False,
                     "hypertension": True,
                     "obesity": False,
+                    "destination": "campus",
+                    "reason": "student",
                 },
             },
         )
@@ -111,15 +131,20 @@ class HealthCheckFormTests(TestCase):
 
 
 class ActionSessionStartTests(TestCase):
-    def test_name_details_copied(self):
+    def test_additional_details_copied(self):
         """
-        Should copy over the name details to the new session
+        Should copy over the hh additional details to the new session
         """
         action = ActionSessionStart()
         events = action.get_carry_over_slots(
             Tracker(
                 "27820001001",
-                {"first_name": "test first", "last_name": "test last"},
+                {
+                    "first_name": "test first",
+                    "last_name": "test last",
+                    "destination": "campus",
+                    "reason": "student",
+                },
                 {},
                 [],
                 False,
@@ -130,10 +155,12 @@ class ActionSessionStartTests(TestCase):
         )
         self.assertIn(SlotSet("first_name", "test first"), events)
         self.assertIn(SlotSet("last_name", "test last"), events)
+        self.assertIn(SlotSet("destination", "campus"), events)
+        self.assertIn(SlotSet("reason", "student"), events)
 
 
 class ActionExitTests(TestCase):
-    def test_name_details_copied(self):
+    def test_additional_details_copied(self):
         """
         Should copy over the name details when exiting
         """
@@ -143,7 +170,12 @@ class ActionExitTests(TestCase):
             dispatcher,
             Tracker(
                 "27820001001",
-                {"first_name": "test first", "last_name": "test last"},
+                {
+                    "first_name": "test first",
+                    "last_name": "test last",
+                    "destination": "campus",
+                    "reason": "student",
+                },
                 {},
                 [],
                 False,
@@ -155,3 +187,5 @@ class ActionExitTests(TestCase):
         )
         self.assertIn(SlotSet("first_name", "test first"), events)
         self.assertIn(SlotSet("last_name", "test last"), events)
+        self.assertIn(SlotSet("destination", "campus"), events)
+        self.assertIn(SlotSet("reason", "student"), events)

@@ -25,6 +25,8 @@ actions:
   - utter_ask_province
   - utter_ask_location
   - utter_ask_location_confirm
+  - utter_ask_destination
+  - utter_ask_reason
   - utter_ask_medical_condition
   - utter_ask_medical_condition_obesity
   - utter_ask_medical_condition_diabetes
@@ -73,6 +75,12 @@ slots:
     type: unfeaturized
     auto_fill: false
   city_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  destination:
+    type: unfeaturized
+    auto_fill: false
+  reason:
     type: unfeaturized
     auto_fill: false
   medical_condition:
@@ -217,6 +225,24 @@ responses:
         Reply:
         *1.* YES
         *2.* NO
+
+  utter_ask_destination:
+    - text: |
+        Please tell us which type of Educational Institution you are visiting today
+
+        Reply 
+        *1.* CAMPUS
+        *2.* OFFICE
+        *3.* OTHER
+
+  utter_ask_reason:
+    - text: |
+        What is your designation?
+
+        Reply 
+        *1.* STUDENT
+        *2.* STAFF MEMBER
+        *3.* VISITOR/OTHER
 
   utter_ask_medical_condition:
     - text: |
