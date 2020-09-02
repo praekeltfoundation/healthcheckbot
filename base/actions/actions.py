@@ -686,7 +686,7 @@ class HealthCheckForm(BaseFormAction):
         }
 
     def send_risk_to_user(self, dispatcher: CollectingDispatcher, risk: Text) -> None:
-        dispatcher.utter_message(templace=f"utter_risk_{risk}")
+        dispatcher.utter_message(template=f"utter_risk_{risk}")
 
     async def submit(
         self,
