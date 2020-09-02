@@ -1,4 +1,5 @@
-from unittest import TestCase
+from datetime import datetime, timedelta, timezone
+from unittest import TestCase, mock
 
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
@@ -149,6 +150,22 @@ class HealthCheckFormTests(TestCase):
                 },
             },
         )
+
+    @mock.patch("dbe.actions.actions.datetime")
+    def test_send_risk_to_user(self, dt):
+        """
+        The message to the user has the relevant variables filled
+        """
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        dt.now.return_value = datetime(
+            2020, 1, 2, 3, 4, 5, tzinfo=timezone(timedelta(hours=2))
+        )
+        form.send_risk_to_user(dispatcher, "low")
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_risk_low")
+        self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
+        self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
 
 
 class ActionSessionStartTests(TestCase):
