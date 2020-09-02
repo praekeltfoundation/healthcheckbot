@@ -136,7 +136,7 @@ responses:
           ACCEPT ✅ - _to accept the terms and conditions_
           MORE 📄 - _to read the terms and conditions_
 
-          (or Reply MENU 📌 _to return to the main menu_)"
+          (or Reply MENU 📌 _to return to the main menu_)
 
   utter_more_terms:
       - text: |
