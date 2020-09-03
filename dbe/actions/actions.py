@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Text, Union
 
 from rasa_sdk import Tracker
@@ -101,6 +102,17 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["school_name"] = tracker.get_slot("school")
         data["data"]["school_emis"] = tracker.get_slot("school_emis")
         return data
+
+    def send_risk_to_user(self, dispatcher, risk):
+        # ZA timezone
+        issued = datetime.now(tz=timezone(timedelta(hours=2)))
+        expired = issued + timedelta(days=1)
+        date_format = "%B %-d, %Y, %-I:%M %p"
+        dispatcher.utter_message(
+            template=f"utter_risk_{risk}",
+            issued=issued.strftime(date_format),
+            expired=expired.strftime(date_format),
+        )
 
 
 class ActionSessionStart(BaseActionSessionStart):

@@ -685,6 +685,9 @@ class HealthCheckForm(BaseFormAction):
             },
         }
 
+    def send_risk_to_user(self, dispatcher: CollectingDispatcher, risk: Text) -> None:
+        dispatcher.utter_message(template=f"utter_risk_{risk}")
+
     async def submit(
         self,
         dispatcher: CollectingDispatcher,
@@ -728,7 +731,7 @@ class HealthCheckForm(BaseFormAction):
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
                         raise e
-        dispatcher.utter_message(template=f"utter_risk_{risk}")
+        self.send_risk_to_user(dispatcher, risk)
         return []
 
 
