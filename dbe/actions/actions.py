@@ -17,6 +17,7 @@ from base.actions.actions import HealthCheckTermsForm
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     PERSISTED_SLOTS = [
+        "profile",
         "gender",
         "province",
         "location",
@@ -35,6 +36,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_intent(intent="deny", value="no"),
             self.from_text(),
         ]
+        mappings["profile"] = [self.from_entity(entity="number"), self.from_text()]
         return mappings
 
     @property
@@ -84,6 +86,20 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             return {"school_confirm": None, "school": None}
         return school_confirm
 
+    @property
+    def profile_data(self) -> Dict[int, Text]:
+        with open("dbe/data/lookup_tables/profiles.txt") as f:
+            return dict(enumerate(f.read().splitlines(), start=1))
+
+    def validate_profile(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("profile", dispatcher, value, self.profile_data)
+
 
 class HealthCheckForm(BaseHealthCheckForm):
     AGE_MAPPING = {
@@ -101,6 +117,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["age"] = tracker.get_slot("age")
         data["data"]["school_name"] = tracker.get_slot("school")
         data["data"]["school_emis"] = tracker.get_slot("school_emis")
+        data["data"]["profile"] = tracker.get_slot("profile")
         return data
 
     def send_risk_to_user(self, dispatcher, risk):

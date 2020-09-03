@@ -46,6 +46,9 @@ slots:
     type: categorical
     values:
       - yes
+  profile:
+    type: unfeaturized
+    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
@@ -137,6 +140,16 @@ responses:
           MORE 📄 - _to read the terms and conditions_
 
           (or Reply MENU 📌 _to return to the main menu_)
+
+  utter_ask_profile:
+      - text: |
+          Which describes you best?
+
+          Reply
+          *1.* Educator
+          *2.* Learner
+          *3.* Parents or Guardian on behalf of learner
+          *4.* Support or Admin staff
 
   utter_more_terms:
       - text: |

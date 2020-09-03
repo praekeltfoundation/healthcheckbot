@@ -72,14 +72,25 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_school_confirm("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"school_confirm": "yes"})
 
+    def test_validate_profile(self):
+        """
+        Get the profile of the user
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_profile("4", dispatcher, tracker, {})
+        self.assertEqual(response, {"profile": "support"})
+
     def test_slot_mappings(self):
         """
-        Ensures that the additional school fields are in the slot mappings
+        Ensures that the additional fields are in the slot mappings
         """
         form = HealthCheckProfileForm()
         mappings = form.slot_mappings()
         self.assertIn("school", mappings)
         self.assertIn("school_confirm", mappings)
+        self.assertIn("profile", mappings)
 
 
 class HealthCheckFormTests(TestCase):
@@ -109,6 +120,7 @@ class HealthCheckFormTests(TestCase):
                 "medical_condition_cardio": "no",
                 "school": "BERGVLIET HIGH SCHOOL",
                 "school_emis": "105310201",
+                "profile": "learner",
             },
             {},
             [],
@@ -147,6 +159,7 @@ class HealthCheckFormTests(TestCase):
                     "obesity": False,
                     "school_name": "BERGVLIET HIGH SCHOOL",
                     "school_emis": "105310201",
+                    "profile": "learner",
                 },
             },
         )
