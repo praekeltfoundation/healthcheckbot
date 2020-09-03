@@ -36,3 +36,8 @@
 - e
 - ewe
 - yebo
+- amohela
+- aanvaar
+- yamkela
+- mukela
+
