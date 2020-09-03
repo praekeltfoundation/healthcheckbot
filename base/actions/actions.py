@@ -7,7 +7,7 @@ from urllib.parse import urlencode, urljoin
 import httpx
 import sentry_sdk
 from rasa_sdk import Tracker
-from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
+from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet, Form
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action, FormAction
 from sentry_sdk.integrations.logging import LoggingIntegration
@@ -772,5 +772,15 @@ class ActionExit(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        latest_message = tracker.get_last_event_for("user")
+        intent = latest_message.get('parse_data', {}).get('intent', {})
+
+        if intent.get('name') == "exit" and intent.get("confidence") < 0.95:
+
+            #if there's an active form, pass the input back to the form
+            if tracker.active_form.get("name") is not None:
+                #TODO: ensure the flow continues as normal
+                return Form(tracker.active_form.get("name"))
+
         dispatcher.utter_message(template="utter_exit")
         return ActionSessionStart().get_carry_over_slots(tracker)
