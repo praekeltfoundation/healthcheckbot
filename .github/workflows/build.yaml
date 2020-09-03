@@ -12,6 +12,9 @@ jobs:
       matrix:
         bot: ['base', 'dbe']
         lang: ['eng']
+        include:
+          - bot: 'base'
+            lang: ['afr', 'sot', 'xho', 'zul']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2

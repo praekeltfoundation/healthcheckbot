@@ -1,0 +1,376 @@
+intents:
+  - request_healthcheck
+  - affirm
+  - deny
+  - maybe
+  - inform
+  - more
+  - chitchat
+  - address
+  - exit:
+      triggers: action_exit
+
+entities:
+  - province
+  - number
+
+actions:
+  - action_session_start
+  - action_exit
+  - utter_ask_terms
+  - utter_ask_age
+  - utter_ask_gender
+  - utter_ask_province
+  - utter_ask_location
+  - utter_ask_location_confirm
+  - utter_ask_medical_condition
+  - utter_ask_medical_condition_obesity
+  - utter_ask_medical_condition_diabetes
+  - utter_ask_medical_condition_hypertension
+  - utter_ask_medical_condition_cardio
+  - utter_start_health_check
+  - utter_ask_symptoms_fever
+  - utter_ask_symptoms_cough
+  - utter_ask_symptoms_sore_throat
+  - utter_ask_symptoms_difficulty_breathing
+  - utter_ask_symptoms_taste_smell
+  - utter_ask_exposure
+  - utter_ask_tracing
+  - utter_submit
+  - utter_risk_low
+  - utter_risk_moderate
+  - utter_risk_high
+
+slots:
+  terms:
+    type: categorical
+    values:
+      - yes
+  age:
+    type: unfeaturized
+    auto_fill: false
+  gender:
+    type: unfeaturized
+    auto_fill: false
+  province:
+    type: unfeaturized
+    auto_fill: false
+  location:
+    type: unfeaturized
+    auto_fill: false
+  location_confirm:
+    type: unfeaturized
+    auto_fill: false
+  location_coords:
+    type: unfeaturized
+    auto_fill: false
+  city_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_fever:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_cough:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_taste_smell:
+    type: unfeaturized
+    auto_fill: false
+  exposure:
+    type: unfeaturized
+    auto_fill: false
+  tracing:
+    type: unfeaturized
+    auto_fill: false
+  requested_slot:
+    type: unfeaturized
+
+forms:
+  - healthcheck_form
+  - healthcheck_terms_form
+  - healthcheck_profile_form
+
+responses:
+  utter_welcome:
+      - text: |
+          *HealthCheck* ke sesebediswa sa hao sa beke le beke sa tlhahlobo ya kotsi. Ka kopo re thuse ka ho araba dipotso tse mmalwa ka wena le bophelo ba hao bo botle. O tla fumana dikeletso mabapi le hore na ke mehato efe eo o ka e nkang ho latela tataiso ya naha mme dintlha tseo o di kenyang di tla re thusa ho etsa meralo ya naha ya ho lwantsha COVID-19. Re ya leboha ka ho nka bohato le ho kenya letsoho maphelong a baahi bohle LE ho emisa ho ata ha vaerase 🦠
+
+  utter_welcome_back:
+      - text: |
+          Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_ask_terms:
+      - text: |
+          Araba ka le leng la mantswe a ngotsweng ka BOTENYA ho tswela pele
+
+          *AMOHELA* ✅ - _ho amohela melawana le dipehelo_
+          *TSE DING TSE NGATA* 📄 - ho bala melawana le dipehelo_
+
+          (kapa Araba MENU 📌 _ho kgutlela ho menu wa pele_)
+
+  utter_more_terms:
+      - text: |
+          O netefatsa hore wa ikarabella bakeng sa tlhokomelo ya hao ya bophelo bo botle le kalafo. Tshebeletso ena e fana ka lesedi feela.
+
+          Tshebeletso ena ha e nke sebaka sa dikeletso/tlhahlobo/kalafo tsa ngaka. Fumana dikeletso tsa mofani wa ditshebeletso tsa bophelo bo botle mabapi le boemo ba hao ba kalafo/tlhokomelo, haholo-holo haeba o ba le matshwao a matla.
+
+          O netefatsa hore ha wa lokela ho se tsotelle/ ho dieha ho batla boeletsi ba ngaka mabapi le kalafo/tlhokomelo ka lebaka la tshebeletso ena. Kotsi ya ho itshetleha leseding lena e boikarabellong ba hao.
+
+  utter_ask_province:
+      - text: |
+          O dula profenseng efe hona tje?
+
+          Araba:
+          *1.* EASTERN CAPE
+          *2.* FREE STATE
+          *3.* GAUTENG
+          *4.* KWAZULU NATAL
+          *5.* LIMPOPO
+          *6.* MPUMALANGA
+          *7.* NORTH WEST
+          *8.* NORTHERN CAPE
+          *9.* WESTERN CAPE
+
+  utter_incorrect_selection:
+    - text: |
+        Tshebeletso ena e sebetsa hantle ha o sebedisa kgetho tse ngotsweng ka *BOTENYA*.
+        📌Araba *MENU* ho kgutlela ho menu wa pele
+
+  utter_incorrect_location:
+    - text: |
+        If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
+
+  utter_ask_age:
+    - text: |
+        O na le dilemo tse kae?
+
+        *1.* <18
+        *2.* 18-39
+        *3.* 40-65
+        *4.* >65
+
+  utter_ask_gender:
+    - text: |
+        Ka kopo fana ka bong ba hao:
+
+        Araba:
+        *1.* MONNA
+        *2.* MOSADI
+        *3.* E NNGWE
+        *4.* KE KGETHA HO SE TJHO
+
+  utter_ask_location:
+    - text: |
+        Re hloka ho fumana sebaka seo o leng ho sona.
+
+        Ka kopo fetisa sebaka seo o leng ho sona 📍 ka WhatsApp ka ho latela mehato ena:
+        - Penya setshwantsho sa attach (+ kapa 📎) tlaase ho WhatsApp.
+        - Kgetha sebaka
+        - Sena se tla tlisa mmapa o nang le pin e bontshang sebaka seo o leng ho sona hona tjena. Penya *Romella Sebaka seo O leng ho Sona* haeba e le aterese ya hao.
+        - O ka kgetha dibaka tse ding tse haufi haeba o nahana hore GPS e fositse.
+
+        Kapa THAEPA lebitso la Surburb, Lekeishine, Toropo kapa Motse (kapa haufi le moo)?
+
+  utter_ask_location_confirm:
+    - text: |
+        Re sebedisa Google Location Services ho netefatsa dibaka. Ka kopo netefatsa hore aterese e ka tlase e nepahetse ho latela dintlha tseo o faneng ka tsona:
+        ----------------------------
+        {location}
+        ----------------------------
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_medical_condition:
+    - text: |
+        Na o na le mafu ao re lokelang ho a ela hloko?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+        *3.* HA KE NA BONNETE
+
+  utter_ask_medical_condition_obesity:
+    - text: |
+        Na ngaka kapa setsebi se seng sa bophelo bo botle se fumane o na le Botenya?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_medical_condition_diabetes:
+    - text: |
+        Na ngaka kapa setsebi se seng sa bophelo bo botle se fumane o na le lefu la tswekere?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_medical_condition_hypertension:
+    - text: |
+        Na ngaka kapa setsebi se seng sa bophelo bo botle se fumane o na le Phaello ya madi?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_medical_condition_cardio:
+    - text: |
+        Na ngaka kapa setsebi se seng sa bophelo bo botle se fumane o na le Lefu la pelo?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_start_health_check:
+    - text: "Let's see how you are feeling today 💟"
+
+  utter_ask_symptoms_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        O ikutlwa o tjhesa haholo kapa o bata? O ntse o fufulelwa kapa wa thothomela? Ha o tshwara phatla ya hao, na o ikutlwa o tjhesa?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_symptoms_cough:
+    - text: |
+        ⬛⬛⬜⬜⬜⬜⬜
+
+        O na le ho kgohlela ho sa tswa qala haufinyane?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_symptoms_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Na o na le mmetso o bohloko kapa ho bohloko ha o kwenya dijo?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_symptoms_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬛⬜⬜⬜
+
+        Na o na le ho fellwa ke moya kapa ho hema ka thata, hoo o ho hlokometseng haufinyane?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_symptoms_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Na o hlokometse phetoho tsebong ya hao ya ho latswa kapa ho fofonela dintho?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_ask_exposure:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬜
+
+        Na o bile haufi le motho eo ho netefaditsweng hore o tshwaeditswe ke COVID19?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+        *3.* HA KE NA BONNETE
+
+  utter_ask_tracing:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬛
+
+        Qetellong, ka kopo netefatsa hore dintlha tseo o faneng ka tsona di *nepahetse* tsebong ya hao le hore o fa Lefapha la Bophelo la Naha tumello ya ho ikopanya le wena haeba ho hlokahala?
+
+        Araba
+        *1.* E
+        *2.* TJHE
+
+  utter_submit:
+    - text: "All done!"
+
+  utter_risk_low:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
+      claim: release
+      text: |
+        Re ya leboha ha o arabile dipotso tsohle.
+
+        Ho ipapisitswe le dikarabo tsa hao, o kotsing e tlase ya ho ba le COVID-19 mme ho ke ke ha hlokahala hore o phethe tlhahlobo ena hape matsatsing a 7 a tlang.
+        *Haeba* o qala ho kula kapa o kopana le motho ya tshwaeditsweng ke COVID-19 nakong ya matsatsi a 7 a latelang, ka kopo nka tlhahlobo ena ya kotsi hape
+
+        🤒 Araba ka *MATSHWAO* bakeng sa dintlha tse ding
+        📌 Araba ka *MENU* ho kgutlela ho menu wa pele
+
+  utter_risk_moderate:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+      claim: release
+      text: |
+        *Ho ipapisitswe le dikarabo tsa hao, re kgothaletsa hore o ikarole le batho hofihlela matsatsi a 14 a tlang a fela mme o tlatse HealthCheck ena letsatsi le letsatsi ho hlahloba matshwao a hao.*
+
+        Haeba ho kgonahala, dula o be o robale o le mong ka kamoreng e nang le fesetere e nang le moya o phallang.
+        - O ka bua le ba bang ba lelapa le ho tswela kantle, empa o lokela ho ema bonyane dimithara tse 2 ho motho e mong le e mong ka dinako tsohle.
+        - Ha wa lokela ho ba le baeti ntlong ya hao nakong ena.
+        - Setho se le seng sa lelapa se lokela ho abelwa ho ba mohlokomedi wa hao. Sena se beha karolo e tlase ya lelapa kotsing mme hape se thusa hore mohlokomedi wa hao a be le mekgwa e metle ya tlhokomelo ho qoba hore a se fumane tshwaetso ya vaerase ho tswa ho wena.
+        - Haeba tsena di sa kgonehe, o lokela ho letsetsa mosebeletsi wa tlhokomelo ya bophelo bo botle kapa tleliniki bakeng sa mekgwa e meng.
+
+        Araba ka *QUARANTINE* bakeng sa dintlha malebana le ho ikarohanya le batho
+        📌Araba ka *HO HLAHLOBA* bakeng sa dintlha tse ding kapa *MENU* ho kgutlela ho menu wa pele
+
+  utter_risk_high:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
+      claim: release
+      text: |
+        *Ho ipapisitswe le dikarabo tsa hao, o ka fumanwa o lokela ho hlahlojwa ho tseba hore na o tshwaeditswe ke COVID-19.*
+
+        Letsetsa Hotline ya COVID-19: 0800029999, kapa ngaka ya hao ya bophelo bo botle bakeng sa ditlhakisetso hore na o lokela ho latela mehato efe, jwang le hore na o ka hlahlobela kae haeba o kgothaleditswe ho etsa jwalo.
+
+        Latela mehato ena ya bohlokwa ha o batla tlhokomelo:
+        - Qoba ho kopana le batho ba bang ka tlung le tikolohong eo o phelang ho yona, haeba ho kgonahala, dula kamoreng e arohaneng le tse ding.
+        - Etsa bonnete ba hore o rwala maske wa sefahleho pele o kena setsing sa tlhokomelo ya bophelo bo botle.
+
+        Haeba o na le, kapa o qala ho ba le matshwao a matla, batla tlhokomelo ya bongaka ka potlako.
+
+        Araba ka *QUARANTINE* bakeng sa dintlha malebana le ho ikarohanya le batho
+        📌Araba ka *HO HLAHLOBA* bakeng sa dintlha tse ding kapa *MENU* ho kgutlela ho menu wa pele
+
+# claim: revert will ignore the message text, and reevaluate this message using
+# turn automation
+  utter_exit:
+    - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
+      claim: revert
+
+session_config:
+  session_expiration_time: 5
+  carry_over_slots_to_new_session: true
