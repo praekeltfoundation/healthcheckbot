@@ -17,30 +17,6 @@ entities:
 actions:
   - action_session_start
   - action_exit
-  - utter_ask_terms
-  - utter_ask_age
-  - utter_ask_learner_age
-  - utter_ask_gender
-  - utter_ask_province
-  - utter_ask_location
-  - utter_ask_location_confirm
-  - utter_ask_medical_condition
-  - utter_ask_medical_condition_obesity
-  - utter_ask_medical_condition_diabetes
-  - utter_ask_medical_condition_hypertension
-  - utter_ask_medical_condition_cardio
-  - utter_start_health_check
-  - utter_ask_symptoms_fever
-  - utter_ask_symptoms_cough
-  - utter_ask_symptoms_sore_throat
-  - utter_ask_symptoms_difficulty_breathing
-  - utter_ask_symptoms_taste_smell
-  - utter_ask_exposure
-  - utter_ask_tracing
-  - utter_submit
-  - utter_risk_low
-  - utter_risk_moderate
-  - utter_risk_high
 
 slots:
   terms:
@@ -352,9 +328,6 @@ responses:
         Reply
         *1.* YES
         *2.* NO
-
-  utter_submit:
-    - text: "All done!"
 
   utter_risk_low:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
