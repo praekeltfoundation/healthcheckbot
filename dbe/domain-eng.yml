@@ -29,9 +29,6 @@ slots:
   age:
     type: unfeaturized
     auto_fill: false
-  learner_age:
-    type: unfeaturized
-    auto_fill: false
   gender:
     type: unfeaturized
     auto_fill: false
