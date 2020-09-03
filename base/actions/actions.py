@@ -637,6 +637,9 @@ class HealthCheckForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("tracing", dispatcher, value, self.yes_no_data)
 
+    def map_age(self, value: Text) -> Text:
+        return self.AGE_MAPPING[value]
+
     def get_eventstore_data(self, tracker: Tracker, risk: Text) -> Dict[Text, Any]:
         """
         Formats the data from the tracker into the format expected by the event store
@@ -647,7 +650,7 @@ class HealthCheckForm(BaseFormAction):
             "source": "WhatsApp",
             "province": f'ZA-{tracker.get_slot("province").upper()}',
             "city": tracker.get_slot("location"),
-            "age": self.AGE_MAPPING[tracker.get_slot("age")],
+            "age": self.map_age(tracker.get_slot("age")),
             "fever": self.YES_NO_MAPPING[tracker.get_slot("symptoms_fever")],
             "cough": self.YES_NO_MAPPING[tracker.get_slot("symptoms_cough")],
             "sore_throat": self.YES_NO_MAPPING[
