@@ -6,6 +6,7 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 from dbe.actions.actions import (
+    ActionExit,
     ActionSessionStart,
     HealthCheckForm,
     HealthCheckProfileForm,
@@ -13,15 +14,22 @@ from dbe.actions.actions import (
 
 
 class HealthCheckProfileFormTests(TestCase):
-    def test_age_data(self):
+    def test_validate_age(self):
         """
-        Correct age categories is returned
+        Should be an age between 0 and 150
         """
         form = HealthCheckProfileForm()
-        self.assertEqual(
-            form.age_data,
-            {1: "<18", 2: "18-39", 3: "40-49", 4: "50-59", 5: "60-65", 6: ">65"},
+        tracker = Tracker(
+            "27820001001", {"province": "wc"}, {}, [], False, None, {}, "action_listen"
         )
+        response = form.validate_age("1", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"age": "1"})
+        response = form.validate_age("0", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"age": None})
+        response = form.validate_age("150", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"age": None})
+        response = form.validate_age("abc", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"age": None})
 
     def test_validate_school(self):
         """
@@ -72,14 +80,25 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_school_confirm("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"school_confirm": "yes"})
 
+    def test_validate_profile(self):
+        """
+        Get the profile of the user
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_profile("4", dispatcher, tracker, {})
+        self.assertEqual(response, {"profile": "support"})
+
     def test_slot_mappings(self):
         """
-        Ensures that the additional school fields are in the slot mappings
+        Ensures that the additional fields are in the slot mappings
         """
         form = HealthCheckProfileForm()
         mappings = form.slot_mappings()
         self.assertIn("school", mappings)
         self.assertIn("school_confirm", mappings)
+        self.assertIn("profile", mappings)
 
 
 class HealthCheckFormTests(TestCase):
@@ -92,7 +111,7 @@ class HealthCheckFormTests(TestCase):
             "27820001001",
             {
                 "province": "wc",
-                "age": "40-49",
+                "age": "43",
                 "symptoms_fever": "no",
                 "symptoms_cough": "yes",
                 "symptoms_sore_throat": "no",
@@ -109,6 +128,7 @@ class HealthCheckFormTests(TestCase):
                 "medical_condition_cardio": "no",
                 "school": "BERGVLIET HIGH SCHOOL",
                 "school_emis": "105310201",
+                "profile": "learner",
             },
             {},
             [],
@@ -140,13 +160,14 @@ class HealthCheckFormTests(TestCase):
                 "risk": "low",
                 "source": "WhatsApp",
                 "data": {
-                    "age": "40-49",
+                    "age": "43",
                     "cardio": False,
                     "diabetes": False,
                     "hypertension": True,
                     "obesity": False,
                     "school_name": "BERGVLIET HIGH SCHOOL",
                     "school_emis": "105310201",
+                    "profile": "learner",
                 },
             },
         )
@@ -166,6 +187,16 @@ class HealthCheckFormTests(TestCase):
         self.assertEqual(msg["template"], "utter_risk_low")
         self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
         self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
+
+    def test_map_age(self):
+        """
+        Should map to one of the age buckets
+        """
+        form = HealthCheckForm()
+        self.assertEqual(form.map_age("3"), "<18")
+        self.assertEqual(form.map_age("18"), "18-40")
+        self.assertEqual(form.map_age("65"), "40-65")
+        self.assertEqual(form.map_age("66"), ">65")
 
 
 class ActionSessionStartTests(TestCase):
@@ -189,6 +220,35 @@ class ActionSessionStartTests(TestCase):
                 {},
                 "action_listen",
             )
+        )
+        self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
+        self.assertIn(SlotSet("school_emis", "105310201"), events)
+        self.assertIn(SlotSet("school_confirm", "yes"), events)
+
+
+class ActionExitTests(TestCase):
+    def test_school_details_copied(self):
+        """
+        Should copy over the school details to the new session
+        """
+        action = ActionExit()
+        events = action.run(
+            CollectingDispatcher(),
+            Tracker(
+                "27820001001",
+                {
+                    "school": "BERGVLIET HIGH SCHOOL",
+                    "school_emis": "105310201",
+                    "school_confirm": "yes",
+                },
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            ),
+            {},
         )
         self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
         self.assertIn(SlotSet("school_emis", "105310201"), events)

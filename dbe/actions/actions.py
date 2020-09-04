@@ -8,7 +8,7 @@ from whoosh.index import open_dir
 from whoosh.qparser import MultifieldParser
 from whoosh.query import FuzzyTerm, Term
 
-from base.actions.actions import ActionExit
+from base.actions.actions import ActionExit as BaseActionExit
 from base.actions.actions import ActionSessionStart as BaseActionSessionStart
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
@@ -16,6 +16,8 @@ from base.actions.actions import HealthCheckTermsForm
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
+    SLOTS = ["profile", "age"]
+
     PERSISTED_SLOTS = [
         "gender",
         "province",
@@ -35,12 +37,19 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_intent(intent="deny", value="no"),
             self.from_text(),
         ]
+        mappings["profile"] = [self.from_entity(entity="number"), self.from_text()]
         return mappings
 
-    @property
-    def age_data(self) -> Dict[int, Text]:
-        with open("dbe/data/lookup_tables/ages.txt") as f:
-            return dict(enumerate(f.read().splitlines(), start=1))
+    def validate_age(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        if self.is_int(value) and int(value) > 0 and int(value) < 150:
+            return {"age": value}
+        return {"age": None}
 
     def validate_school(
         self,
@@ -84,16 +93,31 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             return {"school_confirm": None, "school": None}
         return school_confirm
 
+    @property
+    def profile_data(self) -> Dict[int, Text]:
+        with open("dbe/data/lookup_tables/profiles.txt") as f:
+            return dict(enumerate(f.read().splitlines(), start=1))
+
+    def validate_profile(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic("profile", dispatcher, value, self.profile_data)
+
 
 class HealthCheckForm(BaseHealthCheckForm):
-    AGE_MAPPING = {
-        "<18": "<18",
-        "18-39": "18-40",
-        "40-49": "40-65",
-        "50-59": "40-65",
-        "60-65": "40-65",
-        ">65": ">65",
-    }
+    def map_age(self, value: Text):
+        age = int(value)
+        if age < 18:
+            return "<18"
+        if age < 40:
+            return "18-40"
+        if age <= 65:
+            return "40-65"
+        return ">65"
 
     def get_eventstore_data(self, tracker: Tracker, risk: Text) -> Dict[Text, Any]:
         # Add the original value for `age` to `data`
@@ -101,6 +125,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["age"] = tracker.get_slot("age")
         data["data"]["school_name"] = tracker.get_slot("school")
         data["data"]["school_emis"] = tracker.get_slot("school_emis")
+        data["data"]["profile"] = tracker.get_slot("profile")
         return data
 
     def send_risk_to_user(self, dispatcher, risk):
@@ -122,6 +147,17 @@ class ActionSessionStart(BaseActionSessionStart):
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         return actions
+
+
+class ActionExit(BaseActionExit):
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(template="utter_exit")
+        return ActionSessionStart().get_carry_over_slots(tracker)
 
 
 __all__ = [
