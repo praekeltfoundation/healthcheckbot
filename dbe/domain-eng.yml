@@ -178,7 +178,11 @@ responses:
 
   utter_welcome_back:
       - text: |
-          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus
+          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. 
+
+          Please help us by correctly answering a few questions about you and your health today. 
+
+          📌Reply with MENU to return to the main menu
 
   utter_ask_terms:
       - text: |
@@ -233,7 +237,7 @@ responses:
 
   utter_incorrect_school:
     - text: |
-        You may have typed the school name incorrectly, please TYPE the name of your school again.
+        You may have typed the school name incorrectly, please TYPE the name of your school again and check you've selected the right province.
 
   utter_ask_age:
     - text: "Please TYPE your age in years (eg. 35)"
@@ -370,11 +374,11 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬛⬜⬜
 
-          Have you noticed any recent changes in your ability to taste or smell things?
+        Have you noticed any recent changes in your ability to taste or smell things?
 
-          Reply
-          *1.* YES
-          *2.* NO
+        Reply
+        *1.* YES
+        *2.* NO
 
   utter_ask_exposure:
     - text: |
