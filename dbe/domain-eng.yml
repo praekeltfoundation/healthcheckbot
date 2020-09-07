@@ -465,8 +465,6 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
-
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
   utter_exit:
