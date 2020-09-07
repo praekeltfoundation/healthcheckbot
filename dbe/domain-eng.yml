@@ -439,7 +439,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
+        Well done for taking the risk assessment. Stay safe and continue to monitor your health.
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
