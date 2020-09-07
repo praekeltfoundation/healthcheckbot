@@ -693,14 +693,7 @@ class HealthCheckForm(BaseFormAction):
     ) -> None:
         dispatcher.utter_message(template=f"utter_risk_{risk}")
 
-    async def submit(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        """Define what the form has to do
-            after all required slots are filled"""
+    def get_risk_data(self, tracker: Tracker) -> Dict:
         data = {
             slot: tracker.get_slot(slot)
             for slot in self.SLOTS
@@ -709,7 +702,17 @@ class HealthCheckForm(BaseFormAction):
         data.update(
             {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
         )
+        return data
 
+    async def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+        data = self.get_risk_data(tracker)
         risk = utils.get_risk_level(data)
 
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
