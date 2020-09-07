@@ -531,7 +531,7 @@ responses:
   utter_ask_obo_school_confirm:
     - text: |
         Please confirm that the school below is correct based on the information you have shared:
-        {school}
+        {obo_school}
 
         Reply 
         *1.* YES
