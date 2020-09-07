@@ -50,27 +50,8 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_intent(intent="deny", value="no"),
             self.from_text(),
         ]
-        mappings.update({f"obo_{m}": v for m, v in mappings.items()})
         mappings["profile"] = [self.from_entity(entity="number"), self.from_text()]
-        mappings["obo_name"] = [self.from_text()]
         return mappings
-
-    @classmethod
-    def required_slots(cls, tracker: Tracker) -> List[Text]:
-        slots = super().required_slots(tracker)
-        # Use on behalf of slots for parent profile
-        if tracker.get_slot("profile") == "parent":
-            slots = ["profile", "obo_name", "obo_age"] + [
-                f"obo_{s}" for s in cls.PERSISTED_SLOTS
-            ]
-            if tracker.get_slot("obo_medical_condition") != "no":
-                slots += [f"obo_{s}" for s in cls.CONDITIONS]
-
-            for slot in slots:
-                if not tracker.get_slot(slot):
-                    return [slot]
-            return []
-        return slots
 
     def validate_age(
         self,
