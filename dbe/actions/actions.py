@@ -170,7 +170,11 @@ class HealthCheckForm(BaseHealthCheckForm):
     def required_slots(cls, tracker: Tracker) -> List[Text]:
         slots = super().required_slots(tracker)
         if tracker.get_slot("profile") == "parent":
-            slots = [f"obo_{slot}" for slot in slots]
+            for slot in cls.SLOTS:
+                slot = f"obo_{slot}"
+                if not tracker.get_slot(slot):
+                    return [slot]
+            return []
         return slots
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:

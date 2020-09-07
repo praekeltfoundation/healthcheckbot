@@ -385,10 +385,28 @@ class HealthCheckFormTests(TestCase):
         Should return the normal slots for profiles that are not parent
         """
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
-        slots = HealthCheckForm.required_slots(tracker)
         tracker.slots["profile"] = "parent"
         slots = HealthCheckForm.required_slots(tracker)
         self.assertEqual(slots, ["obo_symptoms_fever"])
+        tracker.slots["obo_symptoms_fever"] = "no"
+        slots = HealthCheckForm.required_slots(tracker)
+        self.assertEqual(slots, ["obo_symptoms_cough"])
+
+    def test_required_slots_parent_complete(self):
+        """
+        If there are no more slots to fulfill, should return an empty list
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "parent"
+        tracker.slots["obo_symptoms_fever"] = "no"
+        tracker.slots["obo_symptoms_cough"] = "no"
+        tracker.slots["obo_symptoms_sore_throat"] = "no"
+        tracker.slots["obo_symptoms_difficulty_breathing"] = "no"
+        tracker.slots["obo_symptoms_taste_smell"] = "no"
+        tracker.slots["obo_exposure"] = "no"
+        tracker.slots["obo_tracing"] = "no"
+        slots = HealthCheckForm.required_slots(tracker)
+        self.assertEqual(slots, [])
 
     def test_slot_mappings(self):
         """
