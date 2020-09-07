@@ -290,7 +290,7 @@ class HealthCheckForm(BaseHealthCheckForm):
 class ActionSessionStart(BaseActionSessionStart):
     def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = super().get_carry_over_slots(tracker)
-        carry_over_slots = ("school", "school_confirm", "school_emis")
+        carry_over_slots = ("school", "school_confirm", "school_emis", "profile")
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
         return actions
