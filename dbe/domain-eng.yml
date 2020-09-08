@@ -17,35 +17,15 @@ entities:
 actions:
   - action_session_start
   - action_exit
-  - utter_ask_terms
-  - utter_ask_age
-  - utter_ask_gender
-  - utter_ask_province
-  - utter_ask_location
-  - utter_ask_location_confirm
-  - utter_ask_medical_condition
-  - utter_ask_medical_condition_obesity
-  - utter_ask_medical_condition_diabetes
-  - utter_ask_medical_condition_hypertension
-  - utter_ask_medical_condition_cardio
-  - utter_start_health_check
-  - utter_ask_symptoms_fever
-  - utter_ask_symptoms_cough
-  - utter_ask_symptoms_sore_throat
-  - utter_ask_symptoms_difficulty_breathing
-  - utter_ask_symptoms_taste_smell
-  - utter_ask_exposure
-  - utter_ask_tracing
-  - utter_submit
-  - utter_risk_low
-  - utter_risk_moderate
-  - utter_risk_high
 
 slots:
   terms:
     type: categorical
     values:
       - yes
+  profile:
+    type: unfeaturized
+    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
@@ -114,29 +94,114 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
+  obo_name:
+    type: unfeaturized
+    auto_fill: false
+  obo_age:
+    type: unfeaturized
+    auto_fill: false
+  obo_gender:
+    type: unfeaturized
+    auto_fill: false
+  obo_province:
+    type: unfeaturized
+    auto_fill: false
+  obo_location:
+    type: unfeaturized
+    auto_fill: false
+  obo_location_confirm:
+    type: unfeaturized
+    auto_fill: false
+  obo_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  obo_city_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  obo_school:
+    type: unfeaturized
+    auto_fill: false
+  obo_school_confirm:
+    type: unfeaturized
+    auto_fill: false
+  obo_school_emis:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  obo_symptoms_fever:
+    type: unfeaturized
+    auto_fill: false
+  obo_symptoms_cough:
+    type: unfeaturized
+    auto_fill: false
+  obo_symptoms_sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  obo_symptoms_difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  obo_symptoms_taste_smell:
+    type: unfeaturized
+    auto_fill: false
+  obo_exposure:
+    type: unfeaturized
+    auto_fill: false
+  obo_tracing:
+    type: unfeaturized
+    auto_fill: false
 
 forms:
   - healthcheck_form
+  - obo_healthcheck_form
   - healthcheck_terms_form
   - healthcheck_profile_form
+  - obo_healthcheck_profile_form
 
 responses:
   utter_welcome:
       - text: |
-          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Please help us by answering a few questions about you and your health. You will receive advice on what actions to take based on national guidelines and the data you enter will help us in predictive modelling and planning our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus
+          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. Please help us by correctly answering a few questions about you and your health. The information you provide will assist us to guide and advise on your health and actions to take based on national guidelines. The data you enter will also help us plan and execute our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus in our schools and work environment. 🦠
 
   utter_welcome_back:
       - text: |
-          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of citizens engaged in basic education. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus
+          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. 
+
+          Please help us by correctly answering a few questions about you and your health today. 
+
+          📌Reply with MENU to return to the main menu
 
   utter_ask_terms:
       - text: |
           Reply with one of the words in BOLD to continue
 
-          *ACCEPT* ✅ - _to accept the terms and conditions_
-          *MORE* 📄 - _to read the terms and conditions_
+          ACCEPT ✅ - _to accept the terms and conditions_
+          MORE 📄 - _to read the terms and conditions_
 
-          (or Reply *MENU* 📌 _to return to the main menu_)
+          (or Reply MENU 📌 _to return to the main menu_)
+
+  utter_ask_profile:
+      - text: |
+          Which describes you best?
+
+          Reply
+          *1.* Educator
+          *2.* Learner
+          *3.* Parents or Guardian on behalf of learner
+          *4.* Support or Admin staff
 
   utter_more_terms:
       - text: |
@@ -172,25 +237,16 @@ responses:
 
   utter_incorrect_school:
     - text: |
-        You may have typed the school name incorrectly, or selected the incorrect province for the school.
+        You may have typed the school name incorrectly, please TYPE the name of your school again and check you've selected the right province.
 
   utter_ask_age:
-    - text: |
-        How old are you?
-
-        Reply:
-        *1.* <18
-        *2.* 18-39
-        *3.* 40-49
-        *4.* 50-59
-        *5.* 60-65
-        *6.* >65
+    - text: "Please TYPE your age in years (eg. 35)"
 
   utter_ask_gender:
     - text: |
         Please provide us with the gender you identify as:
 
-        Reply:
+        Reply
         *1.* MALE
         *2.* FEMALE
         *3.* OTHER
@@ -206,22 +262,20 @@ responses:
         - This will bring up a map with a pin showing your current location. Tap *Send Your Current Location* if this is your address.
         - You can also choose from various other nearby locations if you think that the GPS is a bit off.
 
-
         Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?
 
   utter_ask_location_confirm:
     - text: |
         We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
-        ----------------------------
         {location}
-        ----------------------------
-        Reply:
+
+        Reply 
         *1.* YES
         *2.* NO
 
   utter_ask_school:
     - text: |
-        Please TYPE the name of your school or your school's EMIS number
+        Please TYPE the name of your school OR your school's EMIS number
 
   utter_ask_school_confirm:
     - text: |
@@ -236,7 +290,7 @@ responses:
     - text: |
         Do you have any other pre-existing medical conditions that we should be aware of?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
         *3.* NOT SURE
@@ -245,36 +299,36 @@ responses:
     - text: |
         Has a doctor or other health professional diagnosed you with Obesity?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_ask_medical_condition_diabetes:
     - text: |
-        Has a doctor or other health professional diagnosed you with Diabetes?
+        Has a doctor or other health professional diagnosed you with Diabetes (blood sugar)? 
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_ask_medical_condition_hypertension:
     - text: |
-        Has a doctor or other health professional diagnosed you with Hypertension?
+        Has a doctor or other health professional diagnosed you with Hypertension (high blood pressure)?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_ask_medical_condition_cardio:
     - text: |
-        Has a doctor or other health professional diagnosed you with Cardiovascular Disease?
+        Has a doctor or other health professional diagnosed you with Cardiovascular (heart) Disease?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
   utter_start_health_check:
-    - text: "Let's see how you are feeling today 💟"
+    - text: "Tell us how you are feeling today:"
 
   utter_ask_symptoms_fever:
     - text: |
@@ -282,7 +336,7 @@ responses:
 
         Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?
 
-        Reply:
+        Reply 
         *1.* YES
         *2.* NO
 
@@ -292,7 +346,7 @@ responses:
 
         Do you have a cough that recently started?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -302,7 +356,7 @@ responses:
 
         Do you have a sore throat or pain when swallowing?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -310,9 +364,9 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
-        Do you have breathlessness or a difficulty breathing, that you’ve noticed recently?
+        Do you have breathlessness or difficulty breathing, that you've noticed recently?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -322,7 +376,7 @@ responses:
 
         Have you noticed any recent changes in your ability to taste or smell things?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
 
@@ -330,9 +384,9 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬜
 
-        Have you been in close contact to someone confirmed to be infected with COVID19?
+        Have you been in close contact to someone confirmed to be infected with COVID-19?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
         *3.* NOT SURE
@@ -343,12 +397,9 @@ responses:
 
         Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?
 
-        Reply:
+        Reply
         *1.* YES
         *2.* NO
-
-  utter_submit:
-    - text: "All done!"
 
   utter_risk_low:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
@@ -357,16 +408,25 @@ responses:
         Thank you for answering all questions.
 
         Based on your responses, you are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
-        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in daily, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
+
+        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in again tomorrow, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
 
         🤒 Reply with *SYMPTOMS* for more information
         📌 Reply with *MENU* to return to the main menu
+
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Low
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
 
   utter_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
       claim: release
       text: |
-        *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor your symptoms.*
+        *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck every day to monitor your symptoms.*
 
         If possible, stay and sleep alone in a room that has a window with good air flowing through.
         - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
@@ -376,6 +436,14 @@ responses:
 
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
+
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Moderate
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for taking the risk assessment. Stay safe and continue to monitor your health.
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
@@ -388,17 +456,282 @@ responses:
         Follow these important steps when seeking care:
         - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
         - Ensure you put on a face mask before you enter a healthcare facility.
+        - Wash your hands frequently with soap and water and or sanitise with a 70% alcohol hand sanitiser
 
         If you have or start getting severe symptoms, seek medical care urgently.
 
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: High
+        Date Issued: {issued}
+        Expiry date: {expired}
+
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
   utter_exit:
     - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
       claim: revert
+
+  utter_ask_obo_name:
+    - text: "Please TYPE your child's name (ie. Thato)"
+
+  utter_ask_obo_age:
+    - text: "Please TYPE how old {obo_name} is in years (eg. 35)"
+
+  utter_ask_obo_gender:
+    - text: |
+        Please provide us with the gender of {obo_name}:
+
+        Reply
+        *1.* MALE
+        *2.* FEMALE
+        *3.* OTHER
+        *4.* RATHER NOT SAY
+
+  utter_ask_obo_province:
+    - text: |
+        In which Province is {obo_name} currently residing?
+
+        Reply:
+        *1.* EASTERN CAPE
+        *2.* FREE STATE
+        *3.* GAUTENG
+        *4.* KWAZULU NATAL
+        *5.* LIMPOPO
+        *6.* MPUMALANGA
+        *7.* NORTH WEST
+        *8.* NORTHERN CAPE
+        *9.* WESTERN CAPE
+
+  utter_ask_obo_location:
+    - text: |
+        We need to collect {obo_name} location.
+
+        Please share your location 📍 using WhatsApp by following these steps:
+        - Tap the attach icon (+ or  📎) on the bottom of WhatsApp. 
+        - Select location
+        - This will bring up a map with a pin showing your current location. Tap *Send Your Current Location* if this is your address.
+        - You can also choose from various other nearby locations if you think that the GPS is a bit off.
+
+        Or TYPE the name of your Suburb, Township, Town or Village (or nearest)?
+
+  utter_ask_obo_location_confirm:
+    - text: |
+        We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
+        {obo_location}
+
+        Reply 
+        *1.* YES
+        *2.* NO
+  
+  utter_ask_obo_school:
+    - text: "Please TYPE the name of {obo_name}'s school."
+  
+  utter_ask_obo_school_confirm:
+    - text: |
+        Please confirm that the school below is correct based on the information you have shared:
+        {obo_school}
+
+        Reply 
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition:
+    - text: |
+        Does {obo_name} have any other pre-existing medical conditions that we should be aware of?
+
+        Reply
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
+
+  utter_ask_obo_medical_condition_obesity:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with Obesity?
+
+        Reply
+        *1.* YES
+        *2.* NO
+  
+  utter_ask_obo_medical_condition_diabetes:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with Diabetes (Blood sugar)?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_hypertension:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with Hypertension (High blood pressure)?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_cardio:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with Cardiovascular (heart) Disease?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_obo_start_healthcheck:
+    - text: |
+        Tell us how {obo_name} is feeling today:
+
+  utter_ask_obo_symptoms_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        Does {obo_name} feel very hot or cold? Are they sweating or shivering? When they touch their forehead, does it feel hot?
+
+        Reply 
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_symptoms_cough:
+    - text: |
+        ⬛⬛⬜⬜⬜⬜⬜
+
+        Does {obo_name} have a cough that recently started?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_symptoms_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Does {obo_name} have a sore throat or pain when swallowing?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_symptoms_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬛⬜⬜⬜
+
+        Does {obo_name} have breathlessness or a difficulty breathing, that you've noticed recently?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_symptoms_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Has {obo_name} noticed any recent changes in your ability to taste or smell things?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_exposure:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬜
+
+        Has {obo_name} been in close contact to someone confirmed to be infected with COVID-19?
+
+        Reply
+        *1.* YES
+        *2.* NO
+        *3.* NOT SURE
+  
+  utter_ask_obo_tracing:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬛
+
+        Finally, please confirm that the information you shared is *accurate* to the best of your knowledge and that you give the National Department of Health permission to contact you if necessary?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_obo_risk_low:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
+      text: |
+        Thank you for answering all questions.
+
+        Based on {obo_name}'s responses, they are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
+
+        *If* they start to feel ill or come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in again tomorrow, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
+
+        Reply with *CHECK* to do a HealthCheck for another child.
+        🤒 Reply with *SYMPTOMS* for more information 
+        📌 Reply with *0* to return to the main menu
+
+        ________
+
+
+        *HealthCheck Self-assessment Result*
+
+        {obo_name}
+        Risk Level: Low
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+  utter_obo_risk_moderate:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
+      text: |
+        *Based on {obo_name}'s responses, we recommend that they self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor their symptoms.*
+
+        If possible, they should stay and sleep alone in a room that has a window with good air flowing through.
+        - They can talk to other family members and go outside, but should stay at least 2 meters away from everyone at all times.
+        - They should not have visitors at the house during this time.
+        - One family member should be assigned as their caregiver. This exposes less of your family and also ensures that [child's name] and the caregiver can develop good habits so that they do not catch the virus from them.
+        - If these procedures are not possible, please contact your health care worker or clinic for alternative options.
+
+        Reply with *CHECK* to do a HealthCheck for another child.
+        Reply with *QUARANTINE* for more information on how to self-quarantine
+        📌Reply with *TESTING* for more information or *0* to return to the main menu
+
+        ________
+
+
+        *HealthCheck Self-assessment Result*
+
+        {obo_name}
+        Risk Level: Medium
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for taking the risk assessment on behalf of [Child's name]. Stay safe and continue to monitor their health."
+
+  utter_obo_risk_high:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
+      text: |
+        *Based on your responses, {obo_name} may be eligible for testing to find out if they are infected with COVID-19.*
+
+        Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so. 
+
+        Follow these important steps when seeking care:
+        - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
+        - Ensure you and {obo_name} put on a face mask before entering a healthcare facility.
+        - Wash your hands frequently with soap and water and or sanitise with a 70% alcohol hand sanitiser.
+
+        If {obo_name} has or starts getting severe symptoms, seek medical care urgently.
+
+        Reply with *CHECK* to do a HealthCheck for another child.
+        Reply with *QUARANTINE* for more information on how to self-quarantine
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
+
+        ________
+
+
+        *HealthCheck Self-assessment Result*
+
+        {obo_name}
+        Risk Level: High
+        Date Issued: {issued}
+        Expiry date: {expired}
 
 session_config:
   session_expiration_time: 5

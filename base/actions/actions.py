@@ -637,6 +637,9 @@ class HealthCheckForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("tracing", dispatcher, value, self.yes_no_data)
 
+    def map_age(self, value: Text) -> Text:
+        return self.AGE_MAPPING[value]
+
     def get_eventstore_data(self, tracker: Tracker, risk: Text) -> Dict[Text, Any]:
         """
         Formats the data from the tracker into the format expected by the event store
@@ -647,7 +650,7 @@ class HealthCheckForm(BaseFormAction):
             "source": "WhatsApp",
             "province": f'ZA-{tracker.get_slot("province").upper()}',
             "city": tracker.get_slot("location"),
-            "age": self.AGE_MAPPING[tracker.get_slot("age")],
+            "age": self.map_age(tracker.get_slot("age")),
             "fever": self.YES_NO_MAPPING[tracker.get_slot("symptoms_fever")],
             "cough": self.YES_NO_MAPPING[tracker.get_slot("symptoms_cough")],
             "sore_throat": self.YES_NO_MAPPING[
@@ -685,8 +688,21 @@ class HealthCheckForm(BaseFormAction):
             },
         }
 
-    def send_risk_to_user(self, dispatcher: CollectingDispatcher, risk: Text) -> None:
+    def send_risk_to_user(
+        self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
+    ) -> None:
         dispatcher.utter_message(template=f"utter_risk_{risk}")
+
+    def get_risk_data(self, tracker: Tracker) -> Dict:
+        data = {
+            slot: tracker.get_slot(slot)
+            for slot in self.SLOTS
+            if slot.startswith("symptoms_")
+        }
+        data.update(
+            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
+        )
+        return data
 
     async def submit(
         self,
@@ -696,15 +712,7 @@ class HealthCheckForm(BaseFormAction):
     ) -> List[Dict]:
         """Define what the form has to do
             after all required slots are filled"""
-        data = {
-            slot: tracker.get_slot(slot)
-            for slot in self.SLOTS
-            if slot.startswith("symptoms_")
-        }
-        data.update(
-            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
-        )
-
+        data = self.get_risk_data(tracker)
         risk = utils.get_risk_level(data)
 
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
@@ -731,7 +739,7 @@ class HealthCheckForm(BaseFormAction):
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
                         raise e
-        self.send_risk_to_user(dispatcher, risk)
+        self.send_risk_to_user(dispatcher, risk, tracker)
         return []
 
 
