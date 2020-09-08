@@ -13,6 +13,8 @@ from base.actions.actions import HealthCheckTermsForm
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
+    SLOTS = ["first_name", "last_name", "age"]
+
     PERSISTED_SLOTS = [
         "first_name",
         "last_name",
@@ -73,7 +75,9 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["reason"] = tracker.get_slot("reason")
         return data
 
-    def send_risk_to_user(self, dispatcher: CollectingDispatcher, risk: Text) -> None:
+    def send_risk_to_user(
+        self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
+    ) -> None:
         # ZA timezone
         issued = datetime.now(tz=timezone(timedelta(hours=2)))
         expired = issued + timedelta(days=1)
