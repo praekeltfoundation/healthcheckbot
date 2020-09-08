@@ -123,7 +123,8 @@ class HealthCheckFormTests(TestCase):
         dt.now.return_value = datetime(
             2020, 1, 2, 3, 4, 5, tzinfo=timezone(timedelta(hours=2))
         )
-        form.send_risk_to_user(dispatcher, "low")
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen",)
+        form.send_risk_to_user(dispatcher, "low", tracker)
         [msg] = dispatcher.messages
         self.assertEqual(msg["template"], "utter_risk_low")
         self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
