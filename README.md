@@ -33,3 +33,11 @@ It has the following languages:
 `eng`: English
 
 See [this readme](dbe/actions/README.md) for details on how to update the EMIS search index
+
+
+## hh
+This is the HealthCheck for Higher Health.
+
+It has the following languages:
+
+`eng`: English
