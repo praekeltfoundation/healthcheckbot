@@ -255,16 +255,20 @@ class HealthCheckForm(BaseHealthCheckForm):
         return data
 
     def get_risk_data(self, tracker: Tracker) -> Dict:
-        symptoms_slot_prefix = "obo_" if tracker.get_slot("profile") == "parent" else ""
-        data = {
-            slot: tracker.get_slot(f"{symptoms_slot_prefix}{slot}")
-            for slot in self.SLOTS
-            if slot.startswith("symptoms_")
-        }
-        data.update(
-            {"exposure": tracker.get_slot("exposure"), "age": tracker.get_slot("age")}
-        )
-        return data
+        if tracker.get_slot("profile") == "parent":
+            data = {
+                slot: tracker.get_slot(f"obo_{slot}")
+                for slot in self.SLOTS
+                if slot.startswith("symptoms_")
+            }
+            data.update(
+                {
+                    "exposure": tracker.get_slot("obo_exposure"),
+                    "age": self.map_age(tracker.get_slot("obo_age")),
+                }
+            )
+            return data
+        return super().get_risk_data(tracker)
 
     def send_risk_to_user(self, dispatcher, risk, tracker):
         template = f"utter_risk_{risk}"
