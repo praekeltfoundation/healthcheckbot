@@ -41,3 +41,5 @@ This is the HealthCheck for Higher Health.
 It has the following languages:
 
 `eng`: English
+
+See [this readme](hh/actions/README.md) for details on how to update the list of universities/TVET/PHEI
