@@ -56,6 +56,21 @@ slots:
   reason:
     type: unfeaturized
     auto_fill: false
+  destination_province:
+    type: unfeaturized
+    auto_fill: false
+  university:
+    type: unfeaturized
+    auto_fill: false
+  university_list:
+    type: unfeaturized
+    auto_fill: false
+  campus:
+    type: unfeaturized
+    auto_fill: false
+  campus_list:
+    type: unfeaturized
+    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -216,6 +231,35 @@ responses:
         *1.* STUDENT
         *2.* STAFF MEMBER
         *3.* VISITOR/OTHER
+
+  utter_ask_destination_province:
+    - text: |
+        In which Province is this Educational Institution?
+
+        Reply:
+        *1.* EASTERN CAPE
+        *2.* FREE STATE
+        *3.* GAUTENG
+        *4.* KWAZULU NATAL
+        *5.* LIMPOPO
+        *6.* MPUMALANGA
+        *7.* NORTH WEST
+        *8.* NORTHERN CAPE
+        *9.* WESTERN CAPE
+
+  utter_ask_university:
+    - text: |
+        Please select the Educational Institution from the list below:
+        
+        Reply:
+        {university_list}
+
+  utter_ask_campus:
+    - text: |
+        Which Campus will you be visiting at {university}?
+
+        Reply:
+        {campus_list}
 
   utter_ask_medical_condition:
     - text: |

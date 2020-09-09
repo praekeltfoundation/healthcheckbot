@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
+from ruamel.yaml import YAML
 
 from base.actions.actions import ActionExit as BaseActionExit
 from base.actions.actions import ActionSessionStart as BaseActionSessionStart
@@ -24,6 +25,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "location_confirm",
         "destination",
         "reason",
+        "destination_province",
+        "university",
+        "campus",
         "medical_condition",
     ]
 
@@ -33,6 +37,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         mappings["last_name"] = [self.from_text()]
         mappings["destination"] = [self.from_entity(entity="number"), self.from_text()]
         mappings["reason"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["destination_province"] = [
+            self.from_entity(entity="number"),
+            self.from_text(),
+        ]
+        mappings["university"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["campus"] = [self.from_entity(entity="number"), self.from_text()]
         return mappings
 
     @property
@@ -65,6 +75,81 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("reason", dispatcher, value, self.reason_data)
 
+    @property
+    def institution_data(self) -> Dict[Text, Dict[Text, List[Text]]]:
+        with open("hh/actions/university_data.yaml") as f:
+            return YAML(typ="safe").load(f)
+
+    @staticmethod
+    def make_list(items):
+        """
+        Given a dictionary of items, returns text for a user selectable list
+        """
+        return "\n".join([f"*{i}.* {v}" for i, v in items.items()])
+
+    def university_list(self, province):
+        return {
+            i: v
+            for i, v in enumerate(
+                sorted(self.institution_data[province].keys()), start=1
+            )
+        }
+
+    def campus_list(self, province, university):
+        return {
+            i: v
+            for i, v in enumerate(
+                sorted(self.institution_data[province][university]), start=1
+            )
+        }
+
+    def validate_destination_province(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        """
+        If a valid destination province is selected, also populate list of universities
+        """
+        result = self.validate_generic(
+            "destination_province", dispatcher, value, self.province_data
+        )
+        province = result.get("destination_province")
+        if province:
+            result["university_list"] = self.make_list(self.university_list(province))
+        return result
+
+    def validate_university(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        university_data = self.university_list(tracker.get_slot("destination_province"))
+        result = self.validate_generic("university", dispatcher, value, university_data)
+        university = result.get("university")
+        if university:
+            province = tracker.get_slot("destination_province")
+            result["campus_list"] = self.make_list(
+                self.campus_list(province, university)
+            )
+        return result
+
+    def validate_campus(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        province = tracker.get_slot("destination_province")
+        university = tracker.get_slot("university")
+        campus_data = self.campus_list(province, university)
+        return self.validate_generic("campus", dispatcher, value, campus_data)
+
 
 class HealthCheckForm(BaseHealthCheckForm):
     def get_eventstore_data(self, tracker: Tracker, risk: Text) -> Dict[Text, Any]:
@@ -73,6 +158,11 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["last_name"] = tracker.get_slot("last_name")
         data["data"]["destination"] = tracker.get_slot("destination")
         data["data"]["reason"] = tracker.get_slot("reason")
+        data["data"][
+            "destination_province"
+        ] = f'ZA-{tracker.get_slot("destination_province").upper()}'
+        data["data"]["university"] = {"name": tracker.get_slot("university")}
+        data["data"]["campus"] = {"name": tracker.get_slot("campus")}
         return data
 
     def send_risk_to_user(
