@@ -1,6 +1,7 @@
 import csv
 import sys
 from collections import defaultdict
+from typing import Dict, Iterable, Optional, Set, Text
 
 from ruamel.yaml import YAML
 
@@ -26,7 +27,10 @@ PROVINCE_MAPPING = {
 }
 
 
-def process_university_data(data, processed=None):
+def process_university_data(
+    data: Iterable[Dict[Text, Text]],
+    processed: Optional[Dict[Text, Dict[Text, Set[Text]]]] = None,
+) -> Dict[Text, Dict[Text, Set[Text]]]:
     """
     Takes an iterator, `data` that returns dictionaries of data to be processed
     """
@@ -35,14 +39,14 @@ def process_university_data(data, processed=None):
     for row in data:
         row = {k.strip().lower(): v.strip() for k, v in row.items()}
         province = PROVINCE_MAPPING[row["province"]]
-        university = row.get("university") or row.get("tvet") or row.get("phei")
+        university = row.get("university") or row.get("tvet") or row["phei"]
         campus = row["campus"]
         processed[province][university].add(campus)
     return processed
 
 
 if __name__ == "__main__":
-    processed = None
+    processed: Dict[Text, Dict[Text, Set[Text]]] = defaultdict(lambda: defaultdict(set))
     for filename in sys.argv[1:]:
         with open(filename) as f:
             processed = process_university_data(csv.DictReader(f), processed)
