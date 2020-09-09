@@ -40,6 +40,13 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_reason("student", dispatcher, tracker, {})
         self.assertEqual(response, {"reason": "student"})
 
+    def test_validate_destination_province(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_destination_province("1", dispatcher, tracker, {})
+        self.assertEqual(response, {"destination_province": "ec"})
+
 
 class HealthCheckFormTests(TestCase):
     def test_eventstore_data(self):

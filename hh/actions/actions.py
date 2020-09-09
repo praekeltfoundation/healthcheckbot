@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
+from ruamel.yaml import YAML
 
 from base.actions.actions import ActionExit as BaseActionExit
 from base.actions.actions import ActionSessionStart as BaseActionSessionStart
@@ -24,6 +25,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "location_confirm",
         "destination",
         "reason",
+        "destination_province",
         "medical_condition",
     ]
 
@@ -64,6 +66,22 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("reason", dispatcher, value, self.reason_data)
+
+    @property
+    def campus_data(self) -> Dict[Text, Dict[Text, List[Text]]]:
+        with open("hh/actions/university_data.yaml") as f:
+            return YAML(typ="safe").load(f)
+
+    def validate_destination_province(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "destination_province", dispatcher, value, self.province_data
+        )
 
 
 class HealthCheckForm(BaseHealthCheckForm):
