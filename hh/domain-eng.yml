@@ -59,6 +59,18 @@ slots:
   destination_province:
     type: unfeaturized
     auto_fill: false
+  university:
+    type: unfeaturized
+    auto_fill: false
+  university_list:
+    type: unfeaturized
+    auto_fill: false
+  campus:
+    type: unfeaturized
+    auto_fill: false
+  campus_list:
+    type: unfeaturized
+    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -234,6 +246,13 @@ responses:
         *7.* NORTH WEST
         *8.* NORTHERN CAPE
         *9.* WESTERN CAPE
+
+  utter_ask_university:
+    - text: |
+        Please select the Educational Institution from the list below:
+        
+        Reply:
+        {university_list}
 
   utter_ask_medical_condition:
     - text: |

@@ -25,6 +25,8 @@ class HealthCheckProfileFormTests(TestCase):
         self.assertIn("last_name", mappings)
         self.assertIn("destination", mappings)
         self.assertIn("reason", mappings)
+        self.assertIn("destination_province", mappings)
+        self.assertIn("university", mappings)
 
     def test_validate_destination(self):
         form = HealthCheckProfileForm()
@@ -45,7 +47,47 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
         response = form.validate_destination_province("1", dispatcher, tracker, {})
-        self.assertEqual(response, {"destination_province": "ec"})
+        self.assertEqual(
+            response,
+            {
+                "destination_province": "ec",
+                "university_list": "\n".join(
+                    [
+                        "*1.* AFDA",
+                        "*2.* Boston City Campus & Business College",
+                        "*3.* Buffalo City",
+                        "*4.* CTU Training Solutions",
+                        "*5.* College of Transfiguration NPC",
+                        "*6.* Damelin",
+                        "*7.* East London Management Institute Pty Ltd",
+                        "*8.* Eastcape Midlands",
+                        "*9.* Ed-U City Campus (Pty) Ltd",
+                        "*10.* Health and Fitness Professionals Academy (HFPA)",
+                        "*11.* IQ Academy",
+                        "*12.* Ikhala",
+                        "*13.* Ingwe",
+                        "*14.* King Hintsa",
+                        "*15.* King Sabata Dalindyebo (KSD)",
+                        "*16.* Lovedale",
+                        "*17.* MANCOSA",
+                        "*18.* MSC Business College",
+                        "*19.* Nelson Mandela University (NMU)",
+                        "*20.* Netcare  Education (Pty Ltd)",
+                        "*21.* Pearson Instittute of Higher Education",
+                        "*22.* Port Elizabeth",
+                        "*23.* Production Management Institute of Southern Africa PTY "
+                        "LTD / PMI",
+                        "*24.* Regent Business School (Pty) Ltd (Learning Centre)",
+                        "*25.* Rhodes University (RU)",
+                        "*26.* STADIO AFDA",
+                        "*27.* Stenden",
+                        "*28.* UNISA",
+                        "*29.* University of Fort Hare (UFH)",
+                        "*30.* Walter Sisulu University (WSU)",
+                    ]
+                ),
+            },
+        )
 
 
 class HealthCheckFormTests(TestCase):
