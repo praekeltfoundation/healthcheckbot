@@ -155,6 +155,9 @@ class HealthCheckFormTests(TestCase):
                 "medical_condition_cardio": "no",
                 "destination": "campus",
                 "reason": "student",
+                "destination_province": "ec",
+                "university": "AFDA",
+                "campus": "Cenral",
             },
             {},
             [],
@@ -165,6 +168,7 @@ class HealthCheckFormTests(TestCase):
         )
         data = form.get_eventstore_data(tracker, "low")
         self.assertTrue(data.pop("deduplication_id"))
+        self.maxDiff = None
         self.assertEqual(
             data,
             {
@@ -194,6 +198,9 @@ class HealthCheckFormTests(TestCase):
                     "obesity": False,
                     "destination": "campus",
                     "reason": "student",
+                    "destination_province": "ZA-EC",
+                    "university": {"name": "AFDA"},
+                    "campus": {"name": "Cenral"},
                 },
             },
         )

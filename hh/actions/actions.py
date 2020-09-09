@@ -158,6 +158,11 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["last_name"] = tracker.get_slot("last_name")
         data["data"]["destination"] = tracker.get_slot("destination")
         data["data"]["reason"] = tracker.get_slot("reason")
+        data["data"][
+            "destination_province"
+        ] = f'ZA-{tracker.get_slot("destination_province").upper()}'
+        data["data"]["university"] = {"name": tracker.get_slot("university")}
+        data["data"]["campus"] = {"name": tracker.get_slot("campus")}
         return data
 
     def send_risk_to_user(
