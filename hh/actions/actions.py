@@ -27,6 +27,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "reason",
         "destination_province",
         "university",
+        "campus",
         "medical_condition",
     ]
 
@@ -41,6 +42,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_text(),
         ]
         mappings["university"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["campus"] = [self.from_entity(entity="number"), self.from_text()]
         return mappings
 
     @property
@@ -74,7 +76,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         return self.validate_generic("reason", dispatcher, value, self.reason_data)
 
     @property
-    def campus_data(self) -> Dict[Text, Dict[Text, List[Text]]]:
+    def institution_data(self) -> Dict[Text, Dict[Text, List[Text]]]:
         with open("hh/actions/university_data.yaml") as f:
             return YAML(typ="safe").load(f)
 
@@ -88,7 +90,17 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     def university_list(self, province):
         return {
             i: v
-            for i, v in enumerate(sorted(self.campus_data[province].keys()), start=1)
+            for i, v in enumerate(
+                sorted(self.institution_data[province].keys()), start=1
+            )
+        }
+
+    def campus_list(self, province, university):
+        return {
+            i: v
+            for i, v in enumerate(
+                sorted(self.institution_data[province][university]), start=1
+            )
         }
 
     def validate_destination_province(
@@ -117,7 +129,26 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         university_data = self.university_list(tracker.get_slot("destination_province"))
-        return self.validate_generic("reason", dispatcher, value, university_data)
+        result = self.validate_generic("university", dispatcher, value, university_data)
+        university = result.get("university")
+        if university:
+            province = tracker.get_slot("destination_province")
+            result["campus_list"] = self.make_list(
+                self.campus_list(province, university)
+            )
+        return result
+
+    def validate_campus(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        province = tracker.get_slot("destination_province")
+        university = tracker.get_slot("university")
+        campus_data = self.campus_list(province, university)
+        return self.validate_generic("campus", dispatcher, value, campus_data)
 
 
 class HealthCheckForm(BaseHealthCheckForm):

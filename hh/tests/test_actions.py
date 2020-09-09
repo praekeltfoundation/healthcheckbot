@@ -89,6 +89,42 @@ class HealthCheckProfileFormTests(TestCase):
             },
         )
 
+    def test_validate_university(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"destination_province": "ec"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_university("1", dispatcher, tracker, {})
+        self.assertEqual(
+            response, {"university": "AFDA", "campus_list": "*1.* Cenral"},
+        )
+
+    def test_validate_campus(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"destination_province": "ec", "university": "AFDA"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_campus("1", dispatcher, tracker, {})
+        self.assertEqual(
+            response, {"campus": "Cenral"},
+        )
+
 
 class HealthCheckFormTests(TestCase):
     def test_eventstore_data(self):
