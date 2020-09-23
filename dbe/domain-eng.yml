@@ -364,7 +364,7 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
-        Do you have breathlessness or difficulty breathing, that you've noticed recently?
+        Do you have breathlessness or difficulty in breathing, that you've noticed recently?
 
         Reply
         *1.* YES
@@ -618,7 +618,7 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
-        Does {obo_name} have breathlessness or a difficulty breathing, that you've noticed recently?
+        Does {obo_name} have breathlessness or difficulty in breathing, that you've noticed recently?
 
         Reply
         *1.* YES
