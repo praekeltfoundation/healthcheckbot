@@ -174,7 +174,7 @@ forms:
 responses:
   utter_welcome:
       - text: |
-          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. Please help us by correctly answering a few questions about you and your health. The information you provide will assist us to guide and advise on your health and actions to take based on national guidelines. The data you enter will also help us plan and execute our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus in our schools and work environment. 🦠
+          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. Please help us by correctly answering a few questions about you and your health. The information you provide will assist us to guide and advise on your health and actions to take based on national guidelines. The data you enter will also help us plan and execute our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus in our schools and work environment.
 
   utter_welcome_back:
       - text: |
@@ -182,16 +182,16 @@ responses:
 
           Please help us by correctly answering a few questions about you and your health today. 
 
-          📌Reply with MENU to return to the main menu
+          📌Reply with *MENU* to return to the main menu
 
   utter_ask_terms:
       - text: |
           Reply with one of the words in BOLD to continue
 
-          ACCEPT ✅ - _to accept the terms and conditions_
-          MORE 📄 - _to read the terms and conditions_
+          *ACCEPT* ✅ - _to accept the terms and conditions_
+          *MORE* 📄 - _to read the terms and conditions_
 
-          (or Reply MENU 📌 _to return to the main menu_)
+          (or Reply *MENU* 📌 _to return to the main menu_)
 
   utter_ask_profile:
       - text: |
@@ -364,7 +364,7 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
-        Do you have breathlessness or difficulty breathing, that you've noticed recently?
+        Do you have breathlessness or difficulty in breathing, that you've noticed recently?
 
         Reply
         *1.* YES
@@ -405,6 +405,14 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
       claim: release
       text: |
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Low
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
+
         Thank you for answering all questions.
 
         Based on your responses, you are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
@@ -414,18 +422,18 @@ responses:
         🤒 Reply with *SYMPTOMS* for more information
         📌 Reply with *MENU* to return to the main menu
 
-        *HealthCheck Self-assessment Result*
-
-        Risk Level: Low
-        Date Issued: {issued}
-        Expiry date: {expired}
-
-        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
-
   utter_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
       claim: release
       text: |
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Moderate
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for taking the risk assessment. Stay safe and continue to monitor your health.
+
         *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck every day to monitor your symptoms.*
 
         If possible, stay and sleep alone in a room that has a window with good air flowing through.
@@ -437,18 +445,17 @@ responses:
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
-        *HealthCheck Self-assessment Result*
-
-        Risk Level: Moderate
-        Date Issued: {issued}
-        Expiry date: {expired}
-
-        Well done for taking the risk assessment. Stay safe and continue to monitor your health.
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
       claim: release
       text: |
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: High
+        Date Issued: {issued}
+        Expiry date: {expired}
+
         *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
 
         Call the COVID-19 Hotline: 0800029999, your healthcare practitioner or your local health facility, for further information on what to do next, how and where to get tested if advised to do so.
@@ -462,12 +469,6 @@ responses:
 
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
-
-        *HealthCheck Self-assessment Result*
-
-        Risk Level: High
-        Date Issued: {issued}
-        Expiry date: {expired}
 
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
@@ -618,7 +619,7 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬜⬜⬜
 
-        Does {obo_name} have breathlessness or a difficulty breathing, that you've noticed recently?
+        Does {obo_name} have breathlessness or difficulty in breathing, that you've noticed recently?
 
         Reply
         *1.* YES
@@ -658,6 +659,13 @@ responses:
   utter_obo_risk_low:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
       text: |
+        *HealthCheck Self-assessment Result*
+
+        {obo_name}
+        Risk Level: Low
+        Date Issued: {issued}
+        Expiry date: {expired}
+
         Thank you for answering all questions.
 
         Based on {obo_name}'s responses, they are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
@@ -666,21 +674,20 @@ responses:
 
         Reply with *CHECK* to do a HealthCheck for another child.
         🤒 Reply with *SYMPTOMS* for more information 
-        📌 Reply with *0* to return to the main menu
-
-        ________
-
-
-        *HealthCheck Self-assessment Result*
-
-        {obo_name}
-        Risk Level: Low
-        Date Issued: {issued}
-        Expiry date: {expired}
+        📌 Reply with *MENU* to return to the main menu
 
   utter_obo_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
       text: |
+        *HealthCheck Self-assessment Result*
+
+        {obo_name}
+        Risk Level: Medium
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for taking the risk assessment on behalf of [Child's name]. Stay safe and continue to monitor their health.
+
         *Based on {obo_name}'s responses, we recommend that they self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor their symptoms.*
 
         If possible, they should stay and sleep alone in a room that has a window with good air flowing through.
@@ -691,23 +698,18 @@ responses:
 
         Reply with *CHECK* to do a HealthCheck for another child.
         Reply with *QUARANTINE* for more information on how to self-quarantine
-        📌Reply with *TESTING* for more information or *0* to return to the main menu
-
-        ________
-
-
-        *HealthCheck Self-assessment Result*
-
-        {obo_name}
-        Risk Level: Medium
-        Date Issued: {issued}
-        Expiry date: {expired}
-
-        Well done for taking the risk assessment on behalf of [Child's name]. Stay safe and continue to monitor their health."
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
   utter_obo_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
       text: |
+        *HealthCheck Self-assessment Result*
+
+        {obo_name}
+        Risk Level: High
+        Date Issued: {issued}
+        Expiry date: {expired}
+
         *Based on your responses, {obo_name} may be eligible for testing to find out if they are infected with COVID-19.*
 
         Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so. 
@@ -722,16 +724,6 @@ responses:
         Reply with *CHECK* to do a HealthCheck for another child.
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
-
-        ________
-
-
-        *HealthCheck Self-assessment Result*
-
-        {obo_name}
-        Risk Level: High
-        Date Issued: {issued}
-        Expiry date: {expired}
 
 session_config:
   session_expiration_time: 5
