@@ -174,7 +174,7 @@ forms:
 responses:
   utter_welcome:
       - text: |
-          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. Please help us by correctly answering a few questions about you and your health. The information you provide will assist us to guide and advise on your health and actions to take based on national guidelines. The data you enter will also help us plan and execute our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus in our schools and work environment. 🦠
+          *HealthCheck* is your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. Please help us by correctly answering a few questions about you and your health. The information you provide will assist us to guide and advise on your health and actions to take based on national guidelines. The data you enter will also help us plan and execute our national response to COVID-19. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus in our schools and work environment.
 
   utter_welcome_back:
       - text: |
