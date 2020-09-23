@@ -182,16 +182,16 @@ responses:
 
           Please help us by correctly answering a few questions about you and your health today. 
 
-          📌Reply with MENU to return to the main menu
+          📌Reply with *MENU* to return to the main menu
 
   utter_ask_terms:
       - text: |
           Reply with one of the words in BOLD to continue
 
-          ACCEPT ✅ - _to accept the terms and conditions_
-          MORE 📄 - _to read the terms and conditions_
+          *ACCEPT* ✅ - _to accept the terms and conditions_
+          *MORE* 📄 - _to read the terms and conditions_
 
-          (or Reply MENU 📌 _to return to the main menu_)
+          (or Reply *MENU* 📌 _to return to the main menu_)
 
   utter_ask_profile:
       - text: |
