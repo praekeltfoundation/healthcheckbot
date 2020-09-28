@@ -200,8 +200,9 @@ responses:
           Reply
           *1.* Educator
           *2.* Learner
-          *3.* Parents or Guardian on behalf of learner
-          *4.* Support or Admin staff
+          *3.* Parents / Guardian on behalf of learner
+          *4.* Parent
+          *5.* Support or Admin staff
 
   utter_more_terms:
       - text: |

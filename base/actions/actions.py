@@ -55,13 +55,19 @@ class BaseFormAction(FormAction):
         dispatcher: CollectingDispatcher,
         value: Text,
         data: Dict[int, Text],
+        accept_labels=True,
     ) -> Dict[Text, Optional[Text]]:
         """
         Validates that the value is either:
         - One of the values
         - An integer that is one of the keys
         """
-        if value and isinstance(value, str) and value.lower() in data.values():
+        if (
+            accept_labels
+            and value
+            and isinstance(value, str)
+            and value.lower() in data.values()
+        ):
             return {field: value}
         elif self.is_int(value) and int(value) in data:
             return {field: data[int(value)]}
