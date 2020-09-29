@@ -276,7 +276,7 @@ responses:
 
   utter_ask_school:
     - text: |
-        Please TYPE the name of your school OR your school's EMIS number
+        Please TYPE the name of your school OR your school's EMIS number. (Type OTHER if you are not visiting a school)
 
   utter_ask_school_confirm:
     - text: |

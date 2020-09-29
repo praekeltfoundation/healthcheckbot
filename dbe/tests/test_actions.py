@@ -47,6 +47,19 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"school": "BERGVLIET HIGH SCHOOL", "school_emis": "105310201"}
         )
 
+    def test_validate_school_other(self):
+        """
+        Stores the school as other and moves on
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {"province": "wc"}, {}, [], False, None, {}, "action_listen"
+        )
+        response = form.validate_school("OthER ", CollectingDispatcher(), tracker, {})
+        self.assertEqual(
+            response, {"school": "OTHER", "school_emis": None, "school_confirm": "yes"}
+        )
+
     def test_validate_school_no_results(self):
         """
         Returns error message and clears value for province

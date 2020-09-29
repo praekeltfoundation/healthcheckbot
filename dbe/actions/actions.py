@@ -90,6 +90,8 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
+        if value and isinstance(value, str) and value.strip().lower() == "other":
+            return {"school": "OTHER", "school_emis": None, "school_confirm": "yes"}
         ix = open_dir("dbe/actions/emis_index")
         parser = MultifieldParser(["name", "emis"], ix.schema, termclass=FuzzyTerm)
         query = parser.parse(value)
