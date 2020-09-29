@@ -137,7 +137,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("profile", dispatcher, value, self.profile_data)
+        return self.validate_generic(
+            "profile", dispatcher, value, self.profile_data, accept_labels=False
+        )
 
     validate_obo_age = obo_validator(validate_age)
     validate_obo_gender = obo_validator(BaseHealthCheckProfileForm.validate_gender)

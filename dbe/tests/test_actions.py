@@ -83,13 +83,16 @@ class HealthCheckProfileFormTests(TestCase):
 
     def test_validate_profile(self):
         """
-        Get the profile of the user
+        Get the profile of the user. Should not accept labels.
         """
         form = HealthCheckProfileForm()
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
         response = form.validate_profile("4", dispatcher, tracker, {})
-        self.assertEqual(response, {"profile": "support"})
+        self.assertEqual(response, {"profile": "actual_parent"})
+
+        response = form.validate_profile("parent", dispatcher, tracker, {})
+        self.assertEqual(response, {"profile": None})
 
     def test_slot_mappings(self):
         """
