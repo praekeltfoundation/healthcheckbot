@@ -16,6 +16,18 @@ from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
 from base.actions.actions import HealthCheckTermsForm
 
+PROVINCE_DISPLAY = {
+    "ec": "EASTERN CAPE",
+    "fs": "FREE STATE",
+    "gt": "GAUTENG",
+    "nl": "KWAZULU NATAL",
+    "lp": "LIMPOPO",
+    "np": "MPUMALANGA",
+    "nw": "NORTH WEST",
+    "nc": "NORTHERN CAPE",
+    "wc": "WESTERN CAPE",
+}
+
 
 def obo_validator(function):
     async def call(*args, **kwargs):
@@ -50,6 +62,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_intent(intent="deny", value="no"),
             self.from_text(),
         ]
+        mappings["confirm_details"] = [
+            self.from_entity(entity="number"),
+            self.from_intent(intent="affirm", value="yes"),
+            self.from_intent(intent="deny", value="no"),
+            self.from_text(),
+        ]
         mappings.update({f"obo_{m}": v for m, v in mappings.items()})
         mappings["profile"] = [self.from_entity(entity="number"), self.from_text()]
         mappings["obo_name"] = [self.from_text()]
@@ -58,6 +76,8 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     @classmethod
     def required_slots(cls, tracker: Tracker) -> List[Text]:
         slots = super().required_slots(tracker)
+        if tracker.get_slot("province_display") and tracker.get_slot("school"):
+            slots = ["confirm_details"] + slots
         # Use on behalf of slots for parent profile
         if tracker.get_slot("profile") == "parent":
             slots = ["profile", "obo_name", "obo_age"] + [
@@ -66,11 +86,21 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             if tracker.get_slot("obo_medical_condition") != "no":
                 slots += [f"obo_{s}" for s in cls.CONDITIONS]
 
-            for slot in slots:
-                if not tracker.get_slot(slot):
-                    return [slot]
-            return []
-        return slots
+        for slot in slots:
+            if not tracker.get_slot(slot):
+                return [slot]
+        return []
+
+    def validate_confirm_details(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(
+            "confirm_details", dispatcher, value, self.yes_no_data
+        )
 
     def validate_age(
         self,
@@ -313,6 +343,12 @@ class ActionSessionStart(BaseActionSessionStart):
         carry_over_slots = ("school", "school_confirm", "school_emis", "profile")
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
+        if tracker.get_slot("province") in PROVINCE_DISPLAY.keys():
+            actions.append(
+                SlotSet(
+                    "province_display", PROVINCE_DISPLAY[tracker.get_slot("province")]
+                )
+            )
         return actions
 
 
