@@ -107,6 +107,16 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_profile("parent", dispatcher, tracker, {})
         self.assertEqual(response, {"profile": None})
 
+    def test_validate_confirm_details(self):
+        """
+        Confirms the returning user details are correct
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_confirm_details("yes", dispatcher, tracker, {})
+        self.assertEqual(response, {"confirm_details": "yes"})
+
     def test_slot_mappings(self):
         """
         Ensures that the additional fields are in the slot mappings
@@ -151,6 +161,16 @@ class HealthCheckProfileFormTests(TestCase):
         tracker.slots["profile"] = "parent"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, ["obo_name"])
+
+    def test_required_slots_returning_user(self):
+        """
+        For returning users, we should confirm details
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["province_display"] = "WESTERN CAPE"
+        tracker.slots["school"] = "BERGVLIET HIGH SCHOOL"
+        slots = HealthCheckProfileForm.required_slots(tracker)
+        self.assertEqual(slots, ["confirm_details"])
 
     def test_end_of_form_parent(self):
         """
@@ -463,6 +483,25 @@ class ActionSessionStartTests(TestCase):
         self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
         self.assertIn(SlotSet("school_emis", "105310201"), events)
         self.assertIn(SlotSet("school_confirm", "yes"), events)
+
+    def test_province_display(self):
+        """
+        Should set province_display if returning user
+        """
+        action = ActionSessionStart()
+        events = action.get_carry_over_slots(
+            Tracker(
+                "27820001001",
+                {"province": "wc"},
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            )
+        )
+        self.assertIn(SlotSet("province_display", "WESTERN CAPE"), events)
 
 
 class ActionExitTests(TestCase):
