@@ -26,6 +26,12 @@ slots:
   confirm_details:
     type: unfeaturized
     auto_fill: false
+  change_details:
+    type: unfeaturized
+    auto_fill: false
+  returning_user:
+    type: unfeaturized
+    auto_fill: false
   profile:
     type: unfeaturized
     auto_fill: false
@@ -199,6 +205,12 @@ responses:
           Reply 
           *1.* YES
           *2.* NO
+
+  utter_ask_change_details:
+      - text: |
+          What information would you like to change?
+          *1.* School Name
+          *2.* Province
 
   utter_ask_terms:
       - text: |
