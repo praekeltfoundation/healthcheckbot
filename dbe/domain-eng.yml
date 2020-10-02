@@ -451,6 +451,28 @@ responses:
         🤒 Reply with *SYMPTOMS* for more information
         📌 Reply with *MENU* to return to the main menu
 
+  utter_risk_low_parent:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
+      claim: release
+      text: |
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Low
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
+
+        Thank you for answering all questions.
+
+        Based on your responses, you are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
+
+        *If* you start to feel ill or if you come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in again tomorrow, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
+
+        Reply with *CHILD* to do a HealthCheck for your child(ren)
+        🤒 Reply with *SYMPTOMS* for more information
+        📌 Reply with *MENU* to return to the main menu
+
   utter_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
       claim: release
@@ -471,6 +493,30 @@ responses:
         - One family member should be assigned as your caregiver. This exposes less of your family and also ensures that you and this caregiver can develop good habits so that they do not catch the virus from you.
         - If these procedures are not possible, you should contact your health care worker or clinic for alternative options.
 
+        Reply with *QUARANTINE* for more information on how to self-quarantine
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
+
+  utter_risk_moderate_parent:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
+      claim: release
+      text: |
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: Moderate
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        Well done for taking the risk assessment. Stay safe and continue to monitor your health.
+
+        *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck every day to monitor your symptoms.*
+
+        If possible, stay and sleep alone in a room that has a window with good air flowing through.
+        - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
+        - You should not have visitors at your house during this time.
+        - One family member should be assigned as your caregiver. This exposes less of your family and also ensures that you and this caregiver can develop good habits so that they do not catch the virus from you.
+        - If these procedures are not possible, you should contact your health care worker or clinic for alternative options.
+
+        Reply with *CHILD* to do a HealthCheck for your child(ren)
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
@@ -496,6 +542,31 @@ responses:
 
         If you have or start getting severe symptoms, seek medical care urgently.
 
+        Reply with *QUARANTINE* for more information on how to self-quarantine
+        📌Reply with *TESTING* for more information or *MENU* to return to the main menu
+
+  utter_risk_high_parent:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
+      claim: release
+      text: |
+        *HealthCheck Self-assessment Result*
+
+        Risk Level: High
+        Date Issued: {issued}
+        Expiry date: {expired}
+
+        *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
+
+        Call the COVID-19 Hotline: 0800029999, your healthcare practitioner or your local health facility, for further information on what to do next, how and where to get tested if advised to do so.
+
+        Follow these important steps when seeking care:
+        - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
+        - Ensure you put on a face mask before you enter a healthcare facility.
+        - Wash your hands frequently with soap and water and or sanitise with a 70% alcohol hand sanitiser
+
+        If you have or start getting severe symptoms, seek medical care urgently.
+
+        Reply with *CHILD* to do a HealthCheck for your child(ren)
         Reply with *QUARANTINE* for more information on how to self-quarantine
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
