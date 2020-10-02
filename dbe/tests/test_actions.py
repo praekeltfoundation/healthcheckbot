@@ -117,6 +117,18 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_confirm_details("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"confirm_details": "yes"})
 
+    def test_validate_province(self):
+        """
+        Should also update the province_display slot
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_province("wc", dispatcher, tracker, {})
+        self.assertEqual(
+            response, {"province": "wc", "province_display": "WESTERN CAPE"}
+        )
+
     def test_slot_mappings(self):
         """
         Ensures that the additional fields are in the slot mappings
@@ -169,6 +181,7 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         tracker.slots["province_display"] = "WESTERN CAPE"
         tracker.slots["school"] = "BERGVLIET HIGH SCHOOL"
+        tracker.slots["returning_user"] = "yes"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, ["confirm_details"])
 

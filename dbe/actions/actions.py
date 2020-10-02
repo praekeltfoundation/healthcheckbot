@@ -22,7 +22,7 @@ PROVINCE_DISPLAY = {
     "gt": "GAUTENG",
     "nl": "KWAZULU NATAL",
     "lp": "LIMPOPO",
-    "np": "MPUMALANGA",
+    "mp": "MPUMALANGA",
     "nw": "NORTH WEST",
     "nc": "NORTHERN CAPE",
     "wc": "WESTERN CAPE",
@@ -68,6 +68,10 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_intent(intent="deny", value="no"),
             self.from_text(),
         ]
+        mappings["change_details"] = [
+            self.from_entity(entity="number"),
+            self.from_text(),
+        ]
         mappings.update({f"obo_{m}": v for m, v in mappings.items()})
         mappings["profile"] = [self.from_entity(entity="number"), self.from_text()]
         mappings["obo_name"] = [self.from_text()]
@@ -76,8 +80,13 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     @classmethod
     def required_slots(cls, tracker: Tracker) -> List[Text]:
         slots = super().required_slots(tracker)
-        if tracker.get_slot("province_display") and tracker.get_slot("school"):
-            slots = ["confirm_details"] + slots
+        if tracker.get_slot("returning_user") == "yes":
+            if tracker.get_slot("change_details"):
+                slots = ["province", "school", "school_confirm", "confirm_details"]
+            elif tracker.get_slot("confirm_details") == "no":
+                return ["change_details"]
+            elif not tracker.get_slot("confirm_details"):
+                return ["confirm_details"]
         # Use on behalf of slots for parent profile
         if tracker.get_slot("profile") == "parent":
             slots = ["profile", "obo_name", "obo_age"] + [
@@ -98,9 +107,30 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(
+        result = self.validate_generic(
             "confirm_details", dispatcher, value, self.yes_no_data
         )
+        if result["confirm_details"] == "no":
+            result["change_details"] = None
+        return result
+
+    def validate_change_details(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "change_details", dispatcher, value, {1: "school name", 2: "province"}
+        )
+        if result["change_details"] == "school name":
+            result["school"] = None
+            result["school_confirm"] = None
+        elif result["change_details"] == "province":
+            result["province"] = None
+        result["confirm_details"] = None
+        return result
 
     def validate_age(
         self,
@@ -156,6 +186,23 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         ):
             return {"school_confirm": None, "school": None}
         return school_confirm
+
+    def validate_province(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "province", dispatcher, value, self.province_data
+        )
+        if (
+            isinstance(result["province"], str)
+            and result["province"] in PROVINCE_DISPLAY.keys()
+        ):
+            result["province_display"] = PROVINCE_DISPLAY[result["province"]]
+        return result
 
     @property
     def profile_data(self) -> Dict[int, Text]:
@@ -340,9 +387,17 @@ class HealthCheckForm(BaseHealthCheckForm):
 class ActionSessionStart(BaseActionSessionStart):
     def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = super().get_carry_over_slots(tracker)
-        carry_over_slots = ("school", "school_confirm", "school_emis", "profile")
+        carry_over_slots = (
+            "school",
+            "school_confirm",
+            "school_emis",
+            "profile",
+            "province_display",
+        )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
+        if tracker.get_slot("profile"):
+            actions.append(SlotSet("returning_user", "yes"))
         if tracker.get_slot("province") in PROVINCE_DISPLAY.keys():
             actions.append(
                 SlotSet(
