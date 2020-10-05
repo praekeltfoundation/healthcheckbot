@@ -185,6 +185,20 @@ class HealthCheckProfileFormTests(TestCase):
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, ["confirm_details"])
 
+    def test_required_slots_returning_user_additional(self):
+        """
+        For returning users, after confirming information, if there are any additional
+        slots that we still need to fill, we should ask them
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["province_display"] = "WESTERN CAPE"
+        tracker.slots["school"] = "BERGVLIET HIGH SCHOOL"
+        tracker.slots["returning_user"] = "yes"
+        tracker.slots["confirm_details"] = "yes"
+        tracker.slots["profile"] = "learner"
+        slots = HealthCheckProfileForm.required_slots(tracker)
+        self.assertEqual(slots, ["age"])
+
     def test_end_of_form_parent(self):
         """
         For the parent profile, if all the fields are filled, then we should return
