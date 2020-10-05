@@ -9,6 +9,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from dbe.actions.actions import (
     ActionExit,
     ActionSessionStart,
+    ActionSetProfileObo,
     HealthCheckForm,
     HealthCheckProfileForm,
 )
@@ -544,3 +545,17 @@ class ActionExitTests(TestCase):
         self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
         self.assertIn(SlotSet("school_emis", "105310201"), events)
         self.assertIn(SlotSet("school_confirm", "yes"), events)
+
+
+class ActionSetProfileOboTests(TestCase):
+    def test_profile_set(self):
+        """
+        Should set the profile to "parent"
+        """
+        action = ActionSetProfileObo()
+        events = action.run(
+            CollectingDispatcher(),
+            Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen"),
+            {},
+        )
+        self.assertIn(SlotSet("profile", "parent"), events)
