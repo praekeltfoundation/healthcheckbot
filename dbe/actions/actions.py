@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from inspect import iscoroutinefunction
 from typing import Any, Dict, List, Optional, Text, Union
 
-from rasa_sdk import Tracker
+from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from whoosh.index import open_dir
@@ -423,6 +423,19 @@ class ActionExit(BaseActionExit):
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(template="utter_exit")
         return ActionSessionStart().get_carry_over_slots(tracker)
+
+
+class ActionSetProfileObo(Action):
+    def name(self) -> Text:
+        return "action_set_profile_obo"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        return [SlotSet("profile", "parent")]
 
 
 __all__ = [

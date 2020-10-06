@@ -7,6 +7,7 @@ intents:
   - more
   - chitchat
   - address
+  - child
   - exit:
       triggers: action_exit
 
@@ -17,6 +18,7 @@ entities:
 actions:
   - action_session_start
   - action_exit
+  - action_set_profile_obo
 
 slots:
   terms:
