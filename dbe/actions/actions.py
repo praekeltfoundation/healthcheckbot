@@ -360,6 +360,8 @@ class HealthCheckForm(BaseHealthCheckForm):
         template = f"utter_risk_{risk}"
         if tracker.get_slot("profile") == "parent":
             template = f"utter_obo_risk_{risk}"
+        elif tracker.get_slot("profile") == "actual_parent":
+            template = f"utter_risk_{risk}_parent"
         # ZA timezone
         issued = datetime.now(tz=timezone(timedelta(hours=2)))
         expired = issued + timedelta(days=1)
