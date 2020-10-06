@@ -82,11 +82,16 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         slots = super().required_slots(tracker)
         if tracker.get_slot("returning_user") == "yes":
             if tracker.get_slot("change_details"):
-                slots = ["province", "school", "school_confirm", "confirm_details"]
+                slots = [
+                    "province",
+                    "school",
+                    "school_confirm",
+                    "confirm_details",
+                ] + slots
             elif tracker.get_slot("confirm_details") == "no":
-                return ["change_details"]
+                slots = ["change_details"] + slots
             elif not tracker.get_slot("confirm_details"):
-                return ["confirm_details"]
+                slots = ["confirm_details"] + slots
         # Use on behalf of slots for parent profile
         if tracker.get_slot("profile") == "parent":
             slots = ["profile", "obo_name", "obo_age"] + [
