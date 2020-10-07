@@ -142,7 +142,6 @@ responses:
 
           You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk._
 
-
   utter_ask_first_name:
       - text: |
           Please reply with your first name
