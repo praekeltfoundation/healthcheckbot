@@ -134,13 +134,14 @@ responses:
           (or Reply MENU 📌 _to return to the main menu_)
 
   utter_more_terms:
-      - text: |
+      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/NDOH_WhatsApp+Covid-19_ABRIDGED+Privacy+Policy.pdf"
+        text: |
           _You confirm that you’re responsible for your medical care & treatment. This service only provides info.
 
           This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care, especially if you develop severe symptoms.
 
           You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk._
-        document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/NDOH_WhatsApp+Covid-19_ABRIDGED+Privacy+Policy.pdf"
+
 
   utter_ask_first_name:
       - text: |
