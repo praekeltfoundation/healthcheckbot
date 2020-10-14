@@ -4,17 +4,16 @@ from inspect import iscoroutinefunction
 from typing import Any, Dict, List, Optional, Text, Union
 
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from whoosh.index import open_dir
 from whoosh.qparser import MultifieldParser
 from whoosh.query import FuzzyTerm, Term
 
-from base.actions.actions import ActionExit as BaseActionExit
-from base.actions.actions import ActionSessionStart as BaseActionSessionStart
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
 from base.actions.actions import HealthCheckTermsForm
+from dbe.actions import utils
 
 PROVINCE_DISPLAY = {
     "ec": "EASTERN CAPE",
@@ -72,6 +71,10 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_entity(entity="number"),
             self.from_text(),
         ]
+        mappings["select_learner_profile"] = [
+            self.from_entity(entity="number"),
+            self.from_text(),
+        ]
         mappings.update({f"obo_{m}": v for m, v in mappings.items()})
         mappings["profile"] = [self.from_entity(entity="number"), self.from_text()]
         mappings["obo_name"] = [self.from_text()]
@@ -94,7 +97,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 slots = ["confirm_details"] + slots
         # Use on behalf of slots for parent profile
         if tracker.get_slot("profile") == "parent":
-            slots = ["profile", "obo_name", "obo_age"] + [
+            slots = ["select_learner_profile", "profile", "obo_name", "obo_age"] + [
                 f"obo_{s}" for s in cls.PERSISTED_SLOTS
             ]
             if tracker.get_slot("obo_medical_condition") != "no":
@@ -104,6 +107,64 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             if not tracker.get_slot(slot):
                 return [slot]
         return []
+
+    def validate_select_learner_profile(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        profiles = tracker.get_slot("learner_profiles")
+        data = {
+            i + 1: profile["name"].lower().strip() for i, profile in enumerate(profiles)
+        }
+        results = self.validate_generic(
+            "select_learner_profile", dispatcher, value, data
+        )
+        user_answer = results["select_learner_profile"] or ""
+        if user_answer:
+            [profile] = filter(
+                lambda p: p.get("name", "").lower().strip()
+                == user_answer.lower().strip(),
+                profiles,
+            )
+            gender_mappings = {v: k for k, v in HealthCheckForm.GENDER_MAPPING.items()}
+            yes_no_mappings = {v: k for k, v in HealthCheckForm.YES_NO_MAPPING.items()}
+            yes_no_maybe_mappings = {
+                v: k for k, v in HealthCheckForm.YES_NO_MAYBE_MAPPING.items()
+            }
+            results.update(
+                {
+                    "obo_name": profile["name"],
+                    "obo_age": profile["age"],
+                    "obo_gender": gender_mappings[profile["gender"]],
+                    "obo_province": profile["province"][3:].lower(),
+                    "obo_location": profile["city"],
+                    "obo_location_confirm": "yes",
+                    "obo_location_coords": profile["location"],
+                    "obo_city_location_coords": profile["city_location"],
+                    "obo_school": profile["school"],
+                    "obo_school_confirm": "yes",
+                    "obo_school_emis": profile["school_emis"],
+                    "obo_medical_condition": yes_no_maybe_mappings[
+                        profile["preexisting_condition"]
+                    ],
+                    "obo_medical_condition_obesity": yes_no_mappings.get(
+                        profile["obesity"]
+                    ),
+                    "obo_medical_condition_diabetes": yes_no_mappings.get(
+                        profile["diabetes"]
+                    ),
+                    "obo_medical_condition_hypertension": yes_no_mappings.get(
+                        profile["hypertension"]
+                    ),
+                    "obo_medical_condition_cardio": yes_no_mappings.get(
+                        profile["cardio"]
+                    ),
+                }
+            )
+        return results
 
     def validate_confirm_details(
         self,
@@ -214,16 +275,19 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         with open("dbe/data/lookup_tables/profiles.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
 
-    def validate_profile(
+    async def validate_profile(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic(
+        results = self.validate_generic(
             "profile", dispatcher, value, self.profile_data, accept_labels=False
         )
+        if results.get("profile") == "parent":
+            results.update(await utils.get_learner_profile_slots_dict(tracker))
+        return results
 
     validate_obo_age = obo_validator(validate_age)
     validate_obo_gender = obo_validator(BaseHealthCheckProfileForm.validate_gender)
@@ -391,15 +455,18 @@ class HealthCheckForm(BaseHealthCheckForm):
     validate_obo_tracing = obo_validator(BaseHealthCheckForm.validate_tracing)
 
 
-class ActionSessionStart(BaseActionSessionStart):
-    def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
-        actions = super().get_carry_over_slots(tracker)
+class ActionSessionStart(Action):
+    def name(self) -> Text:
+        return "action_session_start"
+
+    async def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
+        actions = [SessionStarted()]
         carry_over_slots = (
-            "school",
-            "school_confirm",
-            "school_emis",
-            "profile",
-            "province_display",
+            HealthCheckTermsForm.SLOTS
+            + HealthCheckProfileForm.PERSISTED_SLOTS
+            + HealthCheckProfileForm.CONDITIONS
+            + ["location_coords", "city_location_coords"]
+            + ["school", "school_confirm", "school_emis", "profile"]
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
@@ -411,31 +478,48 @@ class ActionSessionStart(BaseActionSessionStart):
                     "province_display", PROVINCE_DISPLAY[tracker.get_slot("province")]
                 )
             )
+        if tracker.get_slot("profile") == "parent":
+            actions.extend(await utils.get_learner_profile_slots(tracker))
+        return actions
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        actions = await self.get_carry_over_slots(tracker)
+        actions.append(ActionExecuted("action_listen"))
         return actions
 
 
-class ActionExit(BaseActionExit):
-    def run(
+class ActionExit(Action):
+    def name(self) -> Text:
+        return "action_exit"
+
+    async def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(template="utter_exit")
-        return ActionSessionStart().get_carry_over_slots(tracker)
+        return await ActionSessionStart().get_carry_over_slots(tracker)
 
 
 class ActionSetProfileObo(Action):
     def name(self) -> Text:
         return "action_set_profile_obo"
 
-    def run(
+    async def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        return [SlotSet("profile", "parent")]
+        actions = [SlotSet("profile", "parent")]
+        actions.extend(await utils.get_learner_profile_slots(tracker))
+        return actions
 
 
 __all__ = [
