@@ -19,7 +19,6 @@ async def get_learner_profiles(msisdn: Text) -> List[Dict[Text, Any]]:
     """
     Gets the learner profiles for `msisdn` from the data store. Returns an iterator.
     """
-    print(config.EVENTSTORE_TOKEN, config.EVENTSTORE_URL)
     if not (config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN):
         return []
     async with HTTPXClient() as client:
@@ -38,6 +37,7 @@ def option_list_from_profiles(profiles: List[Dict[Text, Any]]) -> Text:
     """
     Given a list of user profiles, returns an option list of the profile names
     """
+    profiles = profiles + [{"name": "New HealthCheck"}]
     return "\n".join(
         f"*{i + 1}.* {profile['name']}" for i, profile in enumerate(profiles)
     )

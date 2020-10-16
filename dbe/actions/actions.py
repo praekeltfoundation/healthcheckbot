@@ -119,10 +119,31 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         data = {
             i + 1: profile["name"].lower().strip() for i, profile in enumerate(profiles)
         }
+        data[len(data) + 1] = new_learner = object()
         results = self.validate_generic(
             "select_learner_profile", dispatcher, value, data
         )
         user_answer = results["select_learner_profile"] or ""
+        if user_answer == new_learner:
+            return {
+                "select_learner_profile": "new",
+                "obo_name": None,
+                "obo_age": None,
+                "obo_gender": None,
+                "obo_province": None,
+                "obo_location": None,
+                "obo_location_confirm": None,
+                "obo_location_coords": None,
+                "obo_city_location_coords": None,
+                "obo_school": None,
+                "obo_school_confirm": None,
+                "obo_school_emis": None,
+                "obo_medical_condition": None,
+                "obo_medical_condition_obesity": None,
+                "obo_medical_condition_diabetes": None,
+                "obo_medical_condition_hypertension": None,
+                "obo_medical_condition_cardio": None,
+            }
         if user_answer:
             [profile] = filter(
                 lambda p: p.get("name", "").lower().strip()

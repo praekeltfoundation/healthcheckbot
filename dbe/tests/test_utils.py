@@ -17,7 +17,7 @@ class TestOptionListFromProfiles:
         options = utils.option_list_from_profiles(
             [{"name": "name 1"}, {"name": "name 2"}]
         )
-        result = "\n".join(["*1.* name 1", "*2.* name 2"])
+        result = "\n".join(["*1.* name 1", "*2.* name 2", "*3.* New HealthCheck"])
         assert options == result
 
 
@@ -67,7 +67,7 @@ class TestGetLearnerProfilesSlotsDict:
         slots = await utils.get_learner_profile_slots_dict(tracker)
         assert slots == {
             "learner_profiles": [{"name": "name1"}],
-            "display_learner_profiles": "*1.* name1",
+            "display_learner_profiles": "*1.* name1\n*2.* New HealthCheck",
         }
 
     @respx.mock
@@ -87,6 +87,6 @@ class TestGetLearnerProfilesSlotsDict:
         slots = await utils.get_learner_profile_slots_dict(tracker)
         assert slots == {
             "learner_profiles": [],
-            "display_learner_profiles": "",
+            "display_learner_profiles": "*1.* New HealthCheck",
             "select_learner_profile": "new",
         }

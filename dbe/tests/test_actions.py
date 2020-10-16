@@ -297,7 +297,7 @@ async def test_validate_profile_parent():
     response = await form.validate_profile("3", dispatcher, tracker, {})
     assert response == {
         "profile": "parent",
-        "display_learner_profiles": "",
+        "display_learner_profiles": "*1.* New HealthCheck",
         "learner_profiles": [],
         "select_learner_profile": "new",
     }
