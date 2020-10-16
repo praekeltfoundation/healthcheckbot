@@ -95,19 +95,6 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_school_confirm("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"school_confirm": "yes"})
 
-    def test_validate_profile(self):
-        """
-        Get the profile of the user. Should not accept labels.
-        """
-        form = HealthCheckProfileForm()
-        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
-        dispatcher = CollectingDispatcher()
-        response = form.validate_profile("4", dispatcher, tracker, {})
-        self.assertEqual(response, {"profile": "actual_parent"})
-
-        response = form.validate_profile("parent", dispatcher, tracker, {})
-        self.assertEqual(response, {"profile": None})
-
     def test_validate_confirm_details(self):
         """
         Confirms the returning user details are correct
@@ -128,6 +115,67 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_province("wc", dispatcher, tracker, {})
         self.assertEqual(
             response, {"province": "wc", "province_display": "WESTERN CAPE"}
+        )
+
+    def test_validate_select_learner_profile(self):
+        """
+        Should update the slots with the ones in the selected learner profile
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {
+                "learner_profiles": [
+                    {
+                        "name": "thabo",
+                        "age": 12,
+                        "gender": "not_say",
+                        "province": "ZA-WC",
+                        "city": "Cape Town",
+                        "location": "",
+                        "city_location": "+12-34/",
+                        "school": "Bergvliet High School",
+                        "school_emis": "123456",
+                        "preexisting_condition": "not_sure",
+                        "obesity": None,
+                        "diabetes": False,
+                        "hypertension": True,
+                        "cardio": False,
+                    }
+                ]
+            },
+            {},
+            [],
+            False,
+            None,
+            None,
+            None,
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_select_learner_profile(
+            "Thabo", dispatcher, tracker, {}
+        )
+        self.assertEqual(
+            response,
+            {
+                "obo_name": "thabo",
+                "obo_age": 12,
+                "obo_gender": "RATHER NOT SAY",
+                "obo_province": "wc",
+                "obo_location": "Cape Town",
+                "obo_location_confirm": "yes",
+                "obo_location_coords": "",
+                "obo_city_location_coords": "+12-34/",
+                "obo_school": "Bergvliet High School",
+                "obo_school_confirm": "yes",
+                "obo_school_emis": "123456",
+                "obo_medical_condition": "not sure",
+                "obo_medical_condition_obesity": None,
+                "obo_medical_condition_diabetes": "no",
+                "obo_medical_condition_hypertension": "yes",
+                "obo_medical_condition_cardio": "no",
+                "select_learner_profile": "Thabo",
+            },
         )
 
     def test_slot_mappings(self):
@@ -152,6 +200,7 @@ class HealthCheckProfileFormTests(TestCase):
         self.assertIn("obo_province", mappings)
         self.assertIn("obo_school", mappings)
         self.assertIn("obo_school_confirm", mappings)
+        self.assertIn("select_learner_profile", mappings)
 
     def test_required_slots_not_parent(self):
         """
@@ -172,6 +221,7 @@ class HealthCheckProfileFormTests(TestCase):
         """
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         tracker.slots["profile"] = "parent"
+        tracker.slots["select_learner_profile"] = "new"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, ["obo_name"])
 
@@ -206,6 +256,7 @@ class HealthCheckProfileFormTests(TestCase):
         an empty list
         """
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["select_learner_profile"] = "Thabo"
         tracker.slots["profile"] = "parent"
         tracker.slots["obo_name"] = "Thabo"
         tracker.slots["obo_age"] = "23"
@@ -218,6 +269,38 @@ class HealthCheckProfileFormTests(TestCase):
         tracker.slots["obo_medical_condition"] = "no"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, [])
+
+
+@pytest.mark.asyncio
+async def test_validate_profile():
+    """
+    Get the profile of the user. Should not accept labels.
+    """
+    form = HealthCheckProfileForm()
+    tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+    dispatcher = CollectingDispatcher()
+    response = await form.validate_profile("4", dispatcher, tracker, {})
+    assert response == {"profile": "actual_parent"}
+
+    response = await form.validate_profile("parent", dispatcher, tracker, {})
+    assert response == {"profile": None}
+
+
+@pytest.mark.asyncio
+async def test_validate_profile_parent():
+    """
+    If it's a parent profile, check for existing users
+    """
+    form = HealthCheckProfileForm()
+    tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+    dispatcher = CollectingDispatcher()
+    response = await form.validate_profile("3", dispatcher, tracker, {})
+    assert response == {
+        "profile": "parent",
+        "display_learner_profiles": "*1.* New HealthCheck",
+        "learner_profiles": [],
+        "select_learner_profile": "new",
+    }
 
 
 @pytest.mark.asyncio
@@ -505,13 +588,14 @@ class HealthCheckFormTests(TestCase):
         self.assertIn("obo_tracing", mappings)
 
 
-class ActionSessionStartTests(TestCase):
-    def test_school_details_copied(self):
+@pytest.mark.asyncio
+class TestActionSessionStart:
+    async def test_school_details_copied(self):
         """
         Should copy over the school details to the new session
         """
         action = ActionSessionStart()
-        events = action.get_carry_over_slots(
+        events = await action.get_carry_over_slots(
             Tracker(
                 "27820001001",
                 {
@@ -527,16 +611,16 @@ class ActionSessionStartTests(TestCase):
                 "action_listen",
             )
         )
-        self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
-        self.assertIn(SlotSet("school_emis", "105310201"), events)
-        self.assertIn(SlotSet("school_confirm", "yes"), events)
+        assert SlotSet("school", "BERGVLIET HIGH SCHOOL") in events
+        assert SlotSet("school_emis", "105310201") in events
+        assert SlotSet("school_confirm", "yes") in events
 
-    def test_province_display(self):
+    async def test_province_display(self):
         """
         Should set province_display if returning user
         """
         action = ActionSessionStart()
-        events = action.get_carry_over_slots(
+        events = await action.get_carry_over_slots(
             Tracker(
                 "27820001001",
                 {"province": "wc"},
@@ -548,16 +632,36 @@ class ActionSessionStartTests(TestCase):
                 "action_listen",
             )
         )
-        self.assertIn(SlotSet("province_display", "WESTERN CAPE"), events)
+        assert SlotSet("province_display", "WESTERN CAPE") in events
+
+    async def test_parent_profile(self):
+        """
+        Should do a learner profile lookup if parent on behalf of
+        """
+        action = ActionSessionStart()
+        events = await action.get_carry_over_slots(
+            Tracker(
+                "27820001001",
+                {"profile": "parent"},
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            )
+        )
+        assert SlotSet("learner_profiles", []) in events
 
 
-class ActionExitTests(TestCase):
-    def test_school_details_copied(self):
+@pytest.mark.asyncio
+class TestActionExit:
+    async def test_school_details_copied(self):
         """
         Should copy over the school details to the new session
         """
         action = ActionExit()
-        events = action.run(
+        events = await action.run(
             CollectingDispatcher(),
             Tracker(
                 "27820001001",
@@ -575,20 +679,20 @@ class ActionExitTests(TestCase):
             ),
             {},
         )
-        self.assertIn(SlotSet("school", "BERGVLIET HIGH SCHOOL"), events)
-        self.assertIn(SlotSet("school_emis", "105310201"), events)
-        self.assertIn(SlotSet("school_confirm", "yes"), events)
+        assert SlotSet("school", "BERGVLIET HIGH SCHOOL") in events
+        assert SlotSet("school_emis", "105310201") in events
+        assert SlotSet("school_confirm", "yes") in events
 
 
-class ActionSetProfileOboTests(TestCase):
-    def test_profile_set(self):
-        """
-        Should set the profile to "parent"
-        """
-        action = ActionSetProfileObo()
-        events = action.run(
-            CollectingDispatcher(),
-            Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen"),
-            {},
-        )
-        self.assertIn(SlotSet("profile", "parent"), events)
+@pytest.mark.asyncio
+async def test_action_set_profile_obo():
+    """
+    Should set the profile to "parent"
+    """
+    action = ActionSetProfileObo()
+    events = await action.run(
+        CollectingDispatcher(),
+        Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen"),
+        {},
+    )
+    assert SlotSet("profile", "parent") in events

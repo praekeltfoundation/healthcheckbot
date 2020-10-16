@@ -106,6 +106,15 @@ slots:
   tracing:
     type: unfeaturized
     auto_fill: false
+  learner_profiles:
+    type: unfeaturized
+    auto_fill: false
+  select_learner_profile:
+    type: unfeaturized
+    auto_fill: false
+  display_learner_profiles:
+    type: unfeaturized
+    auto_fill: false
   requested_slot:
     type: unfeaturized
   obo_name:
@@ -577,6 +586,12 @@ responses:
   utter_exit:
     - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
       claim: revert
+
+  utter_ask_select_learner_profile:
+    - text: |
+        Whose HealthCheck would you like to do?
+
+        {display_learner_profiles}
 
   utter_ask_obo_name:
     - text: "Please TYPE your child's name (ie. Thato)"
