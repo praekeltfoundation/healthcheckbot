@@ -775,6 +775,7 @@ responses:
 
   utter_obo_risk_low:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-low.png"
+      claim: release
       text: |
         *HealthCheck Self-assessment Result*
 
@@ -795,6 +796,7 @@ responses:
 
   utter_obo_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-mod.png"
+      claim: release
       text: |
         *HealthCheck Self-assessment Result*
 
@@ -819,6 +821,7 @@ responses:
 
   utter_obo_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/dbe-receipt-high.png"
+      claim: release
       text: |
         *HealthCheck Self-assessment Result*
 
