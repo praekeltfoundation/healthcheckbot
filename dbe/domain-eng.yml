@@ -746,7 +746,7 @@ responses:
     - text: |
         ⬛⬛⬛⬛⬛⬜⬜
 
-        Has {obo_name} noticed any recent changes in your ability to taste or smell things?
+        Has {obo_name} noticed any recent changes in their ability to taste or smell things?
 
         Reply
         *1.* YES
