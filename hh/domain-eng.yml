@@ -135,11 +135,11 @@ responses:
 
   utter_more_terms:
       - text: |
-          _You confirm that you’re responsible for your medical care & treatment. This service only provides info.
+          _You confirm that you’re responsible for your medical care & treatment. This service only provides info._
 
-          This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care, especially if you develop severe symptoms.
+          _This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care, especially if you develop severe symptoms._
 
-          You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk._
+          _You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk._
 
   utter_more_terms_doc:
       - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/NDOH_WhatsApp+Covid-19_ABRIDGED+Privacy+Policy.pdf"
