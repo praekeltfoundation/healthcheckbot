@@ -280,7 +280,7 @@ async def test_validate_profile():
     tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
     dispatcher = CollectingDispatcher()
     response = await form.validate_profile("4", dispatcher, tracker, {})
-    assert response == {"profile": "actual_parent"}
+    assert response == {"profile": "actual_parent", "profile_display": "Parent"}
 
     response = await form.validate_profile("parent", dispatcher, tracker, {})
     assert response == {"profile": None}
@@ -297,6 +297,7 @@ async def test_validate_profile_parent():
     response = await form.validate_profile("3", dispatcher, tracker, {})
     assert response == {
         "profile": "parent",
+        "profile_display": "Parents / Guardian on behalf of learner",
         "display_learner_profiles": "*1.* New HealthCheck",
         "learner_profiles": [],
         "select_learner_profile": "new",

@@ -27,6 +27,14 @@ PROVINCE_DISPLAY = {
     "wc": "WESTERN CAPE",
 }
 
+PROFILE_DISPLAY = {
+    "educator": "Educator",
+    "learner": "Learner",
+    "parent": "Parents / Guardian on behalf of learner",
+    "actual_parent": "Parent",
+    "support": "Support or Admin staff",
+}
+
 
 def obo_validator(function):
     async def call(*args, **kwargs):
@@ -306,6 +314,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         results = self.validate_generic(
             "profile", dispatcher, value, self.profile_data, accept_labels=False
         )
+        if (
+            isinstance(results["profile"], str)
+            and results["profile"] in PROFILE_DISPLAY.keys()
+        ):
+            results["profile_display"] = PROFILE_DISPLAY[results["profile"]]
         if results.get("profile") == "parent":
             results.update(await utils.get_learner_profile_slots_dict(tracker))
         return results
@@ -491,8 +504,11 @@ class ActionSessionStart(Action):
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
-        if tracker.get_slot("profile"):
+        if tracker.get_slot("profile") in PROFILE_DISPLAY.keys():
             actions.append(SlotSet("returning_user", "yes"))
+            actions.append(
+                SlotSet("profile_display", PROFILE_DISPLAY[tracker.get_slot("profile")])
+            )
         if tracker.get_slot("province") in PROVINCE_DISPLAY.keys():
             actions.append(
                 SlotSet(
