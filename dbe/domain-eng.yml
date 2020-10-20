@@ -37,6 +37,9 @@ slots:
   profile:
     type: unfeaturized
     auto_fill: false
+  profile_display:
+    type: unfeaturized
+    auto_fill: false
   age:
     type: unfeaturized
     auto_fill: false
@@ -212,6 +215,7 @@ responses:
           Please confirm that the information below is correct, based on the information you shared previously:
           {school}
           {province_display}
+          {profile_display}
 
           Reply 
           *1.* YES
