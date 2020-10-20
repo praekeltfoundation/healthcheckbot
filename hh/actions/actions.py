@@ -10,7 +10,23 @@ from base.actions.actions import ActionExit as BaseActionExit
 from base.actions.actions import ActionSessionStart as BaseActionSessionStart
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
-from base.actions.actions import HealthCheckTermsForm
+from base.actions.actions import HealthCheckTermsForm as BaseHealthCheckTermsForm
+
+
+class HealthCheckTermsForm(BaseHealthCheckTermsForm):
+    def validate_terms(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        if value == "more":
+            dispatcher.utter_message(template="utter_more_terms")
+            dispatcher.utter_message(template="utter_more_terms_doc")
+            return {"terms": None}
+
+        return self.validate_generic("terms", dispatcher, value, {1: "yes"})
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
