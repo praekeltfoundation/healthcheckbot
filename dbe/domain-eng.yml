@@ -226,6 +226,7 @@ responses:
           What information would you like to change?
           *1.* School Name
           *2.* Province
+          *3.* Role
 
   utter_ask_terms:
       - text: |
