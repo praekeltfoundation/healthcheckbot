@@ -217,13 +217,73 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         result = self.validate_generic(
-            "change_details", dispatcher, value, {1: "school name", 2: "province"}
+            "change_details",
+            dispatcher,
+            value,
+            {1: "school name", 2: "province", 3: "role"},
         )
         if result["change_details"] == "school name":
             result["school"] = None
             result["school_confirm"] = None
         elif result["change_details"] == "province":
             result["province"] = None
+        elif result["change_details"] == "role":
+            return {
+                "confirm_details": None,
+                "change_details": None,
+                "returning_user": None,
+                "profile": None,
+                "profile_display": None,
+                "age": None,
+                "gender": None,
+                "province": None,
+                "province_display": None,
+                "location": None,
+                "location_confirm": None,
+                "location_coords": None,
+                "city_location_coords": None,
+                "school": None,
+                "school_confirm": None,
+                "school_emis": None,
+                "medical_condition": None,
+                "medical_condition_obesity": None,
+                "medical_condition_diabetes": None,
+                "medical_condition_hypertension": None,
+                "medical_condition_cardio": None,
+                "symptoms_fever": None,
+                "symptoms_cough": None,
+                "symptoms_sore_throat": None,
+                "symptoms_difficulty_breathing": None,
+                "symptoms_taste_smell": None,
+                "exposure": None,
+                "tracing": None,
+                "learner_profiles": None,
+                "select_learner_profile": None,
+                "display_learner_profiles": None,
+                "obo_name": None,
+                "obo_age": None,
+                "obo_gender": None,
+                "obo_province": None,
+                "obo_location": None,
+                "obo_location_confirm": None,
+                "obo_location_coords": None,
+                "obo_city_location_coords": None,
+                "obo_school": None,
+                "obo_school_confirm": None,
+                "obo_school_emis": None,
+                "obo_medical_condition": None,
+                "obo_medical_condition_obesity": None,
+                "obo_medical_condition_diabetes": None,
+                "obo_medical_condition_hypertension": None,
+                "obo_medical_condition_cardio": None,
+                "obo_symptoms_fever": None,
+                "obo_symptoms_cough": None,
+                "obo_symptoms_sore_throat": None,
+                "obo_symptoms_difficulty_breathing": None,
+                "obo_symptoms_taste_smell": None,
+                "obo_exposure": None,
+                "obo_tracing": None,
+            }
         result["confirm_details"] = None
         return result
 
