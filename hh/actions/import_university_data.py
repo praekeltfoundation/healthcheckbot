@@ -3,7 +3,8 @@ import sys
 from collections import defaultdict
 from typing import Dict, Iterable, Optional, Set, Text
 
-from ruamel.yaml import YAML
+from ruamel.yaml import round_trip_dump
+from ruamel.yaml.comments import CommentedMap
 
 PROVINCE_MAPPING = {
     "EC": "ec",
@@ -45,14 +46,24 @@ def process_university_data(
     return processed
 
 
+def sort_data(data: Dict[Text, Dict[Text, Set[Text]]]) -> CommentedMap:
+    """
+    Takes the university data, and returns an alphabetically sorted version of the data,
+    sorting the province, university, and campuses
+    """
+    result = CommentedMap()
+    for province in sorted(data.keys()):
+        result[province] = CommentedMap()
+        for university in sorted(data[province].keys()):
+            result[province][university] = sorted(data[province][university])
+    return result
+
+
 if __name__ == "__main__":
     processed: Dict[Text, Dict[Text, Set[Text]]] = defaultdict(lambda: defaultdict(set))
     for filename in sys.argv[1:]:
         with open(filename) as f:
             processed = process_university_data(csv.DictReader(f), processed)
+
     with open("university_data.yaml", "w") as f:
-        # YAML library requires normal dictionaries
-        data = {
-            k1: {k2: list(v2) for k2, v2 in v1.items()} for k1, v1 in processed.items()
-        }
-        YAML().dump(data, f)
+        round_trip_dump(sort_data(processed), f)

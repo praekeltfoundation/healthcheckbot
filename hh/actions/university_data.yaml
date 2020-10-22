@@ -1,103 +1,942 @@
-wc:
-  Cape Peninsula University of Technology (CPUT):
-  - Mowbray
-  - Groote Schuur
-  - George
-  - Wellington
-  - Athlone
-  - Worcester
-  - Granger Bay
-  - Bellville
-  - District Six
-  - Tygerberg
-  - Optical Dispensing
-  - Cape Town
-  - Media City
-  - Roeland Street
-  Nelson Mandela University (NMU):
-  - George
-  Stellenbosch University (SU):
-  - Tygerberg
-  - Stellenbosch
-  UNISA:
-  - Parow
-  - George
-  University of Cape Town (UCT):
-  - Rondebosch
-  University of Western Cape (UWC):
-  - Bellville
-  Boland:
-  - Strand
-  - Caledon
-  - Paarl
-  - Worcester
+ec:
+  AFDA:
+  - Cenral
+  Boston City Campus & Business College:
+  - East London
+  - Mthatha
+  - Port Elizabeth
+  - Queenstown
+  Buffalo City:
+  - Central Office
+  - East London
+  - John Knox Bokwe
+  - St Marks
+  CTU Training Solutions:
+  - Port Elizabeth
+  College of Transfiguration NPC:
+  - Grahamstown
+  Damelin:
+  - East London
+  - Port Elizabeth
+  East London Management Institute Pty Ltd:
+  - East London
+  Eastcape Midlands:
+  - Brickfields
+  - Central Office
+  - Charles Goodyear
+  - Graaff-Reinet
+  - Grahamstown
+  - Heath Park
+  - High Street
+  - Park Avenue
+  - Thanduxolo
+  Ed-U City Campus (Pty) Ltd:
+  - Port Elizabeth
+  Health and Fitness Professionals Academy (HFPA):
+  - Port Elizabeth
+  IQ Academy:
+  - East London
+  Ikhala:
+  - Aliwal North
+  - Central Office
+  - Ezibeleni
+  - Queen Nonesi
+  - Queenstown
+  - Sterkspruit
+  Ingwe:
+  - Central Office
+  - Maluti
+  - Mount Fletcher
+  - Mount Frere
+  - Ngqungqushe
+  - Siteto
+  King Hintsa:
+  - Centane
+  - Central Office
+  - Dutywa
+  - Msobomvu
+  - Teko
+  - Willowvale
+  King Sabata Dalindyebo (KSD):
+  - Libode
+  - Mapuzi
+  - Mngazi
+  - Mthatha
+  - Ngcobo
+  - Ntabozuko
+  - Zimbane
+  Lovedale:
+  - Alice
+  - Central Office
+  - King
+  - Zwelitsha
+  MANCOSA:
+  - East London
+  - Port Elizabeth
+  MSC Business College:
+  - East London
   - Head Office
-  - Stellenbosch
-  College of Cape Town:
-  - Pinelands
+  - Port Elizabeth
+  - Queenstown
+  - Uitenhage
+  Nelson Mandela University (NMU):
+  - 2nd Avenue
+  - Missionville
+  - North
+  - South
+  Netcare  Education (Pty Ltd):
+  - Port Elizabeth
+  Pearson Instittute of Higher Education:
+  - East London
+  - Port Elizabeth
+  Port Elizabeth:
   - Central Office
-  - Crawford
-  - Wynberg
-  - Athlone
-  - City
-  - Guguletu
-  - Gardens
-  - Thornton
-  False Bay:
+  - Dower
+  - Iqhayiya
+  - Russell Road
+  Production Management Institute of Southern Africa PTY LTD / PMI:
+  - East London
+  - Uitenhage
+  Regent Business School (Pty) Ltd (Learning Centre):
+  - East London
+  Rhodes University (RU):
+  - Grahamstown
+  STADIO AFDA:
+  - Port Elizabeth
+  Stenden:
+  - Port Alfred
+  UNISA:
+  - East London
+  - Mthatha
+  - Port Elizabeth
+  University of Fort Hare (UFH):
+  - Alice
+  - Bisho
+  - East London
+  Walter Sisulu University (WSU):
+  - Buffalo City
+  - Butterworth (Ibika)
+  - Mthatha
+  - Queenstown (Masibulele)
+fs:
+  Boston City Campus & Business College:
+  - Bloemfontein
+  - Welkom
+  CTU Training Solutions:
+  - Bloemfontein
+  Camelot International:
+  - Bloemfontein
+  Central University of Technology (CUT):
+  - Bloemfontein
+  - Welkom
+  Damelin:
+  - Bloemfontein
+  Flavius Mareka:
   - Central Office
-  - Fish Hoek
-  - Muizenberg
-  - Mitchell's Plain
-  - Westlake
-  - Khayelitsha
-  Northlink:
+  - Kroonstad
+  - Mphohadi
+  - Sasolburg
+  Goldfields:
   - Central Office
-  - Bellville
-  - Wingfield
-  - Tygerberg
-  - Protea
-  - Belhar
-  - Parow
-  - Goodwood
-  South Cape:
-  - Beaufort West
+  - Muruti House
+  - Tosa
+  - Virginia
+  - Welkom
+  Jeppe College:
+  - Bloemfontein
+  MSC Business College:
+  - Bloemfontein
+  Maluti:
+  - Bethlehem
+  - Bonamelo
   - Central Office
-  - George
-  - Oudtshoorn
-  - Mossel Bay
-  - Hessequa
-  - Bitou
-  West Coast:
+  - Harrismith
+  - Itemoheleng
+  - Kwetlisong
+  - Lere La Tshepe
+  - Main Campus
+  - Sefikeng
+  Mediclinic (Central Region Mediclinic Learning Centre):
+  - Bloemfontein
+  Motheo:
+  - Bloemfontein
+  - Botshabelo
   - Central Office
-  - Citrusdal
-  - Atlantis
-  - Malmesbury
-  - Vredendal
-  - Vredenburg
+  - Hillside View
+  - Koffiefontein
+  - Thaba 'Nchu
+  - Zastron
+  Pearson Instittute of Higher Education:
+  - Bloemfontein
+  Richfield Graduate School:
+  - Bloemfontein
+  - Phuthaditjhaba
+  UNISA:
+  - Bloemfontein
+  - Kroonstad
+  University of the Free State (UFS):
+  - Main Campus
+  - Qwaqwa Campus
+  - South Campus
+gt:
+  AAA School of Advertising:
+  - Bryanston
+  AFDA:
+  - Braamfontein
+  AROS:
+  - Waverly Pretoria
+  Academy for Facilities Management (distance only):
+  - Waterkloof
+  Academy of Sound Engineering (Pty) Ltd:
+  - Auckland Park
+  Afrikaanse Protestantse Akademie:
+  - Pretoria
+  Akademia NPC:
+  - Centurion
+  Animation School (Pty) Ltd (The):
+  - Craighall Park
+  Arwyp Training Institute:
+  - Kempton Park
+  Baptist Theological College of Southern Africa (The) NPC CONTACT:
+  - Randburg
+  Belgium Campus:
+  - Akasia
+  - Kempton Park
+  - Sydenham
+  Boston City Campus & Business College:
+  - Alberton
+  - Arcadia
+  - Bedfordview
+  - Benoni
+  - Braamfontein
+  - Germiston
+  - Johnnesburg
+  - Kemptonpark
+  - Krugersdorp
+  - Lynvwoodglen
+  - Orange Grove
+  - Pretoria North
+  - Randburg
+  - Roodepoort
+  - Rosebank
+  - Sandton
+  - Soweto
+  - Springs
+  - Vereeniging
+  Boston Media House:
+  - Pretoria
+  - Sandton
+  Business Management Training College (Pty) Ltd (BMT College):
+  - Head Office
+  CTU Training Solutions:
+  - Aukland Park
+  - Boksburg
+  - Menlyn
+  - Roodepoort
+  - Vereeniging
+  Camelot International:
+  - East Rand
+  - Houghton
+  - Pretoria
+  Central Johannesburg:
+  - Alexandra
+  - Central Office
+  - Crown Mines
+  - Ellis Park
+  - Langlaagte
+  - Parktown
+  - Riverlea
+  - Smith - Site
+  - Troyeville
+  Centurion Akademie:
+  - Centurion
+  Chartall Business College:
+  - Broadacres
+  Christian Reformed Theological Seminary (Distance only):
+  - Bronkhorstspruit
+  Concept Interactive Cape:
+  - Midrand
+  Cranefield COllege:
+  - Pretoria
+  Damelin:
+  - Boksburg
+  - Braamfontein
+  - Centurion
+  - Menlyn
+  - Pretoria CBD
+  - Randburg
+  - Vereeniging
+  Ekurhuleni East:
+  - Benoni
+  - Brakpan
+  - Central Office
+  - Daveyton
+  - Kwa-Thema
+  - Springs
+  Ekurhuleni West:
+  - Alberton
+  - Boksburg
+  - Central Office
+  - Germiston
+  - Kathorus
+  - Kempton
+  - Tembisa
+  Emendy (Pty) Ltd:
+  - Hatfield
+  FEDISA Pty Ltd:
+  - Sandton
+  Foundation for Professional Development (Pty) Ltd:
+  - Pretoria
+  Global School of Theology:
+  - Rooderpoort
+  Greenside Design Centre, College of Design:
+  - Greenside, Gauteng
+  Health Science Academy:
+  - Pretoria
+  Health and Fitness Professionals Academy (HFPA):
+  - Bedfordview
+  - Pretoria
+  - Rivonia, Gauteng
+  - Sunninghill
+  Hebron Theological College NPC:
+  - Benoni
+  Henley Business School:
+  - Paulshof
+  IMM Graduate School of Marketing:
+  - Edenvale
+  - Milpark
+  - Pretoria
+  - Sandton
+  IQ Academy:
+  - Johannesburg
+  Independent  Institute of Education:
+  - Sandton
+  Inscape Education Group:
+  - Midrand
+  Inscape Education Group HEAD OFFICE:
+  - Pretoria
+  Institute of Accounting Science:
+  - Meyersdal
+  - New Market
+  International College of Bible and Missions NPC:
+  - Roodepoort
+  International Trade Institute of Southern Africa NPC:
+  - Sandton
+  Invictus (SAE Institute (Pty) Ltd):
+  - Johannesburg
+  Invictus (The International Hotel School (Pty) Ltd):
+  - Johannesburg
+  - Pretoria
+  Isa Carstens Academy (Pty):
+  - Pretoria
+  Jeppe College:
+  - Johannesburg
+  - Pretoria
+  - Vereeniging
+  Katapult Business School (Pty) Ltd:
+  - Bedfordview
+  Life College of Learning (Life Healthcare Group (Pty) Ltd):
+  - Johannesburg
+  Lunghile Nursing School (Pty) Ltd:
+  - Rosebank
+  MANCOSA:
+  - Johannesburg
+  MSC Business College:
+  - Alberton
+  - Glenvista
+  - Kempton Park
+  - Midrand
+  - Pretoria
+  Macmillan South Africa:
+  - Midrand
+  Mediclinic (Northern Region Mediclinic Learning Centre):
+  - Johannesburg
+  Mediclinic (Tshwane Region Mediclinic Learning Centre):
+  - Pretoria
+  Moonstone Business School of Excellence:
+  - Pretoria
+  Mukhanyo Theological College NPC:
+  - Braamfontein
+  - Pretoria
+  Nazarene Theological College:
+  - Honeydew
+  Netcare  Education (Pty Ltd):
+  - Auckland Park
+  - Pretoria
+  Netcare  Education (Pty Ltd)  Head office:
+  - Sandton
+  North West University (NWU):
+  - Vaal Triangle (Vanderbijl Park)
+  Oakfields College (Pty) Ltd:
+  - Edenvale
+  - Pretoria
+  Open Learning Group (distance only):
+  - Randburg
+  Open Window (Pty) Ltd:
+  - Centurion
+  PM Academy:
+  - Edenvale
+  Pearson Instittute of Higher Education:
+  - Bedfordview
+  - Midrand
+  - Pretoria
+  - Vanderbijlpark
+  Private Hotel School (Part of ADvTech Group):
+  - Rosebank
+  Pro-Active Public Services College (Pty) Ltd:
+  - Pretoria
+  Production Management Institute of Southern Africa PTY LTD / PMI:
+  - Johannesburg
+  Red and Yellow Creative School of Business:
+  - Johannesburg
+  Regent Business School (Pty) Ltd (Learning Centre):
+  - Auckland Park
+  - Pretoria
+  Richfield Graduate School:
+  - Benoni
+  - Braamfontein
+  - Johannesburg
+  - Kempton Park
+  - Krugersdorp
+  - Midrand
+  - Pretoria
+  - Randburg
+  - Vereeniging
+  SANTS:
+  - Pretoria
+  ST Augustine College of  South Africa:
+  - Johannesburg
+  STADIO AFDA:
+  - Johannesburg
+  STADIO Embury (Stadio School of Education):
+  - Midrand
+  - Pretoria
+  STADIO LISOF:
+  - Hatfield
+  - Randburg
+  STADIO Milpark Education:
+  - Auckland Park
+  STADIO Prestige Academy:
+  - Centurion
+  STADIO Southern Business School:
+  - Krugersdorp
+  Sedibeng:
+  - Central Office
+  - Heidelberg
+  - Sebokeng
+  - Vanderbijlpark
+  - Vereeniging
+  Sefako Makgatho Health Sciences University (SMU):
+  - Main Campus
+  South African College of Applied Psychology (SACAP):
+  - Johannesburg
+  - Pretoria
+  South West Gauteng:
+  - Dobsonville
+  - George Tabor
+  - Land is Wealth Farm
+  - Molapo
+  - Roodepoort
+  - Roodepoort West
+  - Technisa
+  Southern Africa Bible College NPC:
+  - Benoni
+  South African Theological Seminary:
+  - Sandton
+  St John Vianney Seminary:
+  - Pretoria
+  TSIBA Education NPC:
+  - Newtown
+  The Animation School:
+  - Johannesburg Campus
+  The Da Vinci Institute for Technology Management (Pty) Ltd:
+  - Johannesburg
+  The International Hotel School (Pty) Ltd:
+  - Johannesburg
+  - Pretoria
+  The Open Window (Pty) Ltd:
+  - Main campus
+  Theological Education by Extension College NPC (Distance only):
+  - Johanesburg
+  Tshwane North:
+  - Central Office
+  - Mamelodi
+  - Pretoria
+  - Rosslyn
+  - Soshanguve North
+  - Soshanguve South
+  - Temba
+  Tshwane South:
+  - Atteridgeville
+  - Central Office
+  - Centurion
+  - Odi
+  - Pretoria West
+  Tshwane University of Technology (TUT):
+  - Arcadia
+  - Arts
+  - Ga-Rankuwa
+  - Pretoria West
+  - Soshanguve
+  Turaco Hospitality (Pty) Ltd:
+  - Randburg
+  UNISA:
+  - Ekurhuleni
+  - Florida (Science Campus)
+  - Johannesburg
+  - Pretoria (Sunnyside)
+  - Vaal
+  University of Johannesburg (UJ):
+  - Doornfontein (DFC)
+  - Kingsway Auckland Park (APK)
+  - Kingsway Bunting Road (APB)
+  - Soweto
+  University of Pretoria (UP):
+  - GIBS
+  - Groenkloof
+  - Hatfield (Main Campus)
+  - Hillcrest
+  - Mamelodi
+  - Onderstepoort
+  - Prinshof
+  University of the Witwatersrand (WITS):
+  - Braamfontein
+  Vaal University of Technology (VUT):
+  - Ekurhuleni
+  - Main Campus (Vanderbijlpark)
+  Villioti Fashion Institute (Pty) Ltd:
+  - Hyde Park
+  Western:
+  - Carletonville
+  - Central Office
+  - Krugersdorp
+  - Krugersdorp West
+  - Randfontein
+lp:
+  Boston City Campus & Business College:
+  - Polokwane
+  - Tzaneen
+  CTU Training Solutions:
+  - Polokwane
+  Capricorn:
+  - Central Office
+  - Polokwane
+  - Ramokgopa
+  - Senwabarwana
+  - Seshego
+  Christ Baptist Church Seminary NPC:
+  - Faunapark
+  Jeppe College:
+  - Polokwane
+  Lephalale:
+  - Central Office
+  - Lephalale
+  - Modimolle
+  Letaba:
+  - Central Office
+  - Giyani
+  - Maake
+  - Tzaneen
+  MANCOSA:
+  - Polokwane
+  MSC Business College:
+  - Louis Trichardt
+  - Polokwane
+  Mediclinic (Limpopo Mediclinic Learning Centre):
+  - Polokwane
+  Mopani:
+  - Central Office
+  - Phalaborwa
+  - Sir Val Duncan
+  Richfield Graduate School:
+  - Mankweng
+  - Polokwane
+  - Thohoyandou
+  Sekhukhune:
+  - Apel
+  - CN Phatudi
+  - CS Barlow
+  - Central Office
+  Tshwane University of Technology (TUT):
+  - Polokwane
+  UNISA:
+  - Giyani
+  - Makhado
+  - Polokwane
+  University of Limpopo (UL):
+  - Turfloop Campus
+  University of Venda (UNIVEN):
+  - Thohoyandou
+  Vhembe:
+  - Central Office
+  - Makwarela
+  - Mashamba
+  - Mavhoi
+  - Musina
+  - Shingwedzi
+  - Thengwe
+  - Tshisimani
+  Waterberg:
+  - Business
+  - Central Office
+  - Engineering
+  - IT&C
+  - Thabazimbi
+mp:
+  Boston City Campus & Business College:
+  - Mbombela
+  - Witbank
+  CTU Training Solutions:
+  - Mbombela
+  Centurion Akademie:
+  - Witbank
+  Ehlanzeni:
+  - Barberton
+  - Central Office
+  - Kanyamazane
+  - Lydenburg
+  - Mapulaneng
+  - Mlumati
+  - Mthimba
+  - Nelspruit
+  Gert Sibande:
+  - Balfour
+  - Central Office
+  - Ermelo
+  - Evander
+  - Perdekop
+  - Sibanesetfu
+  - Standerton
+  Health and Fitness Professionals Academy (HFPA):
+  - Mbombela
+  Jeppe College:
+  - Mbombela
+  MANCOSA:
+  - Mbombela
+  MSC Business College:
+  - Nelspruit
+  Mediclinic (Nelspruit Mediclinic Learning Centre):
+  - Mbombela
+  Mukhanyo Theological College NPC:
+  - KwaMhlanga
+  Nkangala:
+  - CN Mahlangu
+  - Central Office
+  - Middelburg
+  - Mpondozankomo
+  - Waterval Boven
+  - Witbank
+  Pearson Instittute of Higher Education:
+  - Nelspruit
+  Richfield Graduate School:
+  - Mbombela
+  - Middelburg
+  - eMalahleni
+  Tshwane University of Technology (TUT):
+  - Mbombela
+  - eMalahleni
+  UNISA:
+  - Mbombela
+  - Middelburg
+  University of Mpumalanga (UMP):
+  - Mbombela
+  - Siyabuswa
+  Vaal University of Technology (VUT):
+  - Secunda
+nc:
+  Boston City Campus & Business College:
+  - Kimberley
+  Damelin:
+  - Nelspruit
+  Hugenote Kollege:
+  - Kimberely
+  Northern Cape Rural:
+  - Central Office
+  - De Aar
+  - Kathu
+  - Kuruman
+  - Namaqualand
+  - Upington
+  Northern Cape Urban:
+  - Central Office
+  - City Campus
+  - Moremogolo
+  - Phatsimang
+  Sol Plaatje University (SPU):
+  - Kimberley
+  UNISA:
+  - Kimberley
+nl:
+  AFDA:
+  - Glen Anil
+  Berea College of Technology:
+  - Durban Tourist Juncion
+  Berea Technical College:
+  - Durban
+  Boston City Campus & Business College:
+  - Durban CBD
+  - Ladysmith
+  - New Castle
+  - Pietermaritzburg
+  - Port Shepstone
+  - Richards Bay
+  - Stanger
+  - Umhlanga
+  Boston Media House:
+  - Durban
+  CTU Training Solutions:
+  - Durban
+  Camelot International:
+  - Durban
+  Coastal:
+  - Appelsbosch
+  - As - Salaam
+  - Central Office
+  - Durban
+  - Swinton
+  - Ubuhle Bogu
+  - Umbumbulu
+  - Umlazi BB
+  - Umlazi V
+  Commerce and Computer College of South Africa (Pty) Ltd:
+  - Duban CBD
+  Damelin:
+  - Durban
+  - Pietermaritzburg
+  Durban University of Technology (DUT):
+  - Brickfield
+  - City Campus
+  - Indumiso
+  - ML Sultan
+  - Ritson
+  - Riverside
+  - Steve Biko
+  Elangeni:
+  - Central Office
+  - Inanda
+  - KwaDabeka
+  - Kwamashu
+  - Mpumalanga
+  - Ndwedwe
+  - Ntuzuma
+  - Pinetown
+  - Qadi
+  Esayidi:
+  - Central Office
+  - Clydesdale
+  - Enyenyezi
+  - Gamalakhe
+  - Kokstad
+  - Port Shepstone
+  - Umzimkhulu
+  Health and Fitness Professionals Academy (HFPA):
+  - Durban
+  IMM Graduate School of Marketing:
+  - Durban
+  Inscape Education Group:
+  - Morningside, Durban
+  Invictus (The International Hotel School (Pty) Ltd):
+  - Durban
+  MANCOSA:
+  - Durban
+  - PieterMaritzburg
+  Majuba:
+  - CPD
+  - Central Office
+  - Dundee
+  - IT&B
+  - MTC
+  - Newcastle Training Centre (NTC)
+  - Newtech
+  - Occupational Learning Unit
+  - Open Learning Unit (OPU)
+  Mangosuthu University of Technology (MUT):
+  - Main Campus
+  Mnambithi:
+  - Central Office
+  - Estcourt
+  - Ezakheni A
+  - Ezakheni E
+  - Ladysmith
+  Mthashana:
+  - Central Office
+  - Emandleni
+  - Kwa-Gqikazi
+  - Maputa
+  - Nongoma
+  - Nquthu
+  - Vryheid
+  Mukhanyo Theological College NPC:
+  - Pinetown
+  Netcare  Education (Pty Ltd):
+  - Durban
+  Pearson Instittute of Higher Education:
+  - Umhlanga
+  Production Management Institute of Southern Africa PTY LTD / PMI (HEAD OFFICE):
+  - Durban
+  Regent Business School (Pty) Ltd:
+  - Durban
+  Richfield Graduate School:
+  - Durban
+  - Ladysmith
+  - Pietermarirzburg
+  - Pinetown
+  - Richareds Bay
+  - Umhlanga
+  STADIO AFDA:
+  - Durban
+  STADIO Embury (Stadio School of Education):
+  - Durban
+  Seth Mokitimi Methodist Seminary (NPC):
+  - Pietermaritzburg
+  South African College of Applied Psychology (SACAP):
+  - Durban
+  St Joseph’s Theological Institute NPC:
+  - Cedara
+  The International Hotel School (Pty) Ltd:
+  - Durban
+  - Umhlanga
+  Thekwini:
+  - Asherville
+  - Cato Manor
+  - Centec
+  - Central Office
+  - Melbourne
+  - Springfield
+  - Umbilo
+  UNISA:
+  - Durban
+  - Newcastle
+  - Pietermaritzburg
+  - Richards Bay
+  - Wild Coast (Mbizana)
+  Umfolozi:
+  - Bambanana
+  - Central Office
+  - Chief Albert Luthuli
+  - Eshowe
+  - Esikhawini
+  - Isithebe(Sat)
+  - Mandeni
+  - Nkandla
+  - Richards Bay
+  - Sundumbili
+  Umgungundlovu:
+  - Central Office
+  - Edendale
+  - Midlands
+  - Msunduzi
+  - Northdale
+  - Plessislaer
+  Union Bible Institute NPC:
+  - Hilton
+  University of Kwazulu Natal (UKZN):
+  - Edgewood
+  - Howard
+  - Medical School
+  - Pietermaritzburg
+  - Westville
+  University of Zululand (UNIZULU):
+  - KwaDlangezwa
+  - Richards Bay
+nw:
+  Boston City Campus & Business College:
+  - Klerksdrop
+  - Potchefstroom
+  - Rustenburg
+  CTU Training Solutions:
+  - Potchefstroom
+  Centurion Akademie:
+  - Klerksdrop
+  - Rusternburg
+  Jeppe College:
+  - Rustenburg
+  MSC Business College:
+  - Rustenburg
+  Mukhanyo Theological College NPC:
+  - Rustenburg
+  North West University (NWU):
+  - Mafikeng
+  - Potchefstroom
+  Orbit:
+  - Brits
+  - Central Office
+  - Mankwe
+  - Rustenburg
+  Pearson Instittute of Higher Education:
+  - Potchefstroom
+  Potchefstroom Academy:
+  - Potchefstroom
+  Richfield Graduate School:
+  - Rustenburg
+  Taletso:
+  - Central Office
+  - Lehurutshe
+  - Lichtenburg
+  - Mafikeng
+  The South African Academy for Hair and Skincare Technology:
+  - Potchefstroom
+  UNISA:
+  - Mafikeng
+  - Potchefstroom
+  - Rustenburg
+  Vuselela:
+  - Central Office
+  - Jouberton
+  - Klerksdorp
+  - Matlosana
+  - Potchefstroom
+  - Taung
+wc:
   AAA School of Advertising:
   - Cape Town
-  Academy of Digital Arts:
-  - CPT CBD
-  Academy of Sound Engineering (Pty) Ltd:
-  - Zonnebloem
   ACT Cape Town - Film Acting Academy:
   - CPT CBD
   AFDA:
   - Observatory
+  Academy of Digital Arts:
+  - CPT CBD
+  Academy of Sound Engineering (Pty) Ltd:
+  - Zonnebloem
   Animation School (Pty) Ltd (The):
   - Woodstock
   BHC School of Design:
   - Cape Town
-  Boston City Campus & Business College:
-  - George
-  - Bellville
-  - Somerset West
+  Boland:
+  - Caledon
+  - Head Office
   - Paarl
+  - Stellenbosch
+  - Strand
+  - Worcester
+  Boston City Campus & Business College:
+  - Bellville
   - Cape Town
+  - George
+  - Paarl
+  - Somerset West
+  CTU Training Solutions:
+  - Cape Town
+  - Stellenbosch
   Camelot International:
   - Cape Town
   Cape Audio College:
   - Single Campus
+  Cape Peninsula University of Technology (CPUT):
+  - Athlone
+  - Bellville
+  - Cape Town
+  - District Six
+  - George
+  - Granger Bay
+  - Groote Schuur
+  - Media City
+  - Mowbray
+  - Optical Dispensing
+  - Roeland Street
+  - Tygerberg
+  - Wellington
+  - Worcester
   Cape Town Baptist Seminary:
   - Cape Town
   Cape Town College of Fashion Design (Pty) Ltd:
@@ -106,12 +945,19 @@ wc:
   - Plumstead
   Centurion Akademie:
   - Tygervalley
+  College of Cape Town:
+  - Athlone
+  - Central Office
+  - City
+  - Crawford
+  - Gardens
+  - Guguletu
+  - Pinelands
+  - Thornton
+  - Wynberg
   Concept Interactive Cape:
   - Salt River
   Cornerstone Institute (RF) NPC:
-  - Cape Town
-  CTU Training Solutions:
-  - Stellenbosch
   - Cape Town
   Damelin:
   - Cape Town
@@ -127,6 +973,13 @@ wc:
   - Rondebosch
   FEDISA Pty Ltd:
   - Cape Town
+  False Bay:
+  - Central Office
+  - Fish Hoek
+  - Khayelitsha
+  - Mitchell's Plain
+  - Muizenberg
+  - Westlake
   George Whitefield College:
   - Muizenberg
   Global School of Theology:
@@ -143,11 +996,11 @@ wc:
   IHT Hotel School (Pty) Ltd:
   - Bellville
   IMM Graduate School of Marketing:
-  - Stellenbosch
   - Cape Town
+  - Stellenbosch
   Inscape Education Group:
-  - Stellenbosch
   - Cape Town
+  - Stellenbosch
   International Peace College SA:
   - Cape Town
   Invictus (SAE Institute (Pty) Ltd):
@@ -156,23 +1009,34 @@ wc:
   - Cape Town
   Isa Carstens Academy (Pty):
   - Stellenbosch
-  Madina Institute NPC:
-  - Cape Town
   MANCOSA:
+  - Cape Town
+  Madina Institute NPC:
   - Cape Town
   Mediclinic (Cape Region Mediclinic Learning Centre):
   - Bellville
   Moonstone Business School of Excellence:
   - Stellenbosch
+  Nelson Mandela University (NMU):
+  - George
   Netcare  Education (Pty Ltd):
   - Bellville
+  Northlink:
+  - Belhar
+  - Bellville
+  - Central Office
+  - Goodwood
+  - Parow
+  - Protea
+  - Tygerberg
+  - Wingfield
   Oakfields College (Pty) Ltd:
   - Somerset West
   Optimi College (Pty) Ltd T/A College SA:
   - Cape Town
   Pearson Instittute of Higher Education:
-  - Durbanville
   - Cape Town
+  - Durbanville
   Private Hotel School (Part of ADvTech Group):
   - Stellenbosch
   Production Management Institute of Southern Africa PTY LTD / PMI:
@@ -185,912 +1049,48 @@ wc:
   - Cape Town
   Ruth Prowse School of Art NPC:
   - Woodstock
-  South African College of Applied Psychology (SACAP):
-  - Cape Town
-  Southern African Wildlife College NPC:
-  - Stellenbosch
   STADIO AFDA:
   - Capetown
   STADIO Milpark Education:
   - Cape Town
   STADIO Prestige Academy:
   - Bellville
+  South African College of Applied Psychology (SACAP):
+  - Cape Town
+  South Cape:
+  - Beaufort West
+  - Bitou
+  - Central Office
+  - George
+  - Hessequa
+  - Mossel Bay
+  - Oudtshoorn
+  Southern African Wildlife College NPC:
+  - Stellenbosch
   Stellenbosch Academy of Design and Photography (Pty) Ltd:
   - Stellenbosch
+  Stellenbosch University (SU):
+  - Stellenbosch
+  - Tygerberg
+  TSIBA Education NPC:
+  - Woodstock
   The Animation School:
   - Cape Town
   The Fashion Institute of Garment Technology (Cape Town College of Fashion Design):
   - Mobray
   The International Hotel School (Pty) Ltd:
   - Cape Town
-  TSIBA Education NPC:
-  - Woodstock
-fs:
-  Central University of Technology (CUT):
-  - Bloemfontein
-  - Welkom
   UNISA:
-  - Bloemfontein
-  - Kroonstad
-  University of the Free State (UFS):
-  - South Campus
-  - Qwaqwa Campus
-  - Main Campus
-  Flavius Mareka:
-  - Mphohadi
+  - George
+  - Parow
+  University of Cape Town (UCT):
+  - Rondebosch
+  University of Western Cape (UWC):
+  - Bellville
+  West Coast:
+  - Atlantis
   - Central Office
-  - Sasolburg
-  - Kroonstad
-  Goldfields:
-  - Central Office
-  - Tosa
-  - Virginia
-  - Muruti House
-  - Welkom
-  Maluti:
-  - Bonamelo
-  - Central Office
-  - Sefikeng
-  - Main Campus
-  - Bethlehem
-  - Harrismith
-  - Kwetlisong
-  - Itemoheleng
-  - Lere La Tshepe
-  Motheo:
-  - Central Office
-  - Koffiefontein
-  - Botshabelo
-  - Hillside View
-  - Zastron
-  - Bloemfontein
-  - Thaba 'Nchu
-  Boston City Campus & Business College:
-  - Bloemfontein
-  - Welkom
-  Camelot International:
-  - Bloemfontein
-  CTU Training Solutions:
-  - Bloemfontein
-  Damelin:
-  - Bloemfontein
-  Jeppe College:
-  - Bloemfontein
-  Mediclinic (Central Region Mediclinic Learning Centre):
-  - Bloemfontein
-  MSC Business College:
-  - Bloemfontein
-  Pearson Instittute of Higher Education:
-  - Bloemfontein
-  Richfield Graduate School:
-  - Bloemfontein
-  - Phuthaditjhaba
-nl:
-  Durban University of Technology (DUT):
-  - ML Sultan
-  - Ritson
-  - Indumiso
-  - Riverside
-  - City Campus
-  - Steve Biko
-  - Brickfield
-  Mangosuthu University of Technology (MUT):
-  - Main Campus
-  UNISA:
-  - Richards Bay
-  - Newcastle
-  - Durban
-  - Wild Coast (Mbizana)
-  - Pietermaritzburg
-  University of Kwazulu Natal (UKZN):
-  - Westville
-  - Howard
-  - Edgewood
-  - Medical School
-  - Pietermaritzburg
-  University of Zululand (UNIZULU):
-  - Richards Bay
-  - KwaDlangezwa
-  Coastal:
-  - Central Office
-  - Umbumbulu
-  - Durban
-  - Appelsbosch
-  - As - Salaam
-  - Umlazi V
-  - Swinton
-  - Ubuhle Bogu
-  - Umlazi BB
-  Elangeni:
-  - Kwamashu
-  - Central Office
-  - Inanda
-  - Mpumalanga
-  - Pinetown
-  - Ntuzuma
-  - KwaDabeka
-  - Qadi
-  - Ndwedwe
-  Esayidi:
-  - Central Office
-  - Clydesdale
-  - Port Shepstone
-  - Gamalakhe
-  - Kokstad
-  - Enyenyezi
-  - Umzimkhulu
-  Majuba:
-  - CPD
-  - Central Office
-  - Newtech
-  - Occupational Learning Unit
-  - Newcastle Training Centre (NTC)
-  - IT&B
-  - MTC
-  - Dundee
-  - Open Learning Unit (OPU)
-  Mnambithi:
-  - Central Office
-  - Ezakheni A
-  - Estcourt
-  - Ezakheni E
-  - Ladysmith
-  Mthashana:
-  - Central Office
-  - Emandleni
-  - Nquthu
-  - Vryheid
-  - Maputa
-  - Nongoma
-  - Kwa-Gqikazi
-  Thekwini:
-  - Central Office
-  - Asherville
-  - Springfield
-  - Cato Manor
-  - Centec
-  - Umbilo
-  - Melbourne
-  Umfolozi:
-  - Richards Bay
-  - Central Office
-  - Bambanana
-  - Esikhawini
-  - Eshowe
-  - Isithebe(Sat)
-  - Sundumbili
-  - Mandeni
-  - Chief Albert Luthuli
-  - Nkandla
-  Umgungundlovu:
-  - Central Office
-  - Northdale
-  - Plessislaer
-  - Edendale
-  - Midlands
-  - Msunduzi
-  AFDA:
-  - Glen Anil
-  Berea College of Technology:
-  - Durban Tourist Juncion
-  Berea Technical College:
-  - Durban
-  Boston Media House:
-  - Durban
-  Boston City Campus & Business College:
-  - Richards Bay
-  - Port Shepstone
-  - New Castle
-  - Umhlanga
-  - Stanger
-  - Durban CBD
-  - Pietermaritzburg
-  - Ladysmith
-  Camelot International:
-  - Durban
-  Commerce and Computer College of South Africa (Pty) Ltd:
-  - Duban CBD
-  CTU Training Solutions:
-  - Durban
-  Damelin:
-  - Pietermaritzburg
-  - Durban
-  Health and Fitness Professionals Academy (HFPA):
-  - Durban
-  IMM Graduate School of Marketing:
-  - Durban
-  Inscape Education Group:
-  - Morningside, Durban
-  Invictus (The International Hotel School (Pty) Ltd):
-  - Durban
-  MANCOSA:
-  - PieterMaritzburg
-  - Durban
-  Mukhanyo Theological College NPC:
-  - Pinetown
-  Netcare  Education (Pty Ltd):
-  - Durban
-  Pearson Instittute of Higher Education:
-  - Umhlanga
-  Production Management Institute of Southern Africa PTY LTD / PMI (HEAD OFFICE):
-  - Durban
-  Regent Business School (Pty) Ltd:
-  - Durban
-  Richfield Graduate School:
-  - Durban
-  - Richareds Bay
-  - Pinetown
-  - Umhlanga
-  - Pietermarirzburg
-  - Ladysmith
-  Seth Mokitimi Methodist Seminary (NPC):
-  - Pietermaritzburg
-  South African College of Applied Psychology (SACAP):
-  - Durban
-  St Joseph’s Theological Institute NPC:
-  - Cedara
-  STADIO AFDA:
-  - Durban
-  STADIO Embury (Stadio School of Education):
-  - Durban
-  The International Hotel School (Pty) Ltd:
-  - Umhlanga
-  - Durban
-  Union Bible Institute NPC:
-  - Hilton
-ec:
-  Nelson Mandela University (NMU):
-  - South
-  - 2nd Avenue
-  - Missionville
-  - North
-  Rhodes University (RU):
-  - Grahamstown
-  UNISA:
-  - Mthatha
-  - Port Elizabeth
-  - East London
-  University of Fort Hare (UFH):
-  - East London
-  - Alice
-  - Bisho
-  Walter Sisulu University (WSU):
-  - Buffalo City
-  - Butterworth (Ibika)
-  - Mthatha
-  - Queenstown (Masibulele)
-  Buffalo City:
-  - Central Office
-  - John Knox Bokwe
-  - St Marks
-  - East London
-  Eastcape Midlands:
-  - Central Office
-  - Grahamstown
-  - Charles Goodyear
-  - High Street
-  - Thanduxolo
-  - Heath Park
-  - Graaff-Reinet
-  - Brickfields
-  - Park Avenue
-  Ikhala:
-  - Central Office
-  - Queenstown
-  - Aliwal North
-  - Sterkspruit
-  - Ezibeleni
-  - Queen Nonesi
-  Ingwe:
-  - Central Office
-  - Mount Frere
-  - Maluti
-  - Ngqungqushe
-  - Siteto
-  - Mount Fletcher
-  King Hintsa:
-  - Central Office
-  - Msobomvu
-  - Dutywa
-  - Centane
-  - Teko
-  - Willowvale
-  King Sabata Dalindyebo (KSD):
-  - Ngcobo
-  - Mngazi
-  - Ntabozuko
-  - Zimbane
-  - Mapuzi
-  - Mthatha
-  - Libode
-  Lovedale:
-  - Zwelitsha
-  - King
-  - Central Office
-  - Alice
-  Port Elizabeth:
-  - Russell Road
-  - Central Office
-  - Dower
-  - Iqhayiya
-  AFDA:
-  - Cenral
-  Boston City Campus & Business College:
-  - Mthatha
-  - Port Elizabeth
-  - East London
-  - Queenstown
-  College of Transfiguration NPC:
-  - Grahamstown
-  CTU Training Solutions:
-  - Port Elizabeth
-  Damelin:
-  - Port Elizabeth
-  - East London
-  East London Management Institute Pty Ltd:
-  - East London
-  Ed-U City Campus (Pty) Ltd:
-  - Port Elizabeth
-  Health and Fitness Professionals Academy (HFPA):
-  - Port Elizabeth
-  IQ Academy:
-  - East London
-  MANCOSA:
-  - Port Elizabeth
-  - East London
-  MSC Business College:
-  - Queenstown
-  - East London
-  - Uitenhage
-  - Head Office
-  - Port Elizabeth
-  Netcare  Education (Pty Ltd):
-  - Port Elizabeth
-  Pearson Instittute of Higher Education:
-  - Port Elizabeth
-  - East London
-  Production Management Institute of Southern Africa PTY LTD / PMI:
-  - East London
-  - Uitenhage
-  Regent Business School (Pty) Ltd (Learning Centre):
-  - East London
-  STADIO AFDA:
-  - Port Elizabeth
-  Stenden:
-  - Port Alfred
-nw:
-  North West University (NWU):
-  - Mafikeng
-  - Potchefstroom
-  UNISA:
-  - Mafikeng
-  - Rustenburg
-  - Potchefstroom
-  Orbit:
-  - Brits
-  - Central Office
-  - Mankwe
-  - Rustenburg
-  Taletso:
-  - Lichtenburg
-  - Mafikeng
-  - Central Office
-  - Lehurutshe
-  Vuselela:
-  - Central Office
-  - Potchefstroom
-  - Klerksdorp
-  - Taung
-  - Matlosana
-  - Jouberton
-  Boston City Campus & Business College:
-  - Rustenburg
-  - Potchefstroom
-  - Klerksdrop
-  Centurion Akademie:
-  - Rusternburg
-  - Klerksdrop
-  CTU Training Solutions:
-  - Potchefstroom
-  Jeppe College:
-  - Rustenburg
-  MSC Business College:
-  - Rustenburg
-  Mukhanyo Theological College NPC:
-  - Rustenburg
-  Pearson Instittute of Higher Education:
-  - Potchefstroom
-  Potchefstroom Academy:
-  - Potchefstroom
-  Richfield Graduate School:
-  - Rustenburg
-  The South African Academy for Hair and Skincare Technology:
-  - Potchefstroom
-gt:
-  North West University (NWU):
-  - Vaal Triangle (Vanderbijl Park)
-  Sefako Makgatho Health Sciences University (SMU):
-  - Main Campus
-  Tshwane University of Technology (TUT):
-  - Arcadia
-  - Pretoria West
-  - Ga-Rankuwa
-  - Soshanguve
-  - Arts
-  UNISA:
-  - Johannesburg
-  - Pretoria (Sunnyside)
-  - Vaal
-  - Ekurhuleni
-  - Florida (Science Campus)
-  University of Johannesburg (UJ):
-  - Kingsway Auckland Park (APK)
-  - Kingsway Bunting Road (APB)
-  - Doornfontein (DFC)
-  - Soweto
-  University of Pretoria (UP):
-  - GIBS
-  - Groenkloof
-  - Mamelodi
-  - Prinshof
-  - Onderstepoort
-  - Hillcrest
-  - Hatfield (Main Campus)
-  University of the Witwatersrand (WITS):
-  - Braamfontein
-  Vaal University of Technology (VUT):
-  - Main Campus (Vanderbijlpark)
-  - Ekurhuleni
-  Central Johannesburg:
-  - Riverlea
-  - Central Office
-  - Parktown
-  - Smith - Site
-  - Langlaagte
-  - Crown Mines
-  - Alexandra
-  - Ellis Park
-  - Troyeville
-  Ekurhuleni East:
-  - Central Office
-  - Kwa-Thema
-  - Benoni
-  - Springs
-  - Daveyton
-  - Brakpan
-  Ekurhuleni West:
-  - Central Office
-  - Kathorus
-  - Kempton
-  - Boksburg
-  - Tembisa
-  - Alberton
-  - Germiston
-  Sedibeng:
-  - Vanderbijlpark
-  - Central Office
-  - Sebokeng
-  - Heidelberg
-  - Vereeniging
-  South West Gauteng:
-  - Molapo
-  - Roodepoort
-  - Roodepoort West
-  - Land is Wealth Farm
-  - Technisa
-  - Dobsonville
-  - George Tabor
-  Tshwane North:
-  - Central Office
-  - Soshanguve South
-  - Mamelodi
-  - Pretoria
-  - Soshanguve North
-  - Rosslyn
-  - Temba
-  Tshwane South:
-  - Central Office
-  - Atteridgeville
-  - Pretoria West
-  - Centurion
-  - Odi
-  Western:
-  - Central Office
-  - Randfontein
-  - Krugersdorp
-  - Krugersdorp West
-  - Carletonville
-  AAA School of Advertising:
-  - Bryanston
-  Academy for Facilities Management (distance only):
-  - Waterkloof
-  Academy of Sound Engineering (Pty) Ltd:
-  - Auckland Park
-  AFDA:
-  - Braamfontein
-  Afrikaanse Protestantse Akademie:
-  - Pretoria
-  Akademia NPC:
-  - Centurion
-  Animation School (Pty) Ltd (The):
-  - Craighall Park
-  AROS:
-  - Waverly Pretoria
-  Arwyp Training Institute:
-  - Kempton Park
-  Baptist Theological College of Southern Africa (The) NPC CONTACT:
-  - Randburg
-  Belgium Campus:
-  - Sydenham
-  - Kempton Park
-  - Akasia
-  Boston Media House:
-  - Pretoria
-  - Sandton
-  Boston City Campus & Business College:
-  - Krugersdorp
-  - Braamfontein
-  - Vereeniging
-  - Alberton
-  - Arcadia
-  - Bedfordview
-  - Pretoria North
-  - Lynvwoodglen
-  - Germiston
-  - Orange Grove
-  - Kemptonpark
-  - Sandton
-  - Benoni
-  - Johnnesburg
-  - Randburg
-  - Springs
-  - Roodepoort
-  - Soweto
-  - Rosebank
-  Business Management Training College (Pty) Ltd (BMT College):
-  - Head Office
-  Camelot International:
-  - East Rand
-  - Pretoria
-  - Houghton
-  Centurion Akademie:
-  - Centurion
-  Chartall Business College:
-  - Broadacres
-  Christian Reformed Theological Seminary (Distance only):
-  - Bronkhorstspruit
-  Concept Interactive Cape:
-  - Midrand
-  Cranefield COllege:
-  - Pretoria
-  CTU Training Solutions:
-  - Roodepoort
-  - Aukland Park
-  - Boksburg
-  - Menlyn
-  - Vereeniging
-  Damelin:
-  - Pretoria CBD
-  - Boksburg
-  - Randburg
-  - Menlyn
-  - Braamfontein
-  - Vereeniging
-  - Centurion
-  Emendy (Pty) Ltd:
-  - Hatfield
-  FEDISA Pty Ltd:
-  - Sandton
-  Foundation for Professional Development (Pty) Ltd:
-  - Pretoria
-  Global School of Theology:
-  - Rooderpoort
-  Greenside Design Centre, College of Design:
-  - Greenside, Gauteng
-  Health and Fitness Professionals Academy (HFPA):
-  - Pretoria
-  - Bedfordview
-  - Sunninghill
-  - Rivonia, Gauteng
-  Health Science Academy:
-  - Pretoria
-  Hebron Theological College NPC:
-  - Benoni
-  Henley Business School:
-  - Paulshof
-  IMM Graduate School of Marketing:
-  - Milpark
-  - Pretoria
-  - Edenvale
-  - Sandton
-  Independent  Institute of Education:
-  - Sandton
-  Inscape Education Group:
-  - Midrand
-  Inscape Education Group HEAD OFFICE:
-  - Pretoria
-  Institute of Accounting Science:
-  - New Market
-  - Meyersdal
-  International College of Bible and Missions NPC:
-  - Roodepoort
-  International Trade Institute of Southern Africa NPC:
-  - Sandton
-  Invictus (SAE Institute (Pty) Ltd):
-  - Johannesburg
-  Invictus (The International Hotel School (Pty) Ltd):
-  - Johannesburg
-  - Pretoria
-  IQ Academy:
-  - Johannesburg
-  Isa Carstens Academy (Pty):
-  - Pretoria
-  Jeppe College:
-  - Johannesburg
-  - Pretoria
-  - Vereeniging
-  Katapult Business School (Pty) Ltd:
-  - Bedfordview
-  Life College of Learning (Life Healthcare Group (Pty) Ltd):
-  - Johannesburg
-  Lunghile Nursing School (Pty) Ltd:
-  - Rosebank
-  Macmillan South Africa:
-  - Midrand
-  MANCOSA:
-  - Johannesburg
-  Mediclinic (Northern Region Mediclinic Learning Centre):
-  - Johannesburg
-  Mediclinic (Tshwane Region Mediclinic Learning Centre):
-  - Pretoria
-  Moonstone Business School of Excellence:
-  - Pretoria
-  MSC Business College:
-  - Midrand
-  - Glenvista
-  - Pretoria
-  - Alberton
-  - Kempton Park
-  Mukhanyo Theological College NPC:
-  - Pretoria
-  - Braamfontein
-  Nazarene Theological College:
-  - Honeydew
-  Netcare  Education (Pty Ltd):
-  - Pretoria
-  - Auckland Park
-  Netcare  Education (Pty Ltd)  Head office:
-  - Sandton
-  Oakfields College (Pty) Ltd:
-  - Pretoria
-  - Edenvale
-  Open Learning Group (distance only):
-  - Randburg
-  Open Window (Pty) Ltd:
-  - Centurion
-  Pearson Instittute of Higher Education:
-  - Pretoria
-  - Bedfordview
-  - Midrand
-  - Vanderbijlpark
-  PM Academy:
-  - Edenvale
-  Private Hotel School (Part of ADvTech Group):
-  - Rosebank
-  Pro-Active Public Services College (Pty) Ltd:
-  - Pretoria
-  Production Management Institute of Southern Africa PTY LTD / PMI:
-  - Johannesburg
-  Red and Yellow Creative School of Business:
-  - Johannesburg
-  Regent Business School (Pty) Ltd (Learning Centre):
-  - Pretoria
-  - Auckland Park
-  Richfield Graduate School:
-  - Johannesburg
-  - Midrand
-  - Krugersdorp
-  - Benoni
-  - Randburg
-  - Braamfontein
-  - Vereeniging
-  - Pretoria
-  - Kempton Park
-  SANTS:
-  - Pretoria
-  South African College of Applied Psychology (SACAP):
-  - Johannesburg
-  - Pretoria
-  South African Theological Seminary:
-  - Sandton
-  Southern Africa Bible College NPC:
-  - Benoni
-  ST Augustine College of  South Africa:
-  - Johannesburg
-  St John Vianney Seminary:
-  - Pretoria
-  STADIO AFDA:
-  - Johannesburg
-  STADIO Embury (Stadio School of Education):
-  - Pretoria
-  - Midrand
-  STADIO LISOF:
-  - Randburg
-  - Hatfield
-  STADIO Milpark Education:
-  - Auckland Park
-  STADIO Prestige Academy:
-  - Centurion
-  STADIO Southern Business School:
-  - Krugersdorp
-  The Animation School:
-  - Johannesburg Campus
-  The Da Vinci Institute for Technology Management (Pty) Ltd:
-  - Johannesburg
-  The International Hotel School (Pty) Ltd:
-  - Pretoria
-  - Johannesburg
-  The Open Window (Pty) Ltd:
-  - Main campus
-  Theological Education by Extension College NPC (Distance only):
-  - Johanesburg
-  TSIBA Education NPC:
-  - Newtown
-  Turaco Hospitality (Pty) Ltd:
-  - Randburg
-  Villioti Fashion Institute (Pty) Ltd:
-  - Hyde Park
-nc:
-  Sol Plaatje University (SPU):
-  - Kimberley
-  UNISA:
-  - Kimberley
-  Northern Cape Rural:
-  - Central Office
-  - De Aar
-  - Kuruman
-  - Kathu
-  - Upington
-  - Namaqualand
-  Northern Cape Urban:
-  - Central Office
-  - City Campus
-  - Moremogolo
-  - Phatsimang
-  Boston City Campus & Business College:
-  - Kimberley
-  Damelin:
-  - Nelspruit
-  Hugenote Kollege:
-  - Kimberely
-lp:
-  Tshwane University of Technology (TUT):
-  - Polokwane
-  UNISA:
-  - Giyani
-  - Makhado
-  - Polokwane
-  University of Limpopo (UL):
-  - Turfloop Campus
-  University of Venda (UNIVEN):
-  - Thohoyandou
-  Capricorn:
-  - Central Office
-  - Seshego
-  - Polokwane
-  - Ramokgopa
-  - Senwabarwana
-  Lephalale:
-  - Modimolle
-  - Central Office
-  - Lephalale
-  Letaba:
-  - Giyani
-  - Central Office
-  - Maake
-  - Tzaneen
-  Mopani:
-  - Phalaborwa
-  - Sir Val Duncan
-  - Central Office
-  Sekhukhune:
-  - Central Office
-  - CN Phatudi
-  - CS Barlow
-  - Apel
-  Vhembe:
-  - Thengwe
-  - Central Office
-  - Shingwedzi
-  - Mavhoi
-  - Makwarela
-  - Mashamba
-  - Tshisimani
-  - Musina
-  Waterberg:
-  - Central Office
-  - Thabazimbi
-  - Business
-  - Engineering
-  - IT&C
-  Boston City Campus & Business College:
-  - Tzaneen
-  - Polokwane
-  Christ Baptist Church Seminary NPC:
-  - Faunapark
-  CTU Training Solutions:
-  - Polokwane
-  Jeppe College:
-  - Polokwane
-  MANCOSA:
-  - Polokwane
-  Mediclinic (Limpopo Mediclinic Learning Centre):
-  - Polokwane
-  MSC Business College:
-  - Louis Trichardt
-  - Polokwane
-  Richfield Graduate School:
-  - Thohoyandou
-  - Mankweng
-  - Polokwane
-mp:
-  Tshwane University of Technology (TUT):
-  - Mbombela
-  - eMalahleni
-  UNISA:
-  - Middelburg
-  - Mbombela
-  University of Mpumalanga (UMP):
-  - Siyabuswa
-  - Mbombela
-  Vaal University of Technology (VUT):
-  - Secunda
-  Ehlanzeni:
-  - Central Office
-  - Barberton
-  - Mapulaneng
-  - Mlumati
-  - Lydenburg
-  - Kanyamazane
-  - Mthimba
-  - Nelspruit
-  Gert Sibande:
-  - Central Office
-  - Sibanesetfu
-  - Perdekop
-  - Standerton
-  - Ermelo
-  - Evander
-  - Balfour
-  Nkangala:
-  - Middelburg
-  - Central Office
-  - Witbank
-  - Waterval Boven
-  - CN Mahlangu
-  - Mpondozankomo
-  Boston City Campus & Business College:
-  - Mbombela
-  - Witbank
-  Centurion Akademie:
-  - Witbank
-  CTU Training Solutions:
-  - Mbombela
-  Health and Fitness Professionals Academy (HFPA):
-  - Mbombela
-  Jeppe College:
-  - Mbombela
-  MANCOSA:
-  - Mbombela
-  Mediclinic (Nelspruit Mediclinic Learning Centre):
-  - Mbombela
-  MSC Business College:
-  - Nelspruit
-  Mukhanyo Theological College NPC:
-  - KwaMhlanga
-  Pearson Instittute of Higher Education:
-  - Nelspruit
-  Richfield Graduate School:
-  - Middelburg
-  - Mbombela
-  - eMalahleni
+  - Citrusdal
+  - Malmesbury
+  - Vredenburg
+  - Vredendal
