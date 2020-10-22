@@ -1,6 +1,8 @@
 from unittest import TestCase
 
-from hh.actions.import_university_data import process_university_data
+from ruamel.yaml.comments import CommentedMap
+
+from hh.actions.import_university_data import process_university_data, sort_data
 
 
 class TestImportUniversityData(TestCase):
@@ -37,3 +39,24 @@ class TestImportUniversityData(TestCase):
                 },
             },
         )
+
+    def test_sort_data(self):
+        """
+        Should return a sorted version of the data
+        """
+        data = {
+            "gt": {"uni2": set(["campus2", "campus1"]), "uni1": set(["campus3"])},
+            "ec": {"uni3": set(["campus4"])},
+        }
+        expected = CommentedMap(
+            [
+                ["ec", CommentedMap([["uni3", ["campus4"]]])],
+                [
+                    "gt",
+                    CommentedMap(
+                        [["uni1", ["campus3"]], ["uni2", ["campus1", "campus2"]]]
+                    ),
+                ],
+            ]
+        )
+        self.assertEqual(sort_data(data), expected)
