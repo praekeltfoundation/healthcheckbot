@@ -160,6 +160,7 @@ class HealthCheckTermsForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         if value == "more":
             dispatcher.utter_message(template="utter_more_terms")
+            dispatcher.utter_message(template="utter_more_terms_doc")
             return {"terms": None}
 
         return self.validate_generic("terms", dispatcher, value, {1: "yes"})
