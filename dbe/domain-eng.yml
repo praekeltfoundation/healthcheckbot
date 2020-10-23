@@ -204,9 +204,9 @@ responses:
 
   utter_welcome_back:
       - text: |
-          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff. 
+          Welcome back to *HealthCheck*, your daily risk assessment tool, brought to you by the DBE to ensure the continued health and safety of learners, educators and school support staff.
 
-          Please help us by correctly answering a few questions about you and your health today. 
+          Please help us by correctly answering a few questions about you and your health today.
 
           📌Reply with *MENU* to return to the main menu
 
@@ -217,7 +217,7 @@ responses:
           Province: {province_display}
           Role: {profile_display}
 
-          Reply 
+          Reply
           *1.* YES
           *2.* NO
 
@@ -255,6 +255,10 @@ responses:
           This service is not a substitute for professional medical advice/diagnosis/treatment. Get a qualified health provider's advice about your medical condition/care, especially if you develop severe symptoms.
 
           You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk.
+
+  utter_more_terms_doc:
+      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/NDOH_WhatsApp+Covid-19_ABRIDGED+Privacy+Policy.pdf"
+        text: Terms and Conditions
 
   utter_ask_province:
       - text: |
@@ -314,7 +318,7 @@ responses:
         We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
         {location}
 
-        Reply 
+        Reply
         *1.* YES
         *2.* NO
 
@@ -327,7 +331,7 @@ responses:
         Please confirm that the identified school below is correct, based on the information you shared:
         {school}
 
-        Reply 
+        Reply
         *1.* YES
         *2.* NO
 
@@ -350,7 +354,7 @@ responses:
 
   utter_ask_medical_condition_diabetes:
     - text: |
-        Has a doctor or other health professional diagnosed you with Diabetes (blood sugar)? 
+        Has a doctor or other health professional diagnosed you with Diabetes (blood sugar)?
 
         Reply
         *1.* YES
@@ -381,7 +385,7 @@ responses:
 
         Do you feel very hot or cold? Are you sweating or shivering? When you touch your forehead, does it feel hot?
 
-        Reply 
+        Reply
         *1.* YES
         *2.* NO
 
@@ -634,7 +638,7 @@ responses:
         We need to collect {obo_name} location.
 
         Please share your location 📍 using WhatsApp by following these steps:
-        - Tap the attach icon (+ or  📎) on the bottom of WhatsApp. 
+        - Tap the attach icon (+ or  📎) on the bottom of WhatsApp.
         - Select location
         - This will bring up a map with a pin showing your current location. Tap *Send Your Current Location* if this is your address.
         - You can also choose from various other nearby locations if you think that the GPS is a bit off.
@@ -646,19 +650,19 @@ responses:
         We use Google Location Services to verify locations. Please confirm that the address below is correct based on the information you have shared:
         {obo_location}
 
-        Reply 
+        Reply
         *1.* YES
         *2.* NO
-  
+
   utter_ask_obo_school:
     - text: "Please TYPE the name of {obo_name}'s school."
-  
+
   utter_ask_obo_school_confirm:
     - text: |
         Please confirm that the school below is correct based on the information you have shared:
         {obo_school}
 
-        Reply 
+        Reply
         *1.* YES
         *2.* NO
 
@@ -678,7 +682,7 @@ responses:
         Reply
         *1.* YES
         *2.* NO
-  
+
   utter_ask_obo_medical_condition_diabetes:
     - text: |
         Has a doctor or other health professional diagnosed {obo_name} with Diabetes (Blood sugar)?
@@ -713,7 +717,7 @@ responses:
 
         Does {obo_name} feel very hot or cold? Are they sweating or shivering? When they touch their forehead, does it feel hot?
 
-        Reply 
+        Reply
         *1.* YES
         *2.* NO
 
@@ -767,7 +771,7 @@ responses:
         *1.* YES
         *2.* NO
         *3.* NOT SURE
-  
+
   utter_ask_obo_tracing:
     - text: |
         ⬛⬛⬛⬛⬛⬛⬛
@@ -796,7 +800,7 @@ responses:
         *If* they start to feel ill or come into contact with someone infected with COVID-19 please take this risk assessment again. This clearance is available for the next 24hours so please check in again tomorrow, with HealthCheck. The power to defeat COVID-19 is in your hands, play your part and keep South Africa safe.
 
         Reply with *CHECK* to do a HealthCheck for another child.
-        🤒 Reply with *SYMPTOMS* for more information 
+        🤒 Reply with *SYMPTOMS* for more information
         📌 Reply with *MENU* to return to the main menu
 
   utter_obo_risk_moderate:
@@ -837,7 +841,7 @@ responses:
 
         *Based on your responses, {obo_name} may be eligible for testing to find out if they are infected with COVID-19.*
 
-        Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so. 
+        Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so.
 
         Follow these important steps when seeking care:
         - Avoid contact with other people in your household and your community, if possible, stay in a separate room.
