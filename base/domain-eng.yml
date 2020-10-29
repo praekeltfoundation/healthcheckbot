@@ -210,7 +210,7 @@ responses:
 
   utter_ask_medical_condition:
     - text: |
-        Do you have any other pre-existing medical conditions that we should be aware of?
+        Do you have any pre-existing medical conditions that we should be aware of?
 
         Reply:
         *1.* YES
