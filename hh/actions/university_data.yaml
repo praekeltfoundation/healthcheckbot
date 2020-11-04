@@ -118,6 +118,10 @@ ec:
   - Butterworth (Ibika)
   - Mthatha
   - Queenstown (Masibulele)
+  eta College:
+  - East London
+  - George
+  - Port Elizabeth
 fs:
   Boston City Campus & Business College:
   - Bloemfontein
@@ -178,6 +182,8 @@ fs:
   - Main Campus
   - Qwaqwa Campus
   - South Campus
+  eta College:
+  - Bloemfontein
 gt:
   AAA School of Advertising:
   - Bryanston
@@ -481,10 +487,17 @@ gt:
   Turaco Hospitality (Pty) Ltd:
   - Randburg
   UNISA:
+  - Brooklyn
+  - Daveyton
   - Ekurhuleni
   - Florida (Science Campus)
   - Johannesburg
+  - Little Theatre
+  - Muckleneuk
   - Pretoria (Sunnyside)
+  - Robert Sobukwe
+  - SBL
+  - Solomon Mahlangu
   - Vaal
   University of Johannesburg (UJ):
   - Doornfontein (DFC)
@@ -512,6 +525,9 @@ gt:
   - Krugersdorp
   - Krugersdorp West
   - Randfontein
+  eta College:
+  - Johannesburg
+  - Pretoria
 lp:
   Boston City Campus & Business College:
   - Polokwane
@@ -643,6 +659,8 @@ mp:
   - Siyabuswa
   Vaal University of Technology (VUT):
   - Secunda
+  eta College:
+  - Nelspruit
 nc:
   Boston City Campus & Business College:
   - Kimberley
@@ -805,10 +823,12 @@ nl:
   - Springfield
   - Umbilo
   UNISA:
+  - Braam Fisher
   - Durban
   - Newcastle
   - Pietermaritzburg
   - Richards Bay
+  - Simiso Nkwanyana
   - Wild Coast (Mbizana)
   Umfolozi:
   - Bambanana
@@ -839,6 +859,8 @@ nl:
   University of Zululand (UNIZULU):
   - KwaDlangezwa
   - Richards Bay
+  eta College:
+  - Durban
 nw:
   Boston City Campus & Business College:
   - Klerksdrop
@@ -969,8 +991,6 @@ wc:
   - Stellenbosch
   Equine Librium:
   - Plettenberg Bay
-  Exercise Teachers Academy (Pty) Ltd:
-  - Rondebosch
   FEDISA Pty Ltd:
   - Cape Town
   False Bay:
@@ -1094,3 +1114,6 @@ wc:
   - Malmesbury
   - Vredenburg
   - Vredendal
+  eta College:
+  - Cape Town
+  - Stellenbosch

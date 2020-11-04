@@ -2,7 +2,7 @@ Importing University/TVET/PHEI data
 -----------------------------------
 The source for this information was given directly by Higher Health
 
-Current info is from 29 September 2020.
+Current info is from 2 November 2020.
 
 That data is in Excel xlsx format, so use something like `ssconvert` to convert it to CSV:
 ```bash
