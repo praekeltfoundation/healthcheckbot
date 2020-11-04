@@ -84,6 +84,7 @@ class HealthCheckProfileFormTests(TestCase):
                         "*28.* UNISA",
                         "*29.* University of Fort Hare (UFH)",
                         "*30.* Walter Sisulu University (WSU)",
+                        "*31.* eta College",
                     ]
                 ),
             },
