@@ -63,18 +63,22 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         mappings = super().slot_mappings()
         mappings["school"] = [self.from_text()]
-        mappings["school_confirm"] = [
-            self.from_entity(entity="number"),
-            self.from_intent(intent="affirm", value="yes"),
-            self.from_intent(intent="deny", value="no"),
-            self.from_text(),
-        ]
-        mappings["confirm_details"] = [
-            self.from_entity(entity="number"),
-            self.from_intent(intent="affirm", value="yes"),
-            self.from_intent(intent="deny", value="no"),
-            self.from_text(),
-        ]
+        for field in [
+            "school_confirm",
+            "confirm_details",
+            "medical_condition_asthma",
+            "medical_condition_tb",
+            "medical_condition_pregnant",
+            "medical_condition_respiratory",
+            "medical_condition_cardiac",
+            "medical_condition_immuno",
+        ]:
+            mappings[field] = [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ]
         mappings["change_details"] = [
             self.from_entity(entity="number"),
             self.from_text(),
@@ -89,8 +93,35 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         return mappings
 
     @classmethod
-    def required_slots(cls, tracker: Tracker) -> List[Text]:
-        slots = super().required_slots(tracker)
+    def get_all_slots(cls, tracker: Tracker) -> List[Text]:
+        slots = cls.SLOTS + cls.PERSISTED_SLOTS
+        if (
+            tracker.get_slot("medical_condition") != "no"
+            and tracker.get_slot("obo_medical_condition") != "no"
+        ):
+            slots += cls.CONDITIONS
+        if (
+            tracker.get_slot("profile") == "learner"
+            or tracker.get_slot("profile") == "parent"
+        ):
+            slots += ["medical_condition_asthma", "medical_condition_tb"]
+            try:
+                if (
+                    int(tracker.get_slot("age")) > 12
+                    and tracker.get_slot("gender") == "FEMALE"
+                ) or (
+                    int(tracker.get_slot("obo_age")) > 12
+                    and tracker.get_slot("obo_gender") == "FEMALE"
+                ):
+                    slots += ["medical_condition_pregnant"]
+            except (TypeError, ValueError):
+                pass
+            slots += [
+                "medical_condition_respiratory",
+                "medical_condition_cardiac",
+                "medical_condition_immuno",
+            ]
+
         if tracker.get_slot("returning_user") == "yes":
             if tracker.get_slot("change_details"):
                 slots = [
@@ -105,13 +136,16 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 slots = ["confirm_details"] + slots
         # Use on behalf of slots for parent profile
         if tracker.get_slot("profile") == "parent":
-            slots = ["select_learner_profile", "profile", "obo_name", "obo_age"] + [
-                f"obo_{s}" for s in cls.PERSISTED_SLOTS
+            print(slots)
+            slots = ["select_learner_profile", "profile", "obo_name"] + [
+                f"obo_{s}" for s in slots[1:]
             ]
-            if tracker.get_slot("obo_medical_condition") != "no":
-                slots += [f"obo_{s}" for s in cls.CONDITIONS]
+            print(slots)
+        return slots
 
-        for slot in slots:
+    @classmethod
+    def required_slots(cls, tracker: Tracker) -> List[Text]:
+        for slot in cls.get_all_slots(tracker):
             if not tracker.get_slot(slot):
                 return [slot]
         return []

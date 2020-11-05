@@ -357,8 +357,88 @@ class HealthCheckProfileFormTests(TestCase):
         tracker.slots["obo_school"] = "BERGVLIET HIGH SCHOOL"
         tracker.slots["obo_school_confirm"] = "yes"
         tracker.slots["obo_medical_condition"] = "no"
+        tracker.slots["obo_medical_condition_asthma"] = "no"
+        tracker.slots["obo_medical_condition_tb"] = "no"
+        tracker.slots["obo_medical_condition_respiratory"] = "no"
+        tracker.slots["obo_medical_condition_cardiac"] = "no"
+        tracker.slots["obo_medical_condition_immuno"] = "no"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, [])
+
+    def test_get_all_slots(self):
+        """
+        Should return all the slots that the user needs to complete
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertEqual(
+            slots,
+            [
+                "profile",
+                "age",
+                "gender",
+                "province",
+                "location",
+                "location_confirm",
+                "school",
+                "school_confirm",
+                "medical_condition",
+                "medical_condition_obesity",
+                "medical_condition_diabetes",
+                "medical_condition_hypertension",
+                "medical_condition_cardio",
+            ],
+        )
+
+    def test_get_all_slots_expanded_comorbidities(self):
+        """
+        Learner and parent on-behalf-of profiles should get asked the additional
+        comorbidity questions
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "learner"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("medical_condition_asthma", slots)
+        self.assertIn("medical_condition_tb", slots)
+        self.assertIn("medical_condition_respiratory", slots)
+        self.assertIn("medical_condition_cardiac", slots)
+        self.assertIn("medical_condition_immuno", slots)
+
+        tracker.slots["profile"] = "parent"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("obo_medical_condition_asthma", slots)
+        self.assertIn("obo_medical_condition_tb", slots)
+        self.assertIn("obo_medical_condition_respiratory", slots)
+        self.assertIn("obo_medical_condition_cardiac", slots)
+        self.assertIn("obo_medical_condition_immuno", slots)
+
+        tracker.slots["profile"] = "educator"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertNotIn("medical_condition_asthma", slots)
+        self.assertNotIn("medical_condition_tb", slots)
+        self.assertNotIn("medical_condition_respiratory", slots)
+        self.assertNotIn("medical_condition_cardiac", slots)
+        self.assertNotIn("medical_condition_immuno", slots)
+
+    def test_get_all_slots_pregnant(self):
+        """
+        Pregnancy questions should only be asked for female users over 12 for learner
+        and on-behalf-of
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "learner"
+        tracker.slots["gender"] = "FEMALE"
+        tracker.slots["age"] = "13"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("medical_condition_pregnant", slots)
+
+        tracker.slots["profile"] = "parent"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("obo_medical_condition_pregnant", slots)
+
+        tracker.slots["age"] = "9"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertNotIn("obo_medical_condition_pregnant", slots)
 
 
 @pytest.mark.asyncio
