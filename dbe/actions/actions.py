@@ -511,7 +511,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     validate_obo_medical_condition_cardio = obo_validator(
         BaseHealthCheckProfileForm.validate_medical_condition_cardio
     )
-    validate_obo_medical_condition_asthma = obo_validator(validate_medical_condition_asthma)
+    validate_obo_medical_condition_asthma = obo_validator(
+        validate_medical_condition_asthma
+    )
     validate_obo_medical_condition_tb = obo_validator(validate_medical_condition_tb)
     validate_obo_medical_condition_pregnant = obo_validator(
         validate_medical_condition_pregnant
@@ -522,7 +524,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     validate_obo_medical_condition_cardiac = obo_validator(
         validate_medical_condition_cardiac
     )
-    validate_obo_medical_condition_immuno = obo_validator(validate_medical_condition_immuno)
+    validate_obo_medical_condition_immuno = obo_validator(
+        validate_medical_condition_immuno
+    )
 
 
 class HealthCheckForm(BaseHealthCheckForm):
@@ -691,6 +695,14 @@ class ActionSessionStart(Action):
             + HealthCheckProfileForm.CONDITIONS
             + ["location_coords", "city_location_coords"]
             + ["school", "school_confirm", "school_emis", "profile"]
+            + [
+                "medical_condition_asthma",
+                "medical_condition_tb",
+                "medical_condition_pregnant",
+                "medical_condition_respiratory",
+                "medical_condition_cardiac",
+                "medical_condition_immuno",
+            ]
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))

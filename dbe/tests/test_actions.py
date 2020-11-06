@@ -126,9 +126,7 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
         response = form.validate_medical_condition_asthma("2", dispatcher, tracker, {})
-        self.assertEqual(
-            response, {"medical_condition_asthma": "no"}
-        )
+        self.assertEqual(response, {"medical_condition_asthma": "no"})
 
     def test_validate_select_learner_profile(self):
         """
