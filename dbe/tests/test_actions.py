@@ -48,6 +48,21 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"school": "BERGVLIET HIGH SCHOOL", "school_emis": "105310201"}
         )
 
+    def test_validate_school_or_clause(self):
+        """
+        The search should be an OR between terms
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {"province": "fs"}, {}, [], False, None, {}, "action_listen"
+        )
+        response = form.validate_school(
+            "bedelia primary", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(
+            response, {"school": "BEDELIA P/S", "school_emis": "444712090"}
+        )
+
     def test_validate_school_other(self):
         """
         Stores the school as other and moves on

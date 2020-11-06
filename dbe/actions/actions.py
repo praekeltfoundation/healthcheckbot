@@ -7,7 +7,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from whoosh.index import open_dir
-from whoosh.qparser import MultifieldParser
+from whoosh.qparser import MultifieldParser, OrGroup
 from whoosh.query import FuzzyTerm, Term
 
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
@@ -308,7 +308,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         if value and isinstance(value, str) and value.strip().lower() == "other":
             return {"school": "OTHER", "school_emis": None, "school_confirm": "yes"}
         ix = open_dir("dbe/actions/emis_index")
-        parser = MultifieldParser(["name", "emis"], ix.schema, termclass=FuzzyTerm)
+        parser = MultifieldParser(
+            ["name", "emis"], ix.schema, termclass=FuzzyTerm, group=OrGroup
+        )
         query = parser.parse(value)
 
         province = tracker.get_slot("obo_province") or tracker.get_slot("province")
