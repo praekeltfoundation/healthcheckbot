@@ -10,9 +10,10 @@ from whoosh.index import open_dir
 from whoosh.qparser import MultifieldParser
 from whoosh.query import FuzzyTerm, Term
 
+from base.actions.actions import YES_NO_DATA
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
-from base.actions.actions import HealthCheckTermsForm, YES_NO_DATA
+from base.actions.actions import HealthCheckTermsForm
 from dbe.actions import utils
 
 PROVINCE_DISPLAY = {
