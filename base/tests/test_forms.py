@@ -3,6 +3,7 @@ from typing import Any, Dict, Optional, Text
 from urllib.parse import urlencode
 
 import pytest
+import httpx
 import respx
 from rasa_sdk import Tracker
 from rasa_sdk.events import Form, SlotSet
@@ -445,6 +446,38 @@ class TestHealthCheckTermsForm:
 
 
 class TestHealthCheckForm:
+    def get_tracker_for_text_slot_with_message(
+        self, slot_name: Text, text: Text, msg: Optional[Dict[Text, Any]] = None
+    ):
+        msgs = [{"event": "user", "metadata": msg or dict()}]
+
+        return Tracker(
+            "default",
+            {"requested_slot": slot_name},
+            {"text": text},
+            msgs,
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+
+    def test_required_slots_end(self):
+        """
+        If there are no more slots to fill, should return an empty list
+        """
+        form = HealthCheckForm()
+        tracker = utils.get_tracker_for_number_slot_with_value(form, "age", "1", {
+            "symptoms_fever": "no",
+            "symptoms_cough": "no",
+            "symptoms_sore_throat": "no",
+            "symptoms_difficulty_breathing": "no",
+            "symptoms_taste_smell": "no",
+            "exposure": "no",
+            "tracing": "yes",
+        })
+        assert form.required_slots(tracker) == []
+
     @respx.mock
     @pytest.mark.asyncio
     async def test_submit_to_eventstore(self):
@@ -513,3 +546,111 @@ class TestHealthCheckForm:
 
         base.actions.actions.config.EVENTSTORE_URL = None
         base.actions.actions.config.EVENTSTORE_TOKEN = None
+
+    @respx.mock
+    @pytest.mark.asyncio
+    async def test_submit_to_eventstore_retries(self):
+        """
+        Should retry on HTTP failures
+        """
+        base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
+        base.actions.actions.config.EVENTSTORE_TOKEN = "token"
+
+        request = respx.post("https://eventstore/api/v3/covid19triage/", status_code=500)
+
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = utils.get_tracker_for_slot_from_intent(
+            form,
+            "tracing",
+            "affirm",
+            {
+                "province": "wc",
+                "age": "18-39",
+                "symptoms_fever": "no",
+                "symptoms_cough": "no",
+                "symptoms_sore_throat": "yes",
+                "symptoms_difficulty_breathing": "no",
+                "symptoms_taste_smell": "no",
+                "exposure": "not sure",
+                "tracing": "yes",
+                "gender": "RATHER NOT SAY",
+                "medical_condition": "not sure",
+                "city_location_coords": "+1.2-3.4",
+                "location_coords": "+3.4-1.2",
+                "location": "Cape Town, South Africa",
+            },
+        )
+        error = None
+        try:
+            await form.submit(dispatcher, tracker, {})
+        except httpx.HTTPError as e:
+            error = e
+
+        assert error
+        assert len(request.calls) == 3
+
+        base.actions.actions.config.EVENTSTORE_URL = None
+        base.actions.actions.config.EVENTSTORE_TOKEN = None
+
+    @pytest.mark.asyncio
+    async def test_validate_yes_no(self):
+        """
+        Tests that yes no slots validate correctly
+        """
+        form = HealthCheckForm()
+        for slot in ["symptoms_fever", "symptoms_cough", "symptoms_sore_throat", "symptoms_difficulty_breathing", "symptoms_taste_smell", "tracing"]:
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "yes")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "yes"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "no")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "no"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "Invalid")
+            dispatcher = CollectingDispatcher()
+            events = await form.validate(dispatcher, tracker, {})
+            assert events == [
+                SlotSet(slot, None),
+            ]
+            [message] = dispatcher.messages
+            assert message["template"] == "utter_incorrect_selection"
+
+    @pytest.mark.asyncio
+    async def test_validate_yes_no_maybe(self):
+        """
+        Tests that yes no maybe slots validate correctly
+        """
+        form = HealthCheckForm()
+        for slot in ["exposure"]:
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "yes")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "yes"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "no")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "no"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "not sure")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "not sure"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "Invalid")
+            dispatcher = CollectingDispatcher()
+            events = await form.validate(dispatcher, tracker, {})
+            assert events == [
+                SlotSet(slot, None),
+            ]
+            [message] = dispatcher.messages
+            assert message["template"] == "utter_incorrect_selection"
