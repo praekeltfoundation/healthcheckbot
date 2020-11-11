@@ -25,11 +25,6 @@ if config.SENTRY_DSN:
 
 
 class BaseFormAction(FormAction):
-    def name(self) -> Text:
-        """Unique identifier of the form"""
-
-        return "base_form"
-
     @property
     def yes_no_data(self) -> Dict[int, Text]:
         return {1: "yes", 2: "no"}

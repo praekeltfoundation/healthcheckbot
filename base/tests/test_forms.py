@@ -46,6 +46,22 @@ class TestHealthCheckProfileForm:
             "action_listen",
         )
 
+    def test_required_slots_end(self):
+        """
+        If there are no more slots to fill, should return an empty list
+        """
+        form = HealthCheckProfileForm()
+        tracker = utils.get_tracker_for_number_slot_with_value(form, "age", "1", {
+            "age": "18-40",
+            "gender": "male",
+            "province": "wc",
+            "location": "Cape Town, South Africa",
+            "location_confirm": "yes",
+            "medical_condition": "no"
+        })
+        assert form.required_slots(tracker) == []
+
+
     @pytest.mark.asyncio
     async def test_validate_age(self):
         form = HealthCheckProfileForm()
@@ -168,6 +184,13 @@ class TestHealthCheckProfileForm:
             assert HealthCheckProfileForm.fix_location_format(invalid) == valid
             assert HealthCheckProfileForm.fix_location_format(valid) == valid
 
+        error = None
+        try:
+            HealthCheckProfileForm.fix_location_format("invalid")
+        except ValueError as e:
+            error = e
+        assert error
+
     @pytest.mark.asyncio
     async def test_validate_location_pin(self):
         """
@@ -186,6 +209,25 @@ class TestHealthCheckProfileForm:
             SlotSet("location_coords", "+01.23+004.56/"),
             SlotSet("location_confirm", "yes"),
         ]
+
+    @pytest.mark.asyncio
+    async def test_validate_location_blank_text(self):
+        """
+        If a message without text content is sent, the error message should be displayed
+        """
+        form = HealthCheckProfileForm()
+
+        tracker = self.get_tracker_for_text_slot_with_message(
+            "location",
+            ""
+        )
+        dispatcher = CollectingDispatcher()
+        events = await form.validate(dispatcher, tracker, {})
+        assert events == [
+            SlotSet("location", None),
+        ]
+        [message] = dispatcher.messages
+        assert message["template"] == "utter_incorrect_selection"
 
     @pytest.mark.asyncio
     async def test_validate_location_text(self):
@@ -243,6 +285,143 @@ class TestHealthCheckProfileForm:
         assert request.called
 
         base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
+
+    @respx.mock
+    @pytest.mark.asyncio
+    async def test_validate_location_google_places_no_results(self):
+        """
+        If there are no results, then display error message and ask again
+        """
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
+        querystring = urlencode(
+            {
+                "key": "test_key",
+                "input": "Cape Town",
+                "language": "en",
+                "inputtype": "textquery",
+                "fields": "formatted_address,geometry",
+            }
+        )
+        request = respx.get(
+            "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?"
+            f"{querystring}",
+            content=json.dumps(
+                {
+                    "candidates": []
+                }
+            ),
+        )
+        form = HealthCheckProfileForm()
+
+        tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
+
+        dispatcher = CollectingDispatcher()
+        events = await form.validate(dispatcher, tracker, {})
+        assert events == [
+            SlotSet("location", None),
+        ]
+        assert request.called
+
+        [message] = dispatcher.messages
+        assert message["template"] == "utter_incorrect_location"
+
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
+
+    @pytest.mark.asyncio
+    async def test_validate_location_confirm(self):
+        """
+        Should reset answers if user selects no
+        """
+        form = HealthCheckProfileForm()
+        tracker = self.get_tracker_for_text_slot_with_message("location_confirm", "yes")
+        events = await form.validate(CollectingDispatcher(), tracker, {})
+        assert events == [
+            SlotSet("location_confirm", "yes"),
+        ]
+
+        tracker = self.get_tracker_for_text_slot_with_message("location_confirm", "no")
+        events = await form.validate(CollectingDispatcher(), tracker, {})
+        assert events == [
+            SlotSet("location_confirm", None),
+            SlotSet("location", None),
+        ]
+
+
+    @pytest.mark.asyncio
+    async def test_validate_yes_no_maybe(self):
+        """
+        Tests that yes no maybe slots validate correctly
+        """
+        form = HealthCheckProfileForm()
+        for slot in ["medical_condition"]:
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "yes")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "yes"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "no")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "no"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "not sure")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "not sure"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "Invalid")
+            dispatcher = CollectingDispatcher()
+            events = await form.validate(dispatcher, tracker, {})
+            assert events == [
+                SlotSet(slot, None),
+            ]
+            [message] = dispatcher.messages
+            assert message["template"] == "utter_incorrect_selection"
+
+    @pytest.mark.asyncio
+    async def test_validate_yes_no(self):
+        """
+        Tests that yes no slots validate correctly
+        """
+        form = HealthCheckProfileForm()
+        for slot in ["medical_condition_obesity", "medical_condition_diabetes", "medical_condition_hypertension", "medical_condition_cardio"]:
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "yes")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "yes"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "no")
+            events = await form.validate(CollectingDispatcher(), tracker, {})
+            assert events == [
+                SlotSet(slot, "no"),
+            ]
+
+            tracker = self.get_tracker_for_text_slot_with_message(slot, "Invalid")
+            dispatcher = CollectingDispatcher()
+            events = await form.validate(dispatcher, tracker, {})
+            assert events == [
+                SlotSet(slot, None),
+            ]
+            [message] = dispatcher.messages
+            assert message["template"] == "utter_incorrect_selection"
+
+    def test_complete_form(self):
+        """
+        Should do nothing
+        """
+        form = HealthCheckProfileForm()
+        dispatcher = CollectingDispatcher()
+        tracker = utils.get_tracker_for_slot_from_intent(
+            form,
+            "medical_condition",
+            "no",
+        )
+        result = form.submit(dispatcher, tracker, {})
+        assert result == []
 
 
 class TestHealthCheckTermsForm:
