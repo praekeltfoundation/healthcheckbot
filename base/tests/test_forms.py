@@ -2,15 +2,17 @@ import json
 from typing import Any, Dict, Optional, Text
 from urllib.parse import urlencode
 
-import pytest
 import httpx
+import pytest
 import respx
 from rasa_sdk import Tracker
-from rasa_sdk.events import Form, SlotSet
+from rasa_sdk.events import ActionExecuted, Form, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 import base.actions.actions
 from base.actions.actions import (
+    ActionExit,
+    ActionSessionStart,
     HealthCheckForm,
     HealthCheckProfileForm,
     HealthCheckTermsForm,
@@ -52,16 +54,20 @@ class TestHealthCheckProfileForm:
         If there are no more slots to fill, should return an empty list
         """
         form = HealthCheckProfileForm()
-        tracker = utils.get_tracker_for_number_slot_with_value(form, "age", "1", {
-            "age": "18-40",
-            "gender": "male",
-            "province": "wc",
-            "location": "Cape Town, South Africa",
-            "location_confirm": "yes",
-            "medical_condition": "no"
-        })
+        tracker = utils.get_tracker_for_number_slot_with_value(
+            form,
+            "age",
+            "1",
+            {
+                "age": "18-40",
+                "gender": "male",
+                "province": "wc",
+                "location": "Cape Town, South Africa",
+                "location_confirm": "yes",
+                "medical_condition": "no",
+            },
+        )
         assert form.required_slots(tracker) == []
-
 
     @pytest.mark.asyncio
     async def test_validate_age(self):
@@ -218,10 +224,7 @@ class TestHealthCheckProfileForm:
         """
         form = HealthCheckProfileForm()
 
-        tracker = self.get_tracker_for_text_slot_with_message(
-            "location",
-            ""
-        )
+        tracker = self.get_tracker_for_text_slot_with_message("location", "")
         dispatcher = CollectingDispatcher()
         events = await form.validate(dispatcher, tracker, {})
         assert events == [
@@ -306,11 +309,7 @@ class TestHealthCheckProfileForm:
         request = respx.get(
             "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?"
             f"{querystring}",
-            content=json.dumps(
-                {
-                    "candidates": []
-                }
-            ),
+            content=json.dumps({"candidates": []}),
         )
         form = HealthCheckProfileForm()
 
@@ -346,7 +345,6 @@ class TestHealthCheckProfileForm:
             SlotSet("location_confirm", None),
             SlotSet("location", None),
         ]
-
 
     @pytest.mark.asyncio
     async def test_validate_yes_no_maybe(self):
@@ -388,7 +386,12 @@ class TestHealthCheckProfileForm:
         Tests that yes no slots validate correctly
         """
         form = HealthCheckProfileForm()
-        for slot in ["medical_condition_obesity", "medical_condition_diabetes", "medical_condition_hypertension", "medical_condition_cardio"]:
+        for slot in [
+            "medical_condition_obesity",
+            "medical_condition_diabetes",
+            "medical_condition_hypertension",
+            "medical_condition_cardio",
+        ]:
             tracker = self.get_tracker_for_text_slot_with_message(slot, "yes")
             events = await form.validate(CollectingDispatcher(), tracker, {})
             assert events == [
@@ -417,9 +420,7 @@ class TestHealthCheckProfileForm:
         form = HealthCheckProfileForm()
         dispatcher = CollectingDispatcher()
         tracker = utils.get_tracker_for_slot_from_intent(
-            form,
-            "medical_condition",
-            "no",
+            form, "medical_condition", "no",
         )
         result = form.submit(dispatcher, tracker, {})
         assert result == []
@@ -467,15 +468,20 @@ class TestHealthCheckForm:
         If there are no more slots to fill, should return an empty list
         """
         form = HealthCheckForm()
-        tracker = utils.get_tracker_for_number_slot_with_value(form, "age", "1", {
-            "symptoms_fever": "no",
-            "symptoms_cough": "no",
-            "symptoms_sore_throat": "no",
-            "symptoms_difficulty_breathing": "no",
-            "symptoms_taste_smell": "no",
-            "exposure": "no",
-            "tracing": "yes",
-        })
+        tracker = utils.get_tracker_for_number_slot_with_value(
+            form,
+            "age",
+            "1",
+            {
+                "symptoms_fever": "no",
+                "symptoms_cough": "no",
+                "symptoms_sore_throat": "no",
+                "symptoms_difficulty_breathing": "no",
+                "symptoms_taste_smell": "no",
+                "exposure": "no",
+                "tracing": "yes",
+            },
+        )
         assert form.required_slots(tracker) == []
 
     @respx.mock
@@ -556,7 +562,9 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post("https://eventstore/api/v3/covid19triage/", status_code=500)
+        request = respx.post(
+            "https://eventstore/api/v3/covid19triage/", status_code=500
+        )
 
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()
@@ -599,7 +607,14 @@ class TestHealthCheckForm:
         Tests that yes no slots validate correctly
         """
         form = HealthCheckForm()
-        for slot in ["symptoms_fever", "symptoms_cough", "symptoms_sore_throat", "symptoms_difficulty_breathing", "symptoms_taste_smell", "tracing"]:
+        for slot in [
+            "symptoms_fever",
+            "symptoms_cough",
+            "symptoms_sore_throat",
+            "symptoms_difficulty_breathing",
+            "symptoms_taste_smell",
+            "tracing",
+        ]:
             tracker = self.get_tracker_for_text_slot_with_message(slot, "yes")
             events = await form.validate(CollectingDispatcher(), tracker, {})
             assert events == [
@@ -654,3 +669,30 @@ class TestHealthCheckForm:
             ]
             [message] = dispatcher.messages
             assert message["template"] == "utter_incorrect_selection"
+
+
+class TestActionSessionStart:
+    def test_carry_over_slots(self):
+        """
+        Should set all the carry over slots, and then add a listen at the end
+        """
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker("", {}, None, [], False, None, None, None)
+        actions = ActionSessionStart().run(dispatcher, tracker, {})
+        assert actions[0] == SessionStarted()
+        assert actions[-1] == ActionExecuted("action_listen")
+        assert len(actions) > 2
+
+
+class TestActionExit:
+    def test_carry_over_slots(self):
+        """
+        Should send the exit message, and then return all the carry over slots
+        """
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker("", {}, None, [], False, None, None, None)
+        actions = ActionExit().run(dispatcher, tracker, {})
+        assert actions[0] == SessionStarted()
+        assert len(actions) > 1
+        [msg] = dispatcher.messages
+        assert msg["template"] == "utter_exit"
