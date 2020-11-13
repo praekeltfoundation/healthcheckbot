@@ -414,7 +414,7 @@ responses:
 
   utter_ask_medical_condition_asthma:
     - text: |
-        Are you currently on chronic medication or receiving treatment for Asthma?
+        Has a doctor or other health professional prescribed  chronic medication for Asthma?
 
         Reply
         *1.* YES
@@ -422,7 +422,7 @@ responses:
 
   utter_ask_medical_condition_tb:
     - text: |
-        Are you currently on chronic medication or receiving treatment for TB?
+        Has a doctor or any other health professional initiated you on treatment for TB in the past 14 days?
 
         Reply
         *1.* YES
@@ -430,15 +430,21 @@ responses:
 
   utter_ask_medical_condition_pregnant:
     - text: |
-        Are you pregnant?
+        Has a doctor or other health professional  recently confirmed that you are pregnant? 
 
         Reply
         *1.* YES
         *2.* NO
 
+  utter_pregnant_yes:
+    - text: |
+        If you are 27 weeks or less, please consult a healthcare professional for more information regarding how to protect yourself from COVID-19.
+
+        If you are 27 weeks or more, notify your school and consult a healthcare professional for guidance regarding your health.
+
   utter_ask_medical_condition_respiratory:
     - text: |
-        Are you currently on chronic medication or receiving treatment for severe respiratory diseases (Inherited conditions, e.g. cystic fibrosis, Chronic lung diseases)?
+        Has a doctor or other health professional diagnosed you with a severe chronic respiratory disease (Inherited conditions, e.g. cystic fibrosis, Chronic lung diseases)?
 
         Reply
         *1.* YES
@@ -446,7 +452,7 @@ responses:
 
   utter_ask_medical_condition_cardiac:
     - text: |
-        Are you currently on chronic medication or receiving treatment for a congenital Cardiac Disease (not corrected by surgery)?
+        Has a doctor or other health professional diagnosed you with severe hereditary Cardiac Disease (not corrected by surgery)? 
 
         Reply
         *1.* YES
@@ -454,7 +460,9 @@ responses:
 
   utter_ask_medical_condition_immuno:
     - text: |
-        Are you currently on chronic medication or receiving treatment for severe immunodeficiency? _This includes HIV infection, cancer (on treatment) or if you are on Immunosuppressive drugs e.g. after a transplant_
+        Has a doctor or other health professional diagnosed you with severe immunodeficiency?
+        _This includes HIV infection, cancer treatment or if you are on chronic immuno-suppressive medication such as after an organ transplant?_
+
 
         Reply
         *1.* YES
@@ -793,7 +801,7 @@ responses:
 
   utter_ask_obo_medical_condition_asthma:
     - text: |
-        Is {obo_name} currently on chronic medication or receiving treatment for Asthma?
+        Has a doctor or other health professional prescribed {obo_name} chronic medication for Asthma?
 
         Reply
         *1.* YES
@@ -801,7 +809,7 @@ responses:
 
   utter_ask_obo_medical_condition_tb:
     - text: |
-        Is {obo_name} currently on chronic medication or receiving treatment for TB?
+        Has a doctor or any other health professional initiated {obo_name} on treatment for TB in the past 14 days?
 
         Reply
         *1.* YES
@@ -809,15 +817,21 @@ responses:
 
   utter_ask_obo_medical_condition_pregnant:
     - text: |
-        Is {obo_name} pregnant?
+        Has a doctor or other health professional recently confirmed that {obo_name} is pregnant?  
 
         Reply
         *1.* YES
         *2.* NO
 
+  utter_obo_pregnant_yes:
+    - text: |
+        If {obo_name} is 27 weeks or less, please consult a healthcare professional for more information regarding how to protect {obo_name} from COVID-19.
+
+        If {obo_name} is 27 weeks or more, notify your school and consult a healthcare professional for guidance regarding {obo_name}'s health.
+
   utter_ask_obo_medical_condition_respiratory:
     - text: |
-        Is {obo_name} currently on chronic medication or receiving treatment for severe respiratory diseases (Inherited conditions, e.g. cystic fibrosis, Chronic lung diseases)?
+        Has a doctor or other health professional diagnosed {obo_name} with a severe chronic respiratory disease (Inherited conditions, e.g. cystic fibrosis, Chronic lung diseases)?
 
         Reply
         *1.* YES
@@ -825,7 +839,7 @@ responses:
 
   utter_ask_obo_medical_condition_cardiac:
     - text: |
-        Is {obo_name} currently on chronic medication or receiving treatment for a congenital Cardiac Disease (not corrected by surgery)?
+        Has a doctor or other health professional diagnosed {obo_name} with severe hereditary Cardiac Disease (not corrected by surgery)?
 
         Reply
         *1.* YES
@@ -833,7 +847,8 @@ responses:
 
   utter_ask_obo_medical_condition_immuno:
     - text: |
-        Is {obo_name} currently on chronic medication or receiving treatment for severe immunodeficiency? _This includes HIV infection, cancer (on treatment) or if you are on Immunosuppressive drugs e.g. after a transplant_
+        Has a doctor or other health professional diagnosed {obo_name} with severe immunodeficiency?
+        _This includes HIV infection, cancer treatment or if {obo_name} is on chronic immuno-suppressive medication such as after an organ transplant?_
 
         Reply
         *1.* YES

@@ -481,6 +481,35 @@ class HealthCheckProfileFormTests(TestCase):
         slots = HealthCheckProfileForm.get_all_slots(tracker)
         self.assertNotIn("obo_medical_condition_pregnant", slots)
 
+    def test_validate_medical_condition_pregnant(self):
+        """
+        Should send the additional message if yes
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        form.validate_medical_condition_pregnant("no", dispatcher, tracker, {})
+        self.assertEqual(dispatcher.messages, [])
+
+        dispatcher = CollectingDispatcher()
+        form.validate_medical_condition_pregnant("yes", dispatcher, tracker, {})
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_pregnant_yes")
+
+    def test_validate_obo_medical_condition_pregnant(self):
+        """
+        Should send the additional message if yes
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        form.validate_obo_medical_condition_pregnant("no", dispatcher, tracker, {})
+        self.assertEqual(dispatcher.messages, [])
+
+        form.validate_obo_medical_condition_pregnant("yes", dispatcher, tracker, {})
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_obo_pregnant_yes")
+
 
 @pytest.mark.asyncio
 async def test_validate_profile():

@@ -469,14 +469,39 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             results.update(await utils.get_learner_profile_slots_dict(tracker))
         return results
 
+    def validate_medical_condition_pregnant(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "medical_condition_pregnant", dispatcher, value, YES_NO_DATA
+        )
+        if result["medical_condition_pregnant"] == "yes":
+            dispatcher.utter_message(template="utter_pregnant_yes")
+        return result
+
+    def validate_obo_medical_condition_pregnant(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "obo_medical_condition_pregnant", dispatcher, value, YES_NO_DATA
+        )
+        if result["obo_medical_condition_pregnant"] == "yes":
+            dispatcher.utter_message(template="utter_obo_pregnant_yes")
+        return result
+
     validate_medical_condition_asthma = generic_validator(
         "medical_condition_asthma", YES_NO_DATA
     )
     validate_medical_condition_tb = generic_validator(
         "medical_condition_tb", YES_NO_DATA
-    )
-    validate_medical_condition_pregnant = generic_validator(
-        "medical_condition_pregnant", YES_NO_DATA
     )
     validate_medical_condition_respiratory = generic_validator(
         "medical_condition_respiratory", YES_NO_DATA
@@ -516,9 +541,6 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         validate_medical_condition_asthma
     )
     validate_obo_medical_condition_tb = obo_validator(validate_medical_condition_tb)
-    validate_obo_medical_condition_pregnant = obo_validator(
-        validate_medical_condition_pregnant
-    )
     validate_obo_medical_condition_respiratory = obo_validator(
         validate_medical_condition_respiratory
     )
