@@ -633,14 +633,24 @@ class HealthCheckForm(BaseHealthCheckForm):
                     "school_emis": tracker.get_slot("obo_school_emis"),
                     "profile": tracker.get_slot("profile"),
                     "name": tracker.get_slot("obo_name"),
-                    "asthma": tracker.get_slot("obo_medical_condition_asthma"),
-                    "tb": tracker.get_slot("obo_medical_condition_tb"),
-                    "pregnant": tracker.get_slot("obo_medical_condition_pregnant"),
-                    "resporatory": tracker.get_slot(
-                        "obo_medical_condition_respiratory"
+                    "asthma": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("obo_medical_condition_asthma")
                     ),
-                    "cardiac": tracker.get_slot("obo_medical_condition_cardiac"),
-                    "immuno": tracker.get_slot("obo_medical_condition_immuno"),
+                    "tb": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("obo_medical_condition_tb")
+                    ),
+                    "pregnant": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("obo_medical_condition_pregnant")
+                    ),
+                    "resporatory": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("obo_medical_condition_respiratory")
+                    ),
+                    "cardiac": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("obo_medical_condition_cardiac")
+                    ),
+                    "immuno": self.YES_NO_MAPPING.get(
+                        tracker.get_slot("obo_medical_condition_immuno")
+                    ),
                 },
             }
         # Add the original value for `age` to `data`
@@ -649,12 +659,24 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["school_name"] = tracker.get_slot("school")
         data["data"]["school_emis"] = tracker.get_slot("school_emis")
         data["data"]["profile"] = tracker.get_slot("profile")
-        data["data"]["asthma"] = tracker.get_slot("medical_condition_asthma")
-        data["data"]["tb"] = tracker.get_slot("medical_condition_tb")
-        data["data"]["pregnant"] = tracker.get_slot("medical_condition_pregnant")
-        data["data"]["resporatory"] = tracker.get_slot("medical_condition_respiratory")
-        data["data"]["cardiac"] = tracker.get_slot("medical_condition_cardiac")
-        data["data"]["immuno"] = tracker.get_slot("medical_condition_immuno")
+        data["data"]["asthma"] = self.YES_NO_MAPPING.get(
+            tracker.get_slot("medical_condition_asthma")
+        )
+        data["data"]["tb"] = self.YES_NO_MAPPING.get(
+            tracker.get_slot("medical_condition_tb")
+        )
+        data["data"]["pregnant"] = self.YES_NO_MAPPING.get(
+            tracker.get_slot("medical_condition_pregnant")
+        )
+        data["data"]["resporatory"] = self.YES_NO_MAPPING.get(
+            tracker.get_slot("medical_condition_respiratory")
+        )
+        data["data"]["cardiac"] = self.YES_NO_MAPPING.get(
+            tracker.get_slot("medical_condition_cardiac")
+        )
+        data["data"]["immuno"] = self.YES_NO_MAPPING.get(
+            tracker.get_slot("medical_condition_immuno")
+        )
         return data
 
     def get_risk_data(self, tracker: Tracker) -> Dict:
