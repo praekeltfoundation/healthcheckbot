@@ -27,6 +27,9 @@ YES_NO_DATA = {1: "yes", 2: "no"}
 
 
 class BaseFormAction(FormAction):
+    def name(self) -> Text:
+        return "base_form"
+
     @property
     def yes_no_data(self) -> Dict[int, Text]:
         return YES_NO_DATA
