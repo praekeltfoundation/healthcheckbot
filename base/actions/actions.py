@@ -23,6 +23,8 @@ if config.SENTRY_DSN:
         dsn=config.SENTRY_DSN, integrations=[sentry_logging, SanicIntegration()]
     )
 
+YES_NO_DATA = {1: "yes", 2: "no"}
+
 
 class BaseFormAction(FormAction):
     def name(self) -> Text:
@@ -32,7 +34,7 @@ class BaseFormAction(FormAction):
 
     @property
     def yes_no_data(self) -> Dict[int, Text]:
-        return {1: "yes", 2: "no"}
+        return YES_NO_DATA
 
     @property
     def yes_no_maybe_data(self) -> Dict[int, Text]:

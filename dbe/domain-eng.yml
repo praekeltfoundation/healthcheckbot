@@ -88,6 +88,24 @@ slots:
   medical_condition_cardio:
     type: unfeaturized
     auto_fill: false
+  medical_condition_asthma:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_tb:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_pregnant:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_respiratory:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardiac:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_immuno:
+    type: unfeaturized
+    auto_fill: false
   symptoms_fever:
     type: unfeaturized
     auto_fill: false
@@ -166,6 +184,24 @@ slots:
     type: unfeaturized
     auto_fill: false
   obo_medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_asthma:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_tb:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_pregnant:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_respiratory:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_cardiac:
+    type: unfeaturized
+    auto_fill: false
+  obo_medical_condition_immuno:
     type: unfeaturized
     auto_fill: false
   obo_symptoms_fever:
@@ -371,6 +407,62 @@ responses:
   utter_ask_medical_condition_cardio:
     - text: |
         Has a doctor or other health professional diagnosed you with Cardiovascular (heart) Disease?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_asthma:
+    - text: |
+        Has a doctor or other health professional prescribed chronic medication for Asthma?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_tb:
+    - text: |
+        Has a doctor or any other health professional initiated you on treatment for TB in the past 14 days?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_pregnant:
+    - text: |
+        Has a doctor or other health professional  recently confirmed that you are pregnant? 
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_pregnant_yes:
+    - text: |
+        If you are 27 weeks or less, please consult a healthcare professional for more information regarding how to protect yourself from COVID-19.
+
+        If you are 27 weeks or more, notify your school and consult a healthcare professional for guidance regarding your health.
+
+  utter_ask_medical_condition_respiratory:
+    - text: |
+        Has a doctor or other health professional diagnosed you with a severe chronic respiratory disease (Inherited conditions, e.g. cystic fibrosis, Chronic lung diseases)?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_cardiac:
+    - text: |
+        Has a doctor or other health professional diagnosed you with severe hereditary Cardiac Disease (not corrected by surgery)? 
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_medical_condition_immuno:
+    - text: |
+        Has a doctor or other health professional diagnosed you with severe immunodeficiency?
+        _This includes HIV infection, cancer treatment or if you are on chronic immuno-suppressive medication such as after an organ transplant?_
+
 
         Reply
         *1.* YES
@@ -702,6 +794,61 @@ responses:
   utter_ask_obo_medical_condition_cardio:
     - text: |
         Has a doctor or other health professional diagnosed {obo_name} with Cardiovascular (heart) Disease?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_asthma:
+    - text: |
+        Has a doctor or other health professional prescribed {obo_name} chronic medication for Asthma?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_tb:
+    - text: |
+        Has a doctor or any other health professional initiated {obo_name} on treatment for TB in the past 14 days?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_pregnant:
+    - text: |
+        Has a doctor or other health professional recently confirmed that {obo_name} is pregnant?  
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_obo_pregnant_yes:
+    - text: |
+        If {obo_name} is 27 weeks or less, please consult a healthcare professional for more information regarding how to protect {obo_name} from COVID-19.
+
+        If {obo_name} is 27 weeks or more, notify your school and consult a healthcare professional for guidance regarding {obo_name}'s health.
+
+  utter_ask_obo_medical_condition_respiratory:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with a severe chronic respiratory disease (Inherited conditions, e.g. cystic fibrosis, Chronic lung diseases)?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_cardiac:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with severe hereditary Cardiac Disease (not corrected by surgery)?
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_obo_medical_condition_immuno:
+    - text: |
+        Has a doctor or other health professional diagnosed {obo_name} with severe immunodeficiency?
+        _This includes HIV infection, cancer treatment or if {obo_name} is on chronic immuno-suppressive medication such as after an organ transplant?_
 
         Reply
         *1.* YES

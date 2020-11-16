@@ -85,6 +85,12 @@ class TestHealthCheckForm:
                 "obesity": False,
                 "school_name": "BERGVLIET HIGH SCHOOL",
                 "school_emis": "105310201",
+                "asthma": None,
+                "tb": None,
+                "pregnant": None,
+                "resporatory": None,
+                "cardiac": None,
+                "immuno": None,
                 "profile": "parent",
             },
         }
@@ -167,6 +173,12 @@ class TestHealthCheckForm:
                 "obesity": False,
                 "school_name": "BERGVLIET HIGH SCHOOL",
                 "school_emis": "105310201",
+                "asthma": None,
+                "tb": None,
+                "pregnant": None,
+                "resporatory": None,
+                "cardiac": None,
+                "immuno": None,
                 "profile": "parent",
             },
         }
@@ -250,6 +262,12 @@ class TestHealthCheckForm:
                 "school_name": "BERGVLIET HIGH SCHOOL",
                 "school_emis": "105310201",
                 "profile": "parent",
+                "asthma": None,
+                "tb": None,
+                "pregnant": None,
+                "resporatory": None,
+                "cardiac": None,
+                "immuno": None,
             },
         }
 
@@ -332,6 +350,12 @@ class TestHealthCheckForm:
                 "school_name": "BERGVLIET HIGH SCHOOL",
                 "school_emis": "105310201",
                 "profile": "parent",
+                "asthma": None,
+                "tb": None,
+                "pregnant": None,
+                "resporatory": None,
+                "cardiac": None,
+                "immuno": None,
             },
         }
 

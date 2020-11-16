@@ -132,6 +132,17 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"province": "wc", "province_display": "WESTERN CAPE"}
         )
 
+    def test_generic_validator(self):
+        """
+        Should use the validate_generic with default data
+        """
+        # Use the validate_medical_condition_asthma to test generic validator
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_medical_condition_asthma("2", dispatcher, tracker, {})
+        self.assertEqual(response, {"medical_condition_asthma": "no"})
+
     def test_validate_select_learner_profile(self):
         """
         Should update the slots with the ones in the selected learner profile
@@ -156,6 +167,12 @@ class HealthCheckProfileFormTests(TestCase):
                         "diabetes": False,
                         "hypertension": True,
                         "cardio": False,
+                        "asthma": None,
+                        "tb": None,
+                        "pregnant": None,
+                        "respiratory": None,
+                        "cardiac": None,
+                        "immuno": None,
                     }
                 ]
             },
@@ -189,6 +206,12 @@ class HealthCheckProfileFormTests(TestCase):
                 "obo_medical_condition_diabetes": "no",
                 "obo_medical_condition_hypertension": "yes",
                 "obo_medical_condition_cardio": "no",
+                "obo_medical_condition_asthma": None,
+                "obo_medical_condition_tb": None,
+                "obo_medical_condition_pregnant": None,
+                "obo_medical_condition_respiratory": None,
+                "obo_medical_condition_cardiac": None,
+                "obo_medical_condition_immuno": None,
                 "select_learner_profile": "Thabo",
             },
         )
@@ -247,6 +270,12 @@ class HealthCheckProfileFormTests(TestCase):
                 "medical_condition_diabetes": None,
                 "medical_condition_hypertension": None,
                 "medical_condition_cardio": None,
+                "medical_condition_asthma": None,
+                "medical_condition_tb": None,
+                "medical_condition_pregnant": None,
+                "medical_condition_respiratory": None,
+                "medical_condition_cardiac": None,
+                "medical_condition_immuno": None,
                 "symptoms_fever": None,
                 "symptoms_cough": None,
                 "symptoms_sore_throat": None,
@@ -273,6 +302,12 @@ class HealthCheckProfileFormTests(TestCase):
                 "obo_medical_condition_diabetes": None,
                 "obo_medical_condition_hypertension": None,
                 "obo_medical_condition_cardio": None,
+                "obo_medical_condition_asthma": None,
+                "obo_medical_condition_tb": None,
+                "obo_medical_condition_pregnant": None,
+                "obo_medical_condition_respiratory": None,
+                "obo_medical_condition_cardiac": None,
+                "obo_medical_condition_immuno": None,
                 "obo_symptoms_fever": None,
                 "obo_symptoms_cough": None,
                 "obo_symptoms_sore_throat": None,
@@ -372,8 +407,123 @@ class HealthCheckProfileFormTests(TestCase):
         tracker.slots["obo_school"] = "BERGVLIET HIGH SCHOOL"
         tracker.slots["obo_school_confirm"] = "yes"
         tracker.slots["obo_medical_condition"] = "no"
+        tracker.slots["obo_medical_condition_asthma"] = "no"
+        tracker.slots["obo_medical_condition_tb"] = "no"
+        tracker.slots["obo_medical_condition_respiratory"] = "no"
+        tracker.slots["obo_medical_condition_cardiac"] = "no"
+        tracker.slots["obo_medical_condition_immuno"] = "no"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, [])
+
+    def test_get_all_slots(self):
+        """
+        Should return all the slots that the user needs to complete
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertEqual(
+            slots,
+            [
+                "profile",
+                "age",
+                "gender",
+                "province",
+                "location",
+                "location_confirm",
+                "school",
+                "school_confirm",
+                "medical_condition",
+                "medical_condition_obesity",
+                "medical_condition_diabetes",
+                "medical_condition_hypertension",
+                "medical_condition_cardio",
+            ],
+        )
+
+    def test_get_all_slots_expanded_comorbidities(self):
+        """
+        Learner and parent on-behalf-of profiles should get asked the additional
+        comorbidity questions
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "learner"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("medical_condition_asthma", slots)
+        self.assertIn("medical_condition_tb", slots)
+        self.assertIn("medical_condition_respiratory", slots)
+        self.assertIn("medical_condition_cardiac", slots)
+        self.assertIn("medical_condition_immuno", slots)
+
+        tracker.slots["profile"] = "parent"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("obo_medical_condition_asthma", slots)
+        self.assertIn("obo_medical_condition_tb", slots)
+        self.assertIn("obo_medical_condition_respiratory", slots)
+        self.assertIn("obo_medical_condition_cardiac", slots)
+        self.assertIn("obo_medical_condition_immuno", slots)
+
+        tracker.slots["profile"] = "educator"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertNotIn("medical_condition_asthma", slots)
+        self.assertNotIn("medical_condition_tb", slots)
+        self.assertNotIn("medical_condition_respiratory", slots)
+        self.assertNotIn("medical_condition_cardiac", slots)
+        self.assertNotIn("medical_condition_immuno", slots)
+
+    def test_get_all_slots_pregnant(self):
+        """
+        Pregnancy questions should only be asked for female users over 12 for learner
+        and on-behalf-of
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "learner"
+        tracker.slots["gender"] = "FEMALE"
+        tracker.slots["age"] = "13"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("medical_condition_pregnant", slots)
+
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "parent"
+        tracker.slots["obo_gender"] = "FEMALE"
+        tracker.slots["obo_age"] = "13"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertIn("obo_medical_condition_pregnant", slots)
+
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "parent"
+        tracker.slots["obo_gender"] = "FEMALE"
+        tracker.slots["age"] = "9"
+        slots = HealthCheckProfileForm.get_all_slots(tracker)
+        self.assertNotIn("obo_medical_condition_pregnant", slots)
+
+    def test_validate_medical_condition_pregnant(self):
+        """
+        Should send the additional message if yes
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        form.validate_medical_condition_pregnant("no", dispatcher, tracker, {})
+        self.assertEqual(dispatcher.messages, [])
+
+        dispatcher = CollectingDispatcher()
+        form.validate_medical_condition_pregnant("yes", dispatcher, tracker, {})
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_pregnant_yes")
+
+    def test_validate_obo_medical_condition_pregnant(self):
+        """
+        Should send the additional message if yes
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        form.validate_obo_medical_condition_pregnant("no", dispatcher, tracker, {})
+        self.assertEqual(dispatcher.messages, [])
+
+        form.validate_obo_medical_condition_pregnant("yes", dispatcher, tracker, {})
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_obo_pregnant_yes")
 
 
 @pytest.mark.asyncio
@@ -501,6 +651,12 @@ class HealthCheckFormTests(TestCase):
                     "school_name": "BERGVLIET HIGH SCHOOL",
                     "school_emis": "105310201",
                     "profile": "learner",
+                    "asthma": None,
+                    "tb": None,
+                    "pregnant": None,
+                    "resporatory": None,
+                    "cardiac": None,
+                    "immuno": None,
                 },
             },
         )
@@ -573,6 +729,12 @@ class HealthCheckFormTests(TestCase):
                     "obesity": False,
                     "school_name": "BERGVLIET HIGH SCHOOL",
                     "school_emis": "105310201",
+                    "asthma": None,
+                    "tb": None,
+                    "pregnant": None,
+                    "resporatory": None,
+                    "cardiac": None,
+                    "immuno": None,
                     "profile": "parent",
                 },
             },

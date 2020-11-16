@@ -10,6 +10,7 @@ from whoosh.index import open_dir
 from whoosh.qparser import MultifieldParser, OrGroup
 from whoosh.query import FuzzyTerm, Term
 
+from base.actions.actions import YES_NO_DATA
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
 from base.actions.actions import HealthCheckTermsForm
@@ -47,6 +48,19 @@ def obo_validator(function):
     return call
 
 
+def generic_validator(slot_name, data):
+    def validator(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        return self.validate_generic(slot_name, dispatcher, value, data)
+
+    return validator
+
+
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     SLOTS = ["profile", "age"]
 
@@ -63,18 +77,22 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         mappings = super().slot_mappings()
         mappings["school"] = [self.from_text()]
-        mappings["school_confirm"] = [
-            self.from_entity(entity="number"),
-            self.from_intent(intent="affirm", value="yes"),
-            self.from_intent(intent="deny", value="no"),
-            self.from_text(),
-        ]
-        mappings["confirm_details"] = [
-            self.from_entity(entity="number"),
-            self.from_intent(intent="affirm", value="yes"),
-            self.from_intent(intent="deny", value="no"),
-            self.from_text(),
-        ]
+        for field in [
+            "school_confirm",
+            "confirm_details",
+            "medical_condition_asthma",
+            "medical_condition_tb",
+            "medical_condition_pregnant",
+            "medical_condition_respiratory",
+            "medical_condition_cardiac",
+            "medical_condition_immuno",
+        ]:
+            mappings[field] = [
+                self.from_entity(entity="number"),
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_intent(intent="deny", value="no"),
+                self.from_text(),
+            ]
         mappings["change_details"] = [
             self.from_entity(entity="number"),
             self.from_text(),
@@ -89,9 +107,47 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         return mappings
 
     @classmethod
-    def required_slots(cls, tracker: Tracker) -> List[Text]:
-        slots = super().required_slots(tracker)
-        if tracker.get_slot("returning_user") == "yes":
+    def get_all_slots(cls, tracker: Tracker) -> List[Text]:
+        slots = cls.SLOTS + cls.PERSISTED_SLOTS
+        if (
+            tracker.get_slot("medical_condition") != "no"
+            and tracker.get_slot("obo_medical_condition") != "no"
+        ):
+            slots += cls.CONDITIONS
+        if (
+            tracker.get_slot("profile") == "learner"
+            or tracker.get_slot("profile") == "parent"
+        ):
+            slots += ["medical_condition_asthma", "medical_condition_tb"]
+            try:
+                if (
+                    int(tracker.get_slot("age")) > 12
+                    and tracker.get_slot("gender") == "FEMALE"
+                ):
+                    slots += ["medical_condition_pregnant"]
+            except (TypeError, ValueError):
+                pass
+            try:
+                if (
+                    int(tracker.get_slot("obo_age")) > 12
+                    and tracker.get_slot("obo_gender") == "FEMALE"
+                ):
+                    slots += ["medical_condition_pregnant"]
+            except (TypeError, ValueError):
+                pass
+
+            slots += [
+                "medical_condition_respiratory",
+                "medical_condition_cardiac",
+                "medical_condition_immuno",
+            ]
+
+        # Use on behalf of slots for parent profile
+        if tracker.get_slot("profile") == "parent":
+            slots = ["select_learner_profile", "profile", "obo_name"] + [
+                f"obo_{s}" for s in slots[1:]
+            ]
+        elif tracker.get_slot("returning_user") == "yes":
             if tracker.get_slot("change_details"):
                 slots = [
                     "province",
@@ -103,15 +159,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 slots = ["change_details"] + slots
             elif not tracker.get_slot("confirm_details"):
                 slots = ["confirm_details"] + slots
-        # Use on behalf of slots for parent profile
-        if tracker.get_slot("profile") == "parent":
-            slots = ["select_learner_profile", "profile", "obo_name", "obo_age"] + [
-                f"obo_{s}" for s in cls.PERSISTED_SLOTS
-            ]
-            if tracker.get_slot("obo_medical_condition") != "no":
-                slots += [f"obo_{s}" for s in cls.CONDITIONS]
+        return slots
 
-        for slot in slots:
+    @classmethod
+    def required_slots(cls, tracker: Tracker) -> List[Text]:
+        for slot in cls.get_all_slots(tracker):
             if not tracker.get_slot(slot):
                 return [slot]
         return []
@@ -151,6 +203,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 "obo_medical_condition_diabetes": None,
                 "obo_medical_condition_hypertension": None,
                 "obo_medical_condition_cardio": None,
+                "obo_medical_condition_asthma": None,
+                "obo_medical_condition_tb": None,
+                "obo_medical_condition_pregnant": None,
+                "obo_medical_condition_respiratory": None,
+                "obo_medical_condition_cardiac": None,
+                "obo_medical_condition_immuno": None,
             }
         if user_answer:
             [profile] = filter(
@@ -190,6 +248,22 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                     ),
                     "obo_medical_condition_cardio": yes_no_mappings.get(
                         profile["cardio"]
+                    ),
+                    "obo_medical_condition_asthma": yes_no_mappings.get(
+                        profile["asthma"]
+                    ),
+                    "obo_medical_condition_tb": yes_no_mappings.get(profile["tb"]),
+                    "obo_medical_condition_pregnant": yes_no_mappings.get(
+                        profile["pregnant"]
+                    ),
+                    "obo_medical_condition_respiratory": yes_no_mappings.get(
+                        profile["respiratory"]
+                    ),
+                    "obo_medical_condition_cardiac": yes_no_mappings.get(
+                        profile["cardiac"]
+                    ),
+                    "obo_medical_condition_immuno": yes_no_mappings.get(
+                        profile["immuno"]
                     ),
                 }
             )
@@ -250,6 +324,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 "medical_condition_diabetes": None,
                 "medical_condition_hypertension": None,
                 "medical_condition_cardio": None,
+                "medical_condition_asthma": None,
+                "medical_condition_tb": None,
+                "medical_condition_pregnant": None,
+                "medical_condition_respiratory": None,
+                "medical_condition_cardiac": None,
+                "medical_condition_immuno": None,
                 "symptoms_fever": None,
                 "symptoms_cough": None,
                 "symptoms_sore_throat": None,
@@ -276,6 +356,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 "obo_medical_condition_diabetes": None,
                 "obo_medical_condition_hypertension": None,
                 "obo_medical_condition_cardio": None,
+                "obo_medical_condition_asthma": None,
+                "obo_medical_condition_tb": None,
+                "obo_medical_condition_pregnant": None,
+                "obo_medical_condition_respiratory": None,
+                "obo_medical_condition_cardiac": None,
+                "obo_medical_condition_immuno": None,
                 "obo_symptoms_fever": None,
                 "obo_symptoms_cough": None,
                 "obo_symptoms_sore_throat": None,
@@ -385,6 +471,50 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             results.update(await utils.get_learner_profile_slots_dict(tracker))
         return results
 
+    def validate_medical_condition_pregnant(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "medical_condition_pregnant", dispatcher, value, YES_NO_DATA
+        )
+        if result["medical_condition_pregnant"] == "yes":
+            dispatcher.utter_message(template="utter_pregnant_yes")
+        return result
+
+    def validate_obo_medical_condition_pregnant(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "obo_medical_condition_pregnant", dispatcher, value, YES_NO_DATA
+        )
+        if result["obo_medical_condition_pregnant"] == "yes":
+            dispatcher.utter_message(template="utter_obo_pregnant_yes")
+        return result
+
+    validate_medical_condition_asthma = generic_validator(
+        "medical_condition_asthma", YES_NO_DATA
+    )
+    validate_medical_condition_tb = generic_validator(
+        "medical_condition_tb", YES_NO_DATA
+    )
+    validate_medical_condition_respiratory = generic_validator(
+        "medical_condition_respiratory", YES_NO_DATA
+    )
+    validate_medical_condition_cardiac = generic_validator(
+        "medical_condition_cardiac", YES_NO_DATA
+    )
+    validate_medical_condition_immuno = generic_validator(
+        "medical_condition_cardiac", YES_NO_DATA
+    )
+
     validate_obo_age = obo_validator(validate_age)
     validate_obo_gender = obo_validator(BaseHealthCheckProfileForm.validate_gender)
     validate_obo_province = obo_validator(BaseHealthCheckProfileForm.validate_province)
@@ -408,6 +538,19 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     )
     validate_obo_medical_condition_cardio = obo_validator(
         BaseHealthCheckProfileForm.validate_medical_condition_cardio
+    )
+    validate_obo_medical_condition_asthma = obo_validator(
+        validate_medical_condition_asthma
+    )
+    validate_obo_medical_condition_tb = obo_validator(validate_medical_condition_tb)
+    validate_obo_medical_condition_respiratory = obo_validator(
+        validate_medical_condition_respiratory
+    )
+    validate_obo_medical_condition_cardiac = obo_validator(
+        validate_medical_condition_cardiac
+    )
+    validate_obo_medical_condition_immuno = obo_validator(
+        validate_medical_condition_immuno
     )
 
 
@@ -490,6 +633,14 @@ class HealthCheckForm(BaseHealthCheckForm):
                     "school_emis": tracker.get_slot("obo_school_emis"),
                     "profile": tracker.get_slot("profile"),
                     "name": tracker.get_slot("obo_name"),
+                    "asthma": tracker.get_slot("obo_medical_condition_asthma"),
+                    "tb": tracker.get_slot("obo_medical_condition_tb"),
+                    "pregnant": tracker.get_slot("obo_medical_condition_pregnant"),
+                    "resporatory": tracker.get_slot(
+                        "obo_medical_condition_respiratory"
+                    ),
+                    "cardiac": tracker.get_slot("obo_medical_condition_cardiac"),
+                    "immuno": tracker.get_slot("obo_medical_condition_immuno"),
                 },
             }
         # Add the original value for `age` to `data`
@@ -498,6 +649,12 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["school_name"] = tracker.get_slot("school")
         data["data"]["school_emis"] = tracker.get_slot("school_emis")
         data["data"]["profile"] = tracker.get_slot("profile")
+        data["data"]["asthma"] = tracker.get_slot("medical_condition_asthma")
+        data["data"]["tb"] = tracker.get_slot("medical_condition_tb")
+        data["data"]["pregnant"] = tracker.get_slot("medical_condition_pregnant")
+        data["data"]["resporatory"] = tracker.get_slot("medical_condition_respiratory")
+        data["data"]["cardiac"] = tracker.get_slot("medical_condition_cardiac")
+        data["data"]["immuno"] = tracker.get_slot("medical_condition_immuno")
         return data
 
     def get_risk_data(self, tracker: Tracker) -> Dict:
@@ -563,6 +720,14 @@ class ActionSessionStart(Action):
             + HealthCheckProfileForm.CONDITIONS
             + ["location_coords", "city_location_coords"]
             + ["school", "school_confirm", "school_emis", "profile"]
+            + [
+                "medical_condition_asthma",
+                "medical_condition_tb",
+                "medical_condition_pregnant",
+                "medical_condition_respiratory",
+                "medical_condition_cardiac",
+                "medical_condition_immuno",
+            ]
         )
         for slot in carry_over_slots:
             actions.append(SlotSet(slot, tracker.get_slot(slot)))
