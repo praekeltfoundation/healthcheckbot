@@ -414,7 +414,7 @@ responses:
 
   utter_ask_medical_condition_asthma:
     - text: |
-        Has a doctor or other health professional prescribed  chronic medication for Asthma?
+        Has a doctor or other health professional prescribed chronic medication for Asthma?
 
         Reply
         *1.* YES
