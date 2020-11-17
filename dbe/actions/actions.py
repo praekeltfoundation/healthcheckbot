@@ -642,7 +642,7 @@ class HealthCheckForm(BaseHealthCheckForm):
                     "pregnant": self.YES_NO_MAPPING.get(
                         tracker.get_slot("obo_medical_condition_pregnant")
                     ),
-                    "resporatory": self.YES_NO_MAPPING.get(
+                    "respiratory": self.YES_NO_MAPPING.get(
                         tracker.get_slot("obo_medical_condition_respiratory")
                     ),
                     "cardiac": self.YES_NO_MAPPING.get(
@@ -668,7 +668,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["pregnant"] = self.YES_NO_MAPPING.get(
             tracker.get_slot("medical_condition_pregnant")
         )
-        data["data"]["resporatory"] = self.YES_NO_MAPPING.get(
+        data["data"]["respiratory"] = self.YES_NO_MAPPING.get(
             tracker.get_slot("medical_condition_respiratory")
         )
         data["data"]["cardiac"] = self.YES_NO_MAPPING.get(
