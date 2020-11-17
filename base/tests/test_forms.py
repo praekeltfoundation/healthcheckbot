@@ -247,37 +247,18 @@ class TestHealthCheckProfileForm:
             SlotSet("location", "Cape Town"),
         ]
 
-    @respx.mock
     @pytest.mark.asyncio
     async def test_validate_location_google_places(self):
         """
         If there's are google places API credentials, then do a lookup
         """
         base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
-        querystring = urlencode(
-            {
-                "key": "test_key",
-                "input": "Cape Town",
-                "language": "en",
-                "inputtype": "textquery",
-                "fields": "formatted_address,geometry",
-            }
-        )
-        request = respx.get(
-            "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?"
-            f"{querystring}",
-            content=json.dumps(
-                {
-                    "candidates": [
-                        {
-                            "formatted_address": "Cape Town, South Africa",
-                            "geometry": {"location": {"lat": 1.23, "lng": 4.56}},
-                        }
-                    ]
-                }
-            ),
-        )
         form = HealthCheckProfileForm()
+        form.places_lookup = utils.AsyncMock()
+        form.places_lookup.return_value = {
+            "formatted_address": "Cape Town, South Africa",
+            "geometry": {"location": {"lat": 1.23, "lng": 4.56}},
+        }
 
         tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
 
@@ -286,32 +267,18 @@ class TestHealthCheckProfileForm:
             SlotSet("location", "Cape Town, South Africa"),
             SlotSet("city_location_coords", "+01.23+004.56/"),
         ]
-        assert request.called
 
         base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
 
-    @respx.mock
     @pytest.mark.asyncio
     async def test_validate_location_google_places_no_results(self):
         """
         If there are no results, then display error message and ask again
         """
         base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
-        querystring = urlencode(
-            {
-                "key": "test_key",
-                "input": "Cape Town",
-                "language": "en",
-                "inputtype": "textquery",
-                "fields": "formatted_address,geometry",
-            }
-        )
-        request = respx.get(
-            "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?"
-            f"{querystring}",
-            content=json.dumps({"candidates": []}),
-        )
         form = HealthCheckProfileForm()
+        form.places_lookup = utils.AsyncMock()
+        form.places_lookup.return_value = None
 
         tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
 
@@ -320,10 +287,121 @@ class TestHealthCheckProfileForm:
         assert events == [
             SlotSet("location", None),
         ]
-        assert request.called
 
         [message] = dispatcher.messages
         assert message["template"] == "utter_incorrect_location"
+
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
+
+    @pytest.mark.asyncio
+    async def test_validate_location_google_places_error(self):
+        """
+        Errors should be retried 3 times
+        """
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
+        form = HealthCheckProfileForm()
+        form.places_lookup = utils.AsyncMock()
+        form.places_lookup.side_effect = Exception()
+
+        tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
+
+        dispatcher = CollectingDispatcher()
+        events = await form.validate(dispatcher, tracker, {})
+        assert events == [
+            SlotSet("location", None),
+        ]
+
+        [message] = dispatcher.messages
+        assert message["template"] == "utter_incorrect_location"
+
+        assert form.places_lookup.call_count == 3
+
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
+
+    @respx.mock
+    @pytest.mark.asyncio
+    async def test_places_lookup(self):
+        """
+        Should make the relevant requests to the google places autocomplete API
+        """
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
+        form = HealthCheckProfileForm()
+
+        querystring = urlencode(
+            {
+                "key": "test_key",
+                "input": "Cape Town",
+                "sessiontoken": "sessiontoken",
+                "language": "en",
+                "components": "country:za",
+            }
+        )
+        request1 = respx.get(
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
+            f"{querystring}",
+            content=json.dumps({"predictions": [{"place_id": "placeid"}]}),
+        )
+        querystring = urlencode(
+            {
+                "key": "test_key",
+                "place_id": "placeid",
+                "sessiontoken": "sessiontoken",
+                "language": "en",
+                "fields": "formatted_address,geometry",
+            }
+        )
+        request2 = respx.get(
+            "https://maps.googleapis.com/maps/api/place/details/json?" f"{querystring}",
+            content=json.dumps(
+                {
+                    "result": {
+                        "formatted_address": "Cape Town, South Africa",
+                        "geometry": {"location": {"lat": 1.23, "lng": 4.56}},
+                    }
+                }
+            ),
+        )
+
+        async with httpx.Client() as client:
+            result = await form.places_lookup(client, "Cape Town", "sessiontoken")
+
+        assert result == {
+            "formatted_address": "Cape Town, South Africa",
+            "geometry": {"location": {"lat": 1.23, "lng": 4.56}},
+        }
+        assert request1.called
+        assert request2.called
+
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
+
+    @respx.mock
+    @pytest.mark.asyncio
+    async def test_places_lookup_no_results(self):
+        """
+        If there are no results, should return None
+        """
+        base.actions.actions.config.GOOGLE_PLACES_API_KEY = "test_key"
+        form = HealthCheckProfileForm()
+
+        querystring = urlencode(
+            {
+                "key": "test_key",
+                "input": "Cape Town",
+                "sessiontoken": "sessiontoken",
+                "language": "en",
+                "components": "country:za",
+            }
+        )
+        request = respx.get(
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json?"
+            f"{querystring}",
+            content=json.dumps({"predictions": []}),
+        )
+        async with httpx.Client() as client:
+            result = await form.places_lookup(client, "Cape Town", "sessiontoken")
+
+        assert result is None
+        assert request.called
 
         base.actions.actions.config.GOOGLE_PLACES_API_KEY = None
 

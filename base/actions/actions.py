@@ -313,6 +313,38 @@ class HealthCheckProfileForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
 
+    async def places_lookup(self, client, search_text, session_token):
+        querystring = urlencode(
+            {
+                "key": config.GOOGLE_PLACES_API_KEY,
+                "input": search_text,
+                "sessiontoken": session_token,
+                "language": "en",
+                "components": "country:za",
+            }
+        )
+        url = (
+            "https://maps.googleapis.com/maps/api/place/autocomplete/json"
+            f"?{querystring}"
+        )
+        response = (await client.get(url)).json()
+        if not response["predictions"]:
+            return None
+        place_id = response["predictions"][0]["place_id"]
+
+        querystring = urlencode(
+            {
+                "key": config.GOOGLE_PLACES_API_KEY,
+                "place_id": place_id,
+                "sessiontoken": session_token,
+                "language": "en",
+                "fields": "formatted_address,geometry",
+            }
+        )
+        url = f"https://maps.googleapis.com/maps/api/place/details/json?{querystring}"
+        response = (await client.get(url)).json()
+        return response["result"]
+
     async def validate_location(
         self,
         value: Text,
@@ -345,15 +377,7 @@ class HealthCheckProfileForm(BaseFormAction):
                 "location": value,
             }
 
-        querystring = urlencode(
-            {
-                "key": config.GOOGLE_PLACES_API_KEY,
-                "input": value,
-                "language": "en",
-                "inputtype": "textquery",
-                "fields": "formatted_address,geometry",
-            }
-        )
+        session_token = uuid.uuid4().hex
 
         if hasattr(httpx, "AsyncClient"):
             # from httpx>=0.11.0, the async client is a different class
@@ -362,25 +386,23 @@ class HealthCheckProfileForm(BaseFormAction):
             HTTPXClient = getattr(httpx, "Client")
 
         async with HTTPXClient() as client:
-            response = await client.get(
-                (
-                    f"https://maps.googleapis.com"
-                    f"/maps/api/place/findplacefromtext/json?{querystring}"
-                )
-            )
-            location = response.json()
-            if location["candidates"]:
-                formatted_address = location["candidates"][0]["formatted_address"]
-                geometry = location["candidates"][0]["geometry"]["location"]
-                latitude = geometry["lat"]
-                longitude = geometry["lng"]
-                return {
-                    "location": formatted_address,
-                    "city_location_coords": self.format_location(latitude, longitude),
-                }
-            else:
+            location = None
+            for _ in range(3):
+                try:
+                    location = await self.places_lookup(client, value, session_token)
+                    break
+                except Exception:
+                    pass
+            if not location:
                 dispatcher.utter_message(template="utter_incorrect_location")
                 return {"location": None}
+            geometry = location["geometry"]["location"]
+            return {
+                "location": location["formatted_address"],
+                "city_location_coords": self.format_location(
+                    geometry["lat"], geometry["lng"]
+                ),
+            }
 
     def validate_location_confirm(
         self,
