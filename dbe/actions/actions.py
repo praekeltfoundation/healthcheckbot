@@ -512,7 +512,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "medical_condition_cardiac", YES_NO_DATA
     )
     validate_medical_condition_immuno = generic_validator(
-        "medical_condition_cardiac", YES_NO_DATA
+        "medical_condition_immuno", YES_NO_DATA
     )
 
     validate_obo_age = obo_validator(validate_age)
