@@ -121,7 +121,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             slots += ["medical_condition_asthma", "medical_condition_tb"]
             try:
                 if (
-                    int(tracker.get_slot("age")) > 12
+                    int(tracker.get_slot("age")) >= 12
                     and tracker.get_slot("gender") == "FEMALE"
                 ):
                     slots += ["medical_condition_pregnant"]
@@ -129,7 +129,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 pass
             try:
                 if (
-                    int(tracker.get_slot("obo_age")) > 12
+                    int(tracker.get_slot("obo_age")) >= 12
                     and tracker.get_slot("obo_gender") == "FEMALE"
                 ):
                     slots += ["medical_condition_pregnant"]
