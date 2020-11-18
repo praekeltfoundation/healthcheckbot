@@ -390,7 +390,7 @@ responses:
 
   utter_ask_medical_condition_diabetes:
     - text: |
-        Has a doctor or other health professional diagnosed you with Diabetes (blood sugar)?
+        Has a doctor or other health professional diagnosed you with Diabetes (Sugar Diabetes)? 
 
         Reply
         *1.* YES
@@ -430,7 +430,7 @@ responses:
 
   utter_ask_medical_condition_pregnant:
     - text: |
-        Has a doctor or other health professional  recently confirmed that you are pregnant? 
+        Has a doctor or other health professional recently confirmed that you are pregnant? 
 
         Reply
         *1.* YES
@@ -462,7 +462,6 @@ responses:
     - text: |
         Has a doctor or other health professional diagnosed you with severe immunodeficiency?
         _This includes HIV infection, cancer treatment or if you are on chronic immuno-suppressive medication such as after an organ transplant?_
-
 
         Reply
         *1.* YES
@@ -777,7 +776,7 @@ responses:
 
   utter_ask_obo_medical_condition_diabetes:
     - text: |
-        Has a doctor or other health professional diagnosed {obo_name} with Diabetes (Blood sugar)?
+        Has a doctor or other health professional diagnosed {obo_name} with Diabetes (Sugar Diabetes)?
 
         Reply
         *1.* YES
