@@ -334,6 +334,7 @@ class TestHealthCheckProfileForm:
                 "sessiontoken": "sessiontoken",
                 "language": "en",
                 "components": "country:za",
+                "location": "-33.2277918,21.8568586",
             }
         )
         request1 = respx.get(
@@ -363,7 +364,7 @@ class TestHealthCheckProfileForm:
         )
 
         async with httpx.Client() as client:
-            result = await form.places_lookup(client, "Cape Town", "sessiontoken")
+            result = await form.places_lookup(client, "Cape Town", "sessiontoken", "wc")
 
         assert result == {
             "formatted_address": "Cape Town, South Africa",
@@ -390,6 +391,7 @@ class TestHealthCheckProfileForm:
                 "sessiontoken": "sessiontoken",
                 "language": "en",
                 "components": "country:za",
+                "location": "-33.2277918,21.8568586",
             }
         )
         request = respx.get(
@@ -398,7 +400,7 @@ class TestHealthCheckProfileForm:
             content=json.dumps({"predictions": []}),
         )
         async with httpx.Client() as client:
-            result = await form.places_lookup(client, "Cape Town", "sessiontoken")
+            result = await form.places_lookup(client, "Cape Town", "sessiontoken", "wc")
 
         assert result is None
         assert request.called

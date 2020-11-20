@@ -2,11 +2,12 @@ import json
 
 import pytest
 import respx
+from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
 import base.actions.actions
 from base.tests import utils
-from dbe.actions.actions import HealthCheckForm
+from dbe.actions.actions import HealthCheckForm, HealthCheckProfileForm
 
 
 class TestHealthCheckForm:
@@ -361,3 +362,34 @@ class TestHealthCheckForm:
 
         base.actions.actions.config.EVENTSTORE_URL = None
         base.actions.actions.config.EVENTSTORE_TOKEN = None
+
+
+class TestHealthCheckProfileForm:
+    def test_get_province(self):
+        """
+        Should return obo province if obo profile, otherwise province
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"profile": "parent", "obo_province": "wc"},
+            None,
+            [],
+            False,
+            None,
+            None,
+            None,
+        )
+        assert form.get_province(tracker) == "wc"
+
+        tracker = Tracker(
+            "27820001001",
+            {"profile": "learner", "province": "wc"},
+            None,
+            [],
+            False,
+            None,
+            None,
+            None,
+        )
+        assert form.get_province(tracker) == "wc"

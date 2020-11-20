@@ -499,6 +499,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             dispatcher.utter_message(template="utter_obo_pregnant_yes")
         return result
 
+    def get_province(self, tracker):
+        if tracker.get_slot("profile") == "parent":
+            return tracker.get_slot("obo_province")
+        return tracker.get_slot("province")
+
     validate_medical_condition_asthma = generic_validator(
         "medical_condition_asthma", YES_NO_DATA
     )
