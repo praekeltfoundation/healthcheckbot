@@ -551,7 +551,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        Well done for staying healthy. Stay safe and protect yourself and others from COVID-19.
+        Well done for staying healthy. Stay safe, protect your school from COVID-19 by always wearing a mask and remember to always keep a spare mask in your school bag.
 
         Thank you for answering all questions.
 
@@ -594,7 +594,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        Well done for taking the risk assessment. Stay safe and continue to monitor your health.
+        Well done for taking the risk assessment. Stay safe, protect your school from COVID-19 by always wearing a mask and remember to always keep a spare mask in your school bag.
 
         *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck every day to monitor your symptoms.*
 
@@ -641,6 +641,8 @@ responses:
         Risk Level: High
         Date Issued: {issued}
         Expiry date: {expired}
+
+        Stay safe, protect your school from COVID-19 by always wearing a mask and remember to always keep a spare mask in your school bag.
 
         *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
 
@@ -939,6 +941,8 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
+        Well done for staying healthy. Stay safe, protect their school from COVID-19 by always reminding them to wear a mask and to always keep a spare mask in their school bag.
+
         Thank you for answering all questions.
 
         Based on {obo_name}'s responses, they are at low risk of having COVID-19. Please continue to practice social distancing and proper hand sanitising.
@@ -960,7 +964,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        Well done for taking the risk assessment on behalf of [Child's name]. Stay safe and continue to monitor their health.
+        Well done for taking the risk assessment on behalf of {obo_name}. Stay safe, protect their school from COVID-19 by always reminding them to wear a mask and to always keep a spare mask in their school bag.
 
         *Based on {obo_name}'s responses, we recommend that they self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor their symptoms.*
 
@@ -984,6 +988,8 @@ responses:
         Risk Level: High
         Date Issued: {issued}
         Expiry date: {expired}
+
+        Stay safe, protect their school from COVID-19 by always reminding them to wear a mask and to always keep a spare mask in their school bag.
 
         *Based on your responses, {obo_name} may be eligible for testing to find out if they are infected with COVID-19.*
 
