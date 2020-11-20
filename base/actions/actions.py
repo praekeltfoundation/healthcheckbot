@@ -313,7 +313,18 @@ class HealthCheckProfileForm(BaseFormAction):
     ) -> Dict[Text, Optional[Text]]:
         return self.validate_generic("province", dispatcher, value, self.province_data)
 
-    async def places_lookup(self, client, search_text, session_token):
+    async def places_lookup(self, client, search_text, session_token, province):
+        locationbias = {
+            "ec": "-32.2968402,26.419389",
+            "fs": "-28.4541105,26.7967849",
+            "gt": "-26.2707593,28.1122679",
+            "lp": "-23.4012946,29.4179324",
+            "mp": "-25.565336,30.5279096",
+            "nc": "-29.0466808,21.8568586",
+            "nl": "-28.5305539,30.8958242",
+            "nw": "-26.6638599,25.2837585",
+            "wc": "-33.2277918,21.8568586",
+        }[province]
         querystring = urlencode(
             {
                 "key": config.GOOGLE_PLACES_API_KEY,
@@ -321,6 +332,7 @@ class HealthCheckProfileForm(BaseFormAction):
                 "sessiontoken": session_token,
                 "language": "en",
                 "components": "country:za",
+                "location": locationbias,
             }
         )
         url = (
@@ -344,6 +356,9 @@ class HealthCheckProfileForm(BaseFormAction):
         url = f"https://maps.googleapis.com/maps/api/place/details/json?{querystring}"
         response = (await client.get(url)).json()
         return response["result"]
+
+    def get_province(self, tracker):
+        return tracker.get_slot("province")
 
     async def validate_location(
         self,
@@ -378,6 +393,7 @@ class HealthCheckProfileForm(BaseFormAction):
             }
 
         session_token = uuid.uuid4().hex
+        province = self.get_province(tracker)
 
         if hasattr(httpx, "AsyncClient"):
             # from httpx>=0.11.0, the async client is a different class
@@ -389,7 +405,9 @@ class HealthCheckProfileForm(BaseFormAction):
             location = None
             for _ in range(3):
                 try:
-                    location = await self.places_lookup(client, value, session_token)
+                    location = await self.places_lookup(
+                        client, value, session_token, province
+                    )
                     break
                 except Exception:
                     pass
