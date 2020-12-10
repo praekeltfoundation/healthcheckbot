@@ -264,3 +264,34 @@ sebotha street house no:586
 - Pie Retief
 - Tokoza  everest
 - Ubongo
+- Mbuyiselo high school
+- Cornhill
+- Redhill
+- Kwamncane high school
+- Amangwane high school
+- MMISO HIGH
+- Gcewu High School
+- Msinyane high school
+- Warena
+- Mbongeni high school
+- Mdumezulu area
+- Thanduxolo special school
+- HTS TOM NAUDE THS
+- MOKUTU HIGH
+- Retreat
+- Phiphidi next to she'll garage
+- Mosel
+- Im at the MUCPP day hospital now
+- Centurion
+- Heideveld
+- Messionveli
+- Hopetonw
+- The hill
+- Forest hill
+- St helena
+- PENFORD
+- Ngonyameni
+- Upington progress
+- Wellington
+- Humansdorp new houses
+- Hillside
