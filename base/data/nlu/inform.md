@@ -58,3 +58,6 @@ base/data/lookup_tables/provinces.txt
 - [1](number) st
 - [2](number) w
 - 18__39
+- Nghomu nghomu
+- shortness of breath
+- Nauseous ,headache n fever mean covid?

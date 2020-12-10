@@ -184,3 +184,11 @@ In addition to Friday, the department recorded 2,643 new cases on Thursday and 1
 - I'm good
 - Have scoliosis and arthritis
 - Uhhhhj
+- Hellooo
+- Check srd sassa payment
+- PRESIDENT'S MONDAY ADRESS
+- Check the no.in Oudtshoorn covid cases?
+- Are having sore eyes also a symptom of COVID-19
+- How much is the test
+- How much we will earn for child social grand
+- Check my payment for the unemployment relief funds
