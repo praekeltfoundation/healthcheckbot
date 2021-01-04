@@ -798,7 +798,7 @@ class HealthCheckFormTests(TestCase):
     @mock.patch("dbe.actions.actions.datetime")
     def test_send_risk_to_user_support_profile(self, dt):
         """
-        The message to the user has the relevant variables filled, and use the parent
+        The message to the user has the relevant variables filled, and use the support
         template
         """
         form = HealthCheckForm()
