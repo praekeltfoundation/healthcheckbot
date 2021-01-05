@@ -7,7 +7,7 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from whoosh.index import open_dir
-from whoosh.qparser import MultifieldParser, OrGroup
+from whoosh.qparser import MultifieldParser, OrGroup, QueryParser
 from whoosh.query import FuzzyTerm, Term
 
 from base.actions.actions import YES_NO_DATA
@@ -395,10 +395,17 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
     ) -> Dict[Text, Optional[Text]]:
         if value and isinstance(value, str) and value.strip().lower() == "other":
             return {"school": "OTHER", "school_emis": None, "school_confirm": "yes"}
-        ix = open_dir("dbe/actions/emis_index")
-        parser = MultifieldParser(
-            ["name", "emis"], ix.schema, termclass=FuzzyTerm, group=OrGroup
-        )
+
+        if tracker.get_slot("profile") in ["marker", "exam_assistant"]:
+            ix = open_dir("dbe/actions/marking_centre_index")
+
+            parser = QueryParser("name", ix.schema, termclass=FuzzyTerm)
+        else:
+            ix = open_dir("dbe/actions/emis_index")
+
+            parser = MultifieldParser(
+                ["name", "emis"], ix.schema, termclass=FuzzyTerm, group=OrGroup
+            )
         query = parser.parse(value)
 
         province = tracker.get_slot("obo_province") or tracker.get_slot("province")
@@ -409,7 +416,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 result = results[0]
                 return {
                     "school": result["name"],
-                    "school_emis": result["emis"],
+                    "school_emis": result.get("emis"),
                 }
             else:
                 dispatcher.utter_message(template="utter_incorrect_school")
