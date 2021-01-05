@@ -34,6 +34,8 @@ PROFILE_DISPLAY = {
     "parent": "Parents / Guardian on behalf of learner",
     "actual_parent": "Parent",
     "support": "Support or Admin staff",
+    "marker": "Marker",
+    "exam_assistant": "Exam Assistant (EA)",
 }
 
 
@@ -706,7 +708,7 @@ class HealthCheckForm(BaseHealthCheckForm):
             template = f"utter_obo_risk_{risk}"
         elif tracker.get_slot("profile") == "actual_parent":
             template = f"utter_risk_{risk}_parent"
-        elif tracker.get_slot("profile") == "support":
+        elif tracker.get_slot("profile") in ["support", "marker", "exam_assistant"]:
             template = f"utter_risk_{risk}_support"
         # ZA timezone
         issued = datetime.now(tz=timezone(timedelta(hours=2)))

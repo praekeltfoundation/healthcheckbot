@@ -283,6 +283,8 @@ responses:
           *3.* Parents / Guardian on behalf of learner
           *4.* Parent
           *5.* Support or Admin staff
+          *6.* Marker
+          *7.* Exam Assistant (EA)
 
   utter_more_terms:
       - text: |

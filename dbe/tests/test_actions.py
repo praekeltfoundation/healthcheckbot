@@ -814,6 +814,44 @@ class HealthCheckFormTests(TestCase):
         self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
         self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
 
+    @mock.patch("dbe.actions.actions.datetime")
+    def test_send_risk_to_user_marker_profile(self, dt):
+        """
+        The message to the user has the relevant variables filled, and use the support
+        template
+        """
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        dt.now.return_value = datetime(
+            2020, 1, 2, 3, 4, 5, tzinfo=timezone(timedelta(hours=2))
+        )
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "marker"
+        form.send_risk_to_user(dispatcher, "low", tracker)
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_risk_low_support")
+        self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
+        self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
+
+    @mock.patch("dbe.actions.actions.datetime")
+    def test_send_risk_to_user_masrker_profile(self, dt):
+        """
+        The message to the user has the relevant variables filled, and use the support
+        template
+        """
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        dt.now.return_value = datetime(
+            2020, 1, 2, 3, 4, 5, tzinfo=timezone(timedelta(hours=2))
+        )
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "exam_assistant"
+        form.send_risk_to_user(dispatcher, "low", tracker)
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_risk_low_support")
+        self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
+        self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
+
     def test_map_age(self):
         """
         Should map to one of the age buckets
