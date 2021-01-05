@@ -708,7 +708,12 @@ class HealthCheckForm(BaseHealthCheckForm):
             template = f"utter_obo_risk_{risk}"
         elif tracker.get_slot("profile") == "actual_parent":
             template = f"utter_risk_{risk}_parent"
-        elif tracker.get_slot("profile") in ["support", "marker", "exam_assistant"]:
+        elif tracker.get_slot("profile") in [
+            "support",
+            "marker",
+            "exam_assistant",
+            "educator",
+        ]:
             template = f"utter_risk_{risk}_support"
         # ZA timezone
         issued = datetime.now(tz=timezone(timedelta(hours=2)))
