@@ -3,3 +3,5 @@ learner
 parent
 actual_parent
 support
+marker
+exam_assistant
