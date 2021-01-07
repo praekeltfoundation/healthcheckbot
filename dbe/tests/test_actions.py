@@ -90,6 +90,27 @@ class HealthCheckProfileFormTests(TestCase):
         [message] = dispatcher.messages
         self.assertEqual(message["template"], "utter_incorrect_school")
 
+    def test_validate_school_no_results_marker(self):
+        """
+        Returns error message and clears value for province
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"province": "gt", "profile": "marker"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_school("bergvleet", dispatcher, tracker, {})
+        self.assertEqual(response, {"school": None, "province": None})
+        [message] = dispatcher.messages
+        self.assertEqual(message["template"], "utter_incorrect_school_marker")
+
     def test_validate_school_confirm_no(self):
         """
         Try again getting the name of the school
