@@ -551,6 +551,14 @@ async def test_validate_profile():
         "facility_phrase_2": "school",
     }
 
+    response = await form.validate_profile("6", dispatcher, tracker, {})
+    assert response == {
+        "profile": "marker",
+        "profile_display": "Marker",
+        "facility_phrase_1": "the facility, school OR school's EMIS number.",
+        "facility_phrase_2": "facility or school",
+    }
+
 
 @pytest.mark.asyncio
 async def test_validate_profile_parent():
