@@ -73,6 +73,12 @@ slots:
   school_emis:
     type: unfeaturized
     auto_fill: false
+  facility_phrase_1:
+    type: unfeaturized
+    auto_fill: false
+  facility_phrase_2:
+    type: unfeaturized
+    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -362,11 +368,11 @@ responses:
 
   utter_ask_school:
     - text: |
-        Please TYPE the name of your school OR your school's EMIS number. (Type OTHER if you are not visiting a school)
+        Please TYPE the name of {facility_phrase_1}
 
   utter_ask_school_confirm:
     - text: |
-        Please confirm that the identified school below is correct, based on the information you shared:
+        Please confirm that the identified {facility_phrase_2} below is correct, based on the information you shared:
         {school}
 
         Reply

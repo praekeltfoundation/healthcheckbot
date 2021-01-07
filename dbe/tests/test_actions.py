@@ -535,10 +535,21 @@ async def test_validate_profile():
     tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
     dispatcher = CollectingDispatcher()
     response = await form.validate_profile("4", dispatcher, tracker, {})
-    assert response == {"profile": "actual_parent", "profile_display": "Parent"}
+    assert response == {
+        "profile": "actual_parent",
+        "profile_display": "Parent",
+        "facility_phrase_1": "your school OR your school's EMIS number. (Type OTHER "
+        "if you are not visiting a school)",
+        "facility_phrase_2": "school",
+    }
 
     response = await form.validate_profile("parent", dispatcher, tracker, {})
-    assert response == {"profile": None}
+    assert response == {
+        "profile": None,
+        "facility_phrase_1": "your school OR your school's EMIS number. (Type OTHER "
+        "if you are not visiting a school)",
+        "facility_phrase_2": "school",
+    }
 
 
 @pytest.mark.asyncio
@@ -556,6 +567,9 @@ async def test_validate_profile_parent():
         "display_learner_profiles": "*1.* New HealthCheck",
         "learner_profiles": [],
         "select_learner_profile": "new",
+        "facility_phrase_1": "your school OR your school's EMIS number. (Type OTHER "
+        "if you are not visiting a school)",
+        "facility_phrase_2": "school",
     }
 
 
