@@ -478,6 +478,18 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             results["profile_display"] = PROFILE_DISPLAY[results["profile"]]
         if results.get("profile") == "parent":
             results.update(await utils.get_learner_profile_slots_dict(tracker))
+
+        results["facility_phrase_1"] = (
+            "your school OR your school's EMIS number. "
+            + "(Type OTHER if you are not visiting a school)"
+        )
+        results["facility_phrase_2"] = "school"
+        if results.get("profile") in ["marker", "exam_assistant"]:
+            results[
+                "facility_phrase_1"
+            ] = "the facility, school OR school's EMIS number."
+            results["facility_phrase_2"] = "facility or school"
+
         return results
 
     def validate_medical_condition_pregnant(
