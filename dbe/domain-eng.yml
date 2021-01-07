@@ -73,12 +73,6 @@ slots:
   school_emis:
     type: unfeaturized
     auto_fill: false
-  facility_phrase_1:
-    type: unfeaturized
-    auto_fill: false
-  facility_phrase_2:
-    type: unfeaturized
-    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -263,10 +257,28 @@ responses:
           *1.* YES
           *2.* NO
 
+  utter_ask_confirm_details_marker:
+      - text: |
+          Please confirm that the information below is correct, based on the information you shared previously:
+          School / Facility Name: {school}
+          Province: {province_display}
+          Role: {profile_display}
+
+          Reply
+          *1.* YES
+          *2.* NO
+
   utter_ask_change_details:
       - text: |
           What information would you like to change?
           *1.* School Name
+          *2.* Province
+          *3.* Role
+
+  utter_ask_change_details_marker:
+      - text: |
+          What information would you like to change?
+          *1.* School Name / Facility
           *2.* Province
           *3.* Role
 
@@ -332,6 +344,10 @@ responses:
     - text: |
         You may have typed the school name incorrectly, please TYPE the name of your school again and check you've selected the right province.
 
+  utter_incorrect_school_marker:
+    - text: |
+        You may have typed the facility or school name incorrectly, please TYPE the name of your school again and check you've selected the right province.
+
   utter_ask_age:
     - text: "Please TYPE your age in years (eg. 35)"
 
@@ -368,11 +384,24 @@ responses:
 
   utter_ask_school:
     - text: |
-        Please TYPE the name of {facility_phrase_1}
+        Please TYPE the name of your school OR your school's EMIS number. (Type OTHER if you are not visiting a school)
+
+  utter_ask_school_marker:
+    - text: |
+        Please TYPE the name of the facility, school OR school's EMIS number.
 
   utter_ask_school_confirm:
     - text: |
-        Please confirm that the identified {facility_phrase_2} below is correct, based on the information you shared:
+        Please confirm that the identified school below is correct, based on the information you shared:
+        {school}
+
+        Reply
+        *1.* YES
+        *2.* NO
+
+  utter_ask_school_confirm_marker:
+    - text: |
+        Please confirm that the identified facility or school below is correct, based on the information you shared:
         {school}
 
         Reply
