@@ -5,3 +5,4 @@ actual_parent
 support
 marker
 exam_assistant
+exam_official

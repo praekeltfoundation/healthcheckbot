@@ -36,8 +36,9 @@ PROFILE_DISPLAY = {
     "parent": "Parents / Guardian on behalf of learner",
     "actual_parent": "Parent",
     "support": "Support or Admin staff",
-    "marker": "Marker",
+    "marker": "Marker/Moderator",
     "exam_assistant": "Exam Assistant (EA)",
+    "exam_official": "Exam Officials",
 }
 
 
@@ -86,7 +87,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                     "school_confirm",
                     "confirm_details",
                     "change_details",
-                ] and tracker.get_slot("profile") in ["marker", "exam_assistant"]:
+                ] and tracker.get_slot("profile") in [
+                    "marker",
+                    "exam_assistant",
+                    "exam_official",
+                ]:
                     kwargs = {
                         "school": tracker.get_slot("school"),
                         "province_display": tracker.get_slot("province_display"),
@@ -419,7 +424,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         if value and isinstance(value, str) and value.strip().lower() == "other":
             return {"school": "OTHER", "school_emis": None, "school_confirm": "yes"}
 
-        if tracker.get_slot("profile") in ["marker", "exam_assistant"]:
+        if tracker.get_slot("profile") in ["marker", "exam_assistant", "exam_official"]:
             ix = open_dir("dbe/actions/marking_centre_index")
 
             parser = QueryParser("name", ix.schema, termclass=FuzzyTerm)
@@ -442,7 +447,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                     "school_emis": result.get("emis"),
                 }
             else:
-                if tracker.get_slot("profile") in ["marker", "exam_assistant"]:
+                if tracker.get_slot("profile") in [
+                    "marker",
+                    "exam_assistant",
+                    "exam_official",
+                ]:
                     dispatcher.utter_message(template="utter_incorrect_school_marker")
                 else:
                     dispatcher.utter_message(template="utter_incorrect_school")
@@ -746,6 +755,7 @@ class HealthCheckForm(BaseHealthCheckForm):
             "support",
             "marker",
             "exam_assistant",
+            "exam_official",
             "educator",
         ]:
             template = f"utter_risk_{risk}_support"
