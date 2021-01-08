@@ -621,6 +621,7 @@ class TestHealthCheckProfile(TestCase):
         tracker.slots["province"] = "wc"
         tracker.slots["location"] = "Long Street, Cape Town"
         tracker.slots["location_confirm"] = "yes"
+        tracker.slots["province_display"] = "Western Cape"
 
         form.request_next_slot(dispatcher, tracker, {})
         [msg] = dispatcher.messages
@@ -632,6 +633,7 @@ class TestHealthCheckProfile(TestCase):
         form.request_next_slot(dispatcher, tracker, {})
         [msg] = dispatcher.messages
         self.assertEqual(msg["template"], "utter_ask_school_marker")
+        self.assertEqual(msg["province_display"], "Western Cape")
 
 
 class HealthCheckFormTests(TestCase):

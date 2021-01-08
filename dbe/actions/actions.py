@@ -87,11 +87,17 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                     "confirm_details",
                     "change_details",
                 ] and tracker.get_slot("profile") in ["marker", "exam_assistant"]:
-                    dispatcher.utter_message(template=f"utter_ask_{slot}_marker")
-                else:
-                    dispatcher.utter_message(template=f"utter_ask_{slot}")
+                    kwargs = {
+                        "school": tracker.get_slot("school"),
+                        "province_display": tracker.get_slot("province_display"),
+                        "profile_display": tracker.get_slot("profile_display"),
+                    }
+                    dispatcher.utter_message(
+                        template=f"utter_ask_{slot}_marker", **kwargs
+                    )
+                    return [SlotSet(REQUESTED_SLOT, slot)]
 
-                return [SlotSet(REQUESTED_SLOT, slot)]
+        return super().request_next_slot(dispatcher, tracker, domain)
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         mappings = super().slot_mappings()
