@@ -16,6 +16,8 @@ from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfil
 from base.actions.actions import HealthCheckTermsForm
 from dbe.actions import utils
 
+REQUESTED_SLOT = "requested_slot"
+
 PROVINCE_DISPLAY = {
     "ec": "EASTERN CAPE",
     "fs": "FREE STATE",
@@ -75,6 +77,21 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "school_confirm",
         "medical_condition",
     ]
+
+    def request_next_slot(self, dispatcher, tracker, domain):
+        for slot in self.required_slots(tracker):
+            if self._should_request_slot(tracker, slot):
+                if slot in [
+                    "school",
+                    "school_confirm",
+                    "confirm_details",
+                    "change_details",
+                ] and tracker.get_slot("profile") in ["marker", "exam_assistant"]:
+                    dispatcher.utter_message(template=f"utter_ask_{slot}_marker")
+                else:
+                    dispatcher.utter_message(template=f"utter_ask_{slot}")
+
+                return [SlotSet(REQUESTED_SLOT, slot)]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         mappings = super().slot_mappings()
@@ -419,7 +436,10 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                     "school_emis": result.get("emis"),
                 }
             else:
-                dispatcher.utter_message(template="utter_incorrect_school")
+                if tracker.get_slot("profile") in ["marker", "exam_assistant"]:
+                    dispatcher.utter_message(template="utter_incorrect_school_marker")
+                else:
+                    dispatcher.utter_message(template="utter_incorrect_school")
                 return {"school": None, "province": None}
 
     def validate_school_confirm(
@@ -478,17 +498,6 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             results["profile_display"] = PROFILE_DISPLAY[results["profile"]]
         if results.get("profile") == "parent":
             results.update(await utils.get_learner_profile_slots_dict(tracker))
-
-        results["facility_phrase_1"] = (
-            "your school OR your school's EMIS number. "
-            + "(Type OTHER if you are not visiting a school)"
-        )
-        results["facility_phrase_2"] = "school"
-        if results.get("profile") in ["marker", "exam_assistant"]:
-            results[
-                "facility_phrase_1"
-            ] = "the facility, school OR school's EMIS number."
-            results["facility_phrase_2"] = "facility or school"
 
         return results
 

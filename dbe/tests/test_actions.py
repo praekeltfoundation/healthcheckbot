@@ -90,6 +90,27 @@ class HealthCheckProfileFormTests(TestCase):
         [message] = dispatcher.messages
         self.assertEqual(message["template"], "utter_incorrect_school")
 
+    def test_validate_school_no_results_marker(self):
+        """
+        Returns error message and clears value for province
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"province": "gt", "profile": "marker"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_school("bergvleet", dispatcher, tracker, {})
+        self.assertEqual(response, {"school": None, "province": None})
+        [message] = dispatcher.messages
+        self.assertEqual(message["template"], "utter_incorrect_school_marker")
+
     def test_validate_school_confirm_no(self):
         """
         Try again getting the name of the school
@@ -538,25 +559,11 @@ async def test_validate_profile():
     assert response == {
         "profile": "actual_parent",
         "profile_display": "Parent",
-        "facility_phrase_1": "your school OR your school's EMIS number. (Type OTHER "
-        "if you are not visiting a school)",
-        "facility_phrase_2": "school",
     }
 
     response = await form.validate_profile("parent", dispatcher, tracker, {})
     assert response == {
         "profile": None,
-        "facility_phrase_1": "your school OR your school's EMIS number. (Type OTHER "
-        "if you are not visiting a school)",
-        "facility_phrase_2": "school",
-    }
-
-    response = await form.validate_profile("6", dispatcher, tracker, {})
-    assert response == {
-        "profile": "marker",
-        "profile_display": "Marker",
-        "facility_phrase_1": "the facility, school OR school's EMIS number.",
-        "facility_phrase_2": "facility or school",
     }
 
 
@@ -575,9 +582,6 @@ async def test_validate_profile_parent():
         "display_learner_profiles": "*1.* New HealthCheck",
         "learner_profiles": [],
         "select_learner_profile": "new",
-        "facility_phrase_1": "your school OR your school's EMIS number. (Type OTHER "
-        "if you are not visiting a school)",
-        "facility_phrase_2": "school",
     }
 
 
@@ -604,6 +608,30 @@ class TestHealthCheckProfileFormAsync:
             "cape town", CollectingDispatcher(), tracker, {}
         )
         assert result == {"obo_location": "cape town"}
+
+
+class TestHealthCheckProfile(TestCase):
+    def test_request_next_slot(self):
+        form = HealthCheckProfileForm()
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "educator"
+        tracker.slots["age"] = "34"
+        tracker.slots["gender"] = "OTHER"
+        tracker.slots["province"] = "wc"
+        tracker.slots["location"] = "Long Street, Cape Town"
+        tracker.slots["location_confirm"] = "yes"
+
+        form.request_next_slot(dispatcher, tracker, {})
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_ask_school")
+
+        tracker.slots["profile"] = "marker"
+        dispatcher.messages = []
+
+        form.request_next_slot(dispatcher, tracker, {})
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_ask_school_marker")
 
 
 class HealthCheckFormTests(TestCase):
