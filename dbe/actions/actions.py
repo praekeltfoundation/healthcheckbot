@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timedelta, timezone
 from inspect import iscoroutinefunction
-from typing import Any, Dict, List, Optional, Text, Union
+from typing import Any, Dict, List, Optional, Text, Tuple, Union
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import ActionExecuted, SessionStarted, SlotSet
@@ -35,10 +35,11 @@ PROFILE_DISPLAY = {
     "learner": "Learner",
     "parent": "Parents / Guardian on behalf of learner",
     "actual_parent": "Parent",
-    "support": "Support or Admin staff",
-    "marker": "Marker/Moderator",
+    "support": "School Support or Admin",
+    "marker": "Marker or Moderator",
     "exam_assistant": "Exam Assistant (EA)",
-    "exam_official": "Exam Officials",
+    "exam_official": "Exam Official",
+    "dbe_staff": "National DBE Staff",
 }
 
 
@@ -424,19 +425,48 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         if value and isinstance(value, str) and value.strip().lower() == "other":
             return {"school": "OTHER", "school_emis": None, "school_confirm": "yes"}
 
+        province = tracker.get_slot("obo_province") or tracker.get_slot("province")
+
         if tracker.get_slot("profile") in ["marker", "exam_assistant", "exam_official"]:
             ix = open_dir("dbe/actions/marking_centre_index")
 
             parser = QueryParser("name", ix.schema, termclass=FuzzyTerm)
+        elif tracker.get_slot("profile") in ["dbe_staff"]:
+            schools: List[Tuple[float, Text, Optional[Text]]] = []
+            ix = open_dir("dbe/actions/marking_centre_index")
+            parser = QueryParser("name", ix.schema, termclass=FuzzyTerm, group=OrGroup)
+            query = parser.parse(value)
+            with ix.searcher() as s:
+                results = s.search(query, limit=1, filter=Term("province", province))
+                for result in results:
+                    schools.append((result.score, result["name"], None))
+            ix = open_dir("dbe/actions/emis_index")
+            parser = MultifieldParser(
+                ["name", "emis"], ix.schema, termclass=FuzzyTerm, group=OrGroup
+            )
+            query = parser.parse(value)
+            with ix.searcher() as s:
+                results = s.search(query, limit=1, filter=Term("province", province))
+                for result in results:
+                    schools.append((result.score, result["name"], result["emis"]))
+            schools.sort(key=lambda r: r[0], reverse=True)
+            if schools:
+                school = schools[0]
+                return {
+                    "school": school[1],
+                    "school_emis": school[2],
+                }
+            else:
+                dispatcher.utter_message(template="utter_incorrect_school")
+                return {"school": None, "province": None}
         else:
             ix = open_dir("dbe/actions/emis_index")
 
             parser = MultifieldParser(
                 ["name", "emis"], ix.schema, termclass=FuzzyTerm, group=OrGroup
             )
-        query = parser.parse(value)
 
-        province = tracker.get_slot("obo_province") or tracker.get_slot("province")
+        query = parser.parse(value)
 
         with ix.searcher() as s:
             results = s.search(query, limit=1, filter=Term("province", province))
