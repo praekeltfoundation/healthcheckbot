@@ -35,10 +35,11 @@ PROFILE_DISPLAY = {
     "learner": "Learner",
     "parent": "Parents / Guardian on behalf of learner",
     "actual_parent": "Parent",
-    "support": "Support or Admin staff",
-    "marker": "Marker/Moderator",
+    "support": "School Support or Admin",
+    "marker": "Marker or Moderator",
     "exam_assistant": "Exam Assistant (EA)",
-    "exam_official": "Exam Officials",
+    "exam_official": "Exam Official",
+    "dbe_staff": "National DBE Staff",
 }
 
 
