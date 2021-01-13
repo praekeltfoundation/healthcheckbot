@@ -304,6 +304,7 @@ responses:
           *6.* Marker or Moderator
           *7.* Exam Assistant (EA)
           *8.* Exam Official
+          *9.* National DBE Staff
 
   utter_more_terms:
       - text: |
