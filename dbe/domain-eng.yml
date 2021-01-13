@@ -300,10 +300,10 @@ responses:
           *2.* Learner
           *3.* Parents / Guardian on behalf of learner
           *4.* Parent
-          *5.* Support or Admin staff
-          *6.* Marker/Moderator
+          *5.* School Support or Admin
+          *6.* Marker or Moderator
           *7.* Exam Assistant (EA)
-          *8.* Exam Officials
+          *8.* Exam Official
 
   utter_more_terms:
       - text: |
