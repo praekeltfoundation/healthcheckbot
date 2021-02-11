@@ -3,7 +3,7 @@ import sys
 from collections import defaultdict
 from typing import Dict, Iterable, Optional, Set, Text
 
-from ruamel.yaml import round_trip_dump
+from ruamel.yaml import round_trip_dump, round_trip_load
 from ruamel.yaml.comments import CommentedMap
 
 PROVINCE_MAPPING = {
@@ -61,6 +61,13 @@ def sort_data(data: Dict[Text, Dict[Text, Set[Text]]]) -> CommentedMap:
 
 if __name__ == "__main__":
     processed: Dict[Text, Dict[Text, Set[Text]]] = defaultdict(lambda: defaultdict(set))
+
+    with open("university_data.yaml") as f:
+        data = round_trip_load(f)
+        for province, inst_data in data.items():
+            for instutution, campuses in inst_data.items():
+                processed[province][instutution] = campuses
+
     for filename in sys.argv[1:]:
         with open(filename) as f:
             processed = process_university_data(csv.DictReader(f), processed)
