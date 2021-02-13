@@ -47,7 +47,6 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
         response = form.validate_destination_province("1", dispatcher, tracker, {})
-        print(response["university_list"])
         self.assertEqual(
             response,
             {
