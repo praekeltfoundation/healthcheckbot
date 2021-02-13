@@ -54,68 +54,38 @@ class HealthCheckProfileFormTests(TestCase):
                 "university_list": "\n".join(
                     [
                         "*1.* AFDA",
-                        "*2.* Betshwana",
-                        "*3.* Blythswood",
-                        "*4.* Bofolo",
-                        "*5.* Bokamoso",
-                        "*6.* Boston City Campus & Business College",
-                        "*7.* Buffalo City",
-                        "*8.* CTU Training Solutions",
-                        "*9.* Cecilia Makiwane",
-                        "*10.* College of Transfiguration NPC",
-                        "*11.* Damelin",
-                        "*12.* East London Management Institute Pty Ltd",
-                        "*13.* Eastcape Midlands",
-                        "*14.* Eastern Cape CET College",
-                        "*15.* Ed-U City Campus (Pty) Ltd",
-                        "*16.* Equleni",
-                        "*17.* Frere Hospital",
-                        "*18.* Health and Fitness Professionals Academy (HFPA)",
-                        "*19.* IQ Academy",
-                        "*20.* Ikhala",
-                        "*21.* Ingwe",
-                        "*22.* Jeffrey’s Bay",
-                        "*23.* Kalerato",
-                        "*24.* Khanya",
-                        "*25.* Khanyisa",
-                        "*26.* King Hintsa",
-                        "*27.* King Sabata Dalindyebo (KSD)",
-                        "*28.* Lovedale",
-                        "*29.* MANCOSA",
-                        "*30.* MSC Business College",
-                        "*31.* Makanaskop",
-                        "*32.* Mangquzu",
-                        "*33.* Masizakhe",
-                        "*34.* Mgobozi Commercial",
-                        "*35.* Msobomvu",
-                        "*36.* Nelson Mandela University (NMU)",
-                        "*37.* Netcare  Education (Pty Ltd)",
-                        "*38.* Ngqeleni",
-                        "*39.* Ntukayi",
-                        "*40.* Osborn",
-                        "*41.* Pearson Instittute of Higher Education",
-                        "*42.* Phakamile (Phaphani)",
-                        "*43.* Port Elizabeth",
-                        "*44.* Port St Johns",
-                        "*45.* Production Management Institute of Southern Africa PTY "
+                        "*2.* Boston City Campus & Business College",
+                        "*3.* Buffalo City",
+                        "*4.* CTU Training Solutions",
+                        "*5.* College of Transfiguration NPC",
+                        "*6.* Damelin",
+                        "*7.* East London Management Institute Pty Ltd",
+                        "*8.* Eastcape Midlands",
+                        "*9.* Eastern Cape CET College",
+                        "*10.* Ed-U City Campus (Pty) Ltd",
+                        "*11.* Health and Fitness Professionals Academy (HFPA)",
+                        "*12.* IQ Academy",
+                        "*13.* Ikhala",
+                        "*14.* Ingwe",
+                        "*15.* King Hintsa",
+                        "*16.* King Sabata Dalindyebo (KSD)",
+                        "*17.* Lovedale",
+                        "*18.* MANCOSA",
+                        "*19.* MSC Business College",
+                        "*20.* Nelson Mandela University (NMU)",
+                        "*21.* Netcare  Education (Pty Ltd)",
+                        "*22.* Pearson Instittute of Higher Education",
+                        "*23.* Port Elizabeth",
+                        "*24.* Production Management Institute of Southern Africa PTY "
                         "LTD / PMI",
-                        "*46.* Qoqodala",
-                        "*47.* Qumbu",
-                        "*48.* Regent Business School (Pty) Ltd (Learning Centre)",
-                        "*49.* Rhodes University (RU)",
-                        "*50.* STADIO AFDA",
-                        "*51.* Sinethemba",
-                        "*52.* Sofunda",
-                        "*53.* Soweto-On-Sea",
-                        "*54.* St Dennis",
-                        "*55.* Stenden",
-                        "*56.* UNISA",
-                        "*57.* University of Fort Hare (UFH)",
-                        "*58.* Vorster",
-                        "*59.* Walter Sisulu University (WSU)",
-                        "*60.* Zimele",
-                        "*61.* Zwelakhe",
-                        "*62.* eta College",
+                        "*25.* Regent Business School (Pty) Ltd (Learning Centre)",
+                        "*26.* Rhodes University (RU)",
+                        "*27.* STADIO AFDA",
+                        "*28.* Stenden",
+                        "*29.* UNISA",
+                        "*30.* University of Fort Hare (UFH)",
+                        "*31.* Walter Sisulu University (WSU)",
+                        "*32.* eta College",
                     ]
                 ),
             },
@@ -135,7 +105,9 @@ class HealthCheckProfileFormTests(TestCase):
         )
         dispatcher = CollectingDispatcher()
         response = form.validate_university("1", dispatcher, tracker, {})
-        self.assertEqual(response, {"university": "AFDA", "campus_list": "*1.* Cenral"})
+        self.assertEqual(
+            response, {"university": "AFDA", "campus_list": "*1.* Cenral"},
+        )
 
     def test_validate_campus(self):
         form = HealthCheckProfileForm()
@@ -151,7 +123,9 @@ class HealthCheckProfileFormTests(TestCase):
         )
         dispatcher = CollectingDispatcher()
         response = form.validate_campus("1", dispatcher, tracker, {})
-        self.assertEqual(response, {"campus": "Cenral"})
+        self.assertEqual(
+            response, {"campus": "Cenral"},
+        )
 
 
 class HealthCheckFormTests(TestCase):
@@ -243,7 +217,7 @@ class HealthCheckFormTests(TestCase):
         dt.now.return_value = datetime(
             2020, 1, 2, 3, 4, 5, tzinfo=timezone(timedelta(hours=2))
         )
-        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen",)
         form.send_risk_to_user(dispatcher, "low", tracker)
         [msg] = dispatcher.messages
         self.assertEqual(msg["template"], "utter_risk_low")
