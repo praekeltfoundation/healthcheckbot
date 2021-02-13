@@ -9,7 +9,7 @@ That data is in Excel xlsx format, so use something like `ssconvert` to convert 
 ~ ssconvert -S tvet_university_phei.xlxs data.csv
 ```
 
-Then to import, use the `import_university_data.py` script, which accepts a list of CSV files as arguments, processes them, and outputs to the `university_data.yaml` file. It always appends to the current list of data in the yaml file. To overwrite, first clear the yaml file.
+Then to import, use the `import_university_data.py` script, which accepts a list of CSV files as arguments, processes them, and outputs to the `university_data.yaml` file. It always completely overwrites the file, so ensure that you have all the data.
 
 ```bash
 ~ python import_university_data.py data.csv.0 data.csv.1 data.csv.2
