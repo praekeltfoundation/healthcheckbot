@@ -103,7 +103,7 @@ class HealthCheckProfileFormTests(TestCase):
         form = HealthCheckProfileForm()
         tracker = Tracker(
             "27820001001",
-            {"destination_province": "ec", "university": "AFDA"},
+            {"destination_province": "ec", "university_confirm": "AFDA"},
             {},
             [],
             False,
