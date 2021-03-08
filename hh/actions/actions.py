@@ -1,3 +1,4 @@
+import difflib
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Text, Union
 
@@ -43,6 +44,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "reason",
         "destination_province",
         "university",
+        "university_confirm",
         "campus",
         "medical_condition",
     ]
@@ -57,7 +59,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_entity(entity="number"),
             self.from_text(),
         ]
-        mappings["university"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["university"] = [self.from_text()]
+        mappings["university_confirm"] = [
+            self.from_entity(entity="number"),
+            self.from_text(),
+        ]
         mappings["campus"] = [self.from_entity(entity="number"), self.from_text()]
         return mappings
 
@@ -103,13 +109,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         """
         return "\n".join([f"*{i}.* {v}" for i, v in items.items()])
 
-    def university_list(self, province):
-        return {
-            i: v
-            for i, v in enumerate(
-                sorted(self.institution_data[province].keys()), start=1
-            )
-        }
+    def university_list(self, province, search_term):
+        # Use this mapping, so that we can do a lower case comparison
+        universities = {v.lower(): v for v in self.institution_data[province].keys()}
+        matches = difflib.get_close_matches(search_term.lower(), universities, 5, 0.0)
+        return {i: universities[v] for i, v in enumerate(matches, start=1)}
 
     def campus_list(self, province, university):
         return {
@@ -126,16 +130,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        """
-        If a valid destination province is selected, also populate list of universities
-        """
-        result = self.validate_generic(
+        return self.validate_generic(
             "destination_province", dispatcher, value, self.province_data
         )
-        province = result.get("destination_province")
-        if province:
-            result["university_list"] = self.make_list(self.university_list(province))
-        return result
 
     def validate_university(
         self,
@@ -144,15 +141,24 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        university_data = self.university_list(tracker.get_slot("destination_province"))
-        result = self.validate_generic("university", dispatcher, value, university_data)
-        university = result.get("university")
-        if university:
-            province = tracker.get_slot("destination_province")
-            result["campus_list"] = self.make_list(
-                self.campus_list(province, university)
-            )
-        return result
+        university_data = self.university_list(
+            tracker.get_slot("destination_province"), value
+        )
+        return {"university": value, "university_list": self.make_list(university_data)}
+
+    def validate_university_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        university_data = self.university_list(
+            tracker.get_slot("destination_province"), tracker.get_slot("university")
+        )
+        return self.validate_generic(
+            "university_confirm", dispatcher, value, university_data
+        )
 
     def validate_campus(
         self,
@@ -162,7 +168,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         province = tracker.get_slot("destination_province")
-        university = tracker.get_slot("university")
+        university = tracker.get_slot("university_confirm")
         campus_data = self.campus_list(province, university)
         return self.validate_generic("campus", dispatcher, value, campus_data)
 
@@ -177,7 +183,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"][
             "destination_province"
         ] = f'ZA-{tracker.get_slot("destination_province").upper()}'
-        data["data"]["university"] = {"name": tracker.get_slot("university")}
+        data["data"]["university"] = {"name": tracker.get_slot("university_confirm")}
         data["data"]["campus"] = {"name": tracker.get_slot("campus")}
         return data
 

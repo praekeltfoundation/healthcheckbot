@@ -48,47 +48,7 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_destination_province("1", dispatcher, tracker, {})
         self.assertEqual(
-            response,
-            {
-                "destination_province": "ec",
-                "university_list": "\n".join(
-                    [
-                        "*1.* AFDA",
-                        "*2.* Boston City Campus & Business College",
-                        "*3.* Buffalo City",
-                        "*4.* CTU Training Solutions",
-                        "*5.* College of Transfiguration NPC",
-                        "*6.* Damelin",
-                        "*7.* East London Management Institute Pty Ltd",
-                        "*8.* Eastcape Midlands",
-                        "*9.* Eastern Cape CET College",
-                        "*10.* Ed-U City Campus (Pty) Ltd",
-                        "*11.* Health and Fitness Professionals Academy (HFPA)",
-                        "*12.* IQ Academy",
-                        "*13.* Ikhala",
-                        "*14.* Ingwe",
-                        "*15.* King Hintsa",
-                        "*16.* King Sabata Dalindyebo (KSD)",
-                        "*17.* Lovedale",
-                        "*18.* MANCOSA",
-                        "*19.* MSC Business College",
-                        "*20.* Nelson Mandela University (NMU)",
-                        "*21.* Netcare  Education (Pty Ltd)",
-                        "*22.* Pearson Instittute of Higher Education",
-                        "*23.* Port Elizabeth",
-                        "*24.* Production Management Institute of Southern Africa PTY "
-                        "LTD / PMI",
-                        "*25.* Regent Business School (Pty) Ltd (Learning Centre)",
-                        "*26.* Rhodes University (RU)",
-                        "*27.* STADIO AFDA",
-                        "*28.* Stenden",
-                        "*29.* UNISA",
-                        "*30.* University of Fort Hare (UFH)",
-                        "*31.* Walter Sisulu University (WSU)",
-                        "*32.* eta College",
-                    ]
-                ),
-            },
+            response, {"destination_province": "ec"},
         )
 
     def test_validate_university(self):
@@ -104,16 +64,46 @@ class HealthCheckProfileFormTests(TestCase):
             "action_listen",
         )
         dispatcher = CollectingDispatcher()
-        response = form.validate_university("1", dispatcher, tracker, {})
+        response = form.validate_university("afda", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"university": "AFDA", "campus_list": "*1.* Cenral"},
+            response,
+            {
+                "university": "afda",
+                "university_list": "\n".join(
+                    [
+                        "*1.* AFDA",
+                        "*2.* STADIO AFDA",
+                        "*3.* Ikhala",
+                        "*4.* MANCOSA",
+                        "*5.* Damelin",
+                    ]
+                ),
+            },
+        )
+
+    def test_validate_university_confirm(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"destination_province": "ec", "university": "afda"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_university_confirm("1", dispatcher, tracker, {})
+        self.assertEqual(
+            response, {"university_confirm": "AFDA"},
         )
 
     def test_validate_campus(self):
         form = HealthCheckProfileForm()
         tracker = Tracker(
             "27820001001",
-            {"destination_province": "ec", "university": "AFDA"},
+            {"destination_province": "ec", "university_confirm": "AFDA"},
             {},
             [],
             False,
@@ -158,7 +148,7 @@ class HealthCheckFormTests(TestCase):
                 "destination": "campus",
                 "reason": "student",
                 "destination_province": "ec",
-                "university": "AFDA",
+                "university_confirm": "AFDA",
                 "campus": "Cenral",
             },
             {},

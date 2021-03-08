@@ -62,6 +62,9 @@ slots:
   university:
     type: unfeaturized
     auto_fill: false
+  university_confirm:
+    type: unfeaturized
+    auto_fill: false
   university_list:
     type: unfeaturized
     auto_fill: false
@@ -255,6 +258,10 @@ responses:
         *9.* WESTERN CAPE
 
   utter_ask_university:
+    - text: |
+        Which Educational Institution will you be visiting?
+
+  utter_ask_university_confirm:
     - text: |
         Please select the Educational Institution from the list below:
 
