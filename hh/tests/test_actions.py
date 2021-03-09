@@ -96,7 +96,7 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_university_confirm("1", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"university_confirm": "AFDA"},
+            response, {"university_confirm": "AFDA", "campus_list": "*1.* Cenral"},
         )
 
     def test_validate_campus(self):

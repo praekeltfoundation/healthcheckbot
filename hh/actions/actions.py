@@ -153,12 +153,15 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        university_data = self.university_list(
-            tracker.get_slot("destination_province"), tracker.get_slot("university")
-        )
-        return self.validate_generic(
+        province = tracker.get_slot("destination_province")
+        university_data = self.university_list(province, tracker.get_slot("university"))
+        data = self.validate_generic(
             "university_confirm", dispatcher, value, university_data
         )
+        if data.get("university_confirm"):
+            campus_data = self.campus_list(province, data["university_confirm"])
+            data["campus_list"] = self.make_list(campus_data)
+        return data
 
     def validate_campus(
         self,
