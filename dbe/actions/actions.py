@@ -432,7 +432,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             ix = open_dir("dbe/actions/marking_centre_index")
 
             parser = QueryParser("name", ix.schema, termclass=FuzzyTerm)
-        elif tracker.get_slot("profile") in ["dbe_staff"] or tracker.get_slot("profile") in ["dhet_staff"]:
+        elif tracker.get_slot("profile") in ["dbe_staff", "dhet_staff"]:
             schools: List[Tuple[float, Text, Optional[Text]]] = []
             ix = open_dir("dbe/actions/marking_centre_index")
             parser = QueryParser("name", ix.schema, termclass=FuzzyTerm, group=OrGroup)
