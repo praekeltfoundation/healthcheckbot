@@ -77,6 +77,35 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"school": "CARPE DIEM SKOOL", "school_emis": "118456233"}
         )
 
+    def test_validate_school_dhet_staff(self):
+        """
+        Should search and sort against both school and marking centre indexes
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"province": "wc", "profile": "dhet_staff"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        response = form.validate_school(
+            "cape teaching and leadershup", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(
+            response,
+            {"school": "CAPE TEACHING AND LEADERSHIP INST.", "school_emis": None},
+        )
+        response = form.validate_school(
+            "carpe diem", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(
+            response, {"school": "CARPE DIEM SKOOL", "school_emis": "118456233"}
+        )
+
     def test_validate_school_or_clause(self):
         """
         The search should be an OR between terms
@@ -127,6 +156,27 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker(
             "27820001001",
             {"province": "gt", "profile": "dbe_staff"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_school("bergvleet", dispatcher, tracker, {})
+        self.assertEqual(response, {"school": None, "province": None})
+        [message] = dispatcher.messages
+        self.assertEqual(message["template"], "utter_incorrect_school")
+
+    def test_validate_school_dhet_staff_no_results(self):
+        """
+        Returns error message and clears value for province
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"province": "gt", "profile": "dhet_staff"},
             {},
             [],
             False,
