@@ -305,6 +305,7 @@ responses:
           *7.* Exam Assistant (EA)
           *8.* Exam Official
           *9.* National DBE Staff
+          *10.* National DHET Staff
 
   utter_more_terms:
       - text: |
