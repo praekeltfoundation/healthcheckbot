@@ -7,3 +7,4 @@ marker
 exam_assistant
 exam_official
 dbe_staff
+dhet_staff
