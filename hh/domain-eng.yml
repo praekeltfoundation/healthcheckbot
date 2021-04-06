@@ -411,7 +411,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        - Supported by Higher Health, Lifebouy, European Union and HWSETA
+        🧼 Supported by Higher Health, Lifebouy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and http://www.higherhealth.ac.za
 
   utter_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod.png"
@@ -433,7 +433,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        - Supported by Higher Health, Lifebouy, European Union and HWSETA
+        🧼 Supported by Higher Health, Lifebouy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and http://www.higherhealth.ac.za
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high.png"
@@ -457,7 +457,7 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        - Supported by Higher Health, Lifebouy, European Union and HWSETA
+        🧼 Supported by Higher Health, Lifebouy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and http://www.higherhealth.ac.za
 
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
