@@ -411,6 +411,8 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
+        - Supported by Higher Health, Lifebouy, European Union and HWSETA
+
   utter_risk_moderate:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod.png"
       claim: release
@@ -430,6 +432,8 @@ responses:
         Risk Level: Moderate
         Date Issued: {issued}
         Expiry date: {expired}
+
+        - Supported by Higher Health, Lifebouy, European Union and HWSETA
 
   utter_risk_high:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high.png"
@@ -452,6 +456,8 @@ responses:
         Risk Level: High
         Date Issued: {issued}
         Expiry date: {expired}
+
+        - Supported by Higher Health, Lifebouy, European Union and HWSETA
 
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
