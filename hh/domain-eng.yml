@@ -394,7 +394,7 @@ responses:
     - text: "All done!"
 
   utter_risk_low:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low.png"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low-2.png"
       claim: release
       text: |
         Thank you for answering all questions.
@@ -414,7 +414,7 @@ responses:
         🧼 Supported by Higher Health, Lifebouy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and http://www.higherhealth.ac.za
 
   utter_risk_moderate:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod.png"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod-2.jpg"
       claim: release
       text: |
         Based on your responses, we recommend that you remain in SELF-QUARANTINE for a period of 10 days and complete this HealthCheck daily to monitor your symptoms.
@@ -436,7 +436,7 @@ responses:
         🧼 Supported by Higher Health, Lifebouy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and http://www.higherhealth.ac.za
 
   utter_risk_high:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high.png"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high-2.jpg"
       claim: release
       text: |
         Based on your responses, we urge you to *GET TESTED* to find out if you are infected with COVID-19.
