@@ -394,7 +394,7 @@ responses:
     - text: "All done!"
 
   utter_risk_low:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low-2.png"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low-2.jpg"
       claim: release
       text: |
         Thank you for answering all questions.
