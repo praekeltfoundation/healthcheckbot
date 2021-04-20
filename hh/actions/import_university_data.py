@@ -69,7 +69,7 @@ if __name__ == "__main__":
         data = round_trip_load(f)
         for province, inst_data in data.items():
             for instutution, campuses in inst_data.items():
-                processed[province][instutution] = campuses
+                processed[province][instutution] = set(campuses)
 
     for filename in sys.argv[1:]:
         with open(filename) as f:
