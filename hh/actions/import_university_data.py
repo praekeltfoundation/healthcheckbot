@@ -42,7 +42,10 @@ def process_university_data(
         province = PROVINCE_MAPPING[row["province"]]
         university = row.get("university") or row.get("tvet") or row["phei"]
         campus = row["campus"]
-        processed[province][university].add(campus)
+        try:
+            processed[province][university].append(campus)
+        except:
+            processed[province][university].add(campus)
     return processed
 
 
