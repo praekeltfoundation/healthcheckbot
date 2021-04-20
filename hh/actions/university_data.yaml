@@ -179,6 +179,8 @@ fs:
   Richfield Graduate School:
   - Bloemfontein
   - Phuthaditjhaba
+  Swift Skills Academy:
+  - Sasolburg
   UNISA:
   - Bloemfontein
   - Kroonstad
@@ -221,6 +223,7 @@ gt:
   - Braamfontein
   - Germiston
   - Johannesburg
+  - Johnnesburg
   - Kemptonpark
   - Krugersdorp
   - Lynvwoodglen
@@ -443,6 +446,8 @@ gt:
   South African College of Applied Psychology (SACAP):
   - Johannesburg
   - Pretoria
+  South African Theological Seminary:
+  - Sandton
   South West Gauteng:
   - Dobsonville
   - George Tabor
@@ -455,6 +460,8 @@ gt:
   - Benoni
   South African Theological Seminary:
   - Sandton
+  St Augustine College of South Africa:
+  - Johannesburg
   St John Vianney Seminary:
   - Pretoria
   TSIBA Education NPC:
@@ -610,6 +617,7 @@ mp:
   Boston City Campus & Business College:
   - Mbombela
   - Witbank
+  - Wtibank
   CTU Training Solutions:
   - Mbombela
   Centurion Akademie:
@@ -784,6 +792,7 @@ nl:
   - Open Learning Unit (OPU)
   Mangosuthu University of Technology (MUT):
   - Main Campus
+  - Natural Sciences
   Mnambithi:
   - Central Office
   - Estcourt
@@ -949,6 +958,7 @@ wc:
   - Worcester
   Boston City Campus & Business College:
   - Bellville
+  - Belville
   - Cape Town
   - George
   - Paarl
@@ -1031,6 +1041,7 @@ wc:
   - Worcester
   IHT Hotel School (Pty) Ltd:
   - Bellville
+  - Belville
   IMM Graduate School of Marketing:
   - Cape Town
   - Stellenbosch
@@ -1051,8 +1062,11 @@ wc:
   - Cape Town
   Mediclinic (Cape Region Mediclinic Learning Centre):
   - Bellville
+  - Belville
   Moonstone Business School of Excellence:
   - Stellenbosch
+  Mowbray Maternity Hospital:
+  - Mowbray
   Nelson Mandela University (NMU):
   - George
   Netcare  Education (Pty Ltd):
@@ -1091,6 +1105,7 @@ wc:
   - Cape Town
   STADIO Prestige Academy:
   - Bellville
+  - Belville
   South African College of Applied Psychology (SACAP):
   - Cape Town
   South Cape:
@@ -1106,14 +1121,21 @@ wc:
   Stellenbosch Academy of Design and Photography (Pty) Ltd:
   - Stellenbosch
   Stellenbosch University (SU):
+  - Bellville Park
+  - Saldanha
   - Stellenbosch
   - Tygerberg
+  - Worcester
+  Swift Skills Academy:
+  - Killarney Gardens
+  - Vredenburg
   TSIBA Education NPC:
   - Woodstock
   The Animation School:
   - Cape Town
   The Fashion Institute of Garment Technology (Cape Town College of Fashion Design):
   - Mobray
+  - Mowbray
   The International Hotel School (Pty) Ltd:
   - Cape Town
   UNISA:
