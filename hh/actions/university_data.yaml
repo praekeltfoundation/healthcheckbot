@@ -121,9 +121,8 @@ ec:
   - Mthatha
   - Queenstown (Masibulele)
   eta College:
-  - East London
-  - George
-  - Port Elizabeth
+  - Cape Town
+  - Stellenbosch
 fs:
   Boston City Campus & Business College:
   - Bloemfontein
@@ -179,8 +178,6 @@ fs:
   Richfield Graduate School:
   - Bloemfontein
   - Phuthaditjhaba
-  Swift Skills Academy:
-  - Sasolburg
   UNISA:
   - Bloemfontein
   - Kroonstad
@@ -189,7 +186,8 @@ fs:
   - Qwaqwa Campus
   - South Campus
   eta College:
-  - Bloemfontein
+  - Cape Town
+  - Stellenbosch
 gt:
   AAA School of Advertising:
   - Bryanston
@@ -223,7 +221,6 @@ gt:
   - Braamfontein
   - Germiston
   - Johannesburg
-  - Johnnesburg
   - Kemptonpark
   - Krugersdorp
   - Lynvwoodglen
@@ -458,10 +455,6 @@ gt:
   - Technisa
   Southern Africa Bible College NPC:
   - Benoni
-  South African Theological Seminary:
-  - Sandton
-  St Augustine College of South Africa:
-  - Johannesburg
   St John Vianney Seminary:
   - Pretoria
   TSIBA Education NPC:
@@ -539,8 +532,8 @@ gt:
   - Krugersdorp West
   - Randfontein
   eta College:
-  - Johannesburg
-  - Pretoria
+  - Cape Town
+  - Stellenbosch
 lp:
   Boston City Campus & Business College:
   - Polokwane
@@ -613,11 +606,13 @@ lp:
   - Engineering
   - IT&C
   - Thabazimbi
+  eta College:
+  - Cape Town
+  - Stellenbosch
 mp:
   Boston City Campus & Business College:
   - Mbombela
   - Witbank
-  - Wtibank
   CTU Training Solutions:
   - Mbombela
   Centurion Akademie:
@@ -678,7 +673,8 @@ mp:
   Vaal University of Technology (VUT):
   - Secunda
   eta College:
-  - Nelspruit
+  - Cape Town
+  - Stellenbosch
 nc:
   Boston City Campus & Business College:
   - Kimberley
@@ -704,6 +700,9 @@ nc:
   - Kimberley
   UNISA:
   - Kimberley
+  eta College:
+  - Cape Town
+  - Stellenbosch
 nl:
   AFDA:
   - Glen Anil
@@ -792,7 +791,6 @@ nl:
   - Open Learning Unit (OPU)
   Mangosuthu University of Technology (MUT):
   - Main Campus
-  - Natural Sciences
   Mnambithi:
   - Central Office
   - Estcourt
@@ -883,7 +881,8 @@ nl:
   - KwaDlangezwa
   - Richards Bay
   eta College:
-  - Durban
+  - Cape Town
+  - Stellenbosch
 nw:
   Boston City Campus & Business College:
   - Klerksdrop
@@ -934,6 +933,9 @@ nw:
   - Matlosana
   - Potchefstroom
   - Taung
+  eta College:
+  - Cape Town
+  - Stellenbosch
 wc:
   AAA School of Advertising:
   - Cape Town
@@ -958,7 +960,6 @@ wc:
   - Worcester
   Boston City Campus & Business College:
   - Bellville
-  - Belville
   - Cape Town
   - George
   - Paarl
@@ -1041,7 +1042,6 @@ wc:
   - Worcester
   IHT Hotel School (Pty) Ltd:
   - Bellville
-  - Belville
   IMM Graduate School of Marketing:
   - Cape Town
   - Stellenbosch
@@ -1062,11 +1062,8 @@ wc:
   - Cape Town
   Mediclinic (Cape Region Mediclinic Learning Centre):
   - Bellville
-  - Belville
   Moonstone Business School of Excellence:
   - Stellenbosch
-  Mowbray Maternity Hospital:
-  - Mowbray
   Nelson Mandela University (NMU):
   - George
   Netcare  Education (Pty Ltd):
@@ -1105,7 +1102,6 @@ wc:
   - Cape Town
   STADIO Prestige Academy:
   - Bellville
-  - Belville
   South African College of Applied Psychology (SACAP):
   - Cape Town
   South Cape:
@@ -1121,21 +1117,14 @@ wc:
   Stellenbosch Academy of Design and Photography (Pty) Ltd:
   - Stellenbosch
   Stellenbosch University (SU):
-  - Bellville Park
-  - Saldanha
   - Stellenbosch
   - Tygerberg
-  - Worcester
-  Swift Skills Academy:
-  - Killarney Gardens
-  - Vredenburg
   TSIBA Education NPC:
   - Woodstock
   The Animation School:
   - Cape Town
   The Fashion Institute of Garment Technology (Cape Town College of Fashion Design):
   - Mobray
-  - Mowbray
   The International Hotel School (Pty) Ltd:
   - Cape Town
   UNISA:

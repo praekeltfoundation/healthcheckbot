@@ -42,10 +42,7 @@ def process_university_data(
         province = PROVINCE_MAPPING[row["province"]]
         university = row.get("university") or row.get("tvet") or row["phei"]
         campus = row["campus"]
-        try:
-            processed[province][university].append(campus)
-        except AttributeError:
-            processed[province][university].add(campus)
+        processed[province][instutution] = set(campuses)
     return processed
 
 
@@ -69,7 +66,7 @@ if __name__ == "__main__":
         data = round_trip_load(f)
         for province, inst_data in data.items():
             for instutution, campuses in inst_data.items():
-                processed[province][instutution] = set(campuses)
+                processed[province][instutution] = campuses
 
     for filename in sys.argv[1:]:
         with open(filename) as f:
