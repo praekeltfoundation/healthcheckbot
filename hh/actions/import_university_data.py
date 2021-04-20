@@ -44,7 +44,7 @@ def process_university_data(
         campus = row["campus"]
         try:
             processed[province][university].append(campus)
-        except:
+        except AttributeError:
             processed[province][university].add(campus)
     return processed
 
