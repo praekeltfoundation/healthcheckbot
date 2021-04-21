@@ -211,6 +211,7 @@ class HealthCheckFormTests(TestCase):
         form.send_risk_to_user(dispatcher, "low", tracker)
         [msg] = dispatcher.messages
         self.assertEqual(msg["template"], "utter_risk_low")
+        self.assertEqual(msg["name"], "test first test last")
         self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
         self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
 

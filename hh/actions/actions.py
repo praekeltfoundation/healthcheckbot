@@ -197,8 +197,10 @@ class HealthCheckForm(BaseHealthCheckForm):
         issued = datetime.now(tz=timezone(timedelta(hours=2)))
         expired = issued + timedelta(days=1)
         date_format = "%B %-d, %Y, %-I:%M %p"
+        full_name = tracker.get_slot("first_name") + tracker.get_slot("last_name")
         dispatcher.utter_message(
             template=f"utter_risk_{risk}",
+            name=full_name,
             issued=issued.strftime(date_format),
             expired=expired.strftime(date_format),
         )
