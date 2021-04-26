@@ -407,6 +407,7 @@ responses:
 
         *HealthCheck Self-assessment Result*
 
+        Name: {name}
         Risk Level: Low
         Date Issued: {issued}
         Expiry date: {expired}
@@ -429,6 +430,7 @@ responses:
 
         *HealthCheck Self-assessment Result*
 
+        Name: {name}
         Risk Level: Moderate
         Date Issued: {issued}
         Expiry date: {expired}
@@ -453,6 +455,7 @@ responses:
 
         *HealthCheck Self-assessment Result*
 
+        Name: {name}
         Risk Level: High
         Date Issued: {issued}
         Expiry date: {expired}
