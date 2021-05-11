@@ -486,6 +486,16 @@ class HealthCheckProfileFormTests(TestCase):
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, ["obo_name"])
 
+    def test_required_slots_returning_parent(self):
+        """
+        For the returning parent profile, we want to see the confirm details slot
+        """
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        tracker.slots["profile"] = "parent"
+        tracker.slots["returning_user"] = "yes"
+        slots = HealthCheckProfileForm.required_slots(tracker)
+        self.assertEqual(slots, ["confirm_details"])
+
     def test_required_slots_returning_user(self):
         """
         For returning users, we should confirm details

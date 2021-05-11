@@ -175,11 +175,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             ]
 
         # Use on behalf of slots for parent profile
+
         if tracker.get_slot("profile") == "parent":
             slots = ["select_learner_profile", "profile", "obo_name"] + [
                 f"obo_{s}" for s in slots[1:]
             ]
-        elif tracker.get_slot("returning_user") == "yes":
+        if tracker.get_slot("returning_user") == "yes":
             if tracker.get_slot("change_details"):
                 slots = [
                     "province",
