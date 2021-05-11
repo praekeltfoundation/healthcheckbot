@@ -175,13 +175,14 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             ]
 
         # Use on behalf of slots for parent profile
-
         if tracker.get_slot("profile") == "parent":
             slots = ["select_learner_profile", "profile", "obo_name"] + [
                 f"obo_{s}" for s in slots[1:]
             ]
         if tracker.get_slot("returning_user") == "yes":
-            if tracker.get_slot("change_details"):
+            if tracker.get_slot("profile") == "parent":
+                slots = ["confirm_details_parent"] + slots
+            elif tracker.get_slot("change_details"):
                 slots = [
                     "province",
                     "school",
@@ -404,6 +405,87 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 "obo_tracing": None,
             }
         result["confirm_details"] = None
+        return result
+
+    def validate_confirm_details_parent(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        result = self.validate_generic(
+            "confirm_details_parent", dispatcher, value, {1: "yes", 2: "no"},
+        )
+        if result["confirm_details_parent"] == "no":
+            return {
+                "confirm_details": None,
+                "change_details": None,
+                "returning_user": None,
+                "profile": None,
+                "profile_display": None,
+                "age": None,
+                "gender": None,
+                "province": None,
+                "province_display": None,
+                "location": None,
+                "location_confirm": None,
+                "location_coords": None,
+                "city_location_coords": None,
+                "school": None,
+                "school_confirm": None,
+                "school_emis": None,
+                "medical_condition": None,
+                "medical_condition_obesity": None,
+                "medical_condition_diabetes": None,
+                "medical_condition_hypertension": None,
+                "medical_condition_cardio": None,
+                "medical_condition_asthma": None,
+                "medical_condition_tb": None,
+                "medical_condition_pregnant": None,
+                "medical_condition_respiratory": None,
+                "medical_condition_cardiac": None,
+                "medical_condition_immuno": None,
+                "symptoms_fever": None,
+                "symptoms_cough": None,
+                "symptoms_sore_throat": None,
+                "symptoms_difficulty_breathing": None,
+                "symptoms_taste_smell": None,
+                "exposure": None,
+                "tracing": None,
+                "learner_profiles": None,
+                "select_learner_profile": None,
+                "display_learner_profiles": None,
+                "obo_name": None,
+                "obo_age": None,
+                "obo_gender": None,
+                "obo_province": None,
+                "obo_location": None,
+                "obo_location_confirm": None,
+                "obo_location_coords": None,
+                "obo_city_location_coords": None,
+                "obo_school": None,
+                "obo_school_confirm": None,
+                "obo_school_emis": None,
+                "obo_medical_condition": None,
+                "obo_medical_condition_obesity": None,
+                "obo_medical_condition_diabetes": None,
+                "obo_medical_condition_hypertension": None,
+                "obo_medical_condition_cardio": None,
+                "obo_medical_condition_asthma": None,
+                "obo_medical_condition_tb": None,
+                "obo_medical_condition_pregnant": None,
+                "obo_medical_condition_respiratory": None,
+                "obo_medical_condition_cardiac": None,
+                "obo_medical_condition_immuno": None,
+                "obo_symptoms_fever": None,
+                "obo_symptoms_cough": None,
+                "obo_symptoms_sore_throat": None,
+                "obo_symptoms_difficulty_breathing": None,
+                "obo_symptoms_taste_smell": None,
+                "obo_exposure": None,
+                "obo_tracing": None,
+            }
         return result
 
     def validate_age(

@@ -257,6 +257,15 @@ responses:
           *1.* YES
           *2.* NO
 
+  utter_ask_confirm_details_parent:
+      - text: |
+          Please confirm that the information below is correct, based on the information you shared previously:
+          Role: {profile_display}
+
+          Reply
+          *1.* YES
+          *2.* NO
+
   utter_ask_confirm_details_marker:
       - text: |
           Please confirm that the information below is correct, based on the information you shared previously:

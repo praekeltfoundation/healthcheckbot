@@ -494,7 +494,7 @@ class HealthCheckProfileFormTests(TestCase):
         tracker.slots["profile"] = "parent"
         tracker.slots["returning_user"] = "yes"
         slots = HealthCheckProfileForm.required_slots(tracker)
-        self.assertEqual(slots, ["confirm_details"])
+        self.assertEqual(slots, ["confirm_details_parent"])
 
     def test_required_slots_returning_user(self):
         """
