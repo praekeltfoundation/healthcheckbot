@@ -642,7 +642,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post(
+        respx.post(
             "https://eventstore/api/v5/covid19triage/",
             content={"profile": {"hcs_study_a_arm": "T1"}},
         )
