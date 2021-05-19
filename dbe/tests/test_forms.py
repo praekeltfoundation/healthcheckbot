@@ -20,7 +20,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post("https://eventstore/api/v3/covid19triage/")
+        request = respx.post("https://eventstore/api/v5/covid19triage/", content={})
 
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()
@@ -108,7 +108,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post("https://eventstore/api/v3/covid19triage/")
+        request = respx.post("https://eventstore/api/v5/covid19triage/", content={})
 
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()
@@ -196,7 +196,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post("https://eventstore/api/v3/covid19triage/")
+        request = respx.post("https://eventstore/api/v5/covid19triage/", content={})
 
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()
@@ -284,7 +284,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post("https://eventstore/api/v3/covid19triage/")
+        request = respx.post("https://eventstore/api/v5/covid19triage/", content={})
 
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()

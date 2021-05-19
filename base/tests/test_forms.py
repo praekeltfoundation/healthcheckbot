@@ -573,7 +573,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
-        request = respx.post("https://eventstore/api/v3/covid19triage/")
+        request = respx.post("https://eventstore/api/v5/covid19triage/", content={})
 
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()
@@ -635,6 +635,52 @@ class TestHealthCheckForm:
 
     @respx.mock
     @pytest.mark.asyncio
+    async def test_submit_to_eventstore_study_a(self):
+        """
+        Submits the data to the eventstore in the correct format
+        """
+        base.actions.actions.config.EVENTSTORE_URL = "https://eventstore"
+        base.actions.actions.config.EVENTSTORE_TOKEN = "token"
+
+        request = respx.post(
+            "https://eventstore/api/v5/covid19triage/",
+            content={"profile": {"hcs_study_a_arm": "T1"}},
+        )
+
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = utils.get_tracker_for_slot_from_intent(
+            form,
+            "tracing",
+            "affirm",
+            {
+                "province": "wc",
+                "age": "18-39",
+                "symptoms_fever": "no",
+                "symptoms_cough": "no",
+                "symptoms_sore_throat": "yes",
+                "symptoms_difficulty_breathing": "no",
+                "symptoms_taste_smell": "no",
+                "exposure": "not sure",
+                "tracing": "yes",
+                "gender": "RATHER NOT SAY",
+                "medical_condition": "not sure",
+                "city_location_coords": "+1.2-3.4",
+                "location_coords": "+3.4-1.2",
+                "location": "Cape Town, South Africa",
+            },
+        )
+        await form.submit(dispatcher, tracker, {})
+
+        base.actions.actions.config.EVENTSTORE_URL = None
+        base.actions.actions.config.EVENTSTORE_TOKEN = None
+
+        [risk_message, study_a_message] = dispatcher.messages
+        assert risk_message["template"] == "utter_risk_moderate"
+        assert study_a_message["template"] == "utter_study_a_T1"
+
+    @respx.mock
+    @pytest.mark.asyncio
     async def test_submit_to_eventstore_retries(self):
         """
         Should retry on HTTP failures
@@ -643,7 +689,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_TOKEN = "token"
 
         request = respx.post(
-            "https://eventstore/api/v3/covid19triage/", status_code=500
+            "https://eventstore/api/v5/covid19triage/", status_code=500
         )
 
         form = HealthCheckForm()

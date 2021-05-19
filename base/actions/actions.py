@@ -740,6 +740,15 @@ class HealthCheckForm(BaseFormAction):
     ) -> None:
         dispatcher.utter_message(template=f"utter_risk_{risk}")
 
+    def send_study_a_message(
+        self,
+        dispatcher: CollectingDispatcher,
+        study_a_arm: Optional[Text],
+        tracker: Tracker,
+    ) -> None:
+        if study_a_arm and study_a_arm != "C":
+            dispatcher.utter_message(template=f"utter_study_a_{study_a_arm}")
+
     def get_risk_data(self, tracker: Tracker) -> Dict:
         data = {
             slot: tracker.get_slot(slot)
@@ -761,9 +770,10 @@ class HealthCheckForm(BaseFormAction):
             after all required slots are filled"""
         data = self.get_risk_data(tracker)
         risk = utils.get_risk_level(data)
+        study_a_arm = None
 
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
-            url = urljoin(config.EVENTSTORE_URL, "/api/v3/covid19triage/")
+            url = urljoin(config.EVENTSTORE_URL, "/api/v5/covid19triage/")
 
             post_data = self.get_eventstore_data(tracker, risk)
             headers = {
@@ -782,11 +792,15 @@ class HealthCheckForm(BaseFormAction):
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=post_data, headers=headers)
                         resp.raise_for_status()
+                        study_a_arm = (
+                            resp.json().get("profile", {}).get("hcs_study_a_arm", {})
+                        )
                         break
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
                         raise e
         self.send_risk_to_user(dispatcher, risk, tracker)
+        self.send_study_a_message(dispatcher, study_a_arm, tracker)
         return []
 
 
