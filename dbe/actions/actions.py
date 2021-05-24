@@ -486,6 +486,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 "obo_exposure": None,
                 "obo_tracing": None,
             }
+        result["confirm_details_parent"] = None
         return result
 
     def validate_age(
