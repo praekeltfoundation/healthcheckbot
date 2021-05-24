@@ -419,6 +419,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         )
         if result["confirm_details_parent"] == "no":
             return {
+                "confirm_details_parent": None,
                 "confirm_details": None,
                 "change_details": None,
                 "returning_user": None,

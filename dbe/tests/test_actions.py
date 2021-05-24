@@ -241,6 +241,16 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_confirm_details("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"confirm_details": "yes"})
 
+    def test_validate_confirm_details_parent(self):
+        """
+        Confirms the returning user details are correct
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_confirm_details_parent("yes", dispatcher, tracker, {})
+        self.assertEqual(response, {"confirm_details_parent": "yes"})
+
     def test_validate_province(self):
         """
         Should also update the province_display slot
@@ -370,6 +380,84 @@ class HealthCheckProfileFormTests(TestCase):
         self.assertEqual(
             response,
             {
+                "confirm_details": None,
+                "change_details": None,
+                "returning_user": None,
+                "profile": None,
+                "profile_display": None,
+                "age": None,
+                "gender": None,
+                "province": None,
+                "province_display": None,
+                "location": None,
+                "location_confirm": None,
+                "location_coords": None,
+                "city_location_coords": None,
+                "school": None,
+                "school_confirm": None,
+                "school_emis": None,
+                "medical_condition": None,
+                "medical_condition_obesity": None,
+                "medical_condition_diabetes": None,
+                "medical_condition_hypertension": None,
+                "medical_condition_cardio": None,
+                "medical_condition_asthma": None,
+                "medical_condition_tb": None,
+                "medical_condition_pregnant": None,
+                "medical_condition_respiratory": None,
+                "medical_condition_cardiac": None,
+                "medical_condition_immuno": None,
+                "symptoms_fever": None,
+                "symptoms_cough": None,
+                "symptoms_sore_throat": None,
+                "symptoms_difficulty_breathing": None,
+                "symptoms_taste_smell": None,
+                "exposure": None,
+                "tracing": None,
+                "learner_profiles": None,
+                "select_learner_profile": None,
+                "display_learner_profiles": None,
+                "obo_name": None,
+                "obo_age": None,
+                "obo_gender": None,
+                "obo_province": None,
+                "obo_location": None,
+                "obo_location_confirm": None,
+                "obo_location_coords": None,
+                "obo_city_location_coords": None,
+                "obo_school": None,
+                "obo_school_confirm": None,
+                "obo_school_emis": None,
+                "obo_medical_condition": None,
+                "obo_medical_condition_obesity": None,
+                "obo_medical_condition_diabetes": None,
+                "obo_medical_condition_hypertension": None,
+                "obo_medical_condition_cardio": None,
+                "obo_medical_condition_asthma": None,
+                "obo_medical_condition_tb": None,
+                "obo_medical_condition_pregnant": None,
+                "obo_medical_condition_respiratory": None,
+                "obo_medical_condition_cardiac": None,
+                "obo_medical_condition_immuno": None,
+                "obo_symptoms_fever": None,
+                "obo_symptoms_cough": None,
+                "obo_symptoms_sore_throat": None,
+                "obo_symptoms_difficulty_breathing": None,
+                "obo_symptoms_taste_smell": None,
+                "obo_exposure": None,
+                "obo_tracing": None,
+            },
+        )
+
+    def test_validate_change_details_role_parent(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
+        dispatcher = CollectingDispatcher()
+        response = form.validate_confirm_details_parent("2", dispatcher, tracker, {})
+        self.assertEqual(
+            response,
+            {
+                "confirm_details_parent": None,
                 "confirm_details": None,
                 "change_details": None,
                 "returning_user": None,
