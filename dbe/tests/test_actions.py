@@ -248,7 +248,7 @@ class HealthCheckProfileFormTests(TestCase):
         form = HealthCheckProfileForm()
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
-        response = form.validate_confirm_details("yes", dispatcher, tracker, {})
+        response = form.validate_confirm_details_parent("yes", dispatcher, tracker, {})
         self.assertEqual(response, {"confirm_details_parent": "yes"})
 
     def test_validate_province(self):
