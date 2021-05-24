@@ -453,7 +453,7 @@ class HealthCheckProfileFormTests(TestCase):
         form = HealthCheckProfileForm()
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         dispatcher = CollectingDispatcher()
-        response = form.validate_change_details("2", dispatcher, tracker, {})
+        response = form.validate_confirm_details_parent("2", dispatcher, tracker, {})
         self.assertEqual(
             response,
             {
