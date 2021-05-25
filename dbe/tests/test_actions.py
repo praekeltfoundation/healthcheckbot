@@ -381,6 +381,7 @@ class HealthCheckProfileFormTests(TestCase):
             response,
             {
                 "confirm_details": None,
+                "confirm_details_parent": None,
                 "change_details": None,
                 "returning_user": None,
                 "profile": None,
