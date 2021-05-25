@@ -112,6 +112,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         for field in [
             "school_confirm",
             "confirm_details",
+            "confirm_details_parent",
             "medical_condition_asthma",
             "medical_condition_tb",
             "medical_condition_pregnant",
@@ -337,6 +338,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             result["province"] = None
         elif result["change_details"] == "role":
             return {
+                "confirm_details_parent": None,
                 "confirm_details": None,
                 "change_details": None,
                 "returning_user": None,
