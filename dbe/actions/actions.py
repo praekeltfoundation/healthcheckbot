@@ -112,13 +112,13 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         for field in [
             "school_confirm",
             "confirm_details",
-            "confirm_details_parent",
             "medical_condition_asthma",
             "medical_condition_tb",
             "medical_condition_pregnant",
             "medical_condition_respiratory",
             "medical_condition_cardiac",
             "medical_condition_immuno",
+            "confirm_details_parent"
         ]:
             mappings[field] = [
                 self.from_entity(entity="number"),
