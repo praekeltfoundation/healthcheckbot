@@ -28,6 +28,9 @@ slots:
   confirm_details:
     type: unfeaturized
     auto_fill: false
+  confirm_details_parent:
+    type: unfeaturized
+    auto_fill: false
   change_details:
     type: unfeaturized
     auto_fill: false

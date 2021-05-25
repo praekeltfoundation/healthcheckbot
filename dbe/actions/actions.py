@@ -118,6 +118,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             "medical_condition_respiratory",
             "medical_condition_cardiac",
             "medical_condition_immuno",
+            "confirm_details_parent",
         ]:
             mappings[field] = [
                 self.from_entity(entity="number"),
@@ -337,6 +338,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             result["province"] = None
         elif result["change_details"] == "role":
             return {
+                "confirm_details_parent": None,
                 "confirm_details": None,
                 "change_details": None,
                 "returning_user": None,
