@@ -661,7 +661,7 @@ class TestHealthCheckForm:
                 "symptoms_sore_throat": "yes",
                 "symptoms_difficulty_breathing": "no",
                 "symptoms_taste_smell": "no",
-                "exposure": "not sure",
+                "exposure": "yes",
                 "tracing": "yes",
                 "gender": "RATHER NOT SAY",
                 "medical_condition": "not sure",
@@ -676,7 +676,7 @@ class TestHealthCheckForm:
         base.actions.actions.config.EVENTSTORE_TOKEN = None
 
         [risk_message, study_a_message] = dispatcher.messages
-        assert risk_message["template"] == "utter_risk_moderate"
+        assert risk_message["template"] == "utter_risk_high"
         assert study_a_message["template"] == "utter_study_a_T1"
 
     @respx.mock
@@ -726,6 +726,56 @@ class TestHealthCheckForm:
 
         base.actions.actions.config.EVENTSTORE_URL = None
         base.actions.actions.config.EVENTSTORE_TOKEN = None
+
+    @pytest.mark.asyncio
+    async def test_post_risk_prompts_high_risk(self):
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker("", {}, None, [], False, None, None, None)
+
+        form.send_post_risk_prompts(dispatcher, "high", tracker)
+
+        assert dispatcher.messages == []
+
+    @pytest.mark.asyncio
+    async def test_post_risk_prompts_moderate_risk_cough(self):
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker(
+            "", {"symptoms_cough": "yes"}, None, [], False, None, None, None
+        )
+
+        form.send_post_risk_prompts(dispatcher, "moderate", tracker)
+
+        [prompt_cough, prompt_moderate] = dispatcher.messages
+        assert prompt_cough["template"] == "utter_tb_prompt_cough"
+        assert prompt_moderate["template"] == "utter_tb_prompt_moderate"
+
+    @pytest.mark.asyncio
+    async def test_post_risk_prompts_moderate_risk_fever(self):
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker(
+            "", {"symptoms_fever": "yes"}, None, [], False, None, None, None
+        )
+
+        form.send_post_risk_prompts(dispatcher, "moderate", tracker)
+
+        [prompt_fever, prompt_moderate] = dispatcher.messages
+        assert prompt_fever["template"] == "utter_tb_prompt_fever"
+        assert prompt_moderate["template"] == "utter_tb_prompt_moderate"
+
+    @pytest.mark.asyncio
+    async def test_post_risk_prompts_low_risk(self):
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        tracker = Tracker("", {}, None, [], False, None, None, None)
+
+        form.send_post_risk_prompts(dispatcher, "low", tracker)
+
+        [prompt_low1, prompt_low2] = dispatcher.messages
+        assert prompt_low1["template"] == "utter_tb_prompt_low_risk_1"
+        assert prompt_low2["template"] == "utter_tb_prompt_low_risk_2"
 
     @pytest.mark.asyncio
     async def test_validate_yes_no(self):

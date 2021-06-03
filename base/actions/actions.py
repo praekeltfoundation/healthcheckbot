@@ -749,6 +749,26 @@ class HealthCheckForm(BaseFormAction):
         if study_a_arm and study_a_arm != "C":
             dispatcher.utter_message(template=f"utter_study_a_{study_a_arm}")
 
+    def send_post_risk_prompts(
+        self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
+    ):
+        self.send_tbconnect_prompts(dispatcher, risk, tracker)
+
+    def send_tbconnect_prompts(
+        self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
+    ):
+        if risk == "high":
+            return
+        if risk == "moderate":
+            if tracker.get_slot("symptoms_cough") == "yes":
+                dispatcher.utter_message(template="utter_tb_prompt_cough")
+            elif tracker.get_slot("symptoms_fever") == "yes":
+                dispatcher.utter_message(template="utter_tb_prompt_fever")
+            dispatcher.utter_message(template="utter_tb_prompt_moderate")
+        if risk == "low":
+            dispatcher.utter_message(template="utter_tb_prompt_low_risk_1")
+            dispatcher.utter_message(template="utter_tb_prompt_low_risk_2")
+
     def get_risk_data(self, tracker: Tracker) -> Dict:
         data = {
             slot: tracker.get_slot(slot)
@@ -801,6 +821,7 @@ class HealthCheckForm(BaseFormAction):
                         raise e
         self.send_risk_to_user(dispatcher, risk, tracker)
         self.send_study_a_message(dispatcher, study_a_arm, tracker)
+        self.send_post_risk_prompts(dispatcher, risk, tracker)
         return []
 
 

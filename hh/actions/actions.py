@@ -205,6 +205,11 @@ class HealthCheckForm(BaseHealthCheckForm):
             expired=expired.strftime(date_format),
         )
 
+    def send_post_risk_prompts(
+        self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
+    ):
+        pass
+
 
 class ActionSessionStart(BaseActionSessionStart):
     def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
