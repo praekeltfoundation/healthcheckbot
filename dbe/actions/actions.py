@@ -904,6 +904,11 @@ class HealthCheckForm(BaseHealthCheckForm):
     validate_obo_exposure = obo_validator(BaseHealthCheckForm.validate_exposure)
     validate_obo_tracing = obo_validator(BaseHealthCheckForm.validate_tracing)
 
+    def send_post_risk_prompts(
+        self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
+    ):
+        pass
+
 
 class ActionSessionStart(Action):
     def name(self) -> Text:
