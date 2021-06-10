@@ -208,7 +208,7 @@ class HealthCheckForm(BaseHealthCheckForm):
     def send_post_risk_prompts(
         self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
     ):
-        pass
+        self.send_tbconnect_prompts(dispatcher, risk, tracker)
 
 
 class ActionSessionStart(BaseActionSessionStart):
