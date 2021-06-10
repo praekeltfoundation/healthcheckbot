@@ -462,6 +462,21 @@ responses:
 
         🧼 Higher Health supported by Lifebuoy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and https://www.higherhealth.ac.za
 
+  utter_tb_prompt_cough:
+    - text: A cough may also be a sign of TB – a dangerous but treatable disease.
+
+  utter_tb_prompt_fever:
+    - text: A fever or night sweats may also be signs of TB.
+
+  utter_tb_prompt_moderate:
+    - text: Some COVID symptoms are like TB symptoms. To protect your health, we recommend that you complete a TB HealthCheck. To start, please follow this link https://wa.me/27600123456?text=TB
+
+  utter_tb_prompt_low_risk_1:
+    - text: One of the less obvious signs of TB is losing weight without realising it.
+
+  utter_tb_prompt_low_risk_2:
+    - text: If you or a family member has cough, fever, weight loss or night sweats, please also check if you have TB by following this link https://wa.me/27600123456?text=TB.
+
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
   utter_exit:
