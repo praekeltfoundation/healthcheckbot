@@ -91,6 +91,9 @@ ec:
   Pearson Instittute of Higher Education:
   - East London
   - Port Elizabeth
+  Pearson Institute of Higher Education  Eduvos:
+  - East London
+  - Port Elizabeth
   Port Elizabeth:
   - Central Office
   - Dower
@@ -175,6 +178,8 @@ fs:
   - Thaba 'Nchu
   - Zastron
   Pearson Instittute of Higher Education:
+  - Bloemfontein
+  Pearson Institute of Higher Education  Eduvos:
   - Bloemfontein
   Richfield Graduate School:
   - Bloemfontein
@@ -392,6 +397,11 @@ gt:
   PM Academy:
   - Edenvale
   Pearson Instittute of Higher Education:
+  - Bedfordview
+  - Midrand
+  - Pretoria
+  - Vanderbijlpark
+  Pearson Institute of Higher Education  Eduvos:
   - Bedfordview
   - Midrand
   - Pretoria
@@ -662,6 +672,8 @@ mp:
   - Witbank
   Pearson Instittute of Higher Education:
   - Nelspruit
+  Pearson Institute of Higher Education  Eduvos:
+  - Nelspruit
   Richfield Graduate School:
   - Mbombela
   - Middelburg
@@ -813,6 +825,8 @@ nl:
   - Durban
   Pearson Instittute of Higher Education:
   - Umhlanga
+  Pearson Institute of Higher Education  Eduvos:
+  - Umhlanga
   Production Management Institute of Southern Africa PTY LTD / PMI (HEAD OFFICE):
   - Durban
   Regent Business School (Pty) Ltd:
@@ -911,6 +925,8 @@ nw:
   - Mankwe
   - Rustenburg
   Pearson Instittute of Higher Education:
+  - Potchefstroom
+  Pearson Institute of Higher Education  Eduvos:
   - Potchefstroom
   Potchefstroom Academy:
   - Potchefstroom
@@ -1085,6 +1101,9 @@ wc:
   Optimi College (Pty) Ltd T/A College SA:
   - Cape Town
   Pearson Instittute of Higher Education:
+  - Cape Town
+  - Durbanville
+  Pearson Institute of Higher Education  Eduvos:
   - Cape Town
   - Durbanville
   Private Hotel School (Part of ADvTech Group):
