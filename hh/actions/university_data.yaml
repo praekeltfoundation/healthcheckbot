@@ -34,6 +34,9 @@ ec:
   - Eastern Cape CET College
   Ed-U City Campus (Pty) Ltd:
   - Port Elizabeth
+  Eduvos:
+  - East London
+  - Port Elizabeth
   Health and Fitness Professionals Academy (HFPA):
   - Port Elizabeth
   IQ Academy:
@@ -88,12 +91,6 @@ ec:
   - South
   Netcare  Education (Pty Ltd):
   - Port Elizabeth
-  Pearson Instittute of Higher Education:
-  - East London
-  - Port Elizabeth
-  Pearson Institute of Higher Education  Eduvos:
-  - East London
-  - Port Elizabeth
   Port Elizabeth:
   - Central Office
   - Dower
@@ -140,6 +137,8 @@ fs:
   - Welkom
   Damelin:
   - Bloemfontein
+  Eduvos:
+  - Bloemfontein
   Flavius Mareka:
   - Central Office
   - Kroonstad
@@ -177,10 +176,6 @@ fs:
   - Koffiefontein
   - Thaba 'Nchu
   - Zastron
-  Pearson Instittute of Higher Education:
-  - Bloemfontein
-  Pearson Institute of Higher Education  Eduvos:
-  - Bloemfontein
   Richfield Graduate School:
   - Bloemfontein
   - Phuthaditjhaba
@@ -284,6 +279,11 @@ gt:
   - Pretoria CBD
   - Randburg
   - Vereeniging
+  Eduvos:
+  - Bedfordview
+  - Midrand
+  - Pretoria
+  - Vanderbijlpark
   Ekurhuleni East:
   - Benoni
   - Brakpan
@@ -396,16 +396,6 @@ gt:
   - Centurion
   PM Academy:
   - Edenvale
-  Pearson Instittute of Higher Education:
-  - Bedfordview
-  - Midrand
-  - Pretoria
-  - Vanderbijlpark
-  Pearson Institute of Higher Education  Eduvos:
-  - Bedfordview
-  - Midrand
-  - Pretoria
-  - Vanderbijlpark
   Private Hotel School (Part of ADvTech Group):
   - Rosebank
   Pro-Active Public Services College (Pty) Ltd:
@@ -632,6 +622,8 @@ mp:
   - Mbombela
   Centurion Akademie:
   - Witbank
+  Eduvos:
+  - Nelspruit
   Ehlanzeni:
   - Barberton
   - Central Office
@@ -670,10 +662,6 @@ mp:
   - Mpondozankomo
   - Waterval Boven
   - Witbank
-  Pearson Instittute of Higher Education:
-  - Nelspruit
-  Pearson Institute of Higher Education  Eduvos:
-  - Nelspruit
   Richfield Graduate School:
   - Mbombela
   - Middelburg
@@ -761,6 +749,8 @@ nl:
   - Ritson
   - Riverside
   - Steve Biko
+  Eduvos:
+  - Umhlanga
   Elangeni:
   - Central Office
   - Inanda
@@ -823,10 +813,6 @@ nl:
   - Pinetown
   Netcare  Education (Pty Ltd):
   - Durban
-  Pearson Instittute of Higher Education:
-  - Umhlanga
-  Pearson Institute of Higher Education  Eduvos:
-  - Umhlanga
   Production Management Institute of Southern Africa PTY LTD / PMI (HEAD OFFICE):
   - Durban
   Regent Business School (Pty) Ltd:
@@ -908,6 +894,8 @@ nw:
   Centurion Akademie:
   - Klerksdrop
   - Rusternburg
+  Eduvos:
+  - Potchefstroom
   Jeppe College:
   - Rustenburg
   MSC Business College:
@@ -924,10 +912,6 @@ nw:
   - Central Office
   - Mankwe
   - Rustenburg
-  Pearson Instittute of Higher Education:
-  - Potchefstroom
-  Pearson Institute of Higher Education  Eduvos:
-  - Potchefstroom
   Potchefstroom Academy:
   - Potchefstroom
   Richfield Graduate School:
@@ -1029,6 +1013,9 @@ wc:
   - Table View
   Design Academy of Fashion:
   - Cape Town
+  Eduvos:
+  - Cape Town
+  - Durbanville
   Elizabeth Galloway Academy of Fashion Design:
   - Stellenbosch
   Equine Librium:
@@ -1100,12 +1087,6 @@ wc:
   - Somerset West
   Optimi College (Pty) Ltd T/A College SA:
   - Cape Town
-  Pearson Instittute of Higher Education:
-  - Cape Town
-  - Durbanville
-  Pearson Institute of Higher Education  Eduvos:
-  - Cape Town
-  - Durbanville
   Private Hotel School (Part of ADvTech Group):
   - Stellenbosch
   Production Management Institute of Southern Africa PTY LTD / PMI:
