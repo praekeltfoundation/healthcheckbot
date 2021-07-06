@@ -394,7 +394,7 @@ responses:
     - text: "All done!"
 
   utter_risk_low:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low-2.jpg"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low-3.png"
       claim: release
       text: |
         Thank you for answering all questions.
@@ -412,10 +412,8 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        🧼 Higher Health supported by Lifebuoy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and https://www.higherhealth.ac.za
-
   utter_risk_moderate:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod-2.jpg"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod-3.png"
       claim: release
       text: |
         Based on your responses, we recommend that you remain in SELF-QUARANTINE for a period of 10 days and complete this HealthCheck daily to monitor your symptoms.
@@ -435,10 +433,8 @@ responses:
         Date Issued: {issued}
         Expiry date: {expired}
 
-        🧼 Higher Health supported by Lifebuoy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and https://www.higherhealth.ac.za
-
   utter_risk_high:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high-2.jpg"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high-3.png"
       claim: release
       text: |
         Based on your responses, we urge you to *GET TESTED* to find out if you are infected with COVID-19.
@@ -459,8 +455,6 @@ responses:
         Risk Level: High
         Date Issued: {issued}
         Expiry date: {expired}
-
-        🧼 Higher Health supported by Lifebuoy, European Union and HWSETA. Visit https://www.lifebuoy.co.za/ and https://www.higherhealth.ac.za
 
   utter_tb_prompt_cough:
     - text: A cough may also be a sign of TB – a dangerous but treatable disease.
