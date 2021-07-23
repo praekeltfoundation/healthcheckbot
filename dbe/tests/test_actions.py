@@ -106,6 +106,35 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"school": "CARPE DIEM SKOOL", "school_emis": "118456233"}
         )
 
+    def test_validate_school_district_provincial_official(self):
+        """
+        Should search and sort against both school and marking centre indexes
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"province": "wc", "profile": "district_provincial_official"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        response = form.validate_school(
+            "cape teaching and leadershup", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(
+            response,
+            {"school": "CAPE TEACHING AND LEADERSHIP INST.", "school_emis": None},
+        )
+        response = form.validate_school(
+            "carpe diem", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(
+            response, {"school": "CARPE DIEM SKOOL", "school_emis": "118456233"}
+        )
+
     def test_validate_school_or_clause(self):
         """
         The search should be an OR between terms

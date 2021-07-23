@@ -41,6 +41,7 @@ PROFILE_DISPLAY = {
     "exam_official": "Exam Official",
     "dbe_staff": "National DBE Staff",
     "dhet_staff": "National DHET Staff",
+    "district_provincial_official,": "District or Provincial Official",
 }
 
 
@@ -518,7 +519,11 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             ix = open_dir("dbe/actions/marking_centre_index")
 
             parser = QueryParser("name", ix.schema, termclass=FuzzyTerm)
-        elif tracker.get_slot("profile") in ["dbe_staff", "dhet_staff"]:
+        elif tracker.get_slot("profile") in [
+            "dbe_staff",
+            "dhet_staff",
+            "district_provincial_official",
+        ]:
             schools: List[Tuple[float, Text, Optional[Text]]] = []
             ix = open_dir("dbe/actions/marking_centre_index")
             parser = QueryParser("name", ix.schema, termclass=FuzzyTerm, group=OrGroup)

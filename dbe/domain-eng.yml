@@ -318,6 +318,7 @@ responses:
           *8.* Exam Official
           *9.* National DBE Staff
           *10.* National DHET Staff
+          *11.* District or Provincial Official
 
   utter_more_terms:
       - text: |
