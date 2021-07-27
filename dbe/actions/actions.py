@@ -41,7 +41,7 @@ PROFILE_DISPLAY = {
     "exam_official": "Exam Official",
     "dbe_staff": "National DBE Staff",
     "dhet_staff": "National DHET Staff",
-    "district_provincial_official,": "District or Provincial Official",
+    "district_provincial_official": "District or Provincial Official",
 }
 
 
