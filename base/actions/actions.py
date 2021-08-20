@@ -191,6 +191,15 @@ class HealthCheckProfileForm(BaseFormAction):
         "medical_condition",
     ]
 
+    MINOR_SKIP_SLOTS = [
+        "location",
+        "location_confirm",
+        "medical_condition_obesity",
+        "medical_condition_diabetes",
+        "medical_condition_hypertension",
+        "medical_condition_cardio",
+    ]
+
     CONDITIONS = [
         "medical_condition_obesity",
         "medical_condition_diabetes",
@@ -216,6 +225,10 @@ class HealthCheckProfileForm(BaseFormAction):
         # expanded questions when user has underlying medical conditions
         if tracker.get_slot("medical_condition") != "no":
             slots = cls.SLOTS + cls.PERSISTED_SLOTS + cls.CONDITIONS
+
+        if tracker.get_slot("age") == "<18":
+            for slot in cls.MINOR_SKIP_SLOTS:
+                slots.remove(slot)
 
         for slot in slots:
             if not tracker.get_slot(slot):
@@ -293,7 +306,10 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("age", dispatcher, value, self.age_data)
+        result = self.validate_generic("age", dispatcher, value, self.age_data)
+        if result.get("age") == "<18":
+            result["location"] = "<not collected>"
+        return result
 
     def validate_gender(
         self,

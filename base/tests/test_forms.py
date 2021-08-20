@@ -76,7 +76,11 @@ class TestHealthCheckProfileForm:
 
         tracker = utils.get_tracker_for_number_slot_with_value(form, "age", "1")
         events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
-        assert events == [SlotSet("age", "<18"), SlotSet("requested_slot", "gender")]
+        assert events == [
+            SlotSet("age", "<18"),
+            SlotSet("location", "<not collected>"),
+            SlotSet("requested_slot", "gender"),
+        ]
 
         tracker = utils.get_tracker_for_number_slot_with_value(form, "age", "2")
         events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)

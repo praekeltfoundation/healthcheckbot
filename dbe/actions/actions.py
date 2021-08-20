@@ -81,6 +81,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "school_confirm",
         "medical_condition",
     ]
+    MINOR_SKIP_SLOTS: List[str] = []
 
     def request_next_slot(self, dispatcher, tracker, domain):
         for slot in self.required_slots(tracker):
