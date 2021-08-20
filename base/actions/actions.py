@@ -191,7 +191,7 @@ class HealthCheckProfileForm(BaseFormAction):
         "medical_condition",
     ]
 
-    MINOR_SLOTS = [
+    MINOR_SKIP_SLOTS = [
         "location",
         "location_confirm",
         "medical_condition_obesity",
@@ -227,7 +227,7 @@ class HealthCheckProfileForm(BaseFormAction):
             slots = cls.SLOTS + cls.PERSISTED_SLOTS + cls.CONDITIONS
 
         if tracker.get_slot("age") == "<18":
-            for slot in cls.MINOR_SLOTS:
+            for slot in cls.MINOR_SKIP_SLOTS:
                 slots.remove(slot)
 
         for slot in slots:
@@ -827,8 +827,6 @@ class HealthCheckForm(BaseFormAction):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=post_data, headers=headers)
-                        print(resp.status_code)
-                        print(resp.content)
                         resp.raise_for_status()
                         study_a_arm = (
                             resp.json().get("profile", {}).get("hcs_study_a_arm", {})
