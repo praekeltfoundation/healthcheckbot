@@ -228,7 +228,8 @@ class HealthCheckProfileForm(BaseFormAction):
 
         if tracker.get_slot("age") == "<18":
             for slot in cls.MINOR_SKIP_SLOTS:
-                slots.remove(slot)
+                if slot in slots:
+                    slots.remove(slot)
 
         for slot in slots:
             if not tracker.get_slot(slot):
