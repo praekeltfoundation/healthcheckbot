@@ -191,6 +191,15 @@ class HealthCheckProfileForm(BaseFormAction):
         "medical_condition",
     ]
 
+    MINOR_SLOTS = [
+        "location",
+        "location_confirm",
+        "medical_condition_obesity",
+        "medical_condition_diabetes",
+        "medical_condition_hypertension",
+        "medical_condition_cardio",
+    ]
+
     CONDITIONS = [
         "medical_condition_obesity",
         "medical_condition_diabetes",
@@ -216,6 +225,10 @@ class HealthCheckProfileForm(BaseFormAction):
         # expanded questions when user has underlying medical conditions
         if tracker.get_slot("medical_condition") != "no":
             slots = cls.SLOTS + cls.PERSISTED_SLOTS + cls.CONDITIONS
+
+        if tracker.get_slot("age") == "<18":
+            for slot in cls.MINOR_SLOTS:
+                slots.remove(slot)
 
         for slot in slots:
             if not tracker.get_slot(slot):
@@ -293,7 +306,10 @@ class HealthCheckProfileForm(BaseFormAction):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        return self.validate_generic("age", dispatcher, value, self.age_data)
+        result = self.validate_generic("age", dispatcher, value, self.age_data)
+        if result.get("age") == "<18":
+            result["location"] = "<not collected>"
+        return result
 
     def validate_gender(
         self,
@@ -811,6 +827,8 @@ class HealthCheckForm(BaseFormAction):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=post_data, headers=headers)
+                        print(resp.status_code)
+                        print(resp.content)
                         resp.raise_for_status()
                         study_a_arm = (
                             resp.json().get("profile", {}).get("hcs_study_a_arm", {})

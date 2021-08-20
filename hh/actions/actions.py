@@ -48,6 +48,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "campus",
         "medical_condition",
     ]
+    MINOR_SLOTS = []
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         mappings = super().slot_mappings()
