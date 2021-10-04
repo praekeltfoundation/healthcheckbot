@@ -27,6 +27,7 @@ class HealthCheckProfileFormTests(TestCase):
         self.assertIn("reason", mappings)
         self.assertIn("destination_province", mappings)
         self.assertIn("university", mappings)
+        self.assertIn("vaccine_uptake", mappings)
 
     def test_validate_destination(self):
         form = HealthCheckProfileForm()
@@ -117,6 +118,25 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"campus": "Cenral"},
         )
 
+    def test_validate_vaccine_uptake(self):
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001",
+            {"destination_province": "ec", "university": "afda", "campus": "Cenral"},
+            {},
+            [],
+            False,
+            None,
+            {},
+            None,
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        response = form.validate_vaccine_uptake_confirm("3", dispatcher, tracker, {})
+        self.assertEqual(
+            response, {"vaccine_uptake": "not"},
+        )
+
 
 class HealthCheckFormTests(TestCase):
     def test_eventstore_data(self):
@@ -150,6 +170,7 @@ class HealthCheckFormTests(TestCase):
                 "destination_province": "ec",
                 "university_confirm": "AFDA",
                 "campus": "Cenral",
+                "vaccine_uptake": "partially",
             },
             {},
             [],
@@ -193,6 +214,7 @@ class HealthCheckFormTests(TestCase):
                     "destination_province": "ZA-EC",
                     "university": {"name": "AFDA"},
                     "campus": {"name": "Cenral"},
+                    "vaccine_uptake": "partially"
                 },
             },
         )

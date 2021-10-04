@@ -47,6 +47,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "university_confirm",
         "campus",
         "medical_condition",
+        "vaccine_uptake",
     ]
     MINOR_SKIP_SLOTS: List[str] = []
 
@@ -66,12 +67,20 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_text(),
         ]
         mappings["campus"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["vaccine_uptake"] = [
+            self.from_entity(entity="number"),
+            self.from_text(),
+        ]
         return mappings
 
     @property
     def destination_data(self) -> Dict[int, Text]:
         with open("hh/data/lookup_tables/destinations.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
+
+    @property
+    def vaccine_uptake_data(self) -> Dict[int, Text]:
+        return {1: "PARTIALLY", 2: "FULLY", 3: "NOT"}
 
     def validate_destination(
         self,
@@ -164,6 +173,18 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             data["campus_list"] = self.make_list(campus_data)
         return data
 
+    def validate_vaccine_uptake_confirm(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        data = self.validate_generic("vaccine_uptake", dispatcher, value, self.vaccinated_data)
+        if data.get("vaccine_uptake") == "NOT":
+            dispatcher.utter_message(template="utter_not_vaccinated")
+        return data
+
     def validate_campus(
         self,
         value: Text,
@@ -189,6 +210,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         ] = f'ZA-{tracker.get_slot("destination_province").upper()}'
         data["data"]["university"] = {"name": tracker.get_slot("university_confirm")}
         data["data"]["campus"] = {"name": tracker.get_slot("campus")}
+        data["data"]["vaccine_uptake"] = tracker.get_slot("vaccine_uptake")
         return data
 
     def send_risk_to_user(
