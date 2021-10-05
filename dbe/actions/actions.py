@@ -81,7 +81,10 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "school_confirm",
         "medical_condition",
     ]
-    MINOR_SKIP_SLOTS: List[str] = []
+    MINOR_SKIP_SLOTS = [
+        "location",
+        "location_confirm"
+    ]
 
     def request_next_slot(self, dispatcher, tracker, domain):
         for slot in self.required_slots(tracker):
@@ -164,10 +167,24 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 pass
             try:
                 if (
+                    int(tracker.get_slot("age")) < 18
+                ):
+                    slots -= cls.MINOR_SKIP_SLOTS
+            except (TypeError, ValueError):
+                pass
+            try:
+                if (
                     int(tracker.get_slot("obo_age")) >= 12
                     and tracker.get_slot("obo_gender") == "FEMALE"
                 ):
                     slots += ["medical_condition_pregnant"]
+            except (TypeError, ValueError):
+                pass
+            try:
+                if (
+                    int(tracker.get_slot("obo_age")) <18
+                ):
+                    slots -= cls.MINOR_SKIP_SLOTS
             except (TypeError, ValueError):
                 pass
 
@@ -196,6 +213,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 slots = ["change_details"] + slots
             elif not tracker.get_slot("confirm_details"):
                 slots = ["confirm_details"] + slots
+
         return slots
 
     @classmethod
@@ -737,6 +755,9 @@ class HealthCheckForm(BaseHealthCheckForm):
                 if not tracker.get_slot(slot):
                     return [slot]
             return []
+        if tracker.get_slot("age") == "<18":
+            for slot in cls.MINOR_SKIP_SLOTS:
+                slots.remove(slot)
         return slots
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
