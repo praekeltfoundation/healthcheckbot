@@ -164,7 +164,8 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 pass
             try:
                 if int(tracker.get_slot("age")) < 18:
-                    slots -= cls.MINOR_SKIP_SLOTS
+                    for slot in cls.MINOR_SKIP_SLOTS:
+                        slots.remove(slot)
             except (TypeError, ValueError):
                 pass
             try:
@@ -177,7 +178,8 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 pass
             try:
                 if int(tracker.get_slot("obo_age")) < 18:
-                    slots -= cls.MINOR_SKIP_SLOTS
+                    for slot in cls.MINOR_SKIP_SLOTS:
+                        slots.remove(slot)
             except (TypeError, ValueError):
                 pass
 
