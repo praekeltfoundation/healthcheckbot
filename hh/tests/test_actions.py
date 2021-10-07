@@ -131,7 +131,7 @@ class HealthCheckProfileFormTests(TestCase):
             "action_listen",
         )
         dispatcher = CollectingDispatcher()
-        response = form.validate_vaccine_uptake_confirm("3", dispatcher, tracker, {})
+        response = form.validate_vaccine_uptake("3", dispatcher, tracker, {})
         self.assertEqual(
             response, {"vaccine_uptake": "not"},
         )
