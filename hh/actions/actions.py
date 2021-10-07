@@ -180,7 +180,9 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
-        data = self.validate_generic("vaccine_uptake", dispatcher, value, self.vaccinated_data)
+        data = self.validate_generic(
+            "vaccine_uptake", dispatcher, value, self.vaccinated_data
+        )
         if data.get("vaccine_uptake") == "NOT":
             dispatcher.utter_message(template="utter_not_vaccinated")
         return data

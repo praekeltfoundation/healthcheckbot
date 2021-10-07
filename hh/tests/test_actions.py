@@ -214,7 +214,7 @@ class HealthCheckFormTests(TestCase):
                     "destination_province": "ZA-EC",
                     "university": {"name": "AFDA"},
                     "campus": {"name": "Cenral"},
-                    "vaccine_uptake": "partially"
+                    "vaccine_uptake": "partially",
                 },
             },
         )
