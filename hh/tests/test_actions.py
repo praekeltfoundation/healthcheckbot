@@ -118,7 +118,8 @@ class HealthCheckProfileFormTests(TestCase):
             response, {"campus": "Cenral"},
         )
 
-    def test_validate_vaccine_uptake(self):
+    @patch("hh.actions.actions.CollectingDispatcher.utter_message")
+    def test_validate_vaccine_uptake(self, mock_utter):
         form = HealthCheckProfileForm()
         tracker = Tracker(
             "27820001001",
@@ -135,6 +136,7 @@ class HealthCheckProfileFormTests(TestCase):
         self.assertEqual(
             response, {"vaccine_uptake": "not"},
         )
+        mock_utter.assert_called_once_with(template="utter_not_vaccinated")
 
 
 class HealthCheckFormTests(TestCase):
