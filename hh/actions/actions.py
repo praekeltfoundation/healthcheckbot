@@ -185,8 +185,10 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         )
         if data.get("vaccine_uptake") == "not":
             dispatcher.utter_message(template="utter_not_vaccinated")
-        # convert to uppercase to be consistent with other channels
-        data["vaccine_uptake"] = data["vaccine_uptake"].upper()
+        # Convert to uppercase to be consistent with other channels
+        # Check that it's a string first for safety
+        if isinstance(data["vaccine_uptake"], str):
+            data["vaccine_uptake"] = data["vaccine_uptake"].upper()
         return data
 
     def validate_campus(
