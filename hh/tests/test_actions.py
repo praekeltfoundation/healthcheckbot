@@ -128,7 +128,6 @@ class HealthCheckProfileFormTests(TestCase):
             False,
             None,
             {},
-            None,
             "action_listen",
         )
         dispatcher = CollectingDispatcher()
