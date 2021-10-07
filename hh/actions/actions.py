@@ -80,7 +80,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
 
     @property
     def vaccine_uptake_data(self) -> Dict[int, Text]:
-        return {1: "PARTIALLY", 2: "FULLY", 3: "NOT"}
+        return {1: "partially", 2: "fully", 3: "not"}
 
     def validate_destination(
         self,
@@ -173,7 +173,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             data["campus_list"] = self.make_list(campus_data)
         return data
 
-    def validate_vaccine_uptake_confirm(
+    def validate_vaccine_uptake(
         self,
         value: Text,
         dispatcher: CollectingDispatcher,
@@ -181,10 +181,12 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
         data = self.validate_generic(
-            "vaccine_uptake", dispatcher, value, self.vaccinated_data
+            "vaccine_uptake", dispatcher, value, self.vaccine_uptake_data
         )
-        if data.get("vaccine_uptake") == "NOT":
+        if data.get("vaccine_uptake") == "not":
             dispatcher.utter_message(template="utter_not_vaccinated")
+        # convert to uppercase to be consistent with other channels
+        data["vaccine_uptake"] = data["vaccine_uptake"].upper()
         return data
 
     def validate_campus(
