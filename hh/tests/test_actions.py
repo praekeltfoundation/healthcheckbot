@@ -134,7 +134,7 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_vaccine_uptake("3", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"vaccine_uptake": "not"},
+            response, {"vaccine_uptake": "NOT"},
         )
         mock_utter.assert_called_once_with(template="utter_not_vaccinated")
 
@@ -171,7 +171,7 @@ class HealthCheckFormTests(TestCase):
                 "destination_province": "ec",
                 "university_confirm": "AFDA",
                 "campus": "Cenral",
-                "vaccine_uptake": "partially",
+                "vaccine_uptake": "PARTIALLY",
             },
             {},
             [],
@@ -215,7 +215,7 @@ class HealthCheckFormTests(TestCase):
                     "destination_province": "ZA-EC",
                     "university": {"name": "AFDA"},
                     "campus": {"name": "Cenral"},
-                    "vaccine_uptake": "partially",
+                    "vaccine_uptake": "PARTIALLY",
                 },
             },
         )
