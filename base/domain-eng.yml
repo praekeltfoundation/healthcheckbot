@@ -374,25 +374,25 @@ responses:
     - text: |
         Do your family and friends know about HealthCheck? Help raise their awareness of COVID: please encourage them to stay safe and watch their symptoms.
 
-        Reply with SHARE to share this service
+        Reply with *SHARE* to share this service
 
   utter_study_a_T2:
     - text: |
         Thank you for monitoring your symptoms. The information you provide helps the NDoH track COVID cases and manage the spread of COVID. Help us with the COVID response by encouraging others to stay safe and watch their symptoms using the HealthCheck service.
 
-        Reply with SHARE to share this service
+        Reply with *SHARE* to share this service
 
   utter_study_a_T3:
     - text: |
         People suffering from obesity, diabetes, hypertension, or cardiovascular disease are at greater risk of needing hospitalization or dying if they have COVID-19. Please encourage friends or family with obesity, diabetes, hypertension, or cardiovascular disease to stay safe and watch their symptoms using the HealthCheck service.
 
-        Reply with SHARE to share this service
+        Reply with *SHARE* to share this service
 
   utter_study_a_T4:
     - text: |
         People above the age of 65 are at greater risk of needing hospitalization or dying if they have COVID-19. Please encourage friends or family above the age of 65 to stay safe and watch their symptoms using the HealthCheck service.
 
-        Reply with SHARE to share this service
+        Reply with *SHARE* to share this service
 
   utter_tb_prompt_cough:
     - text: A cough may also be a sign of TB – a dangerous but treatable disease.
