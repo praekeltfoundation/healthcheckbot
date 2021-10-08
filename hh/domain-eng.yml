@@ -74,6 +74,9 @@ slots:
   campus_list:
     type: unfeaturized
     auto_fill: false
+  vaccine_uptake:
+    type: unfeaturized
+    auto_fill: false
   medical_condition:
     type: unfeaturized
     auto_fill: false
@@ -274,6 +277,25 @@ responses:
 
         Reply:
         {campus_list}
+
+  utter_ask_vaccine_uptake:
+    - text: |
+        Your opinion about getting vaccinated against COVID-19 matters to us.
+
+        Please tell us:
+        *Have you been vaccinated?*
+
+        *1.* Yes, partially vaccinated
+        *2.* Yes, fully vaccinated
+        *3.* Not vaccinated
+
+  utter_not_vaccinated:
+    - text: |
+        Thank you for your feedback.
+
+        Do you know that your chance of ending up in the intensive care unit (ICU) or forming a severe disease with Covid-19 related complications is 80% higher when you are not vaccinated against the virus?
+
+        Please get vaccinated. Both Pfizer and J&J vaccines have shown high effectiveness towards reducing your risk to severity of COVID-19.
 
   utter_ask_medical_condition:
     - text: |

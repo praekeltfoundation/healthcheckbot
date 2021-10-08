@@ -47,6 +47,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "university_confirm",
         "campus",
         "medical_condition",
+        "vaccine_uptake",
     ]
     MINOR_SKIP_SLOTS = ["location", "location_confirm"]
 
@@ -66,12 +67,20 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             self.from_text(),
         ]
         mappings["campus"] = [self.from_entity(entity="number"), self.from_text()]
+        mappings["vaccine_uptake"] = [
+            self.from_entity(entity="number"),
+            self.from_text(),
+        ]
         return mappings
 
     @property
     def destination_data(self) -> Dict[int, Text]:
         with open("hh/data/lookup_tables/destinations.txt") as f:
             return dict(enumerate(f.read().splitlines(), start=1))
+
+    @property
+    def vaccine_uptake_data(self) -> Dict[int, Text]:
+        return {1: "partially", 2: "fully", 3: "not"}
 
     def validate_destination(
         self,
@@ -164,6 +173,24 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             data["campus_list"] = self.make_list(campus_data)
         return data
 
+    def validate_vaccine_uptake(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        data = self.validate_generic(
+            "vaccine_uptake", dispatcher, value, self.vaccine_uptake_data
+        )
+        if data.get("vaccine_uptake") == "not":
+            dispatcher.utter_message(template="utter_not_vaccinated")
+        # Convert to uppercase to be consistent with other channels
+        # Check that it's a string first for safety
+        if isinstance(data["vaccine_uptake"], str):
+            data["vaccine_uptake"] = data["vaccine_uptake"].upper()
+        return data
+
     def validate_campus(
         self,
         value: Text,
@@ -189,6 +216,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         ] = f'ZA-{tracker.get_slot("destination_province").upper()}'
         data["data"]["university"] = {"name": tracker.get_slot("university_confirm")}
         data["data"]["campus"] = {"name": tracker.get_slot("campus")}
+        data["data"]["vaccine_uptake"] = tracker.get_slot("vaccine_uptake")
         return data
 
     def send_risk_to_user(
