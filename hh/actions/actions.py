@@ -245,6 +245,7 @@ class ActionSendStudyMessages(Action):
     ) -> List[Dict[Text, Any]]:
         return []
 
+
 __all__ = [
     "HealthCheckTermsForm",
     "HealthCheckProfileForm",
