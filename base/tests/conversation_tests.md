@@ -15,6 +15,7 @@
   - healthcheck_form
   - form{"name": "healthcheck_form"}
   - form{"name": null}
+  - action_send_study_messages
   - action_session_start
 
 ## happy path healthcheck returning user
@@ -28,4 +29,5 @@
   - healthcheck_form
   - form{"name": "healthcheck_form"}
   - form{"name": null}
+  - action_send_study_messages
   - action_session_start

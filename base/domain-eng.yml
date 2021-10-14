@@ -40,6 +40,7 @@ actions:
   - utter_risk_low
   - utter_risk_moderate
   - utter_risk_high
+  - action_send_study_messages
 
 slots:
   terms:
@@ -104,6 +105,8 @@ slots:
     type: unfeaturized
     auto_fill: false
   requested_slot:
+    type: unfeaturized
+  study_a_arm:
     type: unfeaturized
 
 forms:

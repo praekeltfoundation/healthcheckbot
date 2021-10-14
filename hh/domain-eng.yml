@@ -17,6 +17,7 @@ entities:
 actions:
   - action_session_start
   - action_exit
+  - action_send_study_messages
 
 slots:
   terms:

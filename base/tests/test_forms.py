@@ -12,6 +12,7 @@ from rasa_sdk.executor import CollectingDispatcher
 import base.actions.actions
 from base.actions.actions import (
     ActionExit,
+    ActionSendStudyMessages,
     ActionSessionStart,
     HealthCheckForm,
     HealthCheckProfileForm,
@@ -602,7 +603,8 @@ class TestHealthCheckForm:
                 "location": "Cape Town, South Africa",
             },
         )
-        await form.submit(dispatcher, tracker, {})
+        actions = await form.submit(dispatcher, tracker, {})
+        assert actions == [SlotSet("study_a_arm", {})]
 
         assert request.called
         [(request, response)] = request.calls
@@ -674,14 +676,15 @@ class TestHealthCheckForm:
                 "location": "Cape Town, South Africa",
             },
         )
-        await form.submit(dispatcher, tracker, {})
+        actions = await form.submit(dispatcher, tracker, {})
 
         base.actions.actions.config.EVENTSTORE_URL = None
         base.actions.actions.config.EVENTSTORE_TOKEN = None
 
-        [risk_message, study_a_message] = dispatcher.messages
+        [risk_message] = dispatcher.messages
         assert risk_message["template"] == "utter_risk_high"
-        assert study_a_message["template"] == "utter_study_a_T1"
+
+        assert actions == [SlotSet("study_a_arm", "T1")]
 
     @respx.mock
     @pytest.mark.asyncio
@@ -849,6 +852,51 @@ class TestHealthCheckForm:
             ]
             [message] = dispatcher.messages
             assert message["template"] == "utter_incorrect_selection"
+
+
+class TestActionSendStudyMessages:
+    def get_tracker_with_slot(self, slots):
+        return Tracker(
+            "default", slots, {"text": "test"}, [], False, None, {}, "action_listen",
+        )
+
+    @pytest.mark.asyncio
+    async def test_send_study_a_message(self):
+        """
+        Should send the study A message if the slot is set
+        """
+        tracker = self.get_tracker_with_slot({"study_a_arm": "T1"})
+        dispatcher = CollectingDispatcher()
+        actions = await ActionSendStudyMessages().run(dispatcher, tracker, {})
+
+        assert actions == []
+
+        [message] = dispatcher.messages
+        assert message["template"] == "utter_study_a_T1"
+
+    @pytest.mark.asyncio
+    async def test_send_study_a_message_not_set(self):
+        """
+        Should not send the study A message if the slot is not set
+        """
+        tracker = self.get_tracker_with_slot({})
+        dispatcher = CollectingDispatcher()
+        actions = await ActionSendStudyMessages().run(dispatcher, tracker, {})
+
+        assert actions == []
+        assert dispatcher.messages == []
+
+    @pytest.mark.asyncio
+    async def test_send_study_a_message_control(self):
+        """
+        Should not send the study A message if arm is Control
+        """
+        tracker = self.get_tracker_with_slot({"study_a_arm": "C"})
+        dispatcher = CollectingDispatcher()
+        actions = await ActionSendStudyMessages().run(dispatcher, tracker, {})
+
+        assert actions == []
+        assert dispatcher.messages == []
 
 
 class TestActionSessionStart:
