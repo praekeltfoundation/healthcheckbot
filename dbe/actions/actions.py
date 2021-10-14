@@ -1010,10 +1010,24 @@ class ActionSetProfileObo(Action):
         return actions
 
 
+class ActionSendStudyMessages(Action):
+    def name(self) -> Text:
+        return "action_send_study_messages"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        return []
+
+
 __all__ = [
     "HealthCheckTermsForm",
     "HealthCheckProfileForm",
     "HealthCheckForm",
+    "ActionSendStudyMessages",
     "ActionSessionStart",
     "ActionExit",
     "ActionSessionStart",
