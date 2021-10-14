@@ -333,7 +333,7 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
       claim: release
       text: |
-        Thank you for answering all questions.
+        Thank you for answering all questions. Here are your HealthCheck results.
 
         Based on your responses, you are at low risk of having COVID-19 and you won't need to complete this risk assessment again for the next 7 days.
         *If* you start to feel ill or if you come into contact with someone infected with COVID-19 within the next 7 days, please take this risk assessment again
@@ -345,6 +345,8 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
       claim: release
       text: |
+        *Here are your HealthCheck results.*
+
         *Based on your responses, we recommend that you self-quarantine for the next 10 days and complete this HealthCheck daily to self monitor your symptoms.*
 
         If possible, stay and sleep alone in a room that has a window with good air flowing through.
@@ -360,6 +362,8 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
       claim: release
       text: |
+        *Here are your HealthCheck results.*
+
         *Based on your responses, you may be eligible for testing to find out if you are infected with COVID-19.*
 
         Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested if advised to do so.
