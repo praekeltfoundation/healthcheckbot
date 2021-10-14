@@ -5,6 +5,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.forms import Action
 from ruamel.yaml import YAML
 
 from base.actions.actions import ActionExit as BaseActionExit
@@ -232,10 +233,23 @@ class ActionExit(BaseActionExit):
         return ActionSessionStart().get_carry_over_slots(tracker)
 
 
+class ActionSendStudyMessages(Action):
+    def name(self) -> Text:
+        return "action_send_study_messages"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        return []
+
 __all__ = [
     "HealthCheckTermsForm",
     "HealthCheckProfileForm",
     "HealthCheckForm",
+    "ActionSendStudyMessages",
     "ActionSessionStart",
     "ActionExit",
 ]
