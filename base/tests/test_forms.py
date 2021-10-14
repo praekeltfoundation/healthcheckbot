@@ -860,37 +860,40 @@ class TestActionSendStudyMessages:
             "default", slots, {"text": "test"}, [], False, None, {}, "action_listen",
         )
 
-    def test_send_study_a_message(self):
+    @pytest.mark.asyncio
+    async def test_send_study_a_message(self):
         """
         Should send the study A message if the slot is set
         """
         tracker = self.get_tracker_with_slot({"study_a_arm": "T1"})
         dispatcher = CollectingDispatcher()
-        actions = ActionSendStudyMessages().run(dispatcher, tracker, {})
+        actions = await ActionSendStudyMessages().run(dispatcher, tracker, {})
 
         assert actions == []
 
         [message] = dispatcher.messages
         assert message["template"] == "utter_study_a_T1"
 
-    def test_send_study_a_message_not_set(self):
+    @pytest.mark.asyncio
+    async def test_send_study_a_message_not_set(self):
         """
         Should not send the study A message if the slot is not set
         """
         tracker = self.get_tracker_with_slot({})
         dispatcher = CollectingDispatcher()
-        actions = ActionSendStudyMessages().run(dispatcher, tracker, {})
+        actions = await ActionSendStudyMessages().run(dispatcher, tracker, {})
 
         assert actions == []
         assert dispatcher.messages == []
 
-    def test_send_study_a_message_control(self):
+    @pytest.mark.asyncio
+    async def test_send_study_a_message_control(self):
         """
         Should not send the study A message if arm is Control
         """
         tracker = self.get_tracker_with_slot({"study_a_arm": "C"})
         dispatcher = CollectingDispatcher()
-        actions = ActionSendStudyMessages().run(dispatcher, tracker, {})
+        actions = await ActionSendStudyMessages().run(dispatcher, tracker, {})
 
         assert actions == []
         assert dispatcher.messages == []

@@ -1,7 +1,7 @@
+import asyncio
 import logging
 import re
 import uuid
-from time import sleep
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
 
@@ -838,7 +838,7 @@ class ActionSendStudyMessages(Action):
     def name(self) -> Text:
         return "action_send_study_messages"
 
-    def run(
+    async def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
@@ -846,7 +846,7 @@ class ActionSendStudyMessages(Action):
     ) -> List[Dict[Text, Any]]:
         study_a_arm = tracker.get_slot("study_a_arm")
         if study_a_arm and study_a_arm != "C":
-            sleep(config.STUDY_A_MESSAGE_DELAY)
+            await asyncio.sleep(config.STUDY_A_MESSAGE_DELAY)
             dispatcher.utter_message(template=f"utter_study_a_{study_a_arm}")
         return []
 
