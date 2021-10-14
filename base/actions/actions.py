@@ -1,6 +1,7 @@
 import logging
 import re
 import uuid
+from time import sleep
 from typing import Any, Dict, List, Optional, Text, Union
 from urllib.parse import urlencode, urljoin
 
@@ -757,15 +758,6 @@ class HealthCheckForm(BaseFormAction):
     ) -> None:
         dispatcher.utter_message(template=f"utter_risk_{risk}")
 
-    def send_study_a_message(
-        self,
-        dispatcher: CollectingDispatcher,
-        study_a_arm: Optional[Text],
-        tracker: Tracker,
-    ) -> None:
-        if study_a_arm and study_a_arm != "C":
-            dispatcher.utter_message(template=f"utter_study_a_{study_a_arm}")
-
     def send_post_risk_prompts(
         self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
     ):
@@ -837,8 +829,25 @@ class HealthCheckForm(BaseFormAction):
                     if i == config.HTTP_RETRIES - 1:
                         raise e
         self.send_risk_to_user(dispatcher, risk, tracker)
-        self.send_study_a_message(dispatcher, study_a_arm, tracker)
         self.send_post_risk_prompts(dispatcher, risk, tracker)
+
+        return [SlotSet("study_a_arm", study_a_arm)]
+
+
+class ActionSendStudyMessages(Action):
+    def name(self) -> Text:
+        return "action_send_study_messages"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        study_a_arm = tracker.get_slot("study_a_arm")
+        if study_a_arm and study_a_arm != "C":
+            sleep(config.STUDY_A_MESSAGE_DELAY)
+            dispatcher.utter_message(template=f"utter_study_a_{study_a_arm}")
         return []
 
 
