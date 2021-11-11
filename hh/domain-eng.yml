@@ -149,7 +149,7 @@ responses:
           _You confirm that you shouldn't disregard/delay seeking medical advice about treatment/care because of this service. Rely on info at your own risk._
 
   utter_more_terms_doc:
-      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/NDOH_WhatsApp+Covid-19_ABRIDGED+Privacy+Policy.pdf"
+      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/Higher+Health+HealthCheck+FULL+Privacy+Policy+(Final)_November2021.docx.pdf"
         text: Terms and Conditions
 
 
