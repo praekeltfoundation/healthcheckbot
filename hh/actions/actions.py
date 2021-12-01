@@ -50,7 +50,7 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
         "medical_condition",
         "vaccine_uptake",
     ]
-    MINOR_SKIP_SLOTS = ["location", "location_confirm"]
+    MINOR_SKIP_SLOTS = ["first_name", "last_name", "location", "location_confirm"]
 
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         mappings = super().slot_mappings()
