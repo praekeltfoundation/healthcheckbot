@@ -85,7 +85,14 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
 
     def request_next_slot(self, dispatcher, tracker, domain):
         for slot in self.required_slots(tracker):
+            if slot == "consent_parent" and tracker.get_slot("consent_parent") == "":
+                return []
             if self._should_request_slot(tracker, slot):
+                if (
+                    slot == "consent_parent"
+                    and tracker.get_slot("consent_parent") == ""
+                ):
+                    return []
                 if slot in [
                     "school",
                     "school_confirm",
@@ -128,6 +135,13 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 self.from_intent(intent="deny", value="no"),
                 self.from_text(),
             ]
+        mappings["consent_parent"] = [
+            self.from_entity(entity="number"),
+            self.from_intent(intent="affirm", value="yes"),
+            self.from_intent(intent="deny", value="no"),
+            self.from_intent(intent="more", value="more"),
+            self.from_text(),
+        ]
         mappings["change_details"] = [
             self.from_entity(entity="number"),
             self.from_text(),
@@ -191,9 +205,14 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
 
         # Use on behalf of slots for parent profile
         if tracker.get_slot("profile") == "parent":
-            slots = ["select_learner_profile", "profile", "obo_name"] + [
-                f"obo_{s}" for s in slots[1:]
-            ]
+            if tracker.get_slot("consent_parent") == "no":
+                tracker.slots["consent_parent"] = ""
+            slots = [
+                "select_learner_profile",
+                "consent_parent",
+                "profile",
+                "obo_name",
+            ] + [f"obo_{s}" for s in slots[1:]]
         if tracker.get_slot("returning_user") == "yes":
             if tracker.get_slot("profile") == "parent":
                 slots = ["confirm_details_parent"] + slots
@@ -208,7 +227,6 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
                 slots = ["change_details"] + slots
             elif not tracker.get_slot("confirm_details"):
                 slots = ["confirm_details"] + slots
-
         return slots
 
     @classmethod
@@ -506,6 +524,23 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             }
         return result
 
+    def validate_consent_parent(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        if value == "more":
+            dispatcher.utter_message(template="utter_more_terms")
+            return {"consent_parent": None}
+        result = self.validate_generic(
+            "consent_parent", dispatcher, value, {1: "yes", 2: "no"},
+        )
+        if result["consent_parent"] == "no":
+            dispatcher.utter_message(template="utter_no_consent_parent")
+        return result
+
     def validate_age(
         self,
         value: Text,
@@ -649,7 +684,6 @@ class HealthCheckProfileForm(BaseHealthCheckProfileForm):
             results["profile_display"] = PROFILE_DISPLAY[results["profile"]]
         if results.get("profile") == "parent":
             results.update(await utils.get_learner_profile_slots_dict(tracker))
-
         return results
 
     def validate_medical_condition_pregnant(

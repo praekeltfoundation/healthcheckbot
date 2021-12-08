@@ -32,6 +32,12 @@ slots:
   confirm_details_parent:
     type: unfeaturized
     auto_fill: false
+  consent_parent:
+    type: unfeaturized
+    auto_fill: false
+  no_consent_parent:
+    type: unfeaturized
+    auto_fill: false
   change_details:
     type: unfeaturized
     auto_fill: false
@@ -321,6 +327,21 @@ responses:
           *10.* National DHET Staff
           *11.* District or Provincial Official
 
+  utter_ask_consent_parent:
+      - text: |
+          If you are using this service on behalf of a child as a competent person to complete this *Covid-screening*, you need to confirm that you are sharing the child's information in line with the Health Check Privacy Policy.
+
+          The POPI Act says that a competent person is someone who is legally competent to make decisions on behalf of a child.
+
+          Please confirm that you consent to the Health Check Privacy Policy on behalf of the child.
+
+          1. Yes, I consent
+          2. No
+
+          Or Reply:
+          *MORE* 📄 for more information about the terms and conditions
+          *MENU* 📌 to return to the main menu
+
   utter_more_terms:
       - text: |
           You confirm that you are responsible for your medical care & treatment. This service only provides info.
@@ -356,6 +377,11 @@ responses:
   utter_incorrect_location:
     - text: |
         If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
+
+  utter_no_consent_parent:
+    - claim: release
+      text: |
+        Thank you. If you change your mind, type CHECK to restart your registration session
 
   utter_incorrect_school:
     - text: |
