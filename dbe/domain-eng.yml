@@ -23,8 +23,9 @@ actions:
 
 slots:
   terms:
-    type: unfeaturized
-    auto_fill: false
+    type: categorical
+    values:
+      - yes
   confirm_details:
     type: unfeaturized
     auto_fill: false
@@ -301,16 +302,13 @@ responses:
           *3.* Role
 
   utter_ask_terms:
-      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/E%C2%B3-Privacy-Policy-2021.pdf"
-        text: |
-          Do you agree to the attached PRIVACY POLICY that explains how your data is used and protected?
+      - text: |
+          Reply with one of the words in BOLD to continue
 
-          1. Yes, I accept
-          2. No
+          *ACCEPT* ✅ - _to accept the terms and conditions_
+          *MORE* 📄 - _to read the terms and conditions_
 
-          Or Reply:
-          MORE 📄 - _for more information about the terms and conditions_
-          MENU 📌 _to return to the main menu_
+          (or Reply *MENU* 📌 _to return to the main menu_)
 
   utter_ask_profile:
       - text: |

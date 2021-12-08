@@ -13,7 +13,7 @@ from whoosh.query import FuzzyTerm, Term
 from base.actions.actions import YES_NO_DATA
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
-from base.actions.actions import HealthCheckTermsForm as BaseHealthCheckTermsForm
+from base.actions.actions import HealthCheckTermsForm
 from dbe.actions import utils
 
 REQUESTED_SLOT = "requested_slot"
@@ -67,45 +67,6 @@ def generic_validator(slot_name, data):
         return self.validate_generic(slot_name, dispatcher, value, data)
 
     return validator
-
-
-class HealthCheckTermsForm(BaseHealthCheckTermsForm):
-    SLOTS = [
-        "terms",
-    ]
-
-    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-        return {
-            "terms": [
-                self.from_intent(intent="affirm", value="yes"),
-                self.from_intent(intent="deny", value="no"),
-                self.from_intent(intent="more", value="more"),
-                self.from_text(),
-            ]
-        }
-
-    def request_next_slot(self, dispatcher, tracker, domain):
-        for slot in self.required_slots(tracker):
-            if slot == "terms" and tracker.get_slot("terms") == "":
-                return []
-        return super().request_next_slot(dispatcher, tracker, domain)
-
-    def validate_terms(
-        self,
-        value: Text,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> Dict[Text, Optional[Text]]:
-        if value == "more":
-            dispatcher.utter_message(template="utter_more_terms")
-            return {"terms": None}
-        if value == "2" or value == "no":
-            dispatcher.utter_message(template="utter_no_consent_parent")
-            tracker.slots["terms"] = ""
-            return {"terms": ""}
-        results = self.validate_generic("terms", dispatcher, value, {1: "yes", 2: "no"})
-        return results
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
