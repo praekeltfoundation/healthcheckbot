@@ -74,6 +74,11 @@ class HealthCheckTermsForm(BaseHealthCheckTermsForm):
         "terms",
     ]
 
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "healthcheck_terms_form_dbe"
+
     def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
         return {
             "terms": [
