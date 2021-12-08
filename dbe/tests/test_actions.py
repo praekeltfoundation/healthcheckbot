@@ -41,13 +41,25 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker(
             "27820001001", {"province": "wc"}, {}, [], False, None, {}, "action_listen"
         )
-        response = form.validate_consent_parent("1", CollectingDispatcher(), tracker, {})
+        response = form.validate_consent_parent(
+            "1", CollectingDispatcher(), tracker, {}
+        )
         self.assertEqual(response, {"consent_parent": "yes"})
-        response = form.validate_consent_parent("0", CollectingDispatcher(), tracker, {})
+        response = form.validate_consent_parent(
+            "0", CollectingDispatcher(), tracker, {}
+        )
         self.assertEqual(response, {"consent_parent": None})
-        response = form.validate_consent_parent("2", CollectingDispatcher(), tracker, {})
+        response = form.validate_consent_parent(
+            "2", CollectingDispatcher(), tracker, {}
+        )
         self.assertEqual(response, {"consent_parent": "no"})
-        response = form.validate_consent_parent("more", CollectingDispatcher(), tracker, {})
+        response = form.validate_consent_parent(
+            "more", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(response, {"consent_parent": None})
+        response = form.validate_consent_parent(
+            "menu", CollectingDispatcher(), tracker, {}
+        )
         self.assertEqual(response, {"consent_parent": None})
 
     def test_validate_school(self):
