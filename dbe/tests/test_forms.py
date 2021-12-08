@@ -18,7 +18,7 @@ from dbe.actions.actions import (
 class TestDBEHealthCheckTermsForm:
     @pytest.mark.asyncio
     async def test_validate_terms(self):
-        form = HealthCheckTermsForm()
+        form = DBEHealthCheckTermsForm()
         dispatcher = CollectingDispatcher()
 
         tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "affirm")
