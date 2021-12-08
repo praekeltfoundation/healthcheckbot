@@ -9,16 +9,16 @@ from rasa_sdk.executor import CollectingDispatcher
 import base.actions.actions
 from base.tests import utils
 from dbe.actions.actions import (
-    DBEHealthCheckTermsForm,
     HealthCheckForm,
     HealthCheckProfileForm,
+    HealthCheckTermsForm,
 )
 
 
 class TestDBEHealthCheckTermsForm:
     @pytest.mark.asyncio
     async def test_validate_terms(self):
-        form = DBEHealthCheckTermsForm()
+        form = HealthCheckTermsForm()
         dispatcher = CollectingDispatcher()
 
         tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "affirm")
