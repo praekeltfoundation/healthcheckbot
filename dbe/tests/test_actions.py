@@ -33,6 +33,35 @@ class HealthCheckProfileFormTests(TestCase):
         response = form.validate_age("abc", CollectingDispatcher(), tracker, {})
         self.assertEqual(response, {"age": None})
 
+    def test_validate_consent_parent(self):
+        """
+        Should be yes no
+        """
+        form = HealthCheckProfileForm()
+        tracker = Tracker(
+            "27820001001", {"province": "wc"}, {}, [], False, None, {}, "action_listen"
+        )
+        response = form.validate_consent_parent(
+            "1", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(response, {"consent_parent": "yes"})
+        response = form.validate_consent_parent(
+            "0", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(response, {"consent_parent": None})
+        response = form.validate_consent_parent(
+            "2", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(response, {"consent_parent": "no"})
+        response = form.validate_consent_parent(
+            "more", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(response, {"consent_parent": None})
+        response = form.validate_consent_parent(
+            "menu", CollectingDispatcher(), tracker, {}
+        )
+        self.assertEqual(response, {"consent_parent": None})
+
     def test_validate_school(self):
         """
         Stores first search result
@@ -566,6 +595,7 @@ class HealthCheckProfileFormTests(TestCase):
         self.assertIn("school", mappings)
         self.assertIn("school_confirm", mappings)
         self.assertIn("profile", mappings)
+        self.assertIn("consent_parent", mappings)
         self.assertIn("obo_name", mappings)
         self.assertIn("obo_age", mappings)
         self.assertIn("obo_gender", mappings)
@@ -601,6 +631,7 @@ class HealthCheckProfileFormTests(TestCase):
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         tracker.slots["profile"] = "parent"
         tracker.slots["select_learner_profile"] = "new"
+        tracker.slots["consent_parent"] = "yes"
         slots = HealthCheckProfileForm.required_slots(tracker)
         self.assertEqual(slots, ["obo_name"])
 
@@ -646,6 +677,7 @@ class HealthCheckProfileFormTests(TestCase):
         """
         tracker = Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen")
         tracker.slots["select_learner_profile"] = "Thabo"
+        tracker.slots["consent_parent"] = "yes"
         tracker.slots["profile"] = "parent"
         tracker.slots["obo_name"] = "Thabo"
         tracker.slots["obo_age"] = "23"
