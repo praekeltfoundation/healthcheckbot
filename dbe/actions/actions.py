@@ -69,7 +69,7 @@ def generic_validator(slot_name, data):
     return validator
 
 
-class HealthCheckTermsForm(BaseHealthCheckTermsForm):
+class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
     SLOTS = [
         "terms",
     ]
@@ -1017,7 +1017,7 @@ class ActionSessionStart(Action):
     async def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = [SessionStarted()]
         carry_over_slots = (
-            HealthCheckTermsForm.SLOTS
+            DBEHealthCheckTermsForm.SLOTS
             + HealthCheckProfileForm.PERSISTED_SLOTS
             + HealthCheckProfileForm.CONDITIONS
             + ["location_coords", "city_location_coords"]
@@ -1102,7 +1102,7 @@ class ActionSendStudyMessages(Action):
 
 
 __all__ = [
-    "HealthCheckTermsForm",
+    "DBEHealthCheckTermsForm",
     "HealthCheckProfileForm",
     "HealthCheckForm",
     "ActionSendStudyMessages",
