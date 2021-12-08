@@ -3,16 +3,16 @@ import json
 import pytest
 import respx
 from rasa_sdk import Tracker
+from rasa_sdk.events import Form, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 import base.actions.actions
 from base.tests import utils
 from dbe.actions.actions import (
+    DBEHealthCheckTermsForm,
     HealthCheckForm,
     HealthCheckProfileForm,
-    DBEHealthCheckTermsForm,
 )
-from rasa_sdk.events import SlotSet, Form
 
 
 class TestDBEHealthCheckTermsForm:
