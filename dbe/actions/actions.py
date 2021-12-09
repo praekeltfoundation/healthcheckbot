@@ -79,7 +79,7 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
 
         return "healthcheck_terms_form_dbe"
 
-    async def submit( # type: ignore
+    async def submit(  # type: ignore
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
