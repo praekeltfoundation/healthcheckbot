@@ -34,9 +34,6 @@ class DBEHealthCheckTermsFormTests(TestCase):
 async def test_deny_terms():
     action = DBEHealthCheckTermsForm()
     dispatcher = CollectingDispatcher()
-    tracker = Tracker(
-        "27820001001", {"terms": "no"}, {}, [], False, None, {}, "action_listen"
-    )
     events = await action.submit(
         dispatcher,
         Tracker(
@@ -53,9 +50,6 @@ async def test_deny_terms():
 async def test_affirm_terms():
     action = DBEHealthCheckTermsForm()
     dispatcher = CollectingDispatcher()
-    tracker = Tracker(
-        "27820001001", {"terms": "no"}, {}, [], False, None, {}, "action_listen"
-    )
     events = await action.submit(
         dispatcher,
         Tracker(

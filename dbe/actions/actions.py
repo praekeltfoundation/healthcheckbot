@@ -79,12 +79,12 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
 
         return "healthcheck_terms_form_dbe"
 
-    async def submit(
+    async def submit( # type: ignore
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
-    ) -> List[Dict]:
+    ) -> Any:
         """Define what the form has to do
             after all required slots are filled"""
         if tracker.get_slot("terms") == "no":
