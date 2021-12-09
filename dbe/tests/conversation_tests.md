@@ -7,6 +7,8 @@
   - utter_welcome
   - healthcheck_terms_form_dbe
   - form{"name": "healthcheck_terms_form_dbe"}
+  - slot{"terms": null}
+  - slot{"terms": "yes"}
   - form{"name": null}
   - healthcheck_profile_form
   - form{"name": "healthcheck_profile_form"}
