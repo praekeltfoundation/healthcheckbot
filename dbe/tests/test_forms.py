@@ -30,11 +30,6 @@ class TestDBEHealthCheckTermsForm:
             SlotSet("requested_slot", None),
         ]
 
-        tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "deny")
-        events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
-        assert form.required_slots(tracker) == ["terms"]
-        assert events == [SlotSet("terms", "")]
-
         tracker = utils.get_tracker_for_slot_from_intent(form, "terms", "more")
         events = await form.run(dispatcher=dispatcher, tracker=tracker, domain=None)
         assert events == [SlotSet("terms", None), SlotSet("requested_slot", "terms")]

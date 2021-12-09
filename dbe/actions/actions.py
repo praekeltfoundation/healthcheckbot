@@ -79,21 +79,18 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
 
         return "healthcheck_terms_form_dbe"
 
-    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
-        return {
-            "terms": [
-                self.from_intent(intent="affirm", value="yes"),
-                self.from_intent(intent="deny", value="no"),
-                self.from_intent(intent="more", value="more"),
-                self.from_text(),
-            ]
-        }
-
-    def request_next_slot(self, dispatcher, tracker, domain):
-        for slot in self.required_slots(tracker):
-            if slot == "terms" and tracker.get_slot("terms") == "":
-                return []
-        return super().request_next_slot(dispatcher, tracker, domain)
+    async def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+        if tracker.get_slot("terms") == "no":
+            tracker.slots["terms"] = None
+            return await ActionExit().run(dispatcher, tracker, domain)
+        return []
 
     def validate_terms(
         self,
@@ -105,12 +102,9 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
         if value == "more":
             dispatcher.utter_message(template="utter_more_terms")
             return {"terms": None}
-        if value == "2" or value == "no":
-            dispatcher.utter_message(template="utter_no_consent_parent")
-            tracker.slots["terms"] = ""
-            return {"terms": ""}
-        results = self.validate_generic("terms", dispatcher, value, {1: "yes", 2: "no"})
-        return results
+        if value.lower() in ["2", "no"]:
+            return {"terms": "no"}
+        return self.validate_generic("terms", dispatcher, value, {1: "yes"})
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):

@@ -1,9 +1,10 @@
 ## happy path
 * request_healthcheck
     - slot{"terms": null}
+    - slot{"terms": "no"}
     - utter_welcome
-    - healthcheck_terms_form
-    - form{"name": "healthcheck_terms_form"}
+    - healthcheck_terms_form_dbe
+    - form{"name": "healthcheck_terms_form_dbe"}
     - slot{"terms": null}
     - slot{"terms": "yes"}
     - form{"name": null}
@@ -44,8 +45,8 @@
     - action_set_profile_obo
     - slot{"terms": null}
     - utter_welcome
-    - healthcheck_terms_form
-    - form{"name": "healthcheck_terms_form"}
+    - healthcheck_terms_form_dbe
+    - form{"name": "healthcheck_terms_form_dbe"}
     - slot{"terms": null}
     - slot{"terms": "yes"}
     - form{"name": null}

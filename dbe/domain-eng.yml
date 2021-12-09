@@ -23,8 +23,9 @@ actions:
 
 slots:
   terms:
-    type: unfeaturized
-    auto_fill: false
+    type: categorical
+    values:
+      - yes
   confirm_details:
     type: unfeaturized
     auto_fill: false
@@ -238,7 +239,7 @@ slots:
 forms:
   - healthcheck_form
   - obo_healthcheck_form
-  - healthcheck_terms_form
+  - healthcheck_terms_form_dbe
   - healthcheck_profile_form
   - obo_healthcheck_profile_form
 
@@ -254,6 +255,18 @@ responses:
           Please help us by correctly answering a few questions about you and your health today.
 
           📌Reply with *MENU* to return to the main menu
+
+  utter_ask_terms:
+    - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/E%C2%B3-Privacy-Policy-2021.pdf"
+      text: |
+        Do you agree to the attached PRIVACY POLICY that explains how your data is used and protected?
+
+        1. Yes, I accept
+        2. No
+
+        Or Reply:
+        MORE 📄 - _for more information about the terms and conditions_
+        MENU 📌 _to return to the main menu_
 
   utter_ask_confirm_details:
       - text: |
@@ -299,18 +312,6 @@ responses:
           *1.* School Name / Facility
           *2.* Province
           *3.* Role
-
-  utter_ask_terms:
-      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/E%C2%B3-Privacy-Policy-2021.pdf"
-        text: |
-          Do you agree to the attached PRIVACY POLICY that explains how your data is used and protected?
-
-          1. Yes, I accept
-          2. No
-
-          Or Reply:
-          MORE 📄 - _for more information about the terms and conditions_
-          MENU 📌 _to return to the main menu_
 
   utter_ask_profile:
       - text: |
@@ -835,7 +836,7 @@ responses:
 # claim: revert will ignore the message text, and reevaluate this message using
 # turn automation
   utter_exit:
-    - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
+    - text: "Thank you. You can do your HealthCheck anytime by typing the word *CHECK*."
       claim: revert
 
   utter_ask_select_learner_profile:
@@ -1157,4 +1158,4 @@ responses:
 
 session_config:
   session_expiration_time: 5
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: False
