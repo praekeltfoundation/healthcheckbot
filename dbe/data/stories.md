@@ -1,7 +1,6 @@
 ## happy path
 * request_healthcheck
     - slot{"terms": null}
-    - slot{"terms": "no"}
     - utter_welcome
     - healthcheck_terms_form_dbe
     - form{"name": "healthcheck_terms_form_dbe"}
