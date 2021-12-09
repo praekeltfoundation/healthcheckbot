@@ -10,9 +10,56 @@ from dbe.actions.actions import (
     ActionExit,
     ActionSessionStart,
     ActionSetProfileObo,
+    DBEHealthCheckTermsForm,
     HealthCheckForm,
     HealthCheckProfileForm,
 )
+
+
+class DBEHealthCheckTermsFormTests(TestCase):
+    def test_validate_terms(self):
+        form = DBEHealthCheckTermsForm()
+        tracker = Tracker(
+            "27820001001", {"terms": None}, {}, [], False, None, {}, "action_listen"
+        )
+        response = form.validate_terms("1", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"terms": "yes"})
+        response = form.validate_terms("more", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"terms": None})
+        response = form.validate_terms("2", CollectingDispatcher(), tracker, {})
+        self.assertEqual(response, {"terms": "no"})
+
+
+@pytest.mark.asyncio
+async def test_deny_terms():
+    action = DBEHealthCheckTermsForm()
+    dispatcher = CollectingDispatcher()
+    events = await action.submit(
+        dispatcher,
+        Tracker(
+            "27820001001", {"terms": "no"}, {}, [], False, None, {}, "action_listen"
+        ),
+        {},
+    )
+    assert SlotSet("terms", None) in events
+    [message] = dispatcher.messages
+    assert message["template"] == "utter_exit"
+
+
+@pytest.mark.asyncio
+async def test_affirm_terms():
+    action = DBEHealthCheckTermsForm()
+    dispatcher = CollectingDispatcher()
+    events = await action.submit(
+        dispatcher,
+        Tracker(
+            "27820001001", {"terms": "yes"}, {}, [], False, None, {}, "action_listen"
+        ),
+        {},
+    )
+    assert events == []
+    message = dispatcher.messages
+    assert message == []
 
 
 class HealthCheckProfileFormTests(TestCase):

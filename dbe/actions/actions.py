@@ -13,7 +13,7 @@ from whoosh.query import FuzzyTerm, Term
 from base.actions.actions import YES_NO_DATA
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
-from base.actions.actions import HealthCheckTermsForm
+from base.actions.actions import HealthCheckTermsForm as BaseHealthCheckTermsForm
 from dbe.actions import utils
 
 REQUESTED_SLOT = "requested_slot"
@@ -67,6 +67,44 @@ def generic_validator(slot_name, data):
         return self.validate_generic(slot_name, dispatcher, value, data)
 
     return validator
+
+
+class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
+    SLOTS = [
+        "terms",
+    ]
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "healthcheck_terms_form_dbe"
+
+    async def submit(  # type: ignore
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Any:
+        """Define what the form has to do
+            after all required slots are filled"""
+        if tracker.get_slot("terms") == "no":
+            tracker.slots["terms"] = None
+            return await ActionExit().run(dispatcher, tracker, domain)
+        return []
+
+    def validate_terms(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+        if value == "more":
+            dispatcher.utter_message(template="utter_more_terms")
+            return {"terms": None}
+        if value.lower() in ["2", "no"]:
+            return {"terms": "no"}
+        return self.validate_generic("terms", dispatcher, value, {1: "yes"})
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
@@ -973,7 +1011,7 @@ class ActionSessionStart(Action):
     async def get_carry_over_slots(self, tracker: Tracker) -> List[Dict[Text, Any]]:
         actions = [SessionStarted()]
         carry_over_slots = (
-            HealthCheckTermsForm.SLOTS
+            DBEHealthCheckTermsForm.SLOTS
             + HealthCheckProfileForm.PERSISTED_SLOTS
             + HealthCheckProfileForm.CONDITIONS
             + ["location_coords", "city_location_coords"]
@@ -1058,7 +1096,7 @@ class ActionSendStudyMessages(Action):
 
 
 __all__ = [
-    "HealthCheckTermsForm",
+    "DBEHealthCheckTermsForm",
     "HealthCheckProfileForm",
     "HealthCheckForm",
     "ActionSendStudyMessages",
