@@ -44,9 +44,8 @@ def option_list_from_profiles(profiles: List[Dict[Text, Any]]) -> Text:
 
 
 def normalise_msisdn(msisdn: Text) -> Text:
-    # m = phonenumbers.parse(msisdn, "ZA")
-    # return phonenumbers.format_number(m, phonenumbers.PhoneNumberFormat.E164)
-    return "+27612215710"
+    m = phonenumbers.parse(msisdn, "ZA")
+    return phonenumbers.format_number(m, phonenumbers.PhoneNumberFormat.E164)
 
 
 async def get_learner_profile_slots_dict(tracker: Tracker) -> Dict[Text, Any]:

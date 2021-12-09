@@ -17,11 +17,11 @@ action_endpoint:
 # By default the conversations are stored in memory.
 # https://rasa.com/docs/rasa/api/tracker-stores/
 
-tracker_store:
-  type: redis
-  url: "localhost"
-  port: "6379"
-  db: "0"
+# tracker_store:
+#   type: redis
+#    url: "localhost"
+#    port: "6379"
+#    db: "0"
 
   # tracker_store:
   # store_type: mongod
@@ -30,12 +30,12 @@ tracker_store:
   # username: admin
   # password: password
   # collection: conversations
-# tracker_store:
-#   type: SQL
-#   dialect: "postgresql"
-#   url: "localhost"
-#   db: "rasa"
-#   username: "rasa"
+tracker_store:
+  type: SQL
+  dialect: "postgresql"
+  url: "localhost"
+  db: "rasa"
+  username: "rasa"
 
 # Event broker which all conversation events should be streamed to.
 # https://rasa.com/docs/rasa/api/event-brokers/
