@@ -32,7 +32,7 @@ class HealthCheckTermsForm(BaseHealthCheckTermsForm):
 
 
 class HealthCheckProfileForm(BaseHealthCheckProfileForm):
-    SLOTS = ["first_name", "last_name", "age"]
+    SLOTS = ["age"]
 
     PERSISTED_SLOTS = [
         "first_name",
