@@ -257,16 +257,19 @@ responses:
           📌Reply with *MENU* to return to the main menu
 
   utter_ask_terms:
-    - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/E%C2%B3-Privacy-Policy-2021.pdf"
-      text: |
-        Do you agree to the attached PRIVACY POLICY that explains how your data is used and protected?
+      - text: |
+          Do you agree to the attached PRIVACY POLICY that explains how your data is used and protected?
 
-        1. Yes, I accept
-        2. No
+          1. Yes, I accept
+          2. No
 
-        Or Reply:
-        MORE 📄 - _for more information about the terms and conditions_
-        MENU 📌 _to return to the main menu_
+          Or Reply:
+          MORE 📄 - _for more information about the terms and conditions_
+          MENU 📌 _to return to the main menu_
+
+  utter_ask_terms_doc:
+      - document: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/E%C2%B3-Privacy-Policy-2021.pdf"
+        text: Privacy Policy
 
   utter_ask_confirm_details:
       - text: |

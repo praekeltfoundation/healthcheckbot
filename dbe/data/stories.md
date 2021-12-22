@@ -3,6 +3,7 @@
     - slot{"terms": null}
     - utter_welcome
     - healthcheck_terms_form_dbe
+    - utter_ask_terms_doc
     - form{"name": "healthcheck_terms_form_dbe"}
     - slot{"terms": null}
     - slot{"terms": "yes"}
@@ -45,6 +46,7 @@
     - slot{"terms": null}
     - utter_welcome
     - healthcheck_terms_form_dbe
+    - utter_ask_terms_doc
     - form{"name": "healthcheck_terms_form_dbe"}
     - slot{"terms": null}
     - slot{"terms": "yes"}
