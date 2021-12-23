@@ -80,9 +80,13 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
         return "healthcheck_terms_form_dbe"
 
     def request_next_slot(self, dispatcher, tracker, domain):
-        if not tracker.get_slot("terms"):
+        next_slot = super().request_next_slot(dispatcher, tracker, domain)
+        if not next_slot:
+            return next_slot
+        slot_name = next_slot[0]["value"]
+        if slot_name == "terms" and not tracker.get_slot("terms"):
             dispatcher.utter_message(template="utter_ask_terms_doc")
-        return super().request_next_slot(dispatcher, tracker, domain)
+        return next_slot
 
     async def submit(  # type: ignore
         self,
