@@ -29,6 +29,51 @@ class DBEHealthCheckTermsFormTests(TestCase):
         response = form.validate_terms("2", CollectingDispatcher(), tracker, {})
         self.assertEqual(response, {"terms": "no"})
 
+    def test_terms_doc_sent(self):
+        form = DBEHealthCheckTermsForm()
+        tracker = Tracker(
+            "27820001001", {"terms": None}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        form.request_next_slot(dispatcher, tracker, "dbe")
+        assert len(dispatcher.messages) == 2
+        message = dispatcher.messages[1]
+        assert message["template"] == "utter_ask_terms_doc"
+
+    def test_terms_doc_sent_on_more(self):
+        form = DBEHealthCheckTermsForm()
+        tracker = Tracker(
+            "27820001001", {"terms": None}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        form.validate_terms("more", dispatcher, tracker, {})
+        form.request_next_slot(dispatcher, tracker, "dbe")
+        assert len(dispatcher.messages) == 3
+        message = dispatcher.messages[2]
+        assert message["template"] == "utter_ask_terms_doc"
+
+    def test_terms_doc_sent_on_invalid_input(self):
+        form = DBEHealthCheckTermsForm()
+        tracker = Tracker(
+            "27820001001", {"terms": None}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        form.validate_terms("invalid", dispatcher, tracker, {})
+        form.request_next_slot(dispatcher, tracker, "dbe")
+        assert len(dispatcher.messages) == 3
+        message = dispatcher.messages[2]
+        assert message["template"] == "utter_ask_terms_doc"
+
+    def test_terms_doc_not_sent_on_no(self):
+        form = DBEHealthCheckTermsForm()
+        tracker = Tracker(
+            "27820001001", {"terms": "None"}, {}, [], False, None, {}, "action_listen"
+        )
+        dispatcher = CollectingDispatcher()
+        form.validate_terms("no", dispatcher, tracker, {})
+        form.request_next_slot(dispatcher, tracker, "dbe")
+        assert len(dispatcher.messages) == 0
+
 
 @pytest.mark.asyncio
 async def test_deny_terms():
