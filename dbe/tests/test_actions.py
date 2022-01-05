@@ -87,7 +87,7 @@ async def test_deny_terms():
         {},
     )
     assert SlotSet("terms", None) in events
-    [message1,message2] = dispatcher.messages
+    [message1, message2] = dispatcher.messages
     assert message1["template"] == "utter_no_consent_parent"
     assert message2["template"] == "utter_exit"
 
