@@ -98,6 +98,7 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
             after all required slots are filled"""
         if tracker.get_slot("terms") == "no":
             tracker.slots["terms"] = None
+            dispatcher.utter_message(template="utter_no_consent_parent")
             return await ActionExit().run(dispatcher, tracker, domain)
         return []
 
