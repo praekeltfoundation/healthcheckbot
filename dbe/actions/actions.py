@@ -98,8 +98,9 @@ class DBEHealthCheckTermsForm(BaseHealthCheckTermsForm):
             after all required slots are filled"""
         if tracker.get_slot("terms") == "no":
             tracker.slots["terms"] = None
-            dispatcher.utter_message(template="utter_no_consent_parent")
-            return await ActionExit().run(dispatcher, tracker, domain)
+            return await ActionExit().run(
+                dispatcher, tracker, domain, template="utter_no_consent_parent"
+            )
         return []
 
     def validate_terms(
@@ -1072,8 +1073,9 @@ class ActionExit(Action):
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
+        template: Text = "utter_exit",
     ) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(template="utter_exit")
+        dispatcher.utter_message(template=template)
         return await ActionSessionStart().get_carry_over_slots(tracker)
 
 
