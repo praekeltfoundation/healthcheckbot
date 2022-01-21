@@ -255,7 +255,8 @@ class HealthCheckFormTests(TestCase):
     @patch("hh.actions.actions.datetime")
     def test_send_risk_to_user_minor(self, dt):
         """
-        The message to the user has the relevant variables filled
+        The message to the user should not include the name
+        as it was not captured in the case of minors
         """
         form = HealthCheckForm()
         dispatcher = CollectingDispatcher()
