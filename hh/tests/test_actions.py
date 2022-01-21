@@ -264,7 +264,7 @@ class HealthCheckFormTests(TestCase):
         )
         tracker = Tracker(
             "27820001001",
-            {"destination": "campus", "reason": "student",},
+            {"destination": "campus", "reason": "student"},
             {},
             [],
             False,
