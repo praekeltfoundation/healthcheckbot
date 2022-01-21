@@ -227,7 +227,12 @@ class HealthCheckForm(BaseHealthCheckForm):
         issued = datetime.now(tz=timezone(timedelta(hours=2)))
         expired = issued + timedelta(days=1)
         date_format = "%B %-d, %Y, %-I:%M %p"
-        full_name = tracker.get_slot("first_name") + " " + tracker.get_slot("last_name")
+        if tracker.get_slot("first_name") and tracker.get_slot("last_name"):
+            full_name = (
+                tracker.get_slot("first_name") + " " + tracker.get_slot("last_name")
+            )
+        else:
+            full_name = "Not captured"
         dispatcher.utter_message(
             template=f"utter_risk_{risk}",
             name=full_name,
