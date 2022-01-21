@@ -252,6 +252,33 @@ class HealthCheckFormTests(TestCase):
         self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
         self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
 
+    @patch("hh.actions.actions.datetime")
+    def test_send_risk_to_user_minor(self, dt):
+        """
+        The message to the user has the relevant variables filled
+        """
+        form = HealthCheckForm()
+        dispatcher = CollectingDispatcher()
+        dt.now.return_value = datetime(
+            2020, 1, 2, 3, 4, 5, tzinfo=timezone(timedelta(hours=2))
+        )
+        tracker = Tracker(
+            "27820001001",
+            {"destination": "campus", "reason": "student",},
+            {},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        form.send_risk_to_user(dispatcher, "low", tracker)
+        [msg] = dispatcher.messages
+        self.assertEqual(msg["template"], "utter_risk_low")
+        self.assertEqual(msg["name"], "Not captured")
+        self.assertEqual(msg["issued"], "January 2, 2020, 3:04 AM")
+        self.assertEqual(msg["expired"], "January 3, 2020, 3:04 AM")
+
 
 class ActionSessionStartTests(TestCase):
     def test_additional_details_copied(self):
