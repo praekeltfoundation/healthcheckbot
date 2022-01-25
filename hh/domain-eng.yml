@@ -116,6 +116,8 @@ slots:
     auto_fill: false
   requested_slot:
     type: unfeaturized
+  study_a_arm:
+    type: unfeaturized
 
 forms:
   - healthcheck_form

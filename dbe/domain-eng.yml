@@ -235,6 +235,8 @@ slots:
   obo_tracing:
     type: unfeaturized
     auto_fill: false
+  study_a_arm:
+    type: unfeaturized
 
 forms:
   - healthcheck_form
