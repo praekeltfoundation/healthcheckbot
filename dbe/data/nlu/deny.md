@@ -1,1 +1,0 @@
-../../../base/data/nlu/deny.md
