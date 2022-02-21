@@ -24,16 +24,6 @@ It has the following languages:
 `eng`: English
 
 
-### dbe
-This is the HealthCheck for the Department of Basic Education / E3. 
-It has an import of the actions, a copy of the domain, and a symlink for all the data
-files.
-It has the following languages:
-
-`eng`: English
-
-See [this readme](dbe/actions/README.md) for details on how to update the EMIS search index
-
 
 ## hh
 This is the HealthCheck for Higher Health.

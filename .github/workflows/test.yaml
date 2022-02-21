@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bot: ['base', 'dbe', 'hh']
+        bot: ['base', 'hh']
         lang: ['eng']
     steps:
       - uses: actions/checkout@v2
