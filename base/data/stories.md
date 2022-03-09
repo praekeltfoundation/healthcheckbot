@@ -10,6 +10,10 @@
     - healthcheck_profile_form
     - form{"name": "healthcheck_profile_form"}
     - form{"name": null}
+    - action_assign_study_b_arm
+    - honesty_check_form
+    - form{"name": "honesty_check_form"}
+    - form{"name": null}
     - utter_start_health_check
     - healthcheck_form
     - form{"name": "healthcheck_form"}
@@ -23,6 +27,10 @@
     - utter_welcome_back
     - healthcheck_profile_form
     - form{"name": "healthcheck_profile_form"}
+    - form{"name": null}
+    - action_assign_study_b_arm
+    - honesty_check_form
+    - form{"name": "honesty_check_form"}
     - form{"name": null}
     - utter_start_health_check
     - healthcheck_form
