@@ -371,6 +371,7 @@ class TestActionAssignStudyBArm:
                     "first_name": "test first",
                     "last_name": "test last",
                     "destination": "campus",
+                    "destination_province": "gt",
                     "reason": "student",
                 },
                 {},
