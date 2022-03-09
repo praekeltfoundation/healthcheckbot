@@ -441,13 +441,24 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod-3.png"
       claim: release
       text: |
-        Based on your responses, we recommend that you remain in SELF-QUARANTINE for a period of 10 days and complete this HealthCheck daily to monitor your symptoms.
+        *Based on your answers, we suggest that you use HealthCheck for the next few days to check your symptoms.*
 
-        If possible, stay and sleep alone in a room that has a window with good air flowing through.
-        - You can talk to other family members and go outside, but you should stay at least 2 meters away from everyone at all times.
-        - You should not have visitors at your house during this time.
-        - One family member should be assigned as your caregiver. This exposes less of your family and also ensures that you and this caregiver can develop good habits so that they do not catch the virus from you.
-        - If these procedures are not possible, you should contact your health care worker or clinic for alternative options.
+        If you had contact with someone with COVID-19 AND you said yes to any of the symptoms questions, you may be eligible for testing to find out if you are infected with COVID-19.
+
+        Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for what to do next and how and where to get tested if advised to do so
+
+        *Should I isolate/quarantine if I have not been tested?*
+        You do not need to self-isolate if you have not been tested. If you test and your test comes back positive AND you have symptoms, self-siolate for 7 days.
+
+        *What if I came into contact with someone who tested positive?*
+        You do not need to isolate if you had close contact with someone with COVID-19. Watch out for symptoms (you can use HealthCheck). If you develop symptoms, see a healthcare practitioner. 
+
+        Self-isolation guidelines:
+        - Avoid contact with others.
+        - Stay home. Only go out for medical care.
+        - Track your *SYMPTOMS*.
+        - Get medical attention if you become ill.
+        - Know how to get care.
 
         📌Reply with *TESTING* for more information or *MENU* to return to the main menu
 
@@ -462,13 +473,17 @@ responses:
     - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-high-3.png"
       claim: release
       text: |
-        Based on your responses, we urge you to *GET TESTED* to find out if you are infected with COVID-19.
+        *Based on your answers, you may be eligible for testing to find out if you are infected with COVID-19.*
 
-        Go to your nearest testing center or call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for further information on what to do next, how and where to get tested.
+        Call the COVID-19 Hotline: 0800029999, or your healthcare practitioner, for what to do next and how and where to get tested if advised to do so.
 
-        Follow these important steps when seeking care:
-        - Avoid contact with other people in your community in your household and your community, if possible, stay in a separate room.
-        - Remember to put on a face mask before you enter the healthcare facility.
+        If you test and your test comes back positive and you have symptoms, self-siolate for 7 days.
+
+        - Avoid contact with others.
+        - Stay home. Only go out for medical care.
+        - Track your symptoms.
+        - Get medical attention if you become ill.
+        - Know how to get care.
 
         If you have or start getting severe symptoms, seek medical care urgently.
 
