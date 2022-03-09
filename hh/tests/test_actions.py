@@ -345,7 +345,7 @@ class ActionExitTests(TestCase):
         self.assertIn(SlotSet("reason", "student"), events)
 
 
-class ActionAssignStudyBArmTests(TestCase):
+class TestActionAssignStudyBArm:
     @pytest.mark.asyncio
     async def test_assign_study_b_arm(self):
         """
@@ -382,4 +382,4 @@ class ActionAssignStudyBArmTests(TestCase):
             ),
             {},
         )
-        self.assertIn(SlotSet("study_b_arm", "T1"), events)
+        assert SlotSet("study_b_arm", "T1") in events
