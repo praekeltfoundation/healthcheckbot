@@ -412,7 +412,7 @@ class ActionAssignStudyBArm(Action):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=data, headers=headers)
-                        # resp.raise_for_status()
+                        resp.raise_for_status()
                         return resp.json()
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
