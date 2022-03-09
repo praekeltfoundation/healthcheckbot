@@ -2,11 +2,14 @@ from datetime import datetime, timedelta, timezone
 from unittest import TestCase
 from unittest.mock import patch
 
+import pytest
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
+from base.tests import utils
 from hh.actions.actions import (
+    ActionAssignStudyBArm,
     ActionExit,
     ActionSessionStart,
     HealthCheckForm,
@@ -340,3 +343,43 @@ class ActionExitTests(TestCase):
         self.assertIn(SlotSet("last_name", "test last"), events)
         self.assertIn(SlotSet("destination", "campus"), events)
         self.assertIn(SlotSet("reason", "student"), events)
+
+
+class ActionAssignStudyBArmTests(TestCase):
+    @pytest.mark.asyncio
+    async def test_assign_study_b_arm(self):
+        """
+        Should set the study b arm
+        """
+        action = ActionAssignStudyBArm()
+        dispatcher = CollectingDispatcher()
+
+        action.call_event_store = utils.AsyncMock()
+        action.call_event_store.return_value = {
+            "msisdn": "+27820001001",
+            "source": "WhatsApp",
+            "timestamp": "2022-03-09T07:33:29.046948Z",
+            "created_by": "whatsapp-healthcheck",
+            "province": "ZA-GT",
+            "study_b_arm": "T1",
+        }
+        events = await action.run(
+            dispatcher,
+            Tracker(
+                "27820001001",
+                {
+                    "first_name": "test first",
+                    "last_name": "test last",
+                    "destination": "campus",
+                    "reason": "student",
+                },
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            ),
+            {},
+        )
+        self.assertIn(SlotSet("study_b_arm", "T1"), events)
