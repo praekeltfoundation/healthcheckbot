@@ -1,7 +1,7 @@
 import difflib
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Text, Union
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urljoin
 
 import httpx
 from rasa_sdk import Tracker
@@ -10,13 +10,13 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action
 from ruamel.yaml import YAML
 
-from base.actions.actions import BaseFormAction
+from base.actions import config
 from base.actions.actions import ActionExit as BaseActionExit
 from base.actions.actions import ActionSessionStart as BaseActionSessionStart
+from base.actions.actions import BaseFormAction
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
 from base.actions.actions import HealthCheckTermsForm as BaseHealthCheckTermsForm
-from base.actions import config
 
 
 class HealthCheckTermsForm(BaseHealthCheckTermsForm):
@@ -251,10 +251,7 @@ class HealthCheckForm(BaseHealthCheckForm):
         arm = tracker.get_slot("study_b_arm")
         if arm:
             honesty = tracker.get_slot(f"honesty_{arm.lower()}")
-            return {
-                "hcs_study_b_arm": arm,
-                "hcs_study_b_honesty": honesty
-            }
+            return {"hcs_study_b_arm": arm, "hcs_study_b_honesty": honesty}
 
     def send_post_risk_prompts(
         self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
@@ -330,9 +327,7 @@ class HonestyCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
 
-        return self.validate_generic(
-            "honesty_t1", dispatcher, value, self.yes_no_data
-        )
+        return self.validate_generic("honesty_t1", dispatcher, value, self.yes_no_data)
 
     def validate_honesty_t2(
         self,
@@ -342,9 +337,7 @@ class HonestyCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
 
-        return self.validate_generic(
-            "honesty_t2", dispatcher, value, self.yes_no_data
-        )
+        return self.validate_generic("honesty_t2", dispatcher, value, self.yes_no_data)
 
     def validate_honesty_t3(
         self,
@@ -354,9 +347,7 @@ class HonestyCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> Dict[Text, Optional[Text]]:
 
-        return self.validate_generic(
-            "honesty_t3", dispatcher, value, self.yes_no_data
-        )
+        return self.validate_generic("honesty_t3", dispatcher, value, self.yes_no_data)
 
     async def submit(
         self,
@@ -383,9 +374,8 @@ class ActionAssignStudyBArm(Action):
         arm = tracker.get_slot("study_b_arm")
         if not arm:
             data = {
-                # "msisdn": f'+{tracker.sender_id.lstrip("+")}'
+                "msisdn": f'+{tracker.sender_id.lstrip("+")}',
                 "source": "WhatsApp",
-                "msisdn": "+27726078747",
                 "province": f'ZA-{tracker.get_slot("destination_province").upper()}',
             }
             resp = await self.call_event_store(data)
@@ -412,7 +402,7 @@ class ActionAssignStudyBArm(Action):
                 try:
                     async with HTTPXClient() as client:
                         resp = await client.post(url, json=data, headers=headers)
-                        # resp.raise_for_status()
+                        resp.raise_for_status()
                         return resp.json()
                 except httpx.HTTPError as e:
                     if i == config.HTTP_RETRIES - 1:
@@ -436,6 +426,7 @@ __all__ = [
     "HealthCheckTermsForm",
     "HealthCheckProfileForm",
     "HonestyCheckForm",
+    "ActionAssignStudyBArm",
     "HealthCheckForm",
     "ActionSendStudyMessages",
     "ActionSessionStart",
