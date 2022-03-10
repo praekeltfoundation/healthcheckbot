@@ -392,17 +392,22 @@ class TestActionAssignStudyBArm:
 
 
 @pytest.mark.asyncio
-class TestHonestyCheckForm():
+class TestHonestyCheckForm:
     async def test_honesty_check_messages(self):
         """
         The correct study b utterance is shown.
         """
 
-        for arm in ["T1","T2", "T3"]:
+        for arm in ["T1", "T2", "T3"]:
             tracker = Tracker(
                 "default",
                 {"study_b_arm": arm},
-                {"text": "test"}, [], False, None, {}, "action_listen",
+                {"text": "test"},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
             )
             dispatcher = CollectingDispatcher()
             actions = await HonestyCheckForm().run(dispatcher, tracker, {})
@@ -418,7 +423,12 @@ class TestHonestyCheckForm():
         tracker = Tracker(
             "default",
             {"study_b_arm": "C"},
-            {"text": "test"}, [], False, None, {}, "action_listen",
+            {"text": "test"},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
         )
         dispatcher = CollectingDispatcher()
         form = HonestyCheckForm()
