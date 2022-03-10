@@ -372,7 +372,7 @@ class ActionAssignStudyBArm(Action):
     ) -> List[Dict[Text, Any]]:
 
         arm = tracker.get_slot("study_b_arm")
-        if not arm:
+        if not arm and config.STUDY_B_ENABLED:
             data = {
                 "msisdn": f'+{tracker.sender_id.lstrip("+")}',
                 "source": "WhatsApp",

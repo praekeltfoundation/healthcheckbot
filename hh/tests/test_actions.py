@@ -7,6 +7,7 @@ from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
+from base.actions import config
 from base.tests import utils
 from hh.actions.actions import (
     ActionAssignStudyBArm,
@@ -16,6 +17,11 @@ from hh.actions.actions import (
     HealthCheckProfileForm,
     HonestyCheckForm,
 )
+
+
+@pytest.fixture
+def mock_env_studyb(monkeypatch):
+    monkeypatch.setattr(config, "STUDY_B_ENABLED", True)
 
 
 class HealthCheckProfileFormTests(TestCase):
@@ -352,7 +358,7 @@ class ActionExitTests(TestCase):
 
 class TestActionAssignStudyBArm:
     @pytest.mark.asyncio
-    async def test_assign_study_b_arm(self):
+    async def test_assign_study_b_arm(self, mock_env_studyb):
         """
         Should set the study b arm
         """
