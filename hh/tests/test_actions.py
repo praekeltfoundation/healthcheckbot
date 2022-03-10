@@ -416,7 +416,7 @@ class TestHonestyCheckForm:
                 "action_listen",
             )
             dispatcher = CollectingDispatcher()
-            actions = await HonestyCheckForm().run(dispatcher, tracker, {})
+            await HonestyCheckForm().run(dispatcher, tracker, {})
 
             [message] = dispatcher.messages
             assert message["template"] == f"utter_ask_honesty_{arm.lower()}"
