@@ -1,15 +1,19 @@
 import difflib
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Text, Union
+from urllib.parse import urljoin
 
+import httpx
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import Action
 from ruamel.yaml import YAML
 
+from base.actions import config
 from base.actions.actions import ActionExit as BaseActionExit
 from base.actions.actions import ActionSessionStart as BaseActionSessionStart
+from base.actions.actions import BaseFormAction
 from base.actions.actions import HealthCheckForm as BaseHealthCheckForm
 from base.actions.actions import HealthCheckProfileForm as BaseHealthCheckProfileForm
 from base.actions.actions import HealthCheckTermsForm as BaseHealthCheckTermsForm
@@ -218,6 +222,9 @@ class HealthCheckForm(BaseHealthCheckForm):
         data["data"]["university"] = {"name": tracker.get_slot("university_confirm")}
         data["data"]["campus"] = {"name": tracker.get_slot("campus")}
         data["data"]["vaccine_uptake"] = tracker.get_slot("vaccine_uptake")
+        study_b_data = self.get_study_b_data(tracker)
+        if study_b_data:
+            data["data"].update(study_b_data)
         return data
 
     def send_risk_to_user(
@@ -239,6 +246,12 @@ class HealthCheckForm(BaseHealthCheckForm):
             issued=issued.strftime(date_format),
             expired=expired.strftime(date_format),
         )
+
+    def get_study_b_data(self, tracker: Tracker):
+        arm = tracker.get_slot("study_b_arm")
+        if arm:
+            honesty = tracker.get_slot(f"honesty_{arm.lower()}")
+            return {"hcs_study_b_arm": arm, "hcs_study_b_honesty": honesty}
 
     def send_post_risk_prompts(
         self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
@@ -266,6 +279,136 @@ class ActionExit(BaseActionExit):
         return ActionSessionStart().get_carry_over_slots(tracker)
 
 
+class HonestyCheckForm(BaseFormAction):
+    """HonestyCheck form action"""
+
+    SLOTS = [
+        "honesty_t1",
+        "honesty_t2",
+        "honesty_t3",
+    ]
+
+    def name(self) -> Text:
+        """Unique identifier of the form"""
+
+        return "honesty_check_form"
+
+    @classmethod
+    def required_slots(cls, tracker: Tracker) -> List[Text]:
+        arm = tracker.get_slot("study_b_arm")
+        if arm:
+            arm = arm.lower()
+            if arm == "c":
+                return []
+            return [f"honesty_{arm}"]
+        return []
+
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        return {
+            "honesty_t1": [
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_text(),
+            ],
+            "honesty_t2": [
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_text(),
+            ],
+            "honesty_t3": [
+                self.from_intent(intent="affirm", value="yes"),
+                self.from_text(),
+            ],
+        }
+
+    def validate_honesty_t1(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+
+        return self.validate_generic("honesty_t1", dispatcher, value, self.yes_no_data)
+
+    def validate_honesty_t2(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+
+        return self.validate_generic("honesty_t2", dispatcher, value, self.yes_no_data)
+
+    def validate_honesty_t3(
+        self,
+        value: Text,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> Dict[Text, Optional[Text]]:
+
+        return self.validate_generic("honesty_t3", dispatcher, value, self.yes_no_data)
+
+    async def submit(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        """Define what the form has to do
+            after all required slots are filled"""
+        return []
+
+
+class ActionAssignStudyBArm(Action):
+    def name(self) -> Text:
+        return "action_assign_study_b_arm"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+
+        arm = tracker.get_slot("study_b_arm")
+        if not arm and config.STUDY_B_ENABLED:
+            data = {
+                "msisdn": f'+{tracker.sender_id.lstrip("+")}',
+                "source": "WhatsApp",
+                "province": f'ZA-{tracker.get_slot("destination_province").upper()}',
+            }
+            resp = await self.call_event_store(data)
+            arm = resp.get("study_b_arm")
+            return [SlotSet("study_b_arm", arm)]
+        return []
+
+    async def call_event_store(self, data):
+        if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
+            url = urljoin(config.EVENTSTORE_URL, "/api/v2/hcsstudybrandomarm/")
+
+            headers = {
+                "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
+                "User-Agent": "rasa/covid19-healthcheckbot",
+            }
+
+            if hasattr(httpx, "AsyncClient"):
+                # from httpx>=0.11.0, the async client is a different class
+                HTTPXClient = getattr(httpx, "AsyncClient")
+            else:
+                HTTPXClient = getattr(httpx, "Client")
+
+            for i in range(config.HTTP_RETRIES):
+                try:
+                    async with HTTPXClient() as client:
+                        resp = await client.post(url, json=data, headers=headers)
+                        resp.raise_for_status()
+                        return resp.json()
+                except httpx.HTTPError as e:
+                    if i == config.HTTP_RETRIES - 1:
+                        raise e
+
+
 class ActionSendStudyMessages(Action):
     def name(self) -> Text:
         return "action_send_study_messages"
@@ -282,6 +425,8 @@ class ActionSendStudyMessages(Action):
 __all__ = [
     "HealthCheckTermsForm",
     "HealthCheckProfileForm",
+    "HonestyCheckForm",
+    "ActionAssignStudyBArm",
     "HealthCheckForm",
     "ActionSendStudyMessages",
     "ActionSessionStart",

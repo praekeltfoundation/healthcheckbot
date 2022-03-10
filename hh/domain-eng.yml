@@ -18,6 +18,7 @@ actions:
   - action_session_start
   - action_exit
   - action_send_study_messages
+  - action_assign_study_b_arm
 
 slots:
   terms:
@@ -93,6 +94,16 @@ slots:
   medical_condition_cardio:
     type: unfeaturized
     auto_fill: false
+  study_b_arm:
+    type: unfeaturized
+  honesty_t1:
+    type: unfeaturized
+  honesty_t2:
+    type: unfeaturized
+  honesty_t3:
+    type: unfeaturized
+  honesty_check:
+    type: unfeaturized
   symptoms_fever:
     type: unfeaturized
     auto_fill: false
@@ -123,6 +134,7 @@ forms:
   - healthcheck_form
   - healthcheck_terms_form
   - healthcheck_profile_form
+  - honesty_check_form
 
 responses:
   utter_welcome:
@@ -516,6 +528,34 @@ responses:
   utter_exit:
     - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
       claim: revert
+
+  utter_ask_honesty_t1:
+    - text: |
+        Your campus community relies on you to report your symptoms honestly. Can you promise to do your part in protecting your community by answering the following questions honestly and to the best of your knowledge?
+
+        *1.* YES, I agree
+        *2.* NO, I do not agree
+
+
+  utter_ask_honesty_t2:
+    - text: |
+        You would always regret passing COVID to a vulnerable student or lecturer. Please do your part to prevent others from becoming infected with COVID.
+
+        Do you agree to answer the following questions honestly and to the best of your ability?
+        Reply
+        *1.* Yes
+        *2.* No
+
+  utter_ask_honesty_t3:
+    - text: |
+        Your honesty matters. Please make your promise below.
+
+        Can you promise on your honour to report your symptoms truthfully?
+
+        Reply:
+        *1.* YES, I agree
+        *2.* NO, I do not agree
+
 
 session_config:
   session_expiration_time: 5

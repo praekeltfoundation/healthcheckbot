@@ -2,16 +2,26 @@ from datetime import datetime, timedelta, timezone
 from unittest import TestCase
 from unittest.mock import patch
 
+import pytest
 from rasa_sdk import Tracker
 from rasa_sdk.events import SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
+from base.actions import config
+from base.tests import utils
 from hh.actions.actions import (
+    ActionAssignStudyBArm,
     ActionExit,
     ActionSessionStart,
     HealthCheckForm,
     HealthCheckProfileForm,
+    HonestyCheckForm,
 )
+
+
+@pytest.fixture
+def mock_env_studyb(monkeypatch):
+    monkeypatch.setattr(config, "STUDY_B_ENABLED", True)
 
 
 class HealthCheckProfileFormTests(TestCase):
@@ -172,6 +182,8 @@ class HealthCheckFormTests(TestCase):
                 "university_confirm": "AFDA",
                 "campus": "Cenral",
                 "vaccine_uptake": "PARTIALLY",
+                "study_b_arm": "T1",
+                "honesty_t1": "yes",
             },
             {},
             [],
@@ -216,6 +228,8 @@ class HealthCheckFormTests(TestCase):
                     "university": {"name": "AFDA"},
                     "campus": {"name": "Cenral"},
                     "vaccine_uptake": "PARTIALLY",
+                    "hcs_study_b_arm": "T1",
+                    "hcs_study_b_honesty": "yes",
                 },
             },
         )
@@ -340,3 +354,92 @@ class ActionExitTests(TestCase):
         self.assertIn(SlotSet("last_name", "test last"), events)
         self.assertIn(SlotSet("destination", "campus"), events)
         self.assertIn(SlotSet("reason", "student"), events)
+
+
+class TestActionAssignStudyBArm:
+    @pytest.mark.asyncio
+    async def test_assign_study_b_arm(self, mock_env_studyb):
+        """
+        Should set the study b arm
+        """
+        action = ActionAssignStudyBArm()
+        dispatcher = CollectingDispatcher()
+
+        action.call_event_store = utils.AsyncMock()
+        action.call_event_store.return_value = {
+            "msisdn": "+27820001001",
+            "source": "WhatsApp",
+            "timestamp": "2022-03-09T07:33:29.046948Z",
+            "created_by": "whatsapp-healthcheck",
+            "province": "ZA-GT",
+            "study_b_arm": "T1",
+        }
+        events = await action.run(
+            dispatcher,
+            Tracker(
+                "27820001001",
+                {
+                    "first_name": "test first",
+                    "last_name": "test last",
+                    "destination": "campus",
+                    "destination_province": "gt",
+                    "reason": "student",
+                },
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            ),
+            {},
+        )
+        assert SlotSet("study_b_arm", "T1") in events
+
+
+@pytest.mark.asyncio
+class TestHonestyCheckForm:
+    async def test_honesty_check_messages(self):
+        """
+        The correct study b utterance is shown.
+        """
+
+        for arm in ["T1", "T2", "T3"]:
+            tracker = Tracker(
+                "default",
+                {"study_b_arm": arm},
+                {"text": "test"},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            )
+            dispatcher = CollectingDispatcher()
+            await HonestyCheckForm().run(dispatcher, tracker, {})
+
+            [message] = dispatcher.messages
+            assert message["template"] == f"utter_ask_honesty_{arm.lower()}"
+
+    async def test_honesty_check_control(self):
+        """
+        Should not send message for the control arm.
+        """
+
+        tracker = Tracker(
+            "default",
+            {"study_b_arm": "C"},
+            {"text": "test"},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
+        )
+        dispatcher = CollectingDispatcher()
+        form = HonestyCheckForm()
+        assert form.required_slots(tracker) == []
+
+        await form.run(dispatcher, tracker, {})
+
+        assert dispatcher.messages == []
