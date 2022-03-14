@@ -450,7 +450,7 @@ responses:
         Expiry date: {expired}
 
   utter_risk_moderate:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-mod-3.png"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/hh-receipt-low-3.png"
       claim: release
       text: |
         *Based on your answers, we suggest that you use HealthCheck for the next few days to check your symptoms.*
