@@ -409,6 +409,51 @@ class ActionAssignStudyBArm(Action):
                         raise e
 
 
+class ActionStartTriage(Action):
+    def name(self) -> Text:
+        return "action_start_triage"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+
+        data = {
+            "msisdn": f'+{tracker.sender_id.lstrip("+")}',
+            "source": "WhatsApp",
+        }
+        resp = await self.call_event_store(data)
+        start_time = resp.get("timestamp")
+        return [SlotSet("start_time", start_time)]
+
+    async def call_event_store(self, data):
+        if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
+            url = urljoin(config.EVENTSTORE_URL, "/api/v2/covid19triagestart/")
+
+            headers = {
+                "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
+                "User-Agent": "rasa/covid19-healthcheckbot",
+            }
+
+            if hasattr(httpx, "AsyncClient"):
+                # from httpx>=0.11.0, the async client is a different class
+                HTTPXClient = getattr(httpx, "AsyncClient")
+            else:
+                HTTPXClient = getattr(httpx, "Client")
+
+            for i in range(config.HTTP_RETRIES):
+                try:
+                    async with HTTPXClient() as client:
+                        resp = await client.post(url, json=data, headers=headers)
+                        resp.raise_for_status()
+                        return resp.json()
+                except httpx.HTTPError as e:
+                    if i == config.HTTP_RETRIES - 1:
+                        raise e
+
+
 class ActionSendStudyMessages(Action):
     def name(self) -> Text:
         return "action_send_study_messages"

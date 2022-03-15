@@ -8,6 +8,7 @@
   - healthcheck_terms_form
   - form{"name": "healthcheck_terms_form"}
   - form{"name": null}
+  - action_start_triage
   - healthcheck_profile_form
   - form{"name": "healthcheck_profile_form"}
   - form{"name": null}
@@ -26,6 +27,7 @@
 * request_healthcheck: check
   - slot{"terms": "yes"}
   - utter_welcome_back
+  - action_start_triage
   - healthcheck_profile_form
   - form{"name": "healthcheck_profile_form"}
   - form{"name": null}
