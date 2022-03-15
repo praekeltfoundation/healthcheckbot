@@ -376,7 +376,7 @@ class ActionAssignStudyBArm(Action):
             data = {
                 "msisdn": f'+{tracker.sender_id.lstrip("+")}',
                 "source": "WhatsApp",
-                "province": f'ZA-{tracker.get_slot("destination_province").upper()}',
+                "province": f'ZA-{tracker.get_slot("province").upper()}',
             }
             resp = await self.call_event_store(data)
             arm = resp.get("study_b_arm")
