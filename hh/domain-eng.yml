@@ -19,6 +19,7 @@ actions:
   - action_exit
   - action_send_study_messages
   - action_assign_study_b_arm
+  - action_start_triage
 
 slots:
   terms:
@@ -103,6 +104,8 @@ slots:
   honesty_t3:
     type: unfeaturized
   honesty_check:
+    type: unfeaturized
+  start_time:
     type: unfeaturized
   symptoms_fever:
     type: unfeaturized

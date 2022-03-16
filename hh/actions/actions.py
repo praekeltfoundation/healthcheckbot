@@ -251,7 +251,12 @@ class HealthCheckForm(BaseHealthCheckForm):
         arm = tracker.get_slot("study_b_arm")
         if arm:
             honesty = tracker.get_slot(f"honesty_{arm.lower()}")
-            return {"hcs_study_b_arm": arm, "hcs_study_b_honesty": honesty}
+            start_timestamp = tracker.get_slot("start_time")
+            return {
+                "hcs_study_b_arm": arm,
+                "hcs_study_b_honesty": honesty,
+                "hc_start_timestamp": start_timestamp,
+            }
 
     def send_post_risk_prompts(
         self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
@@ -376,7 +381,7 @@ class ActionAssignStudyBArm(Action):
             data = {
                 "msisdn": f'+{tracker.sender_id.lstrip("+")}',
                 "source": "WhatsApp",
-                "province": f'ZA-{tracker.get_slot("destination_province").upper()}',
+                "province": f'ZA-{tracker.get_slot("province").upper()}',
             }
             resp = await self.call_event_store(data)
             arm = resp.get("study_b_arm")
@@ -386,6 +391,51 @@ class ActionAssignStudyBArm(Action):
     async def call_event_store(self, data):
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
             url = urljoin(config.EVENTSTORE_URL, "/api/v2/hcsstudybrandomarm/")
+
+            headers = {
+                "Authorization": f"Token {config.EVENTSTORE_TOKEN}",
+                "User-Agent": "rasa/covid19-healthcheckbot",
+            }
+
+            if hasattr(httpx, "AsyncClient"):
+                # from httpx>=0.11.0, the async client is a different class
+                HTTPXClient = getattr(httpx, "AsyncClient")
+            else:
+                HTTPXClient = getattr(httpx, "Client")
+
+            for i in range(config.HTTP_RETRIES):
+                try:
+                    async with HTTPXClient() as client:
+                        resp = await client.post(url, json=data, headers=headers)
+                        resp.raise_for_status()
+                        return resp.json()
+                except httpx.HTTPError as e:
+                    if i == config.HTTP_RETRIES - 1:
+                        raise e
+
+
+class ActionStartTriage(Action):
+    def name(self) -> Text:
+        return "action_start_triage"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+
+        data = {
+            "msisdn": f'+{tracker.sender_id.lstrip("+")}',
+            "source": "WhatsApp",
+        }
+        resp = await self.call_event_store(data)
+        start_timestamp = resp.get("timestamp")
+        return [SlotSet("start_time", start_timestamp)]
+
+    async def call_event_store(self, data):
+        if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:
+            url = urljoin(config.EVENTSTORE_URL, "/api/v2/covid19triagestart/")
 
             headers = {
                 "Authorization": f"Token {config.EVENTSTORE_TOKEN}",

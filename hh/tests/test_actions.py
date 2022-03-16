@@ -13,6 +13,7 @@ from hh.actions.actions import (
     ActionAssignStudyBArm,
     ActionExit,
     ActionSessionStart,
+    ActionStartTriage,
     HealthCheckForm,
     HealthCheckProfileForm,
     HonestyCheckForm,
@@ -184,6 +185,7 @@ class HealthCheckFormTests(TestCase):
                 "vaccine_uptake": "PARTIALLY",
                 "study_b_arm": "T1",
                 "honesty_t1": "yes",
+                "start_time": "2022-03-09T07:33:29.046948Z",
             },
             {},
             [],
@@ -230,6 +232,7 @@ class HealthCheckFormTests(TestCase):
                     "vaccine_uptake": "PARTIALLY",
                     "hcs_study_b_arm": "T1",
                     "hcs_study_b_honesty": "yes",
+                    "hc_start_timestamp": "2022-03-09T07:33:29.046948Z",
                 },
             },
         )
@@ -382,7 +385,7 @@ class TestActionAssignStudyBArm:
                     "first_name": "test first",
                     "last_name": "test last",
                     "destination": "campus",
-                    "destination_province": "gt",
+                    "province": "gt",
                     "reason": "student",
                 },
                 {},
@@ -443,3 +446,27 @@ class TestHonestyCheckForm:
         await form.run(dispatcher, tracker, {})
 
         assert dispatcher.messages == []
+
+
+class TestActionStartTriage:
+    @pytest.mark.asyncio
+    async def test_assign_study_b_arm(self):
+        """
+        Should set the sart time
+        """
+        action = ActionStartTriage()
+        dispatcher = CollectingDispatcher()
+
+        action.call_event_store = utils.AsyncMock()
+        action.call_event_store.return_value = {
+            "msisdn": "+27820001001",
+            "source": "WhatsApp",
+            "timestamp": "2022-03-09T07:33:29.046948Z",
+            "created_by": "whatsapp-healthcheck",
+        }
+        events = await action.run(
+            dispatcher,
+            Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen",),
+            {},
+        )
+        assert SlotSet("start_time", "2022-03-09T07:33:29.046948Z") in events
