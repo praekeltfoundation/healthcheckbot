@@ -342,7 +342,7 @@ responses:
         📌 Reply with *MENU* to return to the main menu
 
   utter_risk_moderate:
-    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
       claim: release
       text: |
         *Here are your HealthCheck results.*
