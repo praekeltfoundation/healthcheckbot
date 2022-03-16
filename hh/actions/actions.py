@@ -251,7 +251,12 @@ class HealthCheckForm(BaseHealthCheckForm):
         arm = tracker.get_slot("study_b_arm")
         if arm:
             honesty = tracker.get_slot(f"honesty_{arm.lower()}")
-            return {"hcs_study_b_arm": arm, "hcs_study_b_honesty": honesty}
+            start_timestamp = tracker.get_slot("start_time")
+            return {
+                "hcs_study_b_arm": arm,
+                "hcs_study_b_honesty": honesty,
+                "hc_start_timestamp": start_timestamp,
+            }
 
     def send_post_risk_prompts(
         self, dispatcher: CollectingDispatcher, risk: Text, tracker: Tracker
@@ -425,8 +430,8 @@ class ActionStartTriage(Action):
             "source": "WhatsApp",
         }
         resp = await self.call_event_store(data)
-        start_time = resp.get("timestamp")
-        return [SlotSet("start_time", start_time)]
+        start_timestamp = resp.get("timestamp")
+        return [SlotSet("start_time", start_timestamp)]
 
     async def call_event_store(self, data):
         if config.EVENTSTORE_URL and config.EVENTSTORE_TOKEN:

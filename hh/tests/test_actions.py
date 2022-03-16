@@ -185,6 +185,7 @@ class HealthCheckFormTests(TestCase):
                 "vaccine_uptake": "PARTIALLY",
                 "study_b_arm": "T1",
                 "honesty_t1": "yes",
+                "start_time": "2022-03-09T07:33:29.046948Z",
             },
             {},
             [],
@@ -231,6 +232,7 @@ class HealthCheckFormTests(TestCase):
                     "vaccine_uptake": "PARTIALLY",
                     "hcs_study_b_arm": "T1",
                     "hcs_study_b_honesty": "yes",
+                    "hc_start_timestamp": "2022-03-09T07:33:29.046948Z",
                 },
             },
         )
@@ -464,16 +466,7 @@ class TestActionStartTriage:
         }
         events = await action.run(
             dispatcher,
-            Tracker(
-                "27820001001",
-                {},
-                {},
-                [],
-                False,
-                None,
-                {},
-                "action_listen",
-            ),
+            Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen",),
             {},
         )
         assert SlotSet("start_time", "2022-03-09T07:33:29.046948Z") in events
