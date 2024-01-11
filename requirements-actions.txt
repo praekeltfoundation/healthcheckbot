@@ -1,4 +1,4 @@
-sentry-sdk==0.15.1
+sentry-sdk==1.14.0
 aiocontextvars==0.2.2
 Whoosh==2.7.4
 ruamel.yaml==0.16.10
