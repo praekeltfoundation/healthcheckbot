@@ -60,7 +60,8 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_destination_province("1", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"destination_province": "ec"},
+            response,
+            {"destination_province": "ec"},
         )
 
     def test_validate_university(self):
@@ -108,7 +109,8 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_university_confirm("1", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"university_confirm": "AFDA", "campus_list": "*1.* Cenral"},
+            response,
+            {"university_confirm": "AFDA", "campus_list": "*1.* Cenral"},
         )
 
     def test_validate_campus(self):
@@ -126,7 +128,8 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_campus("1", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"campus": "Cenral"},
+            response,
+            {"campus": "Cenral"},
         )
 
     @patch("hh.actions.actions.CollectingDispatcher.utter_message")
@@ -145,7 +148,8 @@ class HealthCheckProfileFormTests(TestCase):
         dispatcher = CollectingDispatcher()
         response = form.validate_vaccine_uptake("3", dispatcher, tracker, {})
         self.assertEqual(
-            response, {"vaccine_uptake": "NOT"},
+            response,
+            {"vaccine_uptake": "NOT"},
         )
         mock_utter.assert_called_once_with(template="utter_not_vaccinated")
 
@@ -466,7 +470,16 @@ class TestActionStartTriage:
         }
         events = await action.run(
             dispatcher,
-            Tracker("27820001001", {}, {}, [], False, None, {}, "action_listen",),
+            Tracker(
+                "27820001001",
+                {},
+                {},
+                [],
+                False,
+                None,
+                {},
+                "action_listen",
+            ),
             {},
         )
         assert SlotSet("start_time", "2022-03-09T07:33:29.046948Z") in events

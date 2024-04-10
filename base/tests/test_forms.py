@@ -245,7 +245,10 @@ class TestHealthCheckProfileForm:
         """
         form = HealthCheckProfileForm()
 
-        tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
+        tracker = self.get_tracker_for_text_slot_with_message(
+            "location",
+            "Cape Town",
+        )
 
         events = await form.validate(CollectingDispatcher(), tracker, {})
         assert events == [
@@ -265,7 +268,10 @@ class TestHealthCheckProfileForm:
             "geometry": {"location": {"lat": 1.23, "lng": 4.56}},
         }
 
-        tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
+        tracker = self.get_tracker_for_text_slot_with_message(
+            "location",
+            "Cape Town",
+        )
 
         events = await form.validate(CollectingDispatcher(), tracker, {})
         assert events == [
@@ -285,7 +291,10 @@ class TestHealthCheckProfileForm:
         form.places_lookup = utils.AsyncMock()
         form.places_lookup.return_value = None
 
-        tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
+        tracker = self.get_tracker_for_text_slot_with_message(
+            "location",
+            "Cape Town",
+        )
 
         dispatcher = CollectingDispatcher()
         events = await form.validate(dispatcher, tracker, {})
@@ -308,7 +317,10 @@ class TestHealthCheckProfileForm:
         form.places_lookup = utils.AsyncMock()
         form.places_lookup.side_effect = Exception()
 
-        tracker = self.get_tracker_for_text_slot_with_message("location", "Cape Town",)
+        tracker = self.get_tracker_for_text_slot_with_message(
+            "location",
+            "Cape Town",
+        )
 
         dispatcher = CollectingDispatcher()
         events = await form.validate(dispatcher, tracker, {})
@@ -505,7 +517,9 @@ class TestHealthCheckProfileForm:
         form = HealthCheckProfileForm()
         dispatcher = CollectingDispatcher()
         tracker = utils.get_tracker_for_slot_from_intent(
-            form, "medical_condition", "no",
+            form,
+            "medical_condition",
+            "no",
         )
         result = form.submit(dispatcher, tracker, {})
         assert result == []
@@ -857,7 +871,14 @@ class TestHealthCheckForm:
 class TestActionSendStudyMessages:
     def get_tracker_with_slot(self, slots):
         return Tracker(
-            "default", slots, {"text": "test"}, [], False, None, {}, "action_listen",
+            "default",
+            slots,
+            {"text": "test"},
+            [],
+            False,
+            None,
+            {},
+            "action_listen",
         )
 
     @pytest.mark.asyncio
