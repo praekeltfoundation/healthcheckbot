@@ -173,7 +173,7 @@ class HealthCheckTermsForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Define what the form has to do
-            after all required slots are filled"""
+        after all required slots are filled"""
 
         # utter submit template
         return []
@@ -516,7 +516,7 @@ class HealthCheckProfileForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Define what the form has to do
-            after all required slots are filled"""
+        after all required slots are filled"""
 
         # utter submit template
         return []
@@ -796,7 +796,7 @@ class HealthCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Define what the form has to do
-            after all required slots are filled"""
+        after all required slots are filled"""
         data = self.get_risk_data(tracker)
         risk = utils.get_risk_level(data)
         study_a_arm = None

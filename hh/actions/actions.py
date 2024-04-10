@@ -361,7 +361,7 @@ class HonestyCheckForm(BaseFormAction):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Define what the form has to do
-            after all required slots are filled"""
+        after all required slots are filled"""
         return []
 
 
