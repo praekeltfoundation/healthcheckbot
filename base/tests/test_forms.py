@@ -608,7 +608,7 @@ class TestHealthCheckForm:
 
         assert request.called
         [(request, response)] = request.calls
-        data = json.loads(request.stream.body)
+        data = json.loads(request.content)
         assert data.pop("deduplication_id")
         assert data == {
             "province": "ZA-WC",
