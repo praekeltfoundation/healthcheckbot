@@ -1,5 +1,5 @@
 greenlet==0.4.15
-importlib-metadata==6.7.0
+importlib-metadata==6.6.0
 httpx==0.9.3
 protobuf==3.19.5
 rasa==1.10.2
