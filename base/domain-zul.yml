@@ -1,0 +1,380 @@
+intents:
+  - request_healthcheck
+  - affirm
+  - deny
+  - maybe
+  - inform
+  - more
+  - chitchat
+  - address
+  - exit:
+      triggers: action_exit
+
+entities:
+  - province
+  - number
+
+actions:
+  - action_session_start
+  - action_exit
+  - utter_ask_terms
+  - utter_ask_age
+  - utter_ask_gender
+  - utter_ask_province
+  - utter_ask_location
+  - utter_ask_location_confirm
+  - utter_ask_medical_condition
+  - utter_ask_medical_condition_obesity
+  - utter_ask_medical_condition_diabetes
+  - utter_ask_medical_condition_hypertension
+  - utter_ask_medical_condition_cardio
+  - utter_start_health_check
+  - utter_ask_symptoms_fever
+  - utter_ask_symptoms_cough
+  - utter_ask_symptoms_sore_throat
+  - utter_ask_symptoms_difficulty_breathing
+  - utter_ask_symptoms_taste_smell
+  - utter_ask_exposure
+  - utter_ask_tracing
+  - utter_submit
+  - utter_risk_low
+  - utter_risk_moderate
+  - utter_risk_high
+
+slots:
+  terms:
+    type: categorical
+    values:
+      - yes
+  age:
+    type: unfeaturized
+    auto_fill: false
+  gender:
+    type: unfeaturized
+    auto_fill: false
+  province:
+    type: unfeaturized
+    auto_fill: false
+  location:
+    type: unfeaturized
+    auto_fill: false
+  location_confirm:
+    type: unfeaturized
+    auto_fill: false
+  location_coords:
+    type: unfeaturized
+    auto_fill: false
+  city_location_coords:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_obesity:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_diabetes:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_hypertension:
+    type: unfeaturized
+    auto_fill: false
+  medical_condition_cardio:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_fever:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_cough:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_sore_throat:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_difficulty_breathing:
+    type: unfeaturized
+    auto_fill: false
+  symptoms_taste_smell:
+    type: unfeaturized
+    auto_fill: false
+  exposure:
+    type: unfeaturized
+    auto_fill: false
+  tracing:
+    type: unfeaturized
+    auto_fill: false
+  requested_slot:
+    type: unfeaturized
+
+forms:
+  - healthcheck_form
+  - healthcheck_terms_form
+  - healthcheck_profile_form
+
+responses:
+  utter_welcome:
+      - text: |
+          *HealthCheck*  iyithuluzi lakho lokuhlola ubungozi njalo ngeviki. Sicela usisize ngokuphendula imibuzo embalwa ngawe nangempilo yakho. Uzothola izeluleko zokuthi yiziphi izinyathelo okufanele uzithathe ngokususelwa kuzinkombandlela zikazwelonke nemininingwane oyifakayo izosisiza ekwakheni imodeli nasekuhleleni impendulo yethu kazwelonke ku-COVID-19. Siyabonga ngokuza phambili nokuba neqhaza empilweni yazo zonke izakhamizi nokuvimbela ukusabalala kwegciwane 🦠
+
+  utter_welcome_back:
+      - text: |
+          Welcome back to *HealthCheck*, your weekly risk assessment tool. Thank you for coming forward and for contributing to the health of all citizens AND stopping the spread of the virus 🦠
+
+  utter_ask_terms:
+      - text: |
+          Phendula ngelinye lamagama eligqamile ukuze uqhubeke
+
+          *MUKELA* ✅ -_ukwamukela imigomo nemibandela_
+          *OKWENGEZIWE* 📄 -_ukufunda imigomo nemibandela_
+
+          (noma Phendula ngo-UHLU 📌 _ukubuyela kuhlu lokuqala_)
+
+  utter_more_terms:
+      - text: |
+          Uqinisekisa ukuthi igunya elakho ekunakekelweni nokwelashwa kwakho. Le nsizakalo inikezela ngolwazi kuphela.
+
+          Lensizakalo ayiyona indawo yokwelulekwa ngokwezempilo/ukuzixilonga/ukwelashwa. Thola izeluleko zomhlinzeki wezempilo ofanele mayelana nesimo sakho sezokwelashwa/ ukunakekelwa, ikakhulukazi uma uba nezimpawu ezinzima.
+
+          Uqinisekisa ukuthi akufanele unganaki/ ubambezele ukufuna izeluleko zezokwelashwa mayelana nokwelashwa/ukunakekelwa ngenxa yale nsiza. Thembela kulwazi ngokuqapha.
+
+          Phendula ngelinye lamagama *ELIGQAMILE* ukuze uqhubeke
+          *MUKELA* ✅ ukwamukela imigomo nemibandela
+          (noma Phendula 📌 *UHLU* ukubuyela kuhlu lokuqala)
+
+  utter_ask_province:
+      - text: |
+          Ngabe uhlala esifundazweni siphi manje?
+
+          Phendula:
+          *1.* EASTERN CAPE
+          *2.* FREE STATE
+          *3.* GAUTENG
+          *4.* KWAZULU NATAL
+          *5.* LIMPOPO
+          *6.* MPUMALANGA
+          *7.* NORTH WEST
+          *8.* NORTHERN CAPE
+          *9.* WESTERN CAPE
+
+  utter_incorrect_selection:
+    - text: |
+        Lensizakalo isebenza kahle uma usebenzisa izinketho ezinikezwe *NGOKUGQAMILE*.
+        📌Phendula ngo *UHLU* ukubuyela kuhlu lokuqala
+
+  utter_incorrect_location:
+    - text: |
+        If you have typed your address incorrectly, please try again. If you are unable to provide your address, please TYPE the name of your Suburb, Township, Town or Village (or nearest)
+
+  utter_ask_age:
+    - text: |
+        Uneminyaka emingakhi?
+
+        *1.* <18
+        *2.* 18-39
+        *3.* 40-65
+        *4.* >65
+
+  utter_ask_gender:
+    - text: |
+        Sicela usinikeze ubulili obuchaza wena:
+
+        Phendula
+        *1.* NGOWESILISA
+        *2.* NGOWESIMAME
+        *3.* OKUNYE
+        *4.* NCAMELA UKUNGASHO
+
+  utter_ask_location:
+    - text: |
+        Sidinga ukwazi indawo okuyo.
+
+        Sicela wabelane ngendawo okuyo 📍 usebenzisa i-WhatsApp ngokulandela lezi zinyathelo:
+        - Cindezela isithonjana sokunamathisela (+ noma 📎) phansi kwe-WhatsApp.
+        - Khetha indawo
+        - Lokhu kuzoletha imephu ngephini elibonisa indawo okuyo manje. Cindezela *Send your location* uma ngabe leli ikheli lakho.
+        - Ungase futhi ukhethe kwezinye izindawo eziseduze uma ucabanga ukuthi i-GPS iyaphazama.
+
+        Noma BHALA igama lesigatshana sakho, iLokishi, Idolobha noma Idolobhana (noma eliseduzane)?
+
+  utter_ask_location_confirm:
+    - text: |
+        Sisebenzisa izinsiza Zendawo zeGoogle ukuqinisekisa amakheli. Sicela uqinisekise ukuthi ikheli elingezansi lilungile ngokwemininingwane osinike yona:
+        ----------------------------
+        {location}
+        ----------------------------
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_medical_condition:
+    - text: |
+        Ingabe unazo ezinye izifo ezazikhona ngaphambili okufanele sizazi?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+        *3.* ANGISO ISIQINISEKO
+
+  utter_ask_medical_condition_obesity:
+    - text: |
+        Ngabe ukhona udokotela noma omunye uchwepheshe wezempilo othole ukuthi unesifo sokukhuluphala?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_medical_condition_diabetes:
+    - text: |
+        Ngabe ukhona udokotela noma omunye uchwepheshe wezempilo othole ukuthi unesifo soshukela?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_medical_condition_hypertension:
+    - text: |
+        Ngabe ukhona udokotela noma omunye uchwepheshe wezempilo othole ukuthi unesifo se-hypertension, ngaphecelezi isifo sokushaya kwegazi okuphezulu noma i-high high?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_medical_condition_cardio:
+    - text: |
+        Ngabe ukhona udokotela noma omunye uchwepheshe wezempilo othole ukuthi unesifo senhliziyo?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_start_health_check:
+    - text: "Let's see how you are feeling today 💟"
+
+  utter_ask_symptoms_fever:
+    - text: |
+        ⬛⬜⬜⬜⬜⬜⬜
+
+        Ngabe uzizwa ushisa kakhulu noma ubanda? Ngabe uyajuluka noma uyathuthumela? Lapho uthinta isiphongo sakho, ingabe usizwa sishisa?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_symptoms_cough:
+    - text: |
+        ⬛⬛⬜⬜⬜⬜⬜
+
+        Ingabe unakho ukukhwehlela okusanda kuqala?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_symptoms_sore_throat:
+    - text: |
+        ⬛⬛⬛⬜⬜⬜⬜
+
+        Ngabe unomphimbo obuhlungu noma kubuhlungu uma ugwinya?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_symptoms_difficulty_breathing:
+    - text: |
+        ⬛⬛⬛⬛⬜⬜⬜
+
+        Ingabe uqaphele ukuthi unokuphelelwa umoya noma unenkinga yokuphefumula, ezinsukwini?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_symptoms_taste_smell:
+    - text: |
+        ⬛⬛⬛⬛⬛⬜⬜
+
+        Uke waluzwa ushintsho emandleni akho okunambitha noma okuhogela izinto ezinsukwini?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_ask_exposure:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬜
+
+        Uke wasondelana eduze nomuntu okuqinisekisiwe ukuthi ungenwe yi-COVID19?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+        *3.* ANGINASO ISIQINISEKO
+
+  utter_ask_tracing:
+    - text: |
+        ⬛⬛⬛⬛⬛⬛⬛
+
+        Ekuphetheni, ngicela uqinisekise ukuthi ulwazi osinike lona *luyiqiniso* ngokwazi kwakho nokuthi unikeza uMnyango Wezempilo Kazwelonke imvume yokuxhumana nawe uma kunesidingo?
+
+        Phendula
+        *1.* YEBO
+        *2.* CHA
+
+  utter_submit:
+    - text: "All done!"
+
+  utter_risk_low:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-low.png"
+      claim: release
+      text: |
+        Siyabonga ngokuphendula yonke imibuzo.
+
+        Ngokuya kwezimpendulo zakho, usengozini ephansi yokuba ne-COVID-19 futhi ngeke kudingeke ukuthi uqedele lokhu kuhlola kobungozi ezinsukwini eziyi-7 ezizayo.
+        *Uma* uqala ukuzizwa ugula noma uma uthintana nomuntu onegciwane le-COVID-19 ezinsukwini eziyi-7 ezizayo, sicela uphinde uthathe lokhu kuhlaziya ubungozi
+
+        Phendula ngokuthi *IZIMPAWU* ukuthola eminye imininingwane
+        Phendula ngokuthi *UHLU* ukubuyela kuhlu lokuqala
+
+  utter_risk_moderate:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-mod.png"
+      claim: release
+      text: |
+        *Ngokuya kwezimpendulo zakho, sixwayisa ukuthi uzihlukanise wedwa ezinsukwini eziyi-14 ezizayo bese uqeda le HealthCheck nsuku zonke ukuze uqaphele izimpawu zakho. *
+
+        Uma kungenzeka, hlala futhi ulale wedwa egumbini elinewindi elinomoya omuhle ogeleza ngaphakathi.
+        - Ungakhuluma namanye amalunga omndeni futhi uphume ngaphandle, kepha kufanele uhlale okungenani amamitha awu-2 kude nawo wonke umuntu ngaso sonke isikhathi.
+        - Akufanele ube nezivakashi endlini yakho ngalesi sikhathi.
+        - Ilunga lomndeni elilodwa kufanele libekwe njengomnakekeli wakho. Lokhu kunciphisa abomndeni abangatheleleka futhi kuqinisekisa ukuthi wena nalo mnakekeli nifunda imikhuba emihle ukuze lingabambeki kini leli gciwane.
+        - Uma lezi zinqubo zingenzeki, kufanele uthinte isisebenzi sakho sezempilo noma umtholampilo ukuthola ezinye izindlela.
+
+        Phendula ngokuthi *UKUZIVALELA* ukuthola eminye imininingwane yokuthi ungazihlukanisa kanjani
+        📌Phenduka ngokuthi *UKUHLOLA* ukuthola eminye imininingwane noma *UHLU* ukubuyela kuhlu lokuqala
+
+  utter_risk_high:
+    - image: "https://healthcheck-rasa-images.s3.af-south-1.amazonaws.com/receipt-high.png"
+      claim: release
+      text: |
+        *Ngokuya kwezimpendulo zakho, ungakufanelekela ukuhlolwa ukuze uthole ukuthi ungenwe yi-COVID-19. *
+
+        Shayela i-Hotline ye-COVID-19: 0800029999, noma udokotela wakho wezempilo, ukuthola eminye imininingwane yokuthi yini okufanele uyenze ngokulandelayo, kanjani nokuthi ungahlolwa kuphi uma welulekwa ukuthi wenze kanjalo.
+
+        Landela lezi zinyathelo ezibalulekile lapho ufuna ukunakekelwa:
+        - Gwema ukuxhumana nabanye abantu ekhaya lakho nomphakathi wakho, uma kungenzeka, hlala egumbini elilodwa.
+        - Qinisekisa ukuthi ubeka imfonyo yobuso ngaphambi kokungena esikhungweni sezempilo.
+
+        Uma unzimpawu ezinzima noma uqala uzikuthola, funa usizo lwezempilo ngokushesha.
+
+        Phendula ngokuthi *UKUZIVALELA* ukuthola eminye imininingwane yokuthi ungazihlukanisa kanjani
+        📌Phendula ngokuthi *UKUHLOLA* ukuthola eminye imininingwane noma *UHLU* ukubuyela kuhlu lokuqala
+
+# claim: revert will ignore the message text, and reevaluate this message using
+# turn automation
+  utter_exit:
+    - text: "You can do your HealthCheck anytime by typing the word *CHECK*."
+      claim: revert
+
+session_config:
+  session_expiration_time: 5
+  carry_over_slots_to_new_session: true
